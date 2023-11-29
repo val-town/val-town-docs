@@ -8,7 +8,9 @@ that _**you**_ _own_. For these kinds of operations, there are the “me” rout
 
 ## GET `/v1/me`
 
-:::note 🔄 This is the same as `/v1/users/{your_user_id}`
+:::note
+
+This is the same as `/v1/users/{your_user_id}`
 
 :::
 
@@ -20,7 +22,9 @@ that _**you**_ _own_. For these kinds of operations, there are the “me” rout
 
 ## GET `/v1/me/runs`
 
-:::note 💡 This is currently the only way to list runs across multiple vals.
+:::note
+
+This is currently the only way to list runs across multiple vals.
 
 :::
 

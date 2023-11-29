@@ -20,7 +20,9 @@ creating the bot on Discord and pasting your keys into Val Town. The actual
 coding parts are just clicking ******Run****** two times to fork over two pieces
 of code to your Val Town account.
 
-:::note 💡 If you get stuck,
+:::note
+
+💡 If you get stuck,
 [come join us in the Val Town Discord](https://discord.gg/dHv45uN5RY)!
 
 :::
