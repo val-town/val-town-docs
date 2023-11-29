@@ -4,7 +4,8 @@ generated: 1701279907860
 
 ---
 
-You can send yourself an email with [@std/email](https://www.val.town/v/std.email):
+You can send yourself an email with
+[@std/email](https://www.val.town/v/std.email):
 
 <div class="not-content">
   <iframe src="https://www.val.town/embed/stevekrouse.emailExample" width="100%" frameborder="no" style="height: 400px;">

@@ -11,19 +11,19 @@ receive webhooks from Telegram.
 
 When users message your bot, the bot will reply with the same message.
 
-## 1. Create your bot by talking to `@BotFather`
+### Create your bot by talking to `@BotFather`
 
 Speak to Telegram’s [https://t.me/botfather](https://t.me/botfather) to create
 your bot and obtain a bot token.
 
 ![Screenshot 2023-06-23 at 11.46.35.png](./create-a-telegram-echo-bot/screenshot_2023-06-23_at_114635.png)
 
-## 2. Add the bot token as a secret
+### Add the bot token as a secret
 
 Copy the bot token you just received and save it as a Val Town secret as
 `telegramBotToken`.
 
-## 3. Check your token works
+### Check your token works
 
 Call `@vtdocs.telegramGetMe` with your newly created secret to check that it
 works.
@@ -34,12 +34,12 @@ works.
   </iframe>
 </div>
 
-## 4. Create a secret so you can verify webhooks
+### Create a secret so you can verify webhooks
 
 Generate a random string and save it as a Val Town secret as
 `telegramWebhookSecret`.
 
-## 5. Create a webhook handler to receive messages
+### Create a webhook handler to receive messages
 
 When Telegram users send messages to your bot, they will be forwarded to your
 webhook handler. We’ll use the secret we just created to verify that the message
@@ -53,7 +53,7 @@ Fork this val that uses the [HTTP Val](../http-val) :
   </iframe>
 </div>
 
-## 6. Tell your bot about the webhook handler
+### Tell your bot about the webhook handler
 
 Use `@vtdocs.telegramSetWebhook` to tell your bot where to send webhooks.
 
@@ -63,7 +63,7 @@ Use `@vtdocs.telegramSetWebhook` to tell your bot where to send webhooks.
   </iframe>
 </div>
 
-## 7. Send a message to your bot to check it works!
+### Send a message to your bot to check it works!
 
 It should echo back the message like this:
 

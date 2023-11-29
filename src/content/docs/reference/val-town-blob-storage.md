@@ -5,8 +5,8 @@ generated: 1701279907914
 
 Val Town comes with
 [blob storage](https://www.cloudflare.com/en-gb/learning/cloud/what-is-blob-storage/)
-built-in. You can store any data: text, JSON, images. It’s backed by Cloudflare
-R2.
+built-in. You can store any data: text, JSON, images. It’s backed by
+[Cloudflare R2](https://developers.cloudflare.com/r2).
 
 You can store 10mb on the free plan and up to 1gb on the paid plan. Contact us
 if you need more.

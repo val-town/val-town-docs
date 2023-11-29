@@ -1,7 +1,11 @@
 ---
 title: RSS
 generated: 1701279907827
+description: Val Town can both parse and generate RSS feeds for blogs and other updated sources
 ---
+
+Val Town can both parse and generate RSS feeds for blogs and other updated
+sources.
 
 ## Polling RSS
 

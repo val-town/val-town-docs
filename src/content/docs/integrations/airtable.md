@@ -1,10 +1,11 @@
 ---
 title: Airtable
 generated: 1701279907727
-
+description: You can use Airtable with Val Town to store data or load edited data from other sources
 ---
 
-Airtable is a spreadsheet-database hybrid. Note that because [val.town](http://val.town) uses Deno, an unofficial client library has to be used.
+Airtable is a spreadsheet-database hybrid. Note that because
+[val.town](http://val.town) uses Deno, we use an unofficial library.
 
 ## Setup
 
@@ -12,11 +13,13 @@ On the homepage, click Start from scratch to create a base:
 
 ![Untitled](./airtable/untitled.png)
 
-If prompted with automatic setup, click Skip. You should get a new base with a blank table.
+If prompted with automatic setup, click Skip. You should get a new base with a
+blank table.
 
 ![Untitled](./airtable/untitled-1.png)
 
-Adjust the table fields as you want (note that this isn’t covered by this guide).
+Adjust the table fields as you want (note that this isn’t covered by this
+guide).
 
 Click on your profile icon, then on Developer hub:
 
@@ -28,11 +31,13 @@ Click Create new token.
 
 Fill out the fields:
 
-* Name: Any. For example, `valtown`.
-* Scopes: You’ll most likely want to add `data.records:read` and `data.records:write`.
-* Access: Add the base you created earlier.
+- Name: Any. For example, `valtown`.
+- Scopes: You’ll most likely want to add `data.records:read` and
+  `data.records:write`.
+- Access: Add the base you created earlier.
 
-Lastly, click Create token. Here’s an example of how your settings could probably look like:
+Lastly, click Create token. Here’s an example of how your settings could
+probably look like:
 
 ![Untitled](./airtable/untitled-4.png)
 
@@ -44,7 +49,9 @@ Go to [val.town](http://val.town), click on your username and then on Secrets:
 
 ![Untitled](./airtable/untitled-6.png)
 
-Click New secret. Set the key to a name you want to use to reference the token (for example, `airtable_pat`) and paste the copied personal access token into the value, then click Add.
+Click New secret. Set the key to a name you want to use to reference the token
+(for example, `airtable_pat`) and paste the copied personal access token into
+the value, then click Add.
 
 ![Untitled](./airtable/untitled-7.png)
 
@@ -58,9 +65,11 @@ You can then use Airtable from [val.town](http://val.town) like so:
 
 Make sure to change:
 
-* apiKey if you have used a different name for your secret.
-* baseId to the ID of your base. You can find it in the URL bar while a table is open and it will likely start with `app`:
+- apiKey if you have used a different name for your secret.
+- baseId to the ID of your base. You can find it in the URL bar while a table is
+  open and it will likely start with `app`:
 
 ![Untitled](./airtable/untitled-8.png)
 
-* tableName to either the name of your table or the table ID which can also be found in the URL after the base ID (see above).
+- tableName to either the name of your table or the table ID which can also be
+  found in the URL after the base ID (see above).

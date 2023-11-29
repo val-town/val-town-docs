@@ -35,8 +35,6 @@ View the result by clicking on this URL:
 You can import `ReactDOMServer` from the `react-dom/server` module to perform
 server-side rendering with React.
 
-Note: JSX is not supported yet.
-
 <div class="not-content">
   <iframe src="https://www.val.town/embed/neverstew.reactSSRExample" width="100%" frameborder="no" style="height: 400px;">
     &#x20;

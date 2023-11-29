@@ -1,11 +1,19 @@
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
+import starlightLinksValidator from "starlight-links-validator";
 
 // https://astro.build/config
 export default defineConfig({
   integrations: [
+    starlightLinksValidator(),
     starlight({
       title: "Docs",
+      defaultLocale: "root",
+      locales: {
+        en: {
+          label: "English",
+        },
+      },
       social: {
         github: "https://github.com/val-town/val-town-docs",
         twitter: "https://twitter.com/valdottown",
@@ -63,7 +71,6 @@ export default defineConfig({
         },
       ],
       head: [
-        // Example: add Fathom analytics script tag.
         {
           tag: "script",
           attrs: {
