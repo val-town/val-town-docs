@@ -52,6 +52,11 @@ export default defineConfig({
           collapsed: true,
         },
         {
+          label: "REST API",
+          autogenerate: { directory: "rest-api" },
+          collapsed: true,
+        },
+        {
           label: "Info",
           autogenerate: { directory: "info" },
         },

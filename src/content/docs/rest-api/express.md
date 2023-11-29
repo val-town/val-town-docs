@@ -1,7 +1,6 @@
 ---
 title: Express
 generated: 1701279907972
-
 ---
 
 :::note
@@ -13,7 +12,7 @@ The Express API allows to run a Val as an [Express](https://expressjs.com/) rout
 
 You can return HTML ([example val](https://www.val.town/v/stevekrouse.expressHTMLExample), [output](https://api.val.town/v1/express/stevekrouse.expressHTMLExample?name=Townie)) or define a webhook handler to adhere to another service’s specifications ([example val](https://www.val.town/v/stevekrouse.handleOnboardingReferral)).
 
-The Val must be a function. It is passed two arguments, the Express **`[req](https://expressjs.com/en/4x/api.html#req)`** and **`[res](https://expressjs.com/en/4x/api.html#res)`** objects. You can use **`req`** to pull out request data, and **`res`** to respond with any valid Express response. Learn more at the [Express docs](https://expressjs.com/en/4x/api.html).
+The Val must be a function. It is passed two arguments, the Express **[req](https://expressjs.com/en/4x/api.html#req)** and **[res](https://expressjs.com/en/4x/api.html#res)** objects. You can use **`req`** to pull out request data, and **`res`** to respond with any valid Express response. Learn more at the [Express docs](https://expressjs.com/en/4x/api.html).
 
 Unauthenticated use will only be able to call public vals as Express handlers. The Val will be executed with Val author's permissions, so it will be able to read and write to author’s public and private vals, read their secrets, and send them emails via **`console.email`**.
 

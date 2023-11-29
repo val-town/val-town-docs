@@ -1,5 +1,5 @@
 ---
-title: Simplified Val Privacy
+title: Simplified val privacy
 generated: 1701279907991
 lastUpdated: 2023-03-24
 ---
