@@ -1,5 +1,5 @@
 ---
-title: Scheduled function
+title: Scheduled
 generated: 1701279907849
 
 ---

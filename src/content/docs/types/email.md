@@ -1,5 +1,5 @@
 ---
-title: Email handler
+title: Email
 generated: 1701279907751
 ---
 

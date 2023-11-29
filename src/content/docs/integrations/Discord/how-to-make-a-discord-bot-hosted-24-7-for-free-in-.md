@@ -1,21 +1,27 @@
 ---
-title: How to make a Discord bot hosted 24/7 for free in 6 steps
+title: Discord bot
 generated: 1701279907787
-
+description: How to make a Discord bot hosted 24/7 for free in 6 steps
 ---
 
 ![https://i.postimg.cc/bw5Xj8Rd/ping.gif](https://i.postimg.cc/bw5Xj8Rd/ping.gif)
 
 # Introduction
 
-By the end of this tutorial you will have a Discord bot hosted 24/7, for free, forever, on [Val Town](http://val.town), that responds to a basic `/ping` [Slash Command](https://support.discord.com/hc/en-us/articles/1500000368501-Slash-Commands-FAQ).
+By the end of this tutorial you will have a Discord bot hosted 24/7, for free,
+forever, on [Val Town](http://val.town), that responds to a basic `/ping`
+[Slash Command](https://support.discord.com/hc/en-us/articles/1500000368501-Slash-Commands-FAQ).
 
-[Val Town](http://val.town) is a social website to write, and deploy JavaScript from the browser.
+[Val Town](http://val.town) is a social website to write, and deploy JavaScript
+from the browser.
 
-No prior coding experience required. The vast majority of this tutorial is creating the bot on Discord and pasting your keys into Val Town. The actual coding parts are just clicking ******Run****** two times to fork over two pieces of code to your Val Town account.
+No prior coding experience required. The vast majority of this tutorial is
+creating the bot on Discord and pasting your keys into Val Town. The actual
+coding parts are just clicking ******Run****** two times to fork over two pieces
+of code to your Val Town account.
 
-:::note
-💡 If you get stuck, [come join us in the Val Town Discord](https://discord.gg/dHv45uN5RY)!
+:::note 💡 If you get stuck,
+[come join us in the Val Town Discord](https://discord.gg/dHv45uN5RY)!
 
 :::
 
@@ -27,7 +33,9 @@ If you prefer videos, here’s this same tutorial in a 3-minute YouTube video.
 
 # Step 1: Create a Discord app
 
-1. Go to the [Discord Developer Portal](https://discord.com/developers/applications) and select “New Application” in the top right
+1. Go to the
+   [Discord Developer Portal](https://discord.com/developers/applications) and
+   select “New Application” in the top right
 
 ![1.edited.png](./how-to-make-a-discord-bot-hosted-24-7-for-free-in-/1edited.png)
 
@@ -44,8 +52,10 @@ To invite your new bot to your server, you need to generate a link to click on.
 
 ![5.png](./how-to-make-a-discord-bot-hosted-24-7-for-free-in-/5.png)
 
-1. **Copy** the URL at the bottom of the page and paste it into a new browser tab.
-2. Click through the steps until you’re prompted to choose your server and press **Continue**.
+1. **Copy** the URL at the bottom of the page and paste it into a new browser
+   tab.
+2. Click through the steps until you’re prompted to choose your server and press
+   **Continue**.
 
 ![6.png](./how-to-make-a-discord-bot-hosted-24-7-for-free-in-/6.png)
 
@@ -53,13 +63,18 @@ To invite your new bot to your server, you need to generate a link to click on.
 
 ![7.png](./how-to-make-a-discord-bot-hosted-24-7-for-free-in-/7.png)
 
-🎉 Your bot is now a member of your server! Now let’s get it to respond to Slash Commands.
+🎉 Your bot is now a member of your server! Now let’s get it to respond to Slash
+Commands.
 
 # Step 3: Login to Val Town
 
-[Val Town](http://val.town/) is a social website to write, run, and host JavaScript. You can create APIs, scheduled functions, email yourself, and persist small pieces of data — all from the browser and instantly deployed. There is a generous free plan, and no credit card required.
+[Val Town](http://val.town/) is a social website to write, run, and host
+JavaScript. You can create APIs, scheduled functions, email yourself, and
+persist small pieces of data — all from the browser and instantly deployed.
+There is a generous free plan, and no credit card required.
 
-1. [Login](http://val.town/auth/signin) or [create an account](https://www.val.town/auth/signup).
+1. [Login](http://val.town/auth/signin) or
+   [create an account](https://www.val.town/auth/signup).
 
 # Step 4: Save bot secrets
 
@@ -76,11 +91,16 @@ To invite your new bot to your server, you need to generate a link to click on.
 
 ![4.edited.png](./how-to-make-a-discord-bot-hosted-24-7-for-free-in-/4edited.png)
 
-1. **Copy** and paste it in [val.town/settings/secrets](http://val.town/settings/secrets) as `discordBotToken`.
+1. **Copy** and paste it in
+   [val.town/settings/secrets](http://val.town/settings/secrets) as
+   `discordBotToken`.
 
 # Step 5: Register a new Slash Command
 
-1. The embedded code below should have your name in the top-left corner. If you see ******************anonymous******************, refresh this page. If you still see ******anonymous******, ensure [you’re logged into Val Town](https://www.val.town/auth/signin).
+1. The embedded code below should have your name in the top-left corner. If you
+   see ******************anonymous******************, refresh this page. If you
+   still see ******anonymous******, ensure
+   [you’re logged into Val Town](https://www.val.town/auth/signin).
 2. Press ******Run****** to add the `/ping` command to your bot.
 
 <div class="not-content">
@@ -99,10 +119,15 @@ To invite your new bot to your server, you need to generate a link to click on.
   </iframe>
 </div>
 
-1. Next to your val’s name, click 🔒 > ******************Unlisted.******************
-2. In the val above, in the bottom-left corner of the val, click ************Script************ and change it to **********HTTP.**********
-3. Click on the URL at the bottom of that val that looks like [https://username-handleDiscordInteraction.web.val.run](https://stevekrouse-handlediscordinteraction.web.val.run/)
-4. Visit the General Information page for your bot and paste your copied endpoint into **INTERACTIONS ENDPOINT URL** and click ******Save Changes******.
+1. Next to your val’s name, click 🔒 >
+   ******************Unlisted.******************
+2. In the val above, in the bottom-left corner of the val, click
+   ************Script************ and change it to **********HTTP.**********
+3. Click on the URL at the bottom of that val that looks like
+   [https://username-handleDiscordInteraction.web.val.run](https://stevekrouse-handlediscordinteraction.web.val.run/)
+4. Visit the General Information page for your bot and paste your copied
+   endpoint into **INTERACTIONS ENDPOINT URL** and click ******Save
+   Changes******.
 
 ![9.png](./how-to-make-a-discord-bot-hosted-24-7-for-free-in-/9.png)
 
@@ -114,9 +139,11 @@ Refresh Discord and try out your bot using `/ping`
 
 # Further Directions
 
-Now that you have a basic Discord Bot setup, you’ll want to customize it to do exactly what you want. You’ll probably want to:
+Now that you have a basic Discord Bot setup, you’ll want to customize it to do
+exactly what you want. You’ll probably want to:
 
 1. Register a new Slash Command
 2. Connect your bot to APIs like OpenAI’s GPT or DallE
 
-[Come join us in the Val Town Discord](https://discord.gg/dHv45uN5RY) if you get stuck, have questions, or want to show off your cool new bot!
+[Come join us in the Val Town Discord](https://discord.gg/dHv45uN5RY) if you get
+stuck, have questions, or want to show off your cool new bot!

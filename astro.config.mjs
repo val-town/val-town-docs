@@ -5,11 +5,20 @@ import starlight from "@astrojs/starlight";
 export default defineConfig({
   integrations: [
     starlight({
-      title: "Val Town Docs",
+      title: "Docs",
       social: {
         github: "https://github.com/val-town/val-town-docs",
         twitter: "https://twitter.com/valdottown",
       },
+      logo: {
+        src: "./src/assets/logo.svg",
+      },
+      customCss: [
+        // Fontsource files for to regular and semi-bold font weights.
+        "@fontsource/ibm-plex-sans/400.css",
+        "@fontsource/ibm-plex-sans/600.css",
+        "./src/styles/custom.css",
+      ],
       sidebar: [
         {
           label: "Start Here",
@@ -33,11 +42,6 @@ export default defineConfig({
           collapsed: true,
         },
         {
-          label: "Info",
-          autogenerate: { directory: "info" },
-          collapsed: true,
-        },
-        {
           label: "Upgrading",
           autogenerate: { directory: "upgrading" },
           collapsed: true,
@@ -46,6 +50,10 @@ export default defineConfig({
           label: "Troubleshooting",
           autogenerate: { directory: "troubleshooting" },
           collapsed: true,
+        },
+        {
+          label: "Info",
+          autogenerate: { directory: "info" },
         },
       ],
       head: [
