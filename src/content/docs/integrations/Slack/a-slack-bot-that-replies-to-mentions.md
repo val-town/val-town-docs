@@ -50,9 +50,9 @@ Toggle on **Enable Events**, and paste your endpoint in the **Request URL** fiel
 
 A few seconds later, you should see a verified message above the input box.
 
-# 4. Subscribe to the `[app_mention](https://api.slack.com/events/app_mention)` event
+# 4. Subscribe to the [app_mention](https://api.slack.com/events/app_mention) event
 
-On the **Event Subscriptions** page, scroll down to the ****Subscribe to bot events**** section, and subscribe to the `[app_mention](https://api.slack.com/events/app_mention)` event. Make sure to **Save Changes**.
+On the **Event Subscriptions** page, scroll down to the ****Subscribe to bot events**** section, and subscribe to the [app_mention](https://api.slack.com/events/app_mention) event. Make sure to **Save Changes**.
 
 ![Screenshot 2023-06-27 at 21.49.16.png](./a-slack-bot-that-replies-to-mentions/screenshot_2023-06-27_at_214916.png)
 

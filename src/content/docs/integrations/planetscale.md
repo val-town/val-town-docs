@@ -69,7 +69,7 @@ Use the `rows` property to get your query results – or return the entire
 ## 7. Do more than queries!
 
 Read the source of the
-`[@vtdocs.queryPlanetScale](https://www.val.town/v/vtdocs.queryPlanetScale)`
+[@vtdocs.queryPlanetScale](https://www.val.town/v/vtdocs.queryPlanetScale)
 helper, see how it uses the `@planetscale/database` SDK, refer to the
 [driver’s documentation](https://github.com/planetscale/database-js), and extend
 it!
