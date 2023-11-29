@@ -11,7 +11,7 @@ send a request to it with a message payload.
 
 ![Screenshot 2023-06-27 at 07.09.52.png](./send-messages-to-slack/screenshot_2023-06-27_at_070952.png)
 
-# 1. Create a Slack app
+## Create a Slack app
 
 Visit
 [https://api.slack.com/apps?new\_app=1](https://api.slack.com/apps?new_app=1),
@@ -20,13 +20,13 @@ workspace.
 
 ![Screenshot 2023-06-27 at 07.05.40.png](./send-messages-to-slack/screenshot_2023-06-27_at_070540.png)
 
-# 2. Go to the incoming webhooks page
+## Go to the incoming webhooks page
 
 On the next page (or in the side bar), click **Incoming Webhooks**.
 
 ![Screenshot 2023-06-26 at 21.30.46.png](./send-messages-to-slack/screenshot_2023-06-26_at_213046.png)
 
-# 3. Create an incoming webhook
+## Create an incoming webhook
 
 Click the **Activate Incoming Webhooks** toggle.
 
@@ -40,7 +40,7 @@ Select the channel which the webhook will send messages to.
 
 ![Screenshot 2023-06-27 at 07.04.24.png](./send-messages-to-slack/screenshot_2023-06-27_at_070424.png)
 
-# 4. Save the webhook address as a secret
+## Save the webhook address as a secret
 
 You’ll be taken back to the ****Incoming Webhooks**** page (if not, you can find
 it via the side bar).
@@ -50,7 +50,7 @@ it via the side bar).
 Copy the **Webhook URL** for the webhook you just created and save it as a
 [Val Town secret](https://www.val.town/settings/secrets) as `slackWebhookURL`.
 
-# 5. Use [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) to send a message
+## Use [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) to send a message
 
 Translate the sample cURL request to a
 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) request. You

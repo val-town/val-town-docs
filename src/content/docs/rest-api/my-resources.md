@@ -1,15 +1,14 @@
 ---
 title: My resources
 generated: 1701279907977
-
 ---
 
-When using the Val Town API, some of the most common functions operate on things that ***you*** *own*. For these kinds of operations, there are the “me” routes.
+When using the Val Town API, some of the most common functions operate on things
+that _**you**_ _own_. For these kinds of operations, there are the “me” routes.
 
 ## GET `/v1/me`
 
-:::note
-🔄 This is the same as `/v1/users/{your_user_id}`
+:::note 🔄 This is the same as `/v1/users/{your_user_id}`
 
 :::
 
@@ -21,8 +20,7 @@ When using the Val Town API, some of the most common functions operate on things
 
 ## GET `/v1/me/runs`
 
-:::note
-💡 This is currently the only way to list runs across multiple vals.
+:::note 💡 This is currently the only way to list runs across multiple vals.
 
 :::
 

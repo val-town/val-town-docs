@@ -1,7 +1,6 @@
 ---
 title: Supabase
 generated: 1701279907867
-
 ---
 
 [Supabase](https://supabase.com/) provide a hosted Postgres database with 500MB

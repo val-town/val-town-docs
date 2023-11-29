@@ -18,7 +18,7 @@ generated: 1701279907853
 
 You can [browse example usages of this function here](https://www.val.town/v/stevekrouse.discordWebhook/references).
 
-# Example Integration
+## Example Integration
 
 ![Untitled](./send-discord-message-via-webhook/untitled-1.png)
 

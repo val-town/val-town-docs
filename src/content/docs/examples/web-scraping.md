@@ -8,7 +8,7 @@ You can use vals to web scrape websites.
 
 Either by fetching HTML and using a parsing library, or by making an API call to an external service that runs a headless browser for you.
 
-# Locate the HTML element that contains the data you need
+## Locate the HTML element that contains the data you need
 
 Right click on the section of a website that contains the data you want to fetch and then inspect the element. In Chrome, the option is called **Inspect** and it highlights the HTML element in the Chrome DevTools panel.
 
@@ -26,7 +26,7 @@ Optionally, use `document.querySelector` in the **Console** to check your CSS se
 
 ![Screenshot 2023-06-25 at 09.36.35.png](./web-scraping/screenshot_2023-06-25_at_093635.png)
 
-# Parsing HTML
+## Parsing HTML
 
 The [OpenAI](https://en.wikipedia.org/wiki/OpenAI) page on Wikipedia is rendered on the server and arrives as a complete HTML document. This makes it a good fit for [cheerio](https://www.val.town/examples/packages/cheerio) which parses HTML markup and provides an API for traversing/manipulating the resulting data structure. We also recommend [node-html-parser](https://www.val.town/examples/packages/node-html-parser) and [linkedom](https://www.val.town/search?q=linkedom).
 

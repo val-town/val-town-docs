@@ -1,5 +1,5 @@
 ---
-title: Secrets
+title: Environment variables
 generated: 1701279907850
 ---
 

@@ -8,7 +8,7 @@ A webhook is another name for a [Request](https://developer.mozilla.org/en-US/do
 
 You can create a webhook handler in Val Town and then register it with the service you want the notification from. Webhooks are usually created via Val Town [HTTP Val](../http-val) , because it can accept standard HTTP requests.
 
-# Create a webhook handler
+## Create a webhook handler
 
 Vals that conform to the [HTTP Val](../http-val) pattern accept a [Request](https://developer.mozilla.org/en-US/docs/web/api/request) as an argument and return a [Response](https://developer.mozilla.org/en-US/docs/web/api/response).
 
@@ -26,7 +26,7 @@ The val above has three parts:
 2. It sends a [Request](https://developer.mozilla.org/en-US/docs/web/api/request) to Discord to send a message to a channel and `await`s the response.
 3. It sends a [Response](https://developer.mozilla.org/en-US/docs/web/api/response) back to Clerk so that it knows the webhook succeeded.
 
-# Receiving Webhooks
+## Receiving Webhooks
 
 Copy your val’s web endpoint using the menu and paste it into your webhook provider. The webhook provider will POST events to your Val.
 

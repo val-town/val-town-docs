@@ -1,7 +1,8 @@
 ---
-title: Val Town Standard Library
+title: Standard library
 generated: 1701279907923
-
+sidebar:
+  order: 1
 ---
 
 - [std/email](https://www.val.town/v/std/email) - send yourself an email

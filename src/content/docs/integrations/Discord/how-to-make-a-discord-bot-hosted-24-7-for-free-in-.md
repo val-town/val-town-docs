@@ -6,7 +6,7 @@ description: How to make a Discord bot hosted 24/7 for free in 6 steps
 
 ![https://i.postimg.cc/bw5Xj8Rd/ping.gif](https://i.postimg.cc/bw5Xj8Rd/ping.gif)
 
-# Introduction
+## Introduction
 
 By the end of this tutorial you will have a Discord bot hosted 24/7, for free,
 forever, on [Val Town](http://val.town), that responds to a basic `/ping`
@@ -25,13 +25,13 @@ of code to your Val Town account.
 
 :::
 
-# Video Tutorial
+## Video Tutorial
 
 If you prefer videos, here’s this same tutorial in a 3-minute YouTube video.
 
 [https://youtu.be/yYXmInPSSfg](https://youtu.be/yYXmInPSSfg)
 
-# Step 1: Create a Discord app
+## Step 1: Create a Discord app
 
 1. Go to the
    [Discord Developer Portal](https://discord.com/developers/applications) and
@@ -43,7 +43,7 @@ If you prefer videos, here’s this same tutorial in a 3-minute YouTube video.
 
 ![2.png](./how-to-make-a-discord-bot-hosted-24-7-for-free-in-/2.png)
 
-# Step 2: Add the bot to your server
+## Step 2: Add the bot to your server
 
 To invite your new bot to your server, you need to generate a link to click on.
 
@@ -66,7 +66,7 @@ To invite your new bot to your server, you need to generate a link to click on.
 🎉 Your bot is now a member of your server! Now let’s get it to respond to Slash
 Commands.
 
-# Step 3: Login to Val Town
+## Step 3: Login to Val Town
 
 [Val Town](http://val.town/) is a social website to write, run, and host
 JavaScript. You can create APIs, scheduled functions, email yourself, and
@@ -76,7 +76,7 @@ There is a generous free plan, and no credit card required.
 1. [Login](http://val.town/auth/signin) or
    [create an account](https://www.val.town/auth/signup).
 
-# Step 4: Save bot secrets
+## Step 4: Save bot secrets
 
 1. Go to the “General Information” page
 
@@ -95,7 +95,7 @@ There is a generous free plan, and no credit card required.
    [val.town/settings/secrets](http://val.town/settings/secrets) as
    `discordBotToken`.
 
-# Step 5: Register a new Slash Command
+## Step 5: Register a new Slash Command
 
 1. The embedded code below should have your name in the top-left corner. If you
    see ******************anonymous******************, refresh this page. If you
@@ -109,7 +109,7 @@ There is a generous free plan, and no credit card required.
   </iframe>
 </div>
 
-# Step 6: Listen for Slash Commands
+## Step 6: Listen for Slash Commands
 
 1. Press ******Run****** to listen for Slash Commands and reply.
 
@@ -131,13 +131,13 @@ There is a generous free plan, and no credit card required.
 
 ![9.png](./how-to-make-a-discord-bot-hosted-24-7-for-free-in-/9.png)
 
-# 💬 Try it out!
+## 💬 Try it out!
 
 Refresh Discord and try out your bot using `/ping`
 
 ![Untitled](./how-to-make-a-discord-bot-hosted-24-7-for-free-in-/untitled.png)
 
-# Further Directions
+## Further Directions
 
 Now that you have a basic Discord Bot setup, you’ll want to customize it to do
 exactly what you want. You’ll probably want to:

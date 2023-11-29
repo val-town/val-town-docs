@@ -14,7 +14,7 @@ You can submit forms to Val Town using the [HTTP Val](../http-val) . You can pla
 
 These examples show how to accept and store email addresses on Val Town. The email addresses are saved into a val, and you also get sent an email notification for each new signup.
 
-# Add a form to your website
+## Add a form to your website
 
 ## 1. Create a val that uses the [HTTP Val](../http-val)
 
@@ -50,7 +50,7 @@ Below is a full HTML page example. If you are adding a form to an existing page 
 </html>
 ```
 
-# Host your form on Val Town
+## Host your form on Val Town
 
 There are two ways to do this. You can write a val function that serves a webpage, and a separate val that accepts the form data – or you can write a single val that does both like the example below.
 

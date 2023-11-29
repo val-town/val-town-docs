@@ -6,7 +6,7 @@ generated: 1701279907847
 
 You can insert and fetch data from Val Town from any web page using the [Run](../val-town-api/run) API and some JavaScript.
 
-# 1. Create a val to store some state
+## 1. Create a val to store some state
 
 Fork, or copy and paste this val into your workspace – keep it named as `comments` so the snippets in this guide work correctly.
 
@@ -16,7 +16,7 @@ Fork, or copy and paste this val into your workspace – keep it named as `comme
   </iframe>
 </div>
 
-# 2. Create a val that can mutate that state
+## 2. Create a val that can mutate that state
 
 Fork, or copy and paste the below val into your workspace.
 
@@ -28,7 +28,7 @@ When it’s set to public, anyone can send an API request to it, and the data th
   </iframe>
 </div>
 
-# 3. Use this JavaScript snippet on your webpage
+## 3. Use this JavaScript snippet on your webpage
 
 Get the Run API endpoint for the val you created in the step above.
 
@@ -53,7 +53,7 @@ fetch("https://api.val.town/v1/run/vtdocs.appendToComments", {
 })
 ```
 
-# 4. Directly read from `comments`
+## 4. Directly read from `comments`
 
 If you make your `comments` val public, anyone can read from it directly with the Run API with this JavaScript snippet.
 
@@ -66,7 +66,7 @@ fetch("https://api.val.town/v1/run/vtdocs.comments")
 
 When the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) doesn’t include a method, it sends a GET request.
 
-# 5. Indirectly read from `comments`
+## 5. Indirectly read from `comments`
 
 Maybe you want to hide some of your data. You can keep `comments` private and just provide access to a slice of it by using a public function val like this.
 
@@ -85,13 +85,13 @@ console.log(await r.json())
 
 If the val is a function, it’s implicitly called by the Run API.
 
-# 6. Use anything that supports HTTP!
+## 6. Use anything that supports HTTP!
 
 Like `cURL`:
 
 ```bash
 curl https://api.val.town/v1/run/vtdocs.getFirstComment
-# "hello world!"
+## "hello world!"
 ```
 
 Or `python3`:
@@ -102,6 +102,6 @@ body = urllib.request.urlopen("https://api.val.town/v1/run/vtdocs.getFirstCommen
 print(json.loads(body)) # hello world!
 ```
 
-# 7. See the Val Town API reference
+## 7. See the Val Town API reference
 
 For more details, and alternative ways of interacting with Val Town, see [Val Town API](../val-town-api)
