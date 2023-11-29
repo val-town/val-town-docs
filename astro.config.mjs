@@ -11,7 +11,8 @@ export default defineConfig({
         twitter: "https://twitter.com/valdottown",
       },
       logo: {
-        src: "./src/assets/logo.svg",
+        light: "./src/assets/logo.svg",
+        dark: "./src/assets/logo-dark.svg",
       },
       customCss: [
         // Fontsource files for to regular and semi-bold font weights.
