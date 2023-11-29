@@ -12,15 +12,57 @@ export default defineConfig({
       },
       sidebar: [
         {
-          label: "Guides",
-          items: [
-            // Each item here is one entry in the navigation menu.
-            { label: "Example Guide", link: "/guides/example/" },
-          ],
+          label: "Start Here",
+          autogenerate: { directory: "start-here" },
+        },
+        {
+          label: "Types of vals",
+          autogenerate: { directory: "types" },
+        },
+        {
+          label: "How to",
+          autogenerate: { directory: "how-to" },
         },
         {
           label: "Reference",
           autogenerate: { directory: "reference" },
+        },
+        {
+          label: "Integrations",
+          autogenerate: { directory: "integrations" },
+          collapsed: true,
+        },
+        {
+          label: "Info",
+          autogenerate: { directory: "info" },
+          collapsed: true,
+        },
+        {
+          label: "Upgrading",
+          autogenerate: { directory: "upgrading" },
+          collapsed: true,
+        },
+        {
+          label: "Troubleshooting",
+          autogenerate: { directory: "troubleshooting" },
+          collapsed: true,
+        },
+      ],
+      head: [
+        // Example: add Fathom analytics script tag.
+        {
+          tag: "script",
+          attrs: {
+            src: "https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.0/src/lite-yt-embed.min.js",
+            defer: true,
+          },
+        },
+        {
+          tag: "link",
+          attrs: {
+            href: "https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.0/src/lite-yt-embed.min.css",
+            rel: "stylesheet",
+          },
         },
       ],
     }),
