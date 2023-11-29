@@ -1,15 +1,16 @@
 ---
 title: Embed
 generated: 1701279907755
-
+description: Any val can be embedded as an iframe on other sitesa
 ---
 
-Vals are made to be shared, and not just on val.town!
+Vals are made to be shared, and not just on val.town! Public vals all can
+embedded using iframes on other websites.
 
 ## Embedding an existing val
 
 You can embed any public or unlisted val on another site by copying the embed
-URL from the val menu.
+URL from the val menu:
 
 ![Untitled](./embedding-vals-in-other-sites/untitled.png)
 
@@ -17,8 +18,7 @@ URL from the val menu.
 
 When writing for the web, lots of people use WYSIWYG editors, such as those in
 Wordpress or Notion. In tools with a simple writing experience, you can paste
-your embed URL straight in. Here’s how it looks when pasted into Notion (which
-generates this page):
+your embed URL straight in. Here’s how it looks when pasted into Notion:
 
 <div class="not-content">
   <iframe src="https://www.val.town/embed/neverstew.embedded" width="100%" frameborder="no" style="height: 400px;">

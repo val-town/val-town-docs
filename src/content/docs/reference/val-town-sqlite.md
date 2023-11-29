@@ -4,8 +4,9 @@ generated: 1701279907918
 
 ---
 
-Val Town comes with SQLite built-in. You can store store and query any
-relational data. It’s backed by [Turso](https://turso.tech/).
+Val Town comes with SQLite built-in. SQLite is a lightweight, standard database
+that supports SQL queries, indexing, and more. It's a great way to store
+structured data. It’s backed by [Turso](https://turso.tech/).
 
 You can store 10mb on the free plan and up to 1gb on the paid plan. Contact us
 if you need more.
@@ -99,17 +100,17 @@ are a few examples of how to do that with popular tools.
   </iframe>
 </div>
 
-### Prisma
+:::note[Prisma]
 
-:::note 🚫 Prisma isn’t supported in Val Town because it relies on functionality
-that only exists in a classic server environment.
+🚫 Prisma isn’t supported in Val Town because it relies on functionality that
+only exists in a classic server environment.
 
 :::
 
-### Sequelize
+:::note[Sequelize]
 
-:::note 🚫 Sequelize isn’t supported in Val Town because it relies on specific
-database drivers and is not extensible.
+🚫 Sequelize isn’t supported in Val Town because it relies on specific database
+drivers and is not extensible.
 
 :::
 

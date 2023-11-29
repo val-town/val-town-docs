@@ -1,14 +1,21 @@
 ---
 title: Permissions
 generated: 1701279907810
-
+description: "Vals can be private, unlisted, or public"
 ---
+
+Vals can be private, public, or unlisted.
+
+| Permissions | Visible on the website    | Web & express endpoints          | Works as an email handler, scheduled function, or script |
+| ----------- | ------------------------- | -------------------------------- | -------------------------------------------------------- |
+| Public      | Yes                       | Accessible                       | ✅                                                       |
+| Unlisted    | Only if you have the link | Accessible                       | ✅                                                       |
+| Private     | No                        | Requires token with each request | ✅                                                       |
 
 ## Exposing your vals to the internet
 
 Public vals are great because they can be called from anywhere, anytime,
-instantly. They can also be called ********************by
-anyone.********************
+instantly. They can also be called _by anyone._
 
 Since anyone can call your public endpoints, if they interact with some data
 that should only be changed by yourself, you will need to make sure that those
