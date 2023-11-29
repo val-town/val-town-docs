@@ -5,7 +5,8 @@ generated: 1701279907960
 ---
 
 :::note
-💡 These vals accept a `token` parameter for private vals
+
+💡 These endpoints accept a `token` parameter for private vals
 
 :::
 

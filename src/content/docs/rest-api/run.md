@@ -3,7 +3,7 @@ title: Run
 generated: 1701279907981
 ---
 
-The Run API let’s you run any Val as an API. Unauthenticated use will only have
+The Run API lets you run any Val as an API. Unauthenticated use will only have
 access to public vals. If you run a JSON Val, it simply returns that Val. A
 function Val will be executed its author's permissions, so it will be able to
 read and write to author’s public and private vals, read their secrets, and send

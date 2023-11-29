@@ -4,7 +4,7 @@ generated: 1701279907977
 ---
 
 When using the Val Town API, some of the most common functions operate on things
-that _**you**_ _own_. For these kinds of operations, there are the “me” routes.
+that you own. For these kinds of operations, there are the “me” routes.
 
 ## GET `/v1/me`
 
