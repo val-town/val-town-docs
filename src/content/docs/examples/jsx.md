@@ -11,7 +11,12 @@ such a re-rendering on the client.
 To use JSX, you’ll need to insert what TypeScript calls a
 “[per-file pragma](https://www.typescriptlang.org/tsconfig#jsxImportSource)” - a
 comment that uses `@jsxImportSource` to specify where the JSX methods are going
-to come from.
+to come from. For example, if you're implementing JSX with Preact, the pragma
+will look like this at the top of your val:
+
+```tsx
+/** @jsxImportSource https://esm.sh/preact */
+```
 
 ### Preact
 

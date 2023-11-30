@@ -1,7 +1,6 @@
 ---
-title: Push Notifications
+title: Push notifications
 generated: 1701279907821
-
 ---
 
 While we have tentative plans to create `console.push` that would be as easy to
