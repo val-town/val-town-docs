@@ -13,10 +13,20 @@ so it’s compatible with a number of web frameworks like
 
 We recommend you use the Web API for vals that produce APIs and web pages.
 
+## Type signature
+
+These handlers need to export a function that takes a `Request` object
+as the first parameter and returns a `Response` object. The function
+can be asynchronous.
+
+```tsx
+// basic-example.ts
+export function handler(request: Request) {
+  return Response.json({ ok: true });
+}
+```
+
+Ready to use this kind of val? Read more about how to [use frameworks to route requests](/examples/routing)
+and how to [use JSX to render HTML from web endpoints](/examples/jsx).
+
 The maximum size for requests at the time of this writing is 2mb.
-
-[Basic examples](../http-val/basic-examples)
-
-[JSX](../http-val/jsx)
-
-[Routing](../http-val/routing)
