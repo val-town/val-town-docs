@@ -32,7 +32,9 @@ The Val will be executed with Val author's permissions, so it will be able to
 read and write to author’s public and private vals, read their secrets, and send
 them emails via **`console.email`**.
 
-:::note ❕ For security reasons, the versions of the express Request and
+:::note[Not all express methods are included]
+
+For security reasons, the versions of the express Request and
 Response objects exposed to vals don’t expose all methods. Requests have the
 methods: `method` `query` `body` `baseUrl` `params` `secure` `subdomains`
 `fresh` `protocol` `path` `originalUrl` `acceptsCharsets` `acceptsEncodings`
