@@ -4,7 +4,7 @@ generated: 1701279907934
 
 ---
 
-You can use vals to web scrape websites.
+You can use vals to scrape websites.
 
 Either by fetching HTML and using a parsing library, or by making an API call to
 an external service that runs a headless browser for you.
