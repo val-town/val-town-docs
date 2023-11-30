@@ -1,6 +1,6 @@
 ---
 title: Embed
-generated: 1701279907755
+lastUpdated: 2023-10-30
 description: Any val can be embedded as an iframe on other sitesa
 ---
 

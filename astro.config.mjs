@@ -31,15 +31,11 @@ export default defineConfig({
       sidebar: [
         {
           label: "Start Here",
-          autogenerate: { directory: "start-here" },
+          autogenerate: { directory: "00-start-here" },
         },
         {
           label: "Types of vals",
-          autogenerate: { directory: "types" },
-        },
-        {
-          label: "How to",
-          autogenerate: { directory: "how-to" },
+          autogenerate: { directory: "01-types" },
         },
         {
           label: "Reference",

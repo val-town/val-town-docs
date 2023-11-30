@@ -20,7 +20,7 @@ secrets (but not see what they are).
 
 Secrets can be accessed via `Deno.env` or `process.env`.
 
-## Deno.env
+### Deno.env
 
 This uses the Deno-default
 [Deno.env](https://docs.deno.com/runtime/manual/basics/env_variables) variable,
@@ -31,7 +31,7 @@ which is available globally.
 export let sdk = new SomeSDK(Deno.env.get("someSdkSecret"));
 ```
 
-## process.env
+### process.env
 
 This is the conventional way to access environment variables when you're in a
 Node.js environment. In Node.js, process is an always-available global variable,
@@ -45,9 +45,7 @@ import process from "node:process";
 export let sdk = new SomeSDK(process.env.someSdkSecret);
 ```
 
-:::note[Vals can't set environment variables]
+### Notes
 
-Environment variables are set via the settings page. Trying to update an
+- **Vals can't set environment variables**: Environment variables are set via the settings page. Trying to update an
 environment variable, for example by using `Deno.env.set`, is a no-op.
-
-:::

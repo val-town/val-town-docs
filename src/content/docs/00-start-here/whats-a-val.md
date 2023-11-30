@@ -1,6 +1,9 @@
 ---
 title: What’s a Val?
-generated: 1701279907942
+lastUpdated: 2023-11-30
+description: "A val is TypeScript and JavaScript code that you can write and run with ease"
+sidebar:
+  order: 1
 ---
 
 - Vals are the primitive of Val Town like Tweets are the primitive of Twitter.

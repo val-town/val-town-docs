@@ -4,13 +4,16 @@ generated: 1701279907810
 description: "Vals can be private, unlisted, or public"
 ---
 
-Vals can be private, public, or unlisted.
+You get to choose whether you share vals. They can be fully private, so only you
+can view, edit, and run them. Private vals are super useful for automating parts of
+your life or business. Or you can share vals publicly in the Val Town community,
+and let anyone learn from your creativity and expand on your work.
 
-| Permissions | Visible on the website    | Web & express endpoints          | Works as an email handler, scheduled function, or script |
-| ----------- | ------------------------- | -------------------------------- | -------------------------------------------------------- |
-| Public      | Yes                       | Accessible                       | ✅                                                       |
-| Unlisted    | Only if you have the link | Accessible                       | ✅                                                       |
-| Private     | No                        | Requires token with each request | ✅                                                       |
+| Permissions | Visible on the website    | Web & express endpoints          |
+| ----------- | ------------------------- | -------------------------------- |
+| Public      | Yes                       | Accessible                       |
+| Unlisted    | Only if you have the link | Accessible                       |
+| Private     | No                        | Requires token with each request |
 
 ## Exposing your vals to the internet
 

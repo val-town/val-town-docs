@@ -1,8 +1,14 @@
 ---
 title: Importing modules
-generated: 1701279907795
+lastUpdated: 2023-11-30
 description: Using Val Town's ability to import code from NPM, URLs, and more.
+sidebar:
+  order: 2
 ---
+
+One of the best features of Val Town is the ability to import modules. There are thousands
+of modules written in JavaScript and TypeScript that you can instantly
+import to extend and supercharge your vals.
 
 Val Town supports importing code from a variety of sources, including
 [NPM](https://www.npmjs.com/), [esm.sh](https://esm.sh/), and
