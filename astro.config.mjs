@@ -48,7 +48,12 @@ export default defineConfig({
         {
           label: "Integrations",
           autogenerate: { directory: "integrations" },
-          collapsed: true,
+          collapsed: false,
+        },
+        {
+          label: "Examples",
+          autogenerate: { directory: "examples" },
+          collapsed: false,
         },
         {
           label: "Upgrading",
