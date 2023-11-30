@@ -3,9 +3,38 @@ title: Email
 generated: 1701279907751
 ---
 
-You can trigger a val to run by sending it an email.
+Email handler vals get their own email address that you can send email
+to, and when Val Town receives that email, it triggers the val with the email
+as its first argument. Ever wanted a robot that you could forward emails to,
+or to be able to control something via an email trigger? With email
+handler vals it's simple: they get their own, unique address.
 
-An email handler is a function that accepts an email object as its input.
+## Type Signature
+
+Email handlers receive an argument called `Email` and can do anything with it:
+they can go on to reply to the email with the [standard library](/reference/val-town-standard-library/),
+or call methods in response to it.
+
+```tsx
+// email-example.tsx
+export function emailHandler(email: Email) {
+  console.log("Email received!");
+};
+```
+
+The `Email` type has this shape:
+
+```ts
+interface Email {
+  from: string;
+  to: string[];
+  subject: string | undefined;
+  text: string | undefined;
+  html: string | undefined;
+}
+```
+
+## Example
 
 <div class="not-content">
   <iframe src="https://www.val.town/embed/stevekrouse.testEmail2" width="100%" frameborder="no" style="height: 400px;">
