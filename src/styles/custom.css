@@ -1,3 +1,7 @@
 :root {
   --sl-font: "IBM Plex Sans", sans-serif;
 }
+
+.sl-markdown-content img:not(:where(.not-content *)) {
+  border: 1px solid #eee;
+}
