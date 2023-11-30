@@ -1,10 +1,9 @@
 ---
 title: Saving data from a web page
 generated: 1701279907847
-
 ---
 
-You can insert and fetch data from Val Town from any web page using the [Run](../val-town-api/run) API and some JavaScript.
+You can insert and fetch data from Val Town from any web page using the [Run](/api/run) API and some JavaScript.
 
 ## 1. Create a val to store some state
 
@@ -44,13 +43,13 @@ fetch("https://api.val.town/v1/run/vtdocs.appendToComments", {
     "Content-Type": "application/json",
   },
   body: JSON.stringify({
-   // the single arg here maps to the `data` arg
-   args: ["hello world!"],
+    // the single arg here maps to the `data` arg
+    args: ["hello world!"],
   }),
-}).then(r => {
+}).then((r) => {
   // status will be 200 if everything went okay
-  console.log(r.status, r.statusText)
-})
+  console.log(r.status, r.statusText);
+});
 ```
 
 ## 4. Directly read from `comments`
@@ -60,8 +59,8 @@ If you make your `comments` val public, anyone can read from it directly with th
 ```jsx
 // change this URL to your comments' Run API endpoint!
 fetch("https://api.val.town/v1/run/vtdocs.comments")
-  .then(r => r.json())
-  .then(json => console.log(json.data));
+  .then((r) => r.json())
+  .then((json) => console.log(json.data));
 ```
 
 When the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) doesn’t include a method, it sends a GET request.
@@ -79,8 +78,8 @@ Maybe you want to hide some of your data. You can keep `comments` private and ju
 Go ahead and test this by calling this one in your browser’s developer console with this snippet.
 
 ```jsx
-const r = await fetch("https://api.val.town/v1/run/vtdocs.getFirstComment")
-console.log(await r.json())
+const r = await fetch("https://api.val.town/v1/run/vtdocs.getFirstComment");
+console.log(await r.json());
 ```
 
 If the val is a function, it’s implicitly called by the Run API.
@@ -104,4 +103,4 @@ print(json.loads(body)) # hello world!
 
 ## 7. See the Val Town API reference
 
-For more details, and alternative ways of interacting with Val Town, see [Val Town API](../val-town-api)
+For more details, and alternative ways of interacting with Val Town, see [Val Town API](/api/overview)

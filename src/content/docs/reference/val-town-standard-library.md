@@ -48,7 +48,7 @@ export let blobDemo = await blob.getJSON("myKey");
 ```
 
 `std/blob` lets you store data. Note that you can also use
-[the REST API](/rest-api/vals/) to update vals and store data _as vals_, but
+[the REST API](/api/vals/) to update vals and store data _as vals_, but
 `std/blob` is more flexible and in most cases preferred. You can store any kind
 of data with `std/blob`, not just JSON, and its asynchronous interface lets you
 load updated data as the val is running.

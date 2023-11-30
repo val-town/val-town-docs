@@ -24,7 +24,7 @@ Since anyone can call your public endpoints, if they interact with some data
 that should only be changed by yourself, you will need to make sure that those
 endpoints check for some kind of secret that only you know.
 
-Here’s an example of a val exposed using the [HTTP Val](../http-val), secured
+Here’s an example of a val exposed using the [HTTP Val](/types/http), secured
 with a secret that only I know.
 
 <div class="not-content">
@@ -68,7 +68,7 @@ reference `example3` but I can use it in `example4` which is public.
   </iframe>
 </div>
 
-You can _****infer****_ that the value of `example3` is `"Stevie"` because of
+You can _\***\*infer\*\***_ that the value of `example3` is `"Stevie"` because of
 how it’s used here. This is why you have to be careful about publishing vals
 that reference private data. Typically you will reference private data in a way
 that makes it impossible for others to infer what it is, like you would with an

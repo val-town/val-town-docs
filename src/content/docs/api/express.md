@@ -5,7 +5,7 @@ generated: 1701279907972
 
 :::note
 
-New vals [should use the Web API instead](../http-val), which supports a wider
+New vals [should use the Web API instead](/types/http), which supports a wider
 range of inputs & outputs.
 
 :::

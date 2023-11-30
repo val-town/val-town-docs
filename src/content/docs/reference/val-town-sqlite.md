@@ -1,7 +1,6 @@
 ---
 title: SQLite
 generated: 1701279907918
-
 ---
 
 Val Town comes with SQLite built-in. SQLite is a lightweight, standard database
@@ -119,4 +118,4 @@ drivers and is not extensible.
 For all your other SQLite needs, you can run SQLite in WASM and save data as a
 [blob](https://docs.val.town/blob-storage), or use your own Turso account. See:
 
-[SQLite wasm](../val-town-sqlite/sqlite-wasm)
+[SQLite wasm](/reference/sqlite-wasm)

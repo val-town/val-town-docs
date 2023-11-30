@@ -12,11 +12,11 @@ allow you to get realtime notifications.
 
 You can create a webhook handler in Val Town and then register it with the
 service you want the notification from. Webhooks are usually created via Val
-Town [HTTP Val](../http-val) , because it can accept standard HTTP requests.
+Town [HTTP Val](/types/http) , because it can accept standard HTTP requests.
 
 ## Create a webhook handler
 
-Vals that conform to the [HTTP Val](../http-val) pattern accept a
+Vals that conform to the [HTTP Val](/types/http) pattern accept a
 [Request](https://developer.mozilla.org/en-US/docs/web/api/request) as an
 argument and return a
 [Response](https://developer.mozilla.org/en-US/docs/web/api/response).
@@ -56,5 +56,5 @@ You can debug the requests by checking the arguments object in the
 
 See also
 
-- [Receiving a GitHub Webhook](../receiving-a-github-webhook)
-- [Send Discord message via webhook](../send-discord-message-via-webhook)
+- [Receiving a GitHub Webhook](/integrations/github/receiving-a-github-webhook)
+- [Send Discord message via webhook](/integrations/discord/send-discord-message-via-webhook)

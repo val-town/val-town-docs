@@ -1,7 +1,6 @@
 ---
 title: Save HTML form data
 generated: 1701279907843
-
 ---
 
 <div class="not-content">
@@ -10,7 +9,7 @@ generated: 1701279907843
   </lite-youtube>
 </div>
 
-You can submit forms to Val Town using the [HTTP Val](../http-val) . You can
+You can submit forms to Val Town using the [HTTP Val](/types/http) . You can
 place these forms on any page on the internet – or host the form directly on Val
 Town.
 
@@ -20,7 +19,7 @@ notification for each new signup.
 
 ## Add a form to your website
 
-### Create a val that uses the [HTTP Val](../http-val)
+### Create a val that uses the [HTTP Val](/types/http)
 
 Write a val function that accepts a
 [Request](https://developer.mozilla.org/en-US/docs/web/api/request) and returns
@@ -43,20 +42,20 @@ Below is a full HTML page example. If you are adding a form to an existing page
 just copy and paste the `<form></form>` block.
 
 ```html
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-  <title>Email Form</title>
-</head>
-<body>
-  <!-- Change the action here to your val's Express endpoint! -->
-  <form action="https://neverstew-saveFormData.web.val.run" method="post">
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required>
-    <br>
-    <input type="submit" value="Submit">
-  </form>
-</body>
+  <head>
+    <title>Email Form</title>
+  </head>
+  <body>
+    <!-- Change the action here to your val's Express endpoint! -->
+    <form action="https://neverstew-saveFormData.web.val.run" method="post">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required />
+      <br />
+      <input type="submit" value="Submit" />
+    </form>
+  </body>
 </html>
 ```
 

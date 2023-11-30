@@ -1,12 +1,11 @@
 ---
 title: Telegram  bot
 generated: 1701279907743
-
 ---
 
 You can create Telegram bots using vals.
 
-In this example, you’ll create a val that uses the [HTTP Val](../http-val) to
+In this example, you’ll create a val that uses the [HTTP Val](/types/http) to
 receive webhooks from Telegram.
 
 When users message your bot, the bot will reply with the same message.
@@ -45,7 +44,7 @@ When Telegram users send messages to your bot, they will be forwarded to your
 webhook handler. We’ll use the secret we just created to verify that the message
 came from our bot.
 
-Fork this val that uses the [HTTP Val](../http-val) :
+Fork this val that uses the [HTTP Val](/types/http) :
 
 <div class="not-content">
   <iframe src="https://www.val.town/embed/neverstew.telegramWebhookEchoMessage" width="100%" frameborder="no" style="height: 400px;">

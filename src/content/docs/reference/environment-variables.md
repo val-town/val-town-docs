@@ -12,7 +12,7 @@ variable via the `Deno.env` and `process.env` variables.
 :::danger
 
 Any public or unlisted code can be run by others via the
-[Run API](../val-town-api/run). Be careful about publishing any code that
+[Run API](/api/run). Be careful about publishing any code that
 references your secrets because it could allow others the ability to use your
 secrets (but not see what they are).
 
@@ -48,4 +48,4 @@ export let sdk = new SomeSDK(process.env.someSdkSecret);
 ### Notes
 
 - **Vals can't set environment variables**: Environment variables are set via the settings page. Trying to update an
-environment variable, for example by using `Deno.env.set`, is a no-op.
+  environment variable, for example by using `Deno.env.set`, is a no-op.

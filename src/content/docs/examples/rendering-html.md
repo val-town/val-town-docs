@@ -1,10 +1,9 @@
 ---
 title: Rendering HTML
 generated: 1701279907834
-
 ---
 
-You can use the [HTTP Val](../http-val) to return HTML pages. You can copy the
+You can use the [HTTP Val](/types/http) to return HTML pages. You can copy the
 URL by using the menu and selecting Endpoints > Copy web endpoint.
 
 <div class="not-content">

@@ -13,7 +13,7 @@ background that fetches the page, renders it, and _then_ allows you to search
 the final document.
 
 Headless browsers aren’t a good fit for Val Town due to the amount of resources
-they require to run. However, services like [Browserless](../browserless.io)
+they require to run. However, services like [Browserless](https://browserless.io/)
 provide APIs to interact with a hosted headless browser. For example, their
 [/scrape API](https://www.browserless.io/docs/scrape). Here's how to use
 Browserless and Val Town to load a webpage.
