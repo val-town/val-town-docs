@@ -4,6 +4,7 @@ import starlightLinksValidator from "starlight-links-validator";
 
 // https://astro.build/config
 export default defineConfig({
+  site: "https://docs.val.town/",
   integrations: [
     starlightLinksValidator(),
     starlight({
