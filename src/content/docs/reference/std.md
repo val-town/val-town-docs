@@ -71,5 +71,5 @@ proxies.
 
 Go to [std/turso](https://www.val.town/v/std/turso)
 
-See our documentation on [SQLite](/reference/val-town-sqlite/) for more details
+See our documentation on [SQLite](/reference/sqlite/) for more details
 on the `std/turso` val.

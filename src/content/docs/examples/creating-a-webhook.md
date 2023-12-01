@@ -57,4 +57,4 @@ You can debug the requests by checking the arguments object in the
 See also
 
 - [Receiving a GitHub Webhook](/integrations/github/receiving-a-github-webhook)
-- [Send Discord message via webhook](/integrations/discord/send-discord-message-via-webhook)
+- [Send Discord message via webhook](/integrations/discord/send-message)
