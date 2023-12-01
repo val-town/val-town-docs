@@ -10,6 +10,9 @@ export default defineConfig({
     starlight({
       title: "Docs",
       defaultLocale: "root",
+      editLink: {
+        baseUrl: "https://github.com/val-town/val-town-docs/edit/main/",
+      },
       locales: {
         en: {
           label: "English",
