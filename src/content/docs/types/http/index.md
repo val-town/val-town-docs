@@ -26,7 +26,7 @@ export function handler(request: Request) {
 }
 ```
 
-Ready to use this kind of val? Read more about how to [use frameworks to route requests](/examples/routing)
-and how to [use JSX to render HTML from web endpoints](/examples/jsx).
+Ready to use this kind of val? Read more about how to [use frameworks to route requests](./routing)
+and how to [use JSX to render HTML from web endpoints](./jsx).
 
 The maximum size for requests at the time of this writing is 2mb.

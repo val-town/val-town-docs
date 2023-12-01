@@ -14,7 +14,7 @@ handler vals it's simple: they get their own, unique address.
 ## Type Signature
 
 Email handlers receive an argument called `Email` and can do anything with it:
-they can go on to reply to the email with the [standard library](/reference/std/),
+they can go on to reply to the email with the [standard library](/std/email),
 or call methods in response to it.
 
 ```tsx

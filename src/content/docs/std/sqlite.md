@@ -118,4 +118,4 @@ drivers and is not extensible.
 For all your other SQLite needs, you can run SQLite in WASM and save data as a
 [blob](https://docs.val.town/blob-storage), or use your own Turso account. See:
 
-[SQLite wasm](/reference/sqlite-wasm)
+[SQLite wasm](/integrations/sqlite-wasm)
