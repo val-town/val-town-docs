@@ -2,6 +2,10 @@
   --sl-font: "IBM Plex Sans", sans-serif;
 }
 
+:root[data-theme="light"] {
+  --sl-color-text-accent: #2563eb;
+}
+
 .sl-markdown-content img:not(:where(.not-content *)) {
   border: 1px solid #eee;
 }
