@@ -1,30 +1,21 @@
 ---
 title: What’s a Val?
 lastUpdated: 2023-11-30
-description: "A val is TypeScript and JavaScript code that you can write and run with ease"
+description: "A val is a hosted script"
 sidebar:
   order: 1
 ---
 
-- Vals are the primitive of Val Town like Tweets are the primitive of Twitter.
-- Vals are snippets of JavaScript or TypeScript that defines a single, named
-  **val**ue.
-- Every change in a val is saved as a new version.
+- Vals are JavaScript, TypeScript, or JSX
 - Vals can import other vals
-
-## Val Names
-
-Vals are named like a variable `export let myName = ...`. If you don’t supply a
-name, one will be assigned.
-
-<div class="not-content">
-  <iframe src="https://www.val.town/embed/stevekrouse/example1?v=3" width="100%" frameborder="no" style="height: 400px;">
-    &#x20;
-  </iframe>
-</div>
-
-You can only have a single-top level value export in a Val, and as many type
-exports as you’d like.
+- Vals can be public, unlisted, or private
+- Every version of a val is immutable
+- Vals can be referenced by other vals
+- There are different kinds of vals:
+  - HTTP
+  - Scheduled
+  - Email
+  - Script
 
 ## Publishing a Val
 

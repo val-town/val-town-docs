@@ -1,7 +1,6 @@
 ---
-title: Embed
-lastUpdated: 2023-10-30
-description: Any val can be embedded as an iframe on other sitesa
+title: Embedding Vals in other sites
+description: Any val can be embedded as an iframe on other sites
 ---
 
 Vals are made to be shared, and not just on val.town! Public vals all can

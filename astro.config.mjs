@@ -13,6 +13,8 @@ export default defineConfig({
       editLink: {
         baseUrl: "https://github.com/val-town/val-town-docs/edit/main/",
       },
+      lastUpdated: true,
+      pagination: false,
       locales: {
         en: {
           label: "English",
@@ -25,6 +27,7 @@ export default defineConfig({
       logo: {
         light: "./src/assets/logo.svg",
         dark: "./src/assets/logo-dark.svg",
+        replacesTitle: true,
       },
       customCss: [
         // Fontsource files for to regular and semi-bold font weights.
@@ -34,35 +37,47 @@ export default defineConfig({
       ],
       sidebar: [
         {
-          label: "Start Here",
-          autogenerate: { directory: "start-here" },
+          label: "What's a Val?",
+          link: "whats-a-val",
         },
         {
           label: "Types of vals",
-          autogenerate: { directory: "types" },
+          items: [
+            {
+              label: "Script",
+              link: "types/script",
+            },
+            {
+              label: "HTTP",
+              autogenerate: { directory: "types/http" },
+              collapsed: true,
+            },
+            {
+              label: "Scheduled",
+              link: "types/scheduled",
+            },
+            {
+              label: "Email",
+              link: "types/email",
+            },
+          ],
         },
         {
           label: "Reference",
           autogenerate: { directory: "reference" },
         },
         {
-          label: "Integrations",
-          autogenerate: { directory: "integrations" },
-          collapsed: false,
+          label: "Standard Library",
+          autogenerate: { directory: "std" },
         },
         {
-          label: "Examples",
-          autogenerate: { directory: "examples" },
-          collapsed: false,
-        },
-        {
-          label: "Upgrading",
-          autogenerate: { directory: "upgrading" },
+          label: "Guides",
+          autogenerate: { directory: "guides" },
           collapsed: true,
         },
         {
-          label: "Troubleshooting",
-          autogenerate: { directory: "troubleshooting" },
+          label: "Integrations",
+          autogenerate: { directory: "integrations" },
           collapsed: true,
         },
         {
@@ -71,8 +86,8 @@ export default defineConfig({
           collapsed: true,
         },
         {
-          label: "Info",
-          autogenerate: { directory: "info" },
+          label: "Contact",
+          autogenerate: { directory: "contact-us" },
         },
       ],
       head: [

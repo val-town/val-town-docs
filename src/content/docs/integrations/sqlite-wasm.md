@@ -1,7 +1,7 @@
 ---
 title: SQLite wasm
 generated: 1701279908001
-
+pagefind: false
 ---
 
 You can create, insert, query, and persist a whole SQLite database in Val Town via wasm!

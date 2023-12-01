@@ -19,7 +19,7 @@ or call methods in response to it.
 // email-example.tsx
 export function emailHandler(email: Email) {
   console.log("Email received!");
-};
+}
 ```
 
 The `Email` type has this shape:
@@ -45,10 +45,7 @@ interface Email {
 The email address for
 [@stevekrouse.testEmail2](https://www.val.town/v/stevekrouse.testEmail) is
 `steverkouse.testEmail2@valtown.email`. Note that the username does not contain
-a leading `@` and that the email domain is `valtown.email`. You can copy a val’s
-email address from **⋮** > Endpoints > Copy email address.
-
-![Untitled](./email-handler-val/untitled.png)
+a leading `@` and that the email domain is `valtown.email`.
 
 You can view all the emails sent to this function here:
 

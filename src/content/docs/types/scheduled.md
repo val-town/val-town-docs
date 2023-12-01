@@ -1,6 +1,7 @@
 ---
 title: Scheduled
-lastUpdated: 2023-11-30
+sidebar:
+  order: 1
 description: "Schedules let code on Val Town run every day, every hour, or whenever you’d like"
 ---
 
@@ -17,14 +18,14 @@ that, they can do and return anything - the return value is ignored.
 // interval-example.tsx
 export function intervalHandler(interval: Interval) {
   console.log("Interval ran!");
-};
+}
 ```
 
 The interval type has the following shape:
 
 ```ts
 interface Interval {
-  lastRunAt: Date | undefined
+  lastRunAt: Date | undefined;
 }
 ```
 

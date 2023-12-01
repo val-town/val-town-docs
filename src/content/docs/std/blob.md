@@ -1,6 +1,5 @@
 ---
-title: Blob storage
-generated: 1701279907914
+title: Blob
 ---
 
 Val Town comes with
