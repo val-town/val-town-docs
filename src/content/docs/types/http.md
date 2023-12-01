@@ -1,7 +1,8 @@
 ---
 title: HTTP
 generated: 1701279907774
-
+sidebar:
+  order: 1
 ---
 
 **The Web API lets you expose Vals to the internet, where they can receive

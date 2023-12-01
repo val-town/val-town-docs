@@ -2,6 +2,8 @@
 title: Scheduled
 lastUpdated: 2023-11-30
 description: "Schedules let code on Val Town run every day, every hour, or whenever you’d like"
+sidebar:
+  order: 3
 ---
 
 You can schedule code to run repeatedly on Val Town. Want to check an RSS

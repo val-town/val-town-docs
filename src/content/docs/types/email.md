@@ -1,6 +1,8 @@
 ---
 title: Email
 generated: 1701279907751
+sidebar:
+  order: 4
 ---
 
 Email handler vals get their own email address that you can send email

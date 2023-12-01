@@ -1,6 +1,8 @@
 ---
 title: Script
 lastUpdated: 2023-11-30
+sidebar:
+  order: 2
 ---
 
 Scripts can be anything: a script val can be a function, or a single variable.
