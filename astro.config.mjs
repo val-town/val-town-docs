@@ -66,9 +66,15 @@ export default defineConfig({
           label: "Reference",
           autogenerate: { directory: "reference" },
         },
+
         {
           label: "Standard Library",
           autogenerate: { directory: "std" },
+        },
+        {
+          label: "Troubleshooting",
+          autogenerate: { directory: "troubleshooting" },
+          collapsed: true,
         },
         {
           label: "Guides",
@@ -88,6 +94,7 @@ export default defineConfig({
         {
           label: "Contact",
           autogenerate: { directory: "contact-us" },
+          collapsed: true,
         },
       ],
       head: [

@@ -1,11 +1,17 @@
 :root {
-  --sl-font: "IBM Plex Sans", sans-serif;
+    --sl-font: "IBM Plex Sans", sans-serif;
 }
 
 :root[data-theme="light"] {
-  --sl-color-text-accent: #2563eb;
+    --sl-color-text-accent: #2563eb;
+    --sl-color-orange: #fff394;
+    --sl-color-orange-high: #fefce9;
+}
+
+[data-theme="light"] .sl-badge.caution {
+    color: #777;
 }
 
 .sl-markdown-content img:not(:where(.not-content *)) {
-  border: 1px solid #eee;
+    border: 1px solid #eee;
 }

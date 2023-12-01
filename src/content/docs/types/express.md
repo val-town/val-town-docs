@@ -1,6 +1,11 @@
 ---
 title: Express
 generated: 1701279907972
+sidebar:
+  order: 5
+  badge:
+    text: Deprecated
+    variant: caution
 ---
 
 :::note
