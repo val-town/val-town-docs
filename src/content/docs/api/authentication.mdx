@@ -1,0 +1,62 @@
+---
+title: Authentication
+generated: 1701279907965
+---
+
+import Val from "@components/Val.astro";
+
+The Val Town APIs accept Bearer Token authentication for full access to your Val
+Town account. You can use the schemes below to give more scoped access to run
+specific vals.
+
+## Val Town Authentication
+
+Keep your Val Town API token extremely guarded because it conveys access to your
+entire account and all of its secrets. Never expose this token on the client.
+
+Val Town’s API uses Bearer Authentication, which means you pass an HTTP Header
+`Authorization: Bearer <token>`.
+
+If you don’t pass an authentication token, your code will be run as an anonymous
+user and only have access to public vals. For example, unauthenticated access to
+a private val will fail:
+
+<Val url="https://www.val.town/embed/stevekrouse.privateAPIUnauthenticated" />
+
+Authenticated use will have read access to the authenticated user's private vals
+and secrets, write access to the authenticated user's vals, and the ability to
+send the authenticated user emails via **`console.email`**.
+
+<Val url="https://www.val.town/embed/stevekrouse.privateAPIAuthenticated" />
+
+You can access your
+[Val Town API tokens here](https://www.val.town/settings/api).
+
+If you want to experiment with calling the Val Town API from within Val Town (as
+is shown above), you should copy-and-paste one of your Val Town API tokens into
+[your secrets](https://www.val.town/settings/secrets).
+
+## Custom Authentication
+
+You can roll arbitrary authentication schemes in user space. For example, I find
+it useful to simply supply a custom `auth` header from my Clerk webhooks that I
+check like a password against a value I store in my secrets:
+
+<Val url="https://www.val.town/embed/stevekrouse.handleDiscordNewUser" />
+
+I call this value `clerkNonSensitive` because this value doesn’t protect any
+data. It merely makes it impossible for anyone to trigger this public API
+endpoint without the password. The worst that could happen if this password
+leaks is that our team temporarily gets spam discord messages. Then I could just
+change the password to a new value. For more sensitive use-cases, you’ll want to
+sign & possibly encrypt the conveyed data using standard authentication methods.
+
+## Hiding Code
+
+You can hide the code of a public API by wrapping a private Val in a public val.
+Below I show `hiddenAPI` which you can see and
+[call via API](https://api.val.town/v1/run/stevekrouse.hiddenAPI?args=[%22hi%22]),
+but you notice that it calls `@stevekrouse.hiddenAPIInternal` which is private
+and can’t be inspected.
+
+<Val url="https://www.val.town/embed/stevekrouse.hiddenAPI" />

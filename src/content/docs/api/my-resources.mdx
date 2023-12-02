@@ -1,0 +1,37 @@
+---
+title: My resources
+generated: 1701279907977
+---
+
+import Val from "@components/Val.astro";
+
+When using the Val Town API, some of the most common functions operate on things
+that you own. For these kinds of operations, there are the “me” routes.
+
+## GET `/v1/me`
+
+:::note
+
+This is the same as `/v1/users/{your_user_id}`
+
+:::
+
+<Val url="https://www.val.town/embed/neverstew.getMe" />
+
+## GET `/v1/me/runs`
+
+:::note
+
+This is currently the only way to list runs across multiple vals.
+
+:::
+
+<Val url="https://www.val.town/embed/neverstew.getRuns" />
+
+## GET `/v1/me/likes`
+
+<Val url="https://www.val.town/embed/neverstew.getLikes" />
+
+## GET `/v1/me/comments`
+
+<Val url="https://www.val.town/embed/neverstew.getComments" />
