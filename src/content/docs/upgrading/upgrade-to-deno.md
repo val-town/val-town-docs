@@ -2,6 +2,9 @@
 title: Upgrade to Deno
 generated: 1701279907994
 lastUpdated: 2023-03-14
+description: |
+  In an effort to make Val Town faster and more secure, we switched from Node.js
+  as a platform to Deno.
 ---
 
 Val Town was originally built on a [NodeJS](https://nodejs.org/en) runtime. On

@@ -2,6 +2,9 @@
 title: Async issues
 lastUpdated: 2023-12-01
 tableOfContents: false
+description: |
+  A reminder to await Promise objects in Val Town, because as a JavaScript
+  environment we have to deal with asynchronous code.
 ---
 
 
