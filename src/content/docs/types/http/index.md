@@ -1,5 +1,7 @@
 ---
 title: HTTP
+description: |
+  A kind of val that can serve a website or an API using web-standard Request & Response objects.
 sidebar:
   order: 0
 ---

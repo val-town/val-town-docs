@@ -1,5 +1,7 @@
 ---
 title: Contact Us
+description: |
+  The Val Town team is always available via email and Discord.
 ---
 
 - [hi@val.town](mailto:hi@val.town)

@@ -2,6 +2,10 @@
 title: Simplified val privacy
 generated: 1701279907991
 lastUpdated: 2023-03-24
+description: |
+  A change that we made in which val privacy is no longer determined
+  by whether the values in JavaScript are exported, but rather through
+  a UI element.
 ---
 
 Publishing a Val has been one of the biggest sources of confusion in Val Town.

@@ -2,6 +2,7 @@
 title: Empty objects
 lastUpdated: 2023-12-01
 tableOfContents: false
+description: You may see an empty object in a val's output if you forget to serialize a promise.
 ---
 
 

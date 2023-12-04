@@ -1,5 +1,7 @@
 ---
 title: Script
+description: |
+  The most flexible kind of val, a way to run any TypeScript and JavaScript
 sidebar:
   order: 2
 ---
