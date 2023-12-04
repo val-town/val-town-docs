@@ -1,0 +1,52 @@
+---
+title: Hosted Puppeteer (Browserless)
+generated: 1701279907777
+description: How to use Browserless and Val Town to load a webpage
+---
+
+import Val from "@components/Val.astro";
+
+Some websites are partially (or entirely) rendered on the client (aka your web
+browser). If you try to search the initial HTML for elements that haven’t
+finished rendering, you won’t find them.
+
+One solution is to use a headless browser that runs a web browser in the
+background that fetches the page, renders it, and _then_ allows you to search
+the final document.
+
+Headless browsers aren’t a good fit for Val Town due to the amount of resources
+they require to run. However, services like [Browserless](https://browserless.io/)
+provide APIs to interact with a hosted headless browser. For example, their
+[/scrape API](https://www.browserless.io/docs/scrape). Here's how to use
+Browserless and Val Town to load a webpage.
+
+## Sign up to Browserless and grab your API Key
+
+Copy your API Key from
+[https://cloud.browserless.io/account/](https://cloud.browserless.io/account/)
+and save it as a Val Town secret as `browserlessKey`.
+
+![Screenshot 2023-06-24 at 22.43.01.png](./hosted-puppeteer-browserless/screenshot_2023-06-24_at_224301.png)
+
+## Make an API call to the [/scrape API](https://www.browserless.io/docs/scrape)
+
+Check the documentation for the
+[/scrape API](https://www.browserless.io/docs/scrape) and form your request.
+
+For example, here’s how you scrape the introduction paragraph of OpenAI’s
+wikipedia page.
+
+<Val url="https://www.val.town/embed/vtdocs.browserlessScrapeExample" />
+
+Browserless also has more [APIs](https://www.browserless.io/docs/start) for
+taking screenshots and PDFs of websites.
+
+## Alternatively, use Puppeteer and a browser running on Browserless
+
+You can use the [Puppeteer](https://pptr.dev/) library to connect to a browser
+instance running on Browserless.
+
+Once you’ve navigated to a page, you can run arbitrary JavaScript with
+`page.evaluate` – like getting the text from a paragraph.
+
+<Val url="https://www.val.town/embed/vtdocs.browserlessPuppeteerExample" />

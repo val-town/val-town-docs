@@ -1,0 +1,15 @@
+---
+const { url } = Astro.props;
+---
+
+<div class="not-content">
+  <iframe
+    title="Embedded interactive val"
+    src={url}
+    width="100%"
+    height="400px"
+    style="border: none;"
+    loading="lazy">
+    &#x20;
+  </iframe>
+</div>
