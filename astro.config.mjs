@@ -10,6 +10,9 @@ export default defineConfig({
     starlight({
       title: "Docs",
       defaultLocale: "root",
+      components: {
+        Footer: "./src/components/Footer.astro",
+      },
       editLink: {
         baseUrl: "https://github.com/val-town/val-town-docs/edit/main/",
       },
