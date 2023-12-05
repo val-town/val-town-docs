@@ -1,10 +1,23 @@
 ---
 title: Permissions
-generated: 1701279907810
-description: "Vals can be private, unlisted, or public"
+description: Vals can be private, unlisted, or public
 ---
 
 import Val from "@components/Val.astro";
+
+There are three privacy states for a Val:
+
+1. 🌎 Public (anyone can view or run)
+2. 🔗 Unlisted (anyone with the name or link can view or run)
+3. 🔒 Private (only you can view or run)
+
+All Vals default to private. You can publish a Val by clicking the 🔒 next to
+its name.
+
+Publishing your Val as either Public or Unlisted makes it accessible via the Run
+API. Be careful about publishing a function val that has access to your secrets
+— your secrets will be used if others call that function via the Run API.
+Publishing a val makes it a public API.
 
 You get to choose whether you share vals. They can be fully private, so only you
 can view, edit, and run them. Private vals are super useful for automating parts of

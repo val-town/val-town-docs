@@ -37,8 +37,8 @@ export default defineConfig({
       ],
       sidebar: [
         {
-          label: "What's a Val?",
-          link: "whats-a-val",
+          label: "Val Town Docs",
+          link: "/",
         },
         {
           label: "Types of vals",
