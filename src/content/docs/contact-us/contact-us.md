@@ -1,5 +1,6 @@
 ---
 title: Contact Us
+tableOfContents: false
 description: |
   The Val Town team is always available via email and Discord.
 ---
