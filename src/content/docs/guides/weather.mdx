@@ -7,4 +7,21 @@ import Val from "@components/Val.astro";
 
 ## wttr.in
 
+Val Town is a great system for keeping track of the weather - 
+for remembering [when to carry an umbrella](https://www.val.town/v/stevekrouse/umbrellaReminder)
+and much more. Here's an example of using [wttr.in](https://wttr.in/) to get weather
+data.
+
 <Val url="https://www.val.town/embed/@csshsh.weatherDescription" />
+
+## Weather data sources
+
+There are many sources for weather data, but some of them require
+payment and API keys. If you need something free and you're primarily
+interested in weather in the United States, you can check out
+the [NOAA weather API](https://www.weather.gov/documentation/services-web-api).
+Also, [OpenWeatherMap](https://openweathermap.org/price) provides a decent
+number of calls per day for free.
+
+wttr.in also uses [WorldWeatherOnline](https://www.worldweatheronline.com/weather-api/api/docs/local-city-town-weather-api.aspx) as its source
+for forecasts and current conditions.
