@@ -1,0 +1,78 @@
+---
+title: Usage
+description: How to use Val Town SQLite, with examples.
+sidebar:
+  order: 1
+---
+
+Val Town SQLite has two methods: `execute` [↗](https://docs.turso.tech/libsql/client-access/javascript-typescript-sdk#execute-a-single-statement) and `batch` [↗](https://docs.turso.tech/libsql/client-access/javascript-typescript-sdk#batches-and-interactive-transactions). Below are examples of how to use them in Val Town.
+
+## Simple query
+
+```ts
+import { sqlite } from "https://esm.town/v/std/sqlite";
+
+const data = await sqlite.execute("SELECT datetime();");
+console.log(data.rows[0]);
+```
+
+## Create a table
+
+```ts
+import { sqlite } from "https://esm.town/v/std/sqlite";
+
+sqlite.execute(`create table if not exists kv(
+  key text unique, 
+  value text
+)`);
+```
+
+## Get data
+
+```ts
+import { sqlite } from "https://esm.town/v/std/sqlite";
+
+cosnsole.log(await sqlite.execute(`select key, value from kv`));
+```
+
+## Insert data
+
+```ts
+import { sqlite } from "https://esm.town/v/std/sqlite";
+
+sqlite.execute({
+  sql: `insert into kv(key, value) values (:key, :value)`,
+  args: { key: "specialkey", value: "specialvalue" },
+});
+```
+
+## Delete data
+
+```ts
+import { sqlite } from "https://esm.town/v/std/sqlite";
+
+sqlite.execute({
+  sql: `delete from kv where key = :key`,
+  args: { key: "specialkey" },
+});
+```
+
+## Batch queries
+
+```ts
+import { sqlite } from "https://esm.town/v/std/sqlite";
+
+const charge = 10;
+
+export const batchSqlite = await sqlite.batch([
+  `create table if not exists accounts(person_id text unique, balance integer)`,
+  {
+    sql: `update accounts set balance = balance - :charge where person_id = 'Bob'`,
+    args: { charge },
+  },
+  {
+    sql: `update accounts set balance = balance + :charge where person_id = 'Alice'`,
+    args: { charge },
+  },
+]);
+```

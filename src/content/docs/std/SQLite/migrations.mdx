@@ -1,0 +1,33 @@
+---
+title: Migrations
+---
+
+One way to run migrations in Val Town is to write a single val and keep
+updating it with each migration. The version history of that val can act as a log of schema changes.
+
+Let’s look at an example…
+
+In our first migration, we create a users table:
+
+```ts
+import { sqlite } from "https://esm.town/v/std/sqlite";
+
+sqlite.execute(`
+  create table users (
+    id integer primary key autoincrement,
+    email text not null unique
+  )
+`);
+```
+
+Later, we realize we also want to store names. We can update _the same val_ to alter
+the table:
+
+```ts
+import { sqlite } from "https://esm.town/v/std/sqlite";
+
+sqlite.execute(`
+  alter table users
+  add column name text
+`);
+```
