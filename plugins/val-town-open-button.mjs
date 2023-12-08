@@ -41,7 +41,7 @@ export function valTownOpenButton() {
         const url = `https://www.val.town/embed/new?code=${encodedCode}`;
 
         // Display large button if there is a title
-        let caption = select(".has-title figcaption", renderData.blockAst);
+        const caption = select(".has-title figcaption", renderData.blockAst);
 
         if (caption) {
           caption.children.push(
@@ -59,9 +59,9 @@ export function valTownOpenButton() {
         }
 
         // Display a mini button next to the copy button
-        const miniButton = select("div.copy", renderData.blockAst);
-        if (miniButton) {
-          miniButton.children.push(
+        const copyButton = select("div.copy", renderData.blockAst);
+        if (copyButton) {
+          copyButton.children.push(
             h(
               "a",
               {
