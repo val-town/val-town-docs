@@ -23,7 +23,7 @@ Vals that conform to the [HTTP Val](/types/http) pattern accept a
 argument and return a
 [Response](https://developer.mozilla.org/en-US/docs/web/api/response).
 
-Here’s an example that connects the [Clerk](http://clerk.com) authentication
+Here's an example that connects the [Clerk](http://clerk.com) authentication
 service and [Discord](http://discord.com).
 
 <Val url="https://www.val.town/embed/neverstew.handleDiscordNewUser" />
@@ -32,7 +32,7 @@ The val above has three parts:
 
 1. It accepts a
    [Request](https://developer.mozilla.org/en-US/docs/web/api/request) and
-   checks that it really is from the Clerk by comparing a secret.
+   checks that it really is from the Clerk by comparing an environment variable.
 2. It sends a
    [Request](https://developer.mozilla.org/en-US/docs/web/api/request) to
    Discord to send a message to a channel and `await`s the response.
@@ -42,7 +42,7 @@ The val above has three parts:
 
 ## Receiving Webhooks
 
-Copy your val’s web endpoint using the menu and paste it into your webhook
+Copy your val's web endpoint using the menu and paste it into your webhook
 provider. The webhook provider will POST events to your Val.
 
 ![Untitled](./creating-a-webhook/untitled.png)

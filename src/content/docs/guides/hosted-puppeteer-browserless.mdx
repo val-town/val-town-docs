@@ -25,7 +25,7 @@ Browserless and Val Town to load a webpage.
 
 Copy your API Key from
 [https://cloud.browserless.io/account/](https://cloud.browserless.io/account/)
-and save it as a Val Town secret as `browserlessKey`.
+and save it as a Val Town environment variable as `browserlessKey`.
 
 ![Screenshot 2023-06-24 at 22.43.01.png](./hosted-puppeteer-browserless/screenshot_2023-06-24_at_224301.png)
 
@@ -50,4 +50,29 @@ instance running on Browserless.
 Once you’ve navigated to a page, you can run arbitrary JavaScript with
 `page.evaluate` – like getting the text from a paragraph.
 
-<Val url="https://www.val.town/embed/vtdocs.browserlessPuppeteerExample" />
+```ts val
+import process from "node:process";
+
+export const browserlessPuppeteerExample = (async () => {
+  const { PuppeteerDeno } = await import(
+    "https://deno.land/x/puppeteer@16.2.0/src/deno/Puppeteer.ts"
+  );
+  const puppeteer = new PuppeteerDeno({
+    productName: "chrome",
+  });
+  const browser = await puppeteer.connect({
+    browserWSEndpoint: `wss://chrome.browserless.io?token=${process.env.browserlessKey}`,
+  });
+  const page = await browser.newPage();
+  await page.goto("https://en.wikipedia.org/wiki/OpenAI");
+  const intro = await page.evaluate(
+    `document.querySelector('p:nth-of-type(2)').innerText`
+  );
+  await browser.close();
+  return intro;
+})();
+```
+
+```txt title="Val output"
+"OpenAI is an American artificial intelligence (AI) research laboratory consisting of the non-profit OpenAI Incorporated and its for-profit subsidiary corporation OpenAI Limited Partnership. OpenAI conducts AI research with the declared intention of promoting and developing friendly AI."
+```
