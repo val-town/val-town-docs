@@ -8,15 +8,15 @@ import Val from "@components/Val.astro";
 There are three privacy states for a Val:
 
 1. 🌎 Public (anyone can view or run)
-2. 🔗 Unlisted (anyone with the name or link can view or run)
-3. 🔒 Private (only you can view or run)
+2. 🔗 Unlisted (anyone with the name or link can view or run)
+3. 🔒 Private (only you can view or run)
 
-All Vals default to private. You can publish a Val by clicking the 🔒 next to
+All Vals default to private. You can publish a Val by clicking the 🔒 next to
 its name.
 
 Publishing your Val as either Public or Unlisted makes it accessible via the Run
-API. Be careful about publishing a function val that has access to your secrets
-— your secrets will be used if others call that function via the Run API.
+API. Be careful about publishing a function val that has access to your environment variables
+— your environment variables will be used if others call that function via the Run API.
 Publishing a val makes it a public API.
 
 You get to choose whether you share vals. They can be fully private, so only you
@@ -39,49 +39,57 @@ Since anyone can call your public endpoints, if they interact with some data
 that should only be changed by yourself, you will need to make sure that those
 endpoints check for some kind of secret that only you know.
 
-Here’s an example of a val exposed using the [HTTP Val](/types/http), secured
-with a secret that only I know.
+Here's an example of a val exposed using the [HTTP Val](/types/http), secured
+with an environment variable that only I know.
 
 <Val url="https://www.val.town/embed/neverstew.secretEndpoint" />
 
-If I called it without supplying the secret, I’ll be denied access:
+If I called it without supplying the environment variable, I'll be denied access:
 
 <Val url="https://www.val.town/embed/neverstew.secretEndpointFailure" />
 
-By supplying the secret in a header, I’m allowed access:
+By supplying the environment variable in a header, I'm allowed access:
 
 <Val url="https://www.val.town/embed/neverstew.secretEndpointSuccess" />
 
 The rest of this article will focus on various common combinations of public and
-private vals that you’re likely to come across and how those interact with the
+private vals that you're likely to come across and how those interact with the
 permissions system.
 
 ## Public code referencing private data
 
 It is safe for a a public val to reference one of your private vals or one of
-your secrets. Private vals and secrets are like environment variables in this
-way — others can see that they’re being used, but not their values.
+your environment variables. Private vals and secrets are like environment variables in this
+way — others can see that they're being used, but not their values.
 
-For example, I created a private val, `example3`. You won’t be able to see or
+For example, I created a private val, `example3`. You won't be able to see or
 reference `example3` but I can use it in `example4` which is public.
 
 <Val url="https://www.val.town/embed/stevekrouse.example4" />
 
-You can _\***\*infer\*\***_ that the value of `example3` is `"Stevie"` because of
-how it’s used here. This is why you have to be careful about publishing vals
+You can _infer_ that the value of `example3` is `"Stevie"` because of
+how it's used here. This is why you have to be careful about publishing vals
 that reference private data. Typically you will reference private data in a way
 that makes it impossible for others to infer what it is, like you would with an
-environment variable credentials. Below I am passing my secrets to an Upstash
-Redis store. You can see that I’m using these secrets and the output of this
-computation, but you can’t get those values, nor can you rerun this script with
-my secrets.
+environment variable credentials. Below I am passing my environment variables to an Upstash
+Redis store. You can see that I'm using these environment variables and the output of this
+computation, but you can't get those values, nor can you rerun this script with
+my environment variables.
 
 <Val url="https://www.val.town/embed/stevekrouse.upstashJSONEx" />
 
-## Using another’s vals as a library
+## Using another's vals as a library
 
-Using another’s val is like using a library from npm. The code runs entirely in
-your sandbox and they don’t get any access to your evaluation logs. In this way
-it is safe to pass other’s code your private data and secrets.
+Using another's val is like using a library from npm. The code runs entirely in
+your sandbox and they don't get any access to your evaluation logs. In this way
+it is safe to pass other's code your private data and environment variables.
 
-<Val url="https://www.val.town/embed/stevekrouse.librarySecretEx" />
+```th val
+import process from "node:process";
+import { gpt3 } from "https://esm.town/v/patrickjm/gpt3?v=4";
+
+export let librarySecret = gpt3({
+  prompt: "what is the meaning of life?",
+  openAiKey: process.env.openai,
+});
+```
