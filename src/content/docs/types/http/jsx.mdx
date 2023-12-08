@@ -3,8 +3,6 @@ title: HTML & JSX
 description: You can use JSX syntax in Val Town to render HTML using React, Preact, Vue, Solid, etc.
 ---
 
-import Val from "@components/Val.astro";
-
 Val Town supports server-rendered JSX. This lets you use JSX syntax to construct
 your HTML string. It does not include any client-side JSX framework features,
 such a re-rendering on the client.
@@ -25,16 +23,56 @@ A good default is [Preact](https://github.com/preactjs/preact), which provides a
 nice `preact-render-to-string` module that lets you quickly turn that JSX object
 into a string that you can use for a response.
 
-<Val url="https://www.val.town/embed/stevekrouse/preactExample" />
+```ts val
+/** @jsxImportSource https://esm.sh/preact */
+import { render } from "npm:preact-render-to-string";
+
+export const preactExample = () =>
+  new Response(render(<div>Test {1 + 1}</div>), {
+    headers: {
+      "Content-Type": "text/html",
+    },
+  });
+```
 
 ### React
 
-<Val url="https://www.val.town/embed/stevekrouse/reactExample" />
+```ts val
+/** @jsxImportSource https://esm.sh/react */
+import { renderToString } from "npm:react-dom/server";
+
+export const reactExample = () =>
+  new Response(renderToString(<div>Test {1 + 1}</div>), {
+    headers: {
+      "Content-Type": "text/html",
+    },
+  });
+```
 
 ### Vue
 
-<Val url="https://www.val.town/embed/stevekrouse/vueExample" />
+```ts val
+/** @jsxImportSource https://esm.sh/vue */
+import { renderToString } from "npm:vue/server-renderer";
+
+export const vueExample = async () =>
+  new Response(await renderToString(<div>Test {1 + 1}</div>), {
+    headers: {
+      "Content-Type": "text/html",
+    },
+  });
+```
 
 ### Solid
 
-<Val url="https://www.val.town/embed/stevekrouse/solidExample" />
+```ts val
+/** @jsxImportSource https://esm.sh/solid-jsx */
+import { renderToString } from "npm:solid-js/web";
+
+export const solidExample = async () =>
+  new Response(await renderToString(() => <div>Test {1 + 1}</div>), {
+    headers: {
+      "Content-Type": "text/html",
+    },
+  });
+```

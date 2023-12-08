@@ -5,8 +5,6 @@ sidebar:
 description: "Schedules let code on Val Town run every day, every hour, or whenever you’d like"
 ---
 
-import Val from "@components/Val.astro";
-
 You can schedule code to run repeatedly on Val Town. Want to check an RSS
 feed every hour, or send a reminder email every day? This is how to do it:
 just create a scheduled function and specify when it should run.
@@ -16,7 +14,7 @@ just create a scheduled function and specify when it should run.
 Scheduled functions should take an `Interval` object as a parameter. Besides
 that, they can do and return anything - the return value is ignored.
 
-```tsx
+```tsx val
 // interval-example.tsx
 export function intervalHandler(interval: Interval) {
   console.log("Interval ran!");
@@ -55,4 +53,15 @@ Scheduled Vals can optionally accept one argument, which includes some metadata
 about the interval. For example, you can get the most recent time the interval
 was run to filter out data that was already seen:
 
-<Val url="https://www.val.town/embed/neverstew.scheduleExampleTwo" />
+```ts val
+// schedule-example.ts
+export const scheduleExampleTwo = async (interval: Interval) => {
+  const { default: RssParser } = await import("npm:rss-parser");
+  const parser = new RssParser();
+  const feed = await parser.parseURL("http://feeds.bbci.co.uk/news/rss.xml");
+  const newItems = feed.items.filter(
+    (item) => new Date(item.pubDate) > interval.lastRunAt
+  );
+  return `${newItems.length} new items!`;
+};
+```
