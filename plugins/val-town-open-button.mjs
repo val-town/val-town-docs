@@ -38,7 +38,7 @@ export function valTownOpenButton() {
           /%20/g,
           "+"
         );
-        const url = `https://www.val.town/embed/new?code=${encodedCode}`;
+        const url = `https://www.val.town/new?code=${encodedCode}`;
 
         // Display large button if there is a title
         const caption = select(".has-title figcaption", renderData.blockAst);
