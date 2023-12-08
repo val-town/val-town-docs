@@ -14,6 +14,12 @@ export function valTownOpenButton() {
         display: inline-flex;
         align-items: center;
       }
+      .frame.has-title a.valtown-text-link span.title {
+        background: transparent;
+      }
+      .frame.has-title a.valtown-text-link span.title::after {
+        border: none !important;
+      }
       .valtown-text-link span:hover {
         text-decoration: underline;
         underline-offset: 0.2em;
@@ -58,31 +64,31 @@ export function valTownOpenButton() {
                 target: "_blank",
                 rel: "noopener",
               },
-              [h("span", { class: "title" }, ["Open in Val Town"])],
+              [h("span", { class: "title" }, ["Open in Val Town ↗"])],
             ),
           );
-        }
-
-        // Display a mini button next to the copy button
-        const copyButton = select("div.copy", renderData.blockAst);
-        if (copyButton) {
-          copyButton.children.push(
-            h(
-              "a",
-              {
-                href: url,
-                target: "_blank",
-                rel: "noopener",
-              },
-              [
-                h("button", { title: "Open in Val Town", class: "valtown" }, [
-                  h("div"),
-                  h("span", {}, ["Open in Val Town"]),
-                ]),
-              ],
-            ),
-          );
-          return;
+        } else {
+          // Display a mini button next to the copy button
+          const copyButton = select("div.copy", renderData.blockAst);
+          if (copyButton) {
+            copyButton.children.push(
+              h(
+                "a",
+                {
+                  href: url,
+                  target: "_blank",
+                  rel: "noopener",
+                },
+                [
+                  h("button", { title: "Open in Val Town", class: "valtown" }, [
+                    h("div"),
+                    h("span", {}, ["Open in Val Town"]),
+                  ]),
+                ],
+              ),
+            );
+            return;
+          }
         }
       },
     },
