@@ -73,7 +73,16 @@ export default defineConfig({
 
         {
           label: "Standard Library",
-          autogenerate: { directory: "std" },
+          items: [
+            { label: "Email", link: "std/email" },
+            {
+              label: "SQLite",
+              autogenerate: { directory: "std/SQLite" },
+              collapsed: true,
+            },
+            { label: "Blob", link: "std/blob" },
+            { label: "Proxied fetch", link: "std/fetch" },
+          ],
         },
         {
           label: "Troubleshooting",

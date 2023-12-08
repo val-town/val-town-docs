@@ -1,21 +1,19 @@
 ---
-title: Fetch
+title: Proxied fetch
 ---
 
-Go to [std/fetch](https://www.val.town/v/std/fetch)
+Val Town offers a proxied version of the standard fetch method that uses proxies and retries for more reliability. This is useful for websites that block requests made from data centers or have unreliable uptime. However it is slower than the standard `fetch` method. `std/fetch` has the same API as the standard fetch method.
 
-Val Town exposes the web-standard
-[`fetch``](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API), which
-lets you make fetch requests. 
+## Usage
 
-```ts
-let data = await fetch(")
+You can use `std/fetch` just like the standard `fetch` method.
+
+```ts val
+import { fetch } from "https://esm.town/v/std/fetch";
+
+let result = await fetch("https://api64.ipify.org?format=json");
+let json = await result.json();
+console.log(json.ip);
 ```
 
-
-However, many websites block requests made from
-unknown sources. This is why we provide `std/fetch`, which automatically uses
-proxies in order to make requests with a greater chance of success. It has the
-same API as the standard fetch method.
-
-Expect `std/fetch` to be more reliable, but slower because it has to go through proxies.
+If you run the above code multiple times, you'll see that it returns different IP addresses, because `std/fetch` uses proxies, so that each request is made from a different IP address.

@@ -47,7 +47,7 @@ export function valTownOpenButton() {
         // Generate the URL
         const encodedCode = encodeURIComponent(codeBlock.code).replace(
           /%20/g,
-          "+",
+          "+"
         );
         const url = `https://www.val.town/new?code=${encodedCode}`;
 
@@ -64,8 +64,8 @@ export function valTownOpenButton() {
                 target: "_blank",
                 rel: "noopener",
               },
-              [h("span", { class: "title" }, ["Open in Val Town ↗"])],
-            ),
+              [h("span", { class: "title" }, ["Run in Val Town ↗"])]
+            )
           );
         } else {
           // Display a mini button next to the copy button
@@ -80,12 +80,12 @@ export function valTownOpenButton() {
                   rel: "noopener",
                 },
                 [
-                  h("button", { title: "Open in Val Town", class: "valtown" }, [
+                  h("button", { title: "Run in Val Town", class: "valtown" }, [
                     h("div"),
-                    h("span", {}, ["Open in Val Town"]),
+                    h("span", {}, ["Run in Val Town"]),
                   ]),
-                ],
-              ),
+                ]
+              )
             );
             return;
           }

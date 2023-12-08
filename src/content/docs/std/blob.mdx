@@ -1,35 +1,52 @@
 ---
-title: Blob
+title: Blob Storage
 ---
 
-import Val from "@components/Val.astro";
+Val Town now comes with [blob storage](https://www.cloudflare.com/en-gb/learning/cloud/what-is-blob-storage/) built-in. You can store any data: text, JSON, images. Blob storage is scoped globally to your account. If you set a blob in one val, you can retrieve it by the same key in another val. It’s backed by Cloudflare R2.
 
-Val Town comes with
-[blob storage](https://www.cloudflare.com/en-gb/learning/cloud/what-is-blob-storage/)
-built-in. You can store any data: text, JSON, images. It’s backed by
-[Cloudflare R2](https://developers.cloudflare.com/r2).
+Blob-stored data counts towards your total Val Town storage – 10mb on the free plan and 1gb on pro. Check our [pricing page](https://val.town/pricing) to learn more.
 
-You can store 10mb on the free plan and up to 1gb on the paid plan. Contact us
-if you need more.
+## Usage
 
-## JSON
+```ts val
+import { blob } from "https://esm.town/v/std/blob";
 
-## Set JSON
+await blob.setJSON("myKey", { foo: "bar" });
+export let blobDemo = await blob.getJSON("myKey");
+```
 
-<Val url="https://www.val.town/embed/andreterron/exampleSetBlobJson" />
+### JSON
 
-## Get JSON
+These functions are the ones most commonly used for storing JSON data, including simple strings.
 
-<Val url="https://www.val.town/embed/andreterron/exampleGetBlobJson" />
+- `async getJSON(key: string)` – Retrieves a blob as JSON for a given key. Returns `undefined` if the key is not found.
+- `async setJSON(key: string, value: any)` – Sets a blob for a given key with a value that is automatically converted to JSON.
 
-<Val url="https://www.val.town/embed/std/docsBlobCounterDemo" />
+### List keys
 
-## Binary Data
+- `async list(prefix?: string)`: List your blob keys. optionally provide a prefix to filter the query.
 
-## Store images
+### Delete keys
 
-<Val url="https://www.val.town/embed/andreterron/blobSavePictureExample" />
+- `async delete(key: string)`: Delete the specified key.
 
-## Get images
+## Lower-level get/set
 
-<Val url="https://www.val.town/embed/andreterron/blobReadPictureExample" />
+We do provide access to the lower-level getter and setters, which are useful if you are storing non-JSON or binary data, need to stream in your response or request data, or do anything else lower-leve.
+
+- `async get(key: string)`: Retrieves a blob for a given key.
+- `async set(key: string, value: string | BodyInit)`: Sets the blob value for a given key. See [BodyInit](https://deno.land/api@v1.38.1?s=BodyInit).
+
+## Examples
+
+- https://www.val.town/v/stevekrouse/blobDemo
+- https://www.val.town/v/andreterron/exampleSetBlobJson
+- https://www.val.town/v/andreterron/exampleGetBlobJson
+- https://www.val.town/v/std/docsBlobCounterDemo
+- https://www.val.town/v/andreterron/blobSavePictureExample
+- https://www.val.town/v/andreterron/blobReadPictureExample
+
+## Error Handling
+
+- `blob.get` can throw [`ValTownBlobNotFoundError`](https://val.town/v/std/ValTownBlobNotFoundError)
+- Any method can throw [`ValTownBlobError`](https://val.town/v/andreterron/ValTownBlobError) for unexpected errors.

@@ -9,7 +9,7 @@ Let’s look at an example…
 
 In our first migration, we create a users table:
 
-```ts
+```ts val
 import { sqlite } from "https://esm.town/v/std/sqlite";
 
 sqlite.execute(`
@@ -23,7 +23,7 @@ sqlite.execute(`
 Later, we realize we also want to store names. We can update _the same val_ to alter
 the table:
 
-```ts
+```ts val
 import { sqlite } from "https://esm.town/v/std/sqlite";
 
 sqlite.execute(`

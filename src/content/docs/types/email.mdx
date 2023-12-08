@@ -1,8 +1,6 @@
 ---
 title: Email
-generated: 1701279907751
-description: |
-  A kind of val that is able to receive emails sent to it.
+description: A kind of val that is able to receive emails sent to it.
 sidebar:
   order: 4
 ---
@@ -21,7 +19,7 @@ Email handlers receive an argument called `Email` and can do anything with it:
 they can go on to reply to the email with the [standard library](/std/email),
 or call methods in response to it.
 
-```tsx
+```tsx val
 // email-example.tsx
 export function emailHandler(email: Email) {
   console.log("Email received!");

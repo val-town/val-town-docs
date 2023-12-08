@@ -9,7 +9,7 @@ Val Town SQLite has two methods: `execute` [↗](https://docs.turso.tech/libsql/
 
 ## Simple query
 
-```ts
+```ts val
 import { sqlite } from "https://esm.town/v/std/sqlite";
 
 const data = await sqlite.execute("SELECT datetime();");
@@ -18,7 +18,7 @@ console.log(data.rows[0]);
 
 ## Create a table
 
-```ts
+```ts val
 import { sqlite } from "https://esm.town/v/std/sqlite";
 
 sqlite.execute(`create table if not exists kv(
@@ -29,7 +29,7 @@ sqlite.execute(`create table if not exists kv(
 
 ## Get data
 
-```ts
+```ts val
 import { sqlite } from "https://esm.town/v/std/sqlite";
 
 console.log(await sqlite.execute(`select key, value from kv`));
@@ -37,7 +37,7 @@ console.log(await sqlite.execute(`select key, value from kv`));
 
 ## Insert data
 
-```ts
+```ts val
 import { sqlite } from "https://esm.town/v/std/sqlite";
 
 sqlite.execute({
@@ -48,7 +48,7 @@ sqlite.execute({
 
 ## Delete data
 
-```ts
+```ts val
 import { sqlite } from "https://esm.town/v/std/sqlite";
 
 sqlite.execute({
@@ -59,7 +59,7 @@ sqlite.execute({
 
 ## Batch queries
 
-```ts
+```ts val
 import { sqlite } from "https://esm.town/v/std/sqlite";
 
 const charge = 10;

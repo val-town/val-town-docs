@@ -1,7 +1,5 @@
 ---
 title: Limits
-tableOfContents: false
-lastUpdated: 2023-12-01
 ---
 
 Val and evaluation fields have a size limit of 100kb for users on the free plan
