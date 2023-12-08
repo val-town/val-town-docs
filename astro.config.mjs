@@ -1,6 +1,7 @@
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 import starlightLinksValidator from "starlight-links-validator";
+import { valTownOpenButton } from "./plugins/val-town-open-button.mjs";
 
 // https://astro.build/config
 export default defineConfig({
@@ -116,6 +117,9 @@ export default defineConfig({
           },
         },
       ],
+      expressiveCode: {
+        plugins: [valTownOpenButton()],
+      },
     }),
   ],
 });
