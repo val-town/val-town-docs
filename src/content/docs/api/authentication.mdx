@@ -14,43 +14,79 @@ specific vals.
 ## Val Town Authentication
 
 Keep your Val Town API token extremely guarded because it conveys access to your
-entire account and all of its secrets. Never expose this token on the client.
+entire account and all of its environment variables. Never expose this token on the client.
 
-Val Town’s API uses Bearer Authentication, which means you pass an HTTP Header
+Val Town's API uses Bearer Authentication, which means you pass an HTTP Header
 `Authorization: Bearer <token>`.
 
-If you don’t pass an authentication token, your code will be run as an anonymous
+If you don't pass an authentication token, your code will be run as an anonymous
 user and only have access to public vals. For example, unauthenticated access to
 a private val will fail:
 
-<Val url="https://www.val.town/embed/stevekrouse.privateAPIUnauthenticated" />
+```ts val
+import { fetch } from "https://esm.town/v/std/fetch";
+
+export const privateAPIUnauthenticated = (
+  await fetch("https://api.val.town/v1/run/stevekrouse.example3")
+).status;
+```
 
 Authenticated use will have read access to the authenticated user's private vals
 and secrets, write access to the authenticated user's vals, and the ability to
-send the authenticated user emails via **`console.email`**.
+send the authenticated user emails via `console.email`.
 
-<Val url="https://www.val.town/embed/stevekrouse.privateAPIAuthenticated" />
+```ts val
+import process from "node:process";
+import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
+
+export const privateAPIAuthenticated = fetchJSON(
+  "https://api.val.town/v1/run/stevekrouse.example3",
+  {
+    method: "GET",
+    headers: { Authorization: "Bearer " + process.env.valtown },
+  }
+);
+```
 
 You can access your
 [Val Town API tokens here](https://www.val.town/settings/api).
 
 If you want to experiment with calling the Val Town API from within Val Town (as
 is shown above), you should copy-and-paste one of your Val Town API tokens into
-[your secrets](https://www.val.town/settings/secrets).
+[your environment variables](https://www.val.town/settings/environment-variables).
 
 ## Custom Authentication
 
 You can roll arbitrary authentication schemes in user space. For example, I find
 it useful to simply supply a custom `auth` header from my Clerk webhooks that I
-check like a password against a value I store in my secrets:
+check like a password against a value I store in my environment variables:
 
-<Val url="https://www.val.town/embed/stevekrouse.handleDiscordNewUser" />
+```ts val
+import { discordWebhook } from "https://esm.town/v/stevekrouse/discordWebhook";
+import process from "node:process";
 
-I call this value `clerkNonSensitive` because this value doesn’t protect any
+// # New Val Town User (on Clerk) -> Val Town Discord notification
+// Translates one kind of webhook (Clerk) into another (Discord)
+export async function handleDiscordNewUser(req: express.Request, res) {
+  // check custom auth secret sent from clerk
+  if (req.get("auth") !== process.env.clerkNonSensitive)
+    return res.end("Unauthorized");
+  await discordWebhook({
+    url: process.env.discordUserEvents,
+    content:
+      req.body.data.email_addresses[0].email_address +
+      " " +
+      req.body.data.profile_image_url,
+  });
+  res.end("Success");
+}
+```
+
+I call this value `clerkNonSensitive` because this value doesn't protect any
 data. It merely makes it impossible for anyone to trigger this public API
 endpoint without the password. The worst that could happen if this password
 leaks is that our team temporarily gets spam discord messages. Then I could just
-change the password to a new value. For more sensitive use-cases, you’ll want to
+change the password to a new value. For more sensitive use-cases, you'll want to
 sign & possibly encrypt the conveyed data using standard authentication methods.
 
 ## Hiding Code
@@ -59,6 +95,10 @@ You can hide the code of a public API by wrapping a private Val in a public val.
 Below I show `hiddenAPI` which you can see and
 [call via API](https://api.val.town/v1/run/stevekrouse.hiddenAPI?args=[%22hi%22]),
 but you notice that it calls `@stevekrouse.hiddenAPIInternal` which is private
-and can’t be inspected.
+and can't be inspected.
 
-<Val url="https://www.val.town/embed/stevekrouse.hiddenAPI" />
+```ts val
+import { hiddenAPIInternal } from "https://esm.town/v/stevekrouse/hiddenAPIInternal";
+
+export let hiddenAPI = (...args) => hiddenAPIInternal(...args);
+```
