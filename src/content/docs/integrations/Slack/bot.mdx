@@ -8,9 +8,9 @@ import Val from "@components/Val.astro";
 
 You can build a Slack bot using vals.
 
-Vals can receive events from Slack’s
+Vals can receive events from Slack's
 [Events API](https://api.slack.com/apis/connections/events-api) via the Express
-API. In this guide, you’ll build a bot that replies whenever it’s mentioned.
+API. In this guide, you'll build a bot that replies whenever it's mentioned.
 
 ![Screenshot 2023-06-28 at 09.21.24.png](./a-slack-bot-that-replies-to-mentions/screenshot_2023-06-28_at_092124.png)
 
@@ -23,21 +23,21 @@ workspace.
 
 ![Screenshot 2023-06-27 at 07.05.40.png](./send-messages-to-slack/screenshot_2023-06-27_at_070540.png)
 
-## 2. Save your app’s verification token
+## 2. Save your app's verification token
 
 When your handler val receives requests, you can verify that they were sent by
 Slack by looking for the verification token.
 
-To find your app’s verification token, go to **Settings** → **Basic
+To find your app's verification token, go to **Settings** → **Basic
 Information** in the side bar. Scroll down to **App Credentials**.
 
 ![Screenshot 2023-06-27 at 13.29.51.png](./a-slack-bot-that-replies-to-mentions/screenshot_2023-06-27_at_132951.png)
 
 Save the **Verification Token** as a
-[Val Town secret](https://www.val.town/settings/secrets) as
+[Val Town environment variable](https://www.val.town/settings/environment-variables) as
 `slackVerificationToken`.
 
-## 3. Create a val that will respond to the challenge and reply when it’s mentioned
+## 3. Create a val that will respond to the challenge and reply when it's mentioned
 
 When you add a **Request URL**, Slack will immediately send a challenge to
 verify the endpoint is correct.
@@ -52,7 +52,7 @@ events.
 On your forked val, copy the Web endpoint via the menu at Endpoints > Copy web
 endpoint.
 
-Back on Slack, navigate to the **Event Subscription** page. It’s under
+Back on Slack, navigate to the **Event Subscription** page. It's under
 **Features** in the side bar.
 
 Toggle on **Enable Events**, and paste your endpoint in the **Request URL**
@@ -76,7 +76,7 @@ events** section, and subscribe to the
 In **Features** → **OAuth & Permissions**, scroll down to **Scopes** and enable
 the scopes you need.
 
-So the bot can reply when it’s mentioned, add `app_mentions:read` and
+So the bot can reply when it's mentioned, add `app_mentions:read` and
 `chat:write`.
 
 ![Screenshot 2023-06-27 at 21.51.05.png](./a-slack-bot-that-replies-to-mentions/screenshot_2023-06-27_at_215105.png)
@@ -87,17 +87,17 @@ In **Settings** → **Install App**, install the app to your workspace.
 
 ![Screenshot 2023-06-27 at 21.38.57.png](./a-slack-bot-that-replies-to-mentions/screenshot_2023-06-27_at_213857.png)
 
-## 7. Get your app’s OAuth token
+## 7. Get your app's OAuth token
 
 In **Features** → **OAuth & Permissions**, copy the **Bot User OAuth Token**,
-and save it as a [Val Town secret](https://www.val.town/settings/secrets) as
+and save it as a [Val Town environment variable](https://www.val.town/settings/environment-variables) as
 `slackToken`.
 
 ![Screenshot 2023-06-27 at 22.08.15.png](./a-slack-bot-that-replies-to-mentions/screenshot_2023-06-27_at_220815.png)
 
 ## 7. Add your bot to the relevant Slack channel
 
-The bot will receive an event when it’s mentioned in a channel that it’s been
+The bot will receive an event when it's mentioned in a channel that it's been
 invited to.
 
 Invite the bot to your channel.
@@ -110,5 +110,5 @@ will reply to the message!
 
 ![Screenshot 2023-06-28 at 09.21.24.png](./a-slack-bot-that-replies-to-mentions/screenshot_2023-06-28_at_092124-1.png)
 
-Vals not behaving like you’d expect? Get help on the
+Vals not behaving like you'd expect? Get help on the
 [Val Town Discord](https://discord.gg/dHv45uN5RY).

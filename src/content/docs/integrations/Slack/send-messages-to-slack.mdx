@@ -5,11 +5,9 @@ description: |
   Create a bot that sends new messages into a Slack channel.
 ---
 
-import Val from "@components/Val.astro";
-
 You can send messages to Slack from vals.
 
-In this guide you’ll create an incoming webhook for your Slack workspace, and
+In this guide you'll create an incoming webhook for your Slack workspace, and
 send a request to it with a message payload.
 
 ![Screenshot 2023-06-27 at 07.09.52.png](./send-messages-to-slack/screenshot_2023-06-27_at_070952.png)
@@ -45,13 +43,13 @@ Select the channel which the webhook will send messages to.
 
 ## Save the webhook address as a secret
 
-You’ll be taken back to the **Incoming Webhooks** page (if not, you can find
+You'll be taken back to the **Incoming Webhooks** page (if not, you can find
 it via the side bar).
 
 ![Screenshot 2023-06-26 at 21.33.04.png](./send-messages-to-slack/screenshot_2023-06-26_at_213304.png)
 
 Copy the **Webhook URL** for the webhook you just created and save it as a
-[Val Town secret](https://www.val.town/settings/secrets) as `slackWebhookURL`.
+[Val Town environment variable](https://www.val.town/settings/environment-variables) as `slackWebhookURL`.
 
 ## Use [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) to send a message
 
@@ -59,7 +57,20 @@ Translate the sample cURL request to a
 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) request. You
 can copy and paste the following val.
 
-<Val url="https://www.val.town/embed/vtdocs.slackWebHookMessageExample" />
+```ts val
+import { fetch } from "https://esm.town/v/std/fetch";
+import process from "node:process";
+
+export const slackWebHookMessageExample = (async () => {
+  const res = await fetch(process.env.slackWebhookURL, {
+    method: "POST",
+    body: JSON.stringify({
+      text: `Hello, ~World~ from Val Town!`,
+    }),
+  });
+  return res.statusText;
+})();
+```
 
 If it worked, you will get a message in the channel you configured earlier!
 

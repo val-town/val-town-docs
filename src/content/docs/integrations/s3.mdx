@@ -10,7 +10,7 @@ import Val from "@components/Val.astro";
 
 You can upload and download from AWS S3 inside val functions.
 
-In this guide, you’ll create an AWS bucket, an IAM user, and then test your set
+In this guide, you'll create an AWS bucket, an IAM user, and then test your set
 up is correct by uploading and downloading a small text file.
 
 ## Create an S3 bucket
@@ -24,8 +24,8 @@ everything else).
 ![Screenshot 2023-06-28 at 13.43.58.png](./upload-and-download-from-aws-s3/screenshot_2023-06-28_at_134358.png)
 
 Save the **Bucket name** and your AWS region as
-[Val Town secrets](https://www.val.town/settings/secrets) as `awsS3Bucket` and
-`awsS3Region` respectively. Although these values aren’t _secrets_, doing this
+[Val Town environment variables](https://www.val.town/settings/environment-variables) as `awsS3Bucket` and
+`awsS3Region` respectively. Although these values aren't _secrets_, doing this
 means you can copy and paste the val examples in this guide without making any
 code changes.
 
@@ -51,8 +51,8 @@ Give this user `AmazonS3FullAccess` by searching and selecting the checkbox
 under **Permissions policies**.
 
 (This allows this user the highest level of S3 permissions across all of the
-buckets for the AWS account you’re logged into. Consider setting up granular
-permissions with AWS’s
+buckets for the AWS account you're logged into. Consider setting up granular
+permissions with AWS's
 [Bucket owner granting its users bucket permissions](https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-walkthroughs-managing-access-example1.html)
 guide.)
 
@@ -79,7 +79,7 @@ In **Step 2**, give your access keys a helpful **Description tag value**.
 ![Screenshot 2023-06-28 at 15.55.55.png](./upload-and-download-from-aws-s3/screenshot_2023-06-28_at_155555.png)
 
 Finally, copy and save the **Access key** and **Secret access key** as
-[Val Town secrets](https://www.val.town/settings/secrets) as `awsS3Key` and
+[Val Town environment variables](https://www.val.town/settings/environment-variables) as `awsS3Key` and
 `awsS3Secret` respectively.
 
 ![Screenshot 2023-06-28 at 13.57.57.png](./upload-and-download-from-aws-s3/screenshot_2023-06-28_at_135757.png)
@@ -88,7 +88,23 @@ Finally, copy and save the **Access key** and **Secret access key** as
 
 Copy and run the following val in your workspace.
 
-<Val url="https://www.val.town/embed/vtdocs.uploadTextToS3" />
+```ts val
+import process from "node:process";
+
+export const uploadTextToS3 = (async () => {
+  const { S3Client } = await import(
+    "https://deno.land/x/s3_lite_client@0.6.1/mod.ts"
+  );
+  const s3client = new S3Client({
+    endPoint: "s3.amazonaws.com",
+    region: process.env.awsS3Region,
+    bucket: process.env.awsS3Bucket,
+    accessKey: process.env.awsS3Key,
+    secretKey: process.env.awsS3Secret,
+  });
+  return await s3client.putObject("filename.txt", "File contents");
+})();
+```
 
 [putObject](https://deno.land/x/s3_lite_client@0.6.1/mod.ts?s=S3Client&p=prototype.putObject)
 takes any of `ReadableStream<Uint8Array> | Uint8Array | string`.
@@ -97,17 +113,34 @@ takes any of `ReadableStream<Uint8Array> | Uint8Array | string`.
 
 Copy and run the following val in your workspace.
 
-<Val url="https://www.val.town/embed/vtdocs.downloadTextFromS3" />
+```ts val
+import process from "node:process";
+
+export const downloadTextFromS3 = (async () => {
+  const { S3Client } = await import(
+    "https://deno.land/x/s3_lite_client@0.6.1/mod.ts"
+  );
+  const s3client = new S3Client({
+    endPoint: "s3.amazonaws.com",
+    region: process.env.awsS3Region,
+    bucket: process.env.awsS3Bucket,
+    accessKey: process.env.awsS3Key,
+    secretKey: process.env.awsS3Secret,
+  });
+  const res = await s3client.getObject("filename.txt");
+  return await res.text();
+})();
+```
 
 [getObject](https://deno.land/x/s3_lite_client@0.6.1/mod.ts?s=S3Client&p=prototype.getObject)
 returns a standard HTTP **Response** object which you consumed with
-`.text()`, `.json()`, `.body` (ReadableStream), `.arrayBuffer()`, or `.blob()`.
+`.text()`, `.json()`, `.body` (ReadableStream), `.arrayBuffer()`, or `.blob()`.
 
 ## More resources
 
 Documentation for the lite S3 client used in this guide can be found here:
 [https://deno.land/x/s3_lite_client@0.6.1](https://deno.land/x/s3_lite_client@0.6.1/mod.ts?s=S3Client).
-There’s also
-[S3’s documentation](https://docs.aws.amazon.com/s3/index.html?nc2=h_ql_doc_s3).
+There's also
+[S3's documentation](https://docs.aws.amazon.com/s3/index.html?nc2=h_ql_doc_s3).
 
 For all other Val Town help, see [our Discord](https://discord.gg/dHv45uN5RY)!
