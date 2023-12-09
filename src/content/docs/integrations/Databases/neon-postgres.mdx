@@ -33,7 +33,7 @@ Go to [val.town](http://val.town), click on your profile picture and click **Env
 
 ![Untitled](./neon-postgres/env-variables-menu.png)
 
-Click New secret, then set the key to a name you'd like to use to reference the secret and the value to the connection URL you just copied:
+Click **New env variable**, then set the key to a name you'd like to use to reference the environment variable and the value to the connection URL you just copied:
 
 ![Untitled](./neon-postgres/env-variables-new.png)
 
@@ -48,6 +48,6 @@ await client.connect();
 export const testPostgres = await client.queryObject`select CURRENT_TIME;`;
 ```
 
-Note that you might need to change the secret name according to the key you set earlier.
+Note that you might need to change the environment variable name according to the key you set earlier.
 
 While writing your code, remember that you should use prepared statements for any queries containing user data (or any query that has to change with new data) to prevent SQL injection attacks. You can find the 3 ways of going about this at [https://deno-postgres.com/#/?id=prepared-statements-and-query-arguments](https://deno-postgres.com/#/?id=prepared-statements-and-query-arguments).

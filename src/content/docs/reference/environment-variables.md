@@ -1,7 +1,7 @@
 ---
 title: Environment variables
 generated: 1701279907850
-description: Using secrets to set environment variables that vals can securely access
+description: Using environment variables to store secrets that vals can securely access
 ---
 
 The proper place to store secrets, keys, and API tokens is in

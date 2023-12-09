@@ -22,7 +22,7 @@ your bot and obtain a bot token.
 
 ![Screenshot 2023-06-23 at 11.46.35.png](./create-a-telegram-echo-bot/screenshot_2023-06-23_at_114635.png)
 
-### Add the bot token as a secret
+### Add the bot token as an environment variable
 
 Copy the bot token you just received and save it as a Val Town environment variable as
 `telegramBotToken`.
@@ -39,7 +39,7 @@ import { telegramGetMe } from "https://esm.town/v/vtdocs/telegramGetMe";
 export const getMeExample = telegramGetMe(process.env.telegramBotToken);
 ```
 
-### Create a secret so you can verify webhooks
+### Create an environment variable so you can verify webhooks
 
 Generate a random string and save it as a Val Town environment variable as
 `telegramWebhookSecret`.
