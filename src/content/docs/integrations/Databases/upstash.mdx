@@ -29,9 +29,9 @@ Go to [https://console.upstash.com/login](https://console.upstash.com/login)
 
 ## Add REST credentials to Val Town Secrets
 
-1. Go to [val.town/settings/secrets](https://www.val.town/settings/secrets)
+1. Go to [val.town/settings/environment-variables](https://www.val.town/settings/environment-variables)
 2. For `UPSTASH_REDIS_REST_URL` and the `UPSTASH_REDIS_REST_TOKEN` each:
-   1. Click **New secret**.
+   1. Click **New env variable**.
    2. Set the names to `upstashURL` and `upstashToken`, respectively
    3. Copy & paste in the value
    4. Click **Add**
@@ -42,21 +42,45 @@ Upstash:
 
 Val Town:
 
-![Screenshot 2023-06-08 at 14.45.00@2x.png](./upstash/screenshot_2023-06-08_at_1445002x.png)
+![Screenshot of adding a new environment variable to Val Town](./upstash/env-variable-new.png)
 
 ## Set some data
 
 If you set it up correctly, you should be able to copy & paste this Val and have
 it return the same results from your own Upstash database
 
-<Val url="https://www.val.town/embed/stevekrouse.upstashEx" />
+```ts val
+import process from "node:process";
+
+export const upstashEx = (async () => {
+  const { Redis } = await import("npm:@upstash/redis");
+  const redis = new Redis({
+    url: process.env.upstashURL,
+    token: process.env.upstashToken,
+  });
+  console.log(await redis.set("foo", "bar"));
+  console.log(await redis.get("foo"));
+})();
+```
 
 ## Saving JSON
 
 JSON is automatically stringified and parsed so you can set it and get it
 directly. You can store a JSON object of up to 1mb this way with a free acount.
 
-<Val url="https://www.val.town/embed/stevekrouse.upstashJSONEx" />
+```ts val
+import process from "node:process";
+
+export const upstashJSONEx = (async () => {
+  const { Redis } = await import("npm:@upstash/redis");
+  const redis = new Redis({
+    url: process.env.upstashURL,
+    token: process.env.upstashToken,
+  });
+  await redis.set("json-ex-1", { a: { b: "nested json" } });
+  return ((await redis.get("json-ex-1")) as any).a.b;
+})();
+```
 
 ## Further resources
 
