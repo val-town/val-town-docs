@@ -45,6 +45,15 @@ export default defineConfig({
           link: "/",
         },
         {
+          label: "Introduction",
+          items: [
+            {
+              label: "Getting started",
+              link: "introduction/getting-started",
+            },
+          ],
+        },
+        {
           label: "Types of vals",
           items: [
             {
