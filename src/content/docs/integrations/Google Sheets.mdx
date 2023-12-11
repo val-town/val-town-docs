@@ -120,7 +120,7 @@ It requires 4 arguments:
 - The action to perform: This parameter is the part of the URL that comes after `https://sheets.googleapis.com/v4/spreadsheets/{spreadsheetId}/`,
   along with any URL parameters that might be required (often this is `valueInputOption`).
   For example, for [spreadsheets.values.append](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/append),
-  this will be `values/{range}:append?valueInputOption=RAW`, where `{range}` needs to be substituted for a range like `A1:C3`.
+  this will be `values/{range}:append?valueInputOption=RAW`, where `{range}` needs to be substituted for a range like `A1:C3`. You can find a list of available actions in the [Google Sheets API reference](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values).
 - The request body: In the same example as above, the request body could be\
   `{values: [[1, 2, 3]]}`.
   Notice that this is an array of arrays, [in line with the API documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values#ValueRange).
