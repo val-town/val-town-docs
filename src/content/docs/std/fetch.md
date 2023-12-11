@@ -8,7 +8,7 @@ The Val Town standard library contains an alternative version, `std/fetch`, that
 
 ## Usage
 
-After importing `std/fetch`, the fetch method is used with the same signature as the Fetch API.
+After importing `std/fetch`, the fetch method is used with the same signature as the Javascript Fetch API.
 
 ```ts val
 import { fetch } from "https://esm.town/v/std/fetch";
