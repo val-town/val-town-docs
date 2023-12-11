@@ -1,24 +1,23 @@
 ---
 title: Environment variables
 generated: 1701279907850
-description: Using secrets to set environment variables that vals can securely access
+description: Using environment variables to store secrets that vals can securely access
 ---
 
 The proper place to store secrets, keys, and API tokens is in
-[Secrets](https://val.town/settings/secrets). When you add a key and value to
-the list of secrets on that page, it becomes available as an environment
-variable via the `Deno.env` and `process.env` variables.
+[Environment Variables](https://val.town/settings/environment-variables). When you add a key and value to
+the list of environment variables on that page, it becomes available via the `Deno.env` and `process.env` variables.
 
 :::danger
 
 Any public or unlisted code can be run by others via the
 [Run API](/api/run). Be careful about publishing any code that
-references your secrets because it could allow others the ability to use your
-secrets (but not see what they are).
+references your environment variables because it could allow others the ability to use your
+environment variables (but not see what they are).
 
 :::
 
-Secrets can be accessed via `Deno.env` or `process.env`.
+Environment variables can be accessed via `Deno.env` or `process.env`.
 
 ### Deno.env
 
@@ -47,5 +46,4 @@ export let sdk = new SomeSDK(process.env.someSdkSecret);
 
 ### Notes
 
-- **Vals can't set environment variables**: Environment variables are set via the settings page. Trying to update an
-  environment variable, for example by using `Deno.env.set`, is a no-op.
+- **Vals can't set environment variables**: Environment variables are set via the settings page. Trying to update an environment variable, for example by using `Deno.env.set`, is a no-op.

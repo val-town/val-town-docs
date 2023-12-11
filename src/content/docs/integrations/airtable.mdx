@@ -20,7 +20,7 @@ blank table.
 
 ![Untitled](./airtable/untitled-1.png)
 
-Adjust the table fields as you want (note that this isn’t covered by this
+Adjust the table fields as you want (note that this isn't covered by this
 guide).
 
 Click on your profile icon, then on Developer hub:
@@ -34,11 +34,11 @@ Click Create new token.
 Fill out the fields:
 
 - Name: Any. For example, `valtown`.
-- Scopes: You’ll most likely want to add `data.records:read` and
+- Scopes: You'll most likely want to add `data.records:read` and
   `data.records:write`.
 - Access: Add the base you created earlier.
 
-Lastly, click Create token. Here’s an example of how your settings could
+Lastly, click Create token. Here's an example of how your settings could
 probably look like:
 
 ![Untitled](./airtable/untitled-4.png)
@@ -47,23 +47,39 @@ Copy your token and click Done.
 
 ![Untitled](./airtable/untitled-5.png)
 
-Go to [val.town](http://val.town), click on your username and then on Secrets:
+Go to [val.town](http://val.town), click on your username and then on **Env Variables**:
 
-![Untitled](./airtable/untitled-6.png)
+![Untitled](./airtable/env-variables-menu.png)
 
-Click New secret. Set the key to a name you want to use to reference the token
+Click **New env variable**. Set the key to a name you want to use to reference the token
 (for example, `airtable_pat`) and paste the copied personal access token into
-the value, then click Add.
+the value, then click **Add**.
 
-![Untitled](./airtable/untitled-7.png)
+![Untitled](./airtable/env-variables-new.png)
 
 You can then use Airtable from [val.town](http://val.town) like so:
 
-<Val url="https://www.val.town/embed/mattx.airtable_deno_sample" />
+```ts val
+import process from "node:process";
+
+export const airtable_deno_sample = (async () => {
+  const { Airtable } = await import(
+    "https://deno.land/x/airtable@v1.1.1/mod.ts"
+  );
+  const airtable = new Airtable({
+    apiKey: process.env.airtable_pat,
+    baseId: "appXSrKDlwbAijRmD",
+    tableName: "All content",
+  });
+  // Sample data from: https://blog.airtable.com/database-vs-spreadsheet/
+  const results = await airtable.select();
+  return results;
+})();
+```
 
 Make sure to change:
 
-- apiKey if you have used a different name for your secret.
+- apiKey if you have used a different name for your environment variable.
 - baseId to the ID of your base. You can find it in the URL bar while a table is
   open and it will likely start with `app`:
 
