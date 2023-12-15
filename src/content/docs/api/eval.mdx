@@ -5,15 +5,13 @@ description: |
 generated: 1701279907968
 ---
 
-import Val from "@components/Val.astro";
-
 The Eval API lets you run arbitrary JavaScript/TypeScript, with full access to
 the Val Town runtime.
 
-Vals created via this API will *not* appear in the authenticated user's
+Vals created via this API will *not* appear in the authenticated user's
 workspace but they will be created and can be accessed (and moved into the
 user's workspace) via their direct link on the
-frontend: **`https://val.town/v/{handle}.{val}`**.
+frontend: **`https://val.town/v/{handle}.{val}`**.
 
 ## GET `/v1/eval/{expression}`
 
@@ -35,8 +33,28 @@ You can even call vals:
 
 Pass the `code` expression to be evaluated via a JSON-encoded body, like so:
 
-<Val url="https://www.val.town/embed/stevekrouse.evalPost1" />
+```ts val
+import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
+
+export let evalPost1 = fetchJSON(
+  "https://api.val.town/v1/eval",
+  {
+    method: "POST",
+    body: JSON.stringify({ code: "1+1" }),
+  },
+);
+```
 
 You can also pass arguments if the `code` parameter represents a function:
 
-<Val url="https://www.val.town/embed/stevekrouse.evalPost2" />
+```ts val
+import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
+
+export let evalPost2 = fetchJSON(
+  "https://api.val.town/v1/eval",
+  {
+    method: "POST",
+    body: JSON.stringify({ code: "(a,b) => a+b", args: [1, 2] }),
+  },
+);
+```

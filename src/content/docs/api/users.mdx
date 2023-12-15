@@ -5,12 +5,22 @@ description: |
   An API that lets you retrieve basic information about a user on Val Town
 ---
 
-import Val from "@components/Val.astro";
-
 ## GET `/v1/users/{user_id}`
 
-<Val url="https://www.val.town/embed/neverstew.userExample" />
+```ts val
+import { user } from "https://esm.town/v/neverstew/user";
+
+export const userExample = user({
+  id: "a0bf3b31-15a5-4d5c-880e-4b1e22c9bc18",
+});
+```
 
 ## GET `/v1/users/{user_id}/vals`
 
-<Val url="https://www.val.town/embed/neverstew.userValsExample" />
+```ts val
+import { userVals } from "https://esm.town/v/neverstew/userVals";
+
+export const userValsExample = userVals({
+  id: "a0bf3b31-15a5-4d5c-880e-4b1e22c9bc18",
+});
+```
