@@ -5,8 +5,6 @@ description: |
   An API that helps you map from usernames and handles to identifiers.
 ---
 
-import Val from "@components/Val.astro";
-
 :::note
 
 💡 These endpoints accept a `token` parameter for private vals
@@ -15,8 +13,23 @@ import Val from "@components/Val.astro";
 
 ## GET `/v1/alias/{username}`
 
-<Val url="https://www.val.town/embed/neverstew.aliasExample" />
+```ts val
+import { alias } from "https://esm.town/v/neverstew/alias";
+
+export let aliasExample = alias({
+  username: "stevekrouse",
+});
+```
 
 ## GET `/v1/alias/{username}/{handle}`
 
-<Val url="https://www.val.town/embed/neverstew.aliasValExample" />
+```ts val
+import { alias } from "https://esm.town/v/neverstew/alias";
+
+export const aliasValExample = alias({
+  username: "stevekrouse",
+  valName: "parentReference",
+  // for private vals, pass your val town api token
+  // token: @me.secrets.valtownToken,
+});
+```
