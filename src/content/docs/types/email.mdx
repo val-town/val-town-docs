@@ -5,8 +5,6 @@ sidebar:
   order: 4
 ---
 
-import Val from "@components/Val.astro";
-
 Email handler vals get their own email address that you can send email
 to, and when Val Town receives that email, it triggers the val with the email
 as its first argument. Ever wanted a robot that you could forward emails to,
@@ -19,8 +17,7 @@ Email handlers receive an argument called `Email` and can do anything with it:
 they can go on to reply to the email with the [standard library](/std/email),
 or call methods in response to it.
 
-```tsx val
-// email-example.tsx
+```ts val
 export function emailHandler(email: Email) {
   console.log("Email received!");
 }
@@ -40,17 +37,37 @@ interface Email {
 
 ## Example
 
-<Val url="https://www.val.town/embed/stevekrouse.testEmail2" />
+```ts title="@user/testEmail" val
+import { blob } from "https://esm.town/v/std/blob";
+import { email } from "https://esm.town/v/std/email";
 
-The email address for
-[@stevekrouse.testEmail2](https://www.val.town/v/stevekrouse.testEmail) is
-`steverkouse.testEmail2@valtown.email`. Note that the username does not contain
+export async function testEmail2(e: {
+  from: string;
+  to: string[];
+  subject: string;
+  text: string;
+  html: string;
+}) {
+  const testEmails = await blob.getJSON("testEmails") as [];
+  await blob.setJSON("testEmails", [...testEmails, {
+    ...e,
+    from: "~redacted~",
+  }]);
+  return email({
+    text: JSON.stringify(e),
+    subject: "Emailed received at @stevekrouse.testEmail2!",
+  });
+}
+```
+
+The email address for [@user.testEmail](https://www.val.town/v/user.testEmail) is `user.testEmail@valtown.email`. Note that the username does not contain
 a leading `@` and that the email domain is `valtown.email`.
 
-You can view all the emails sent to this function here:
+You can view all the emails sent to your function with the followin val:
 
-<Val url="https://www.val.town/embed/stevekrouse.testEmails" />
+```ts val
+import { blob } from "https://esm.town/v/std/blob";
 
-Test it out yourself by sending an email to
-`steverkouse.testEmail2@valtown.email` and your email should show up in this
-list above.
+const testEmails = await blob.getJSON("testEmails") as [];
+console.log("Received emails:\n", testEmails ?? []);
+```

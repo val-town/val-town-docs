@@ -54,7 +54,6 @@ about the interval. For example, you can get the most recent time the interval
 was run to filter out data that was already seen:
 
 ```ts val
-// schedule-example.ts
 export const scheduleExampleTwo = async (interval: Interval) => {
   const { default: RssParser } = await import("npm:rss-parser");
   const parser = new RssParser();

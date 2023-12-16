@@ -9,7 +9,7 @@ You can insert and fetch data from Val Town from any web page using the [Run](/a
 
 ## 1. Create a val to store some state
 
-Fork, or copy and paste this val into your workspace – keep it named as `comments` so the snippets in this guide work correctly.
+Fork, or copy and paste this val into your workspace - keep it named as `comments` so the snippets in this guide work correctly.
 
 <Val url="https://www.val.town/embed/vtdocs.comments" />
 
@@ -17,7 +17,7 @@ Fork, or copy and paste this val into your workspace – keep it named as `comme
 
 Fork, or copy and paste the below val into your workspace.
 
-When it’s set to public, anyone can send an API request to it, and the data they send will be appended to the `comments` val you created in the previous step.
+When it's set to public, anyone can send an API request to it, and the data they send will be appended to the `comments` val you created in the previous step.
 
 <Val url="https://www.val.town/embed/vtdocs.appendToComments" />
 
@@ -57,7 +57,7 @@ fetch("https://api.val.town/v1/run/vtdocs.comments")
   .then((json) => console.log(json.data));
 ```
 
-When the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) doesn’t include a method, it sends a GET request.
+When the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) doesn't include a method, it sends a GET request.
 
 ## 5. Indirectly read from `comments`
 
@@ -65,14 +65,14 @@ Maybe you want to hide some of your data. You can keep `comments` private and ju
 
 <Val url="https://www.val.town/embed/vtdocs.getFirstComment" />
 
-Go ahead and test this by calling this one in your browser’s developer console with this snippet.
+Go ahead and test this by calling this one in your browser's developer console with this snippet.
 
 ```jsx
 const r = await fetch("https://api.val.town/v1/run/vtdocs.getFirstComment");
 console.log(await r.json());
 ```
 
-If the val is a function, it’s implicitly called by the Run API.
+If the val is a function, it's implicitly called by the Run API.
 
 ## 6. Use anything that supports HTTP!
 
