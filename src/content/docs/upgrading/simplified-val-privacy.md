@@ -21,8 +21,8 @@ the UI. We sent personalized emails to any users affected by this change.
 
 ### The Fix
 
-1. Val privacy status is now controlled entirely in the UI (click the 🔒 or
-   🌐 icon)
+1. Val privacy status is now controlled entirely in the UI (click the 🔒 or
+   🌐 icon)
 2. A Val is public or private: all versions of the val have the same privacy
    setting.
 
