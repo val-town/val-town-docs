@@ -40,10 +40,8 @@ Click **New env variable**, then set the key to a name you'd like to use to refe
 You can then use deno-postgres to connect to the database like so:
 
 ```ts val
-import process from "node:process";
-
 const postgres = await import("https://deno.land/x/postgres/mod.ts");
-const client = new postgres.Client(process.env.neon);
+const client = new postgres.Client(Deno.env.get("neon_url"));
 await client.connect();
 export const testPostgres = await client.queryObject`select CURRENT_TIME;`;
 ```
