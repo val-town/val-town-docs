@@ -3,8 +3,6 @@ title: Google Sheets
 description: Using the Google Sheets API, you can add rows to a spreadsheet with Val Town.
 ---
 
-import Val from "@components/Val.astro";
-
 You can send data to Google Sheets from a val. You can collect
 data from incoming HTTP requests or from a HTTP endpoint on a schedule.
 
@@ -127,6 +125,27 @@ It requires 4 arguments:
 
 Here is an example of what the above looks like when put together:
 
-<Val url="https://www.val.town/embed/mattx/gsheet_example" />
+```ts val
+import { gsheet_call } from "https://esm.town/v/mattx/gsheet_call";
+
+// Appending to a sheet
+await gsheet_call(
+  Deno.env.get("google_sa"),
+  "1LDgOhO6Fxg2wt5rGFH29t6XYbmKe6fXI7fLSFaqZkDA",
+  "POST",
+  "values/A1:C1:append?valueInputOption=RAW",
+  { values: [[Date(), Math.random(), 1]] },
+);
+
+// Reading from the top of the sheet
+const data = await gsheet_call(
+  Deno.env.get("google_sa"),
+  "1LDgOhO6Fxg2wt5rGFH29t6XYbmKe6fXI7fLSFaqZkDA",
+  "GET",
+  "values/A1:C1?majorDimension=ROWS",
+  {},
+);
+export const gsheet_append_example = data["values"][0];
+```
 
 ![Sheet output example](./Google-Sheets/sheet_output.png)

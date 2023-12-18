@@ -58,18 +58,13 @@ Translate the sample cURL request to a
 can copy and paste the following val.
 
 ```ts val
-import { fetch } from "https://esm.town/v/std/fetch";
-import process from "node:process";
-
-export const slackWebHookMessageExample = (async () => {
-  const res = await fetch(process.env.slackWebhookURL, {
-    method: "POST",
-    body: JSON.stringify({
-      text: `Hello, ~World~ from Val Town!`,
-    }),
-  });
-  return res.statusText;
-})();
+const res = await fetch(Deno.env.get("slackWebhookURL"), {
+  method: "POST",
+  body: JSON.stringify({
+    text: `Hello, ~World~ from Val Town!`,
+  }),
+});
+console.log(res.statusText);
 ```
 
 If it worked, you will get a message in the channel you configured earlier!
