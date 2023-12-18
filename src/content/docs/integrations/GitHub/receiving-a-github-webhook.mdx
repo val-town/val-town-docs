@@ -3,17 +3,25 @@ title: Receiving a GitHub Webhook
 generated: 1701279907831
 ---
 
-import Val from "@components/Val.astro";
-
 GitHub supports sending webhooks for a
 [number of events](https://docs.github.com/en/webhooks-and-events/webhooks/webhook-events-and-payloads).
 In this example, you'll use `console.email` to receive an email when someone
 stars your GitHub repository.
 
 First, create an Web API handler function val to receive star webhooks from
-GitHub, or fork this one:
+GitHub, or use this one:
 
-<Val url="https://www.val.town/embed/neverstew.githubStarWebhook" />
+```ts val
+import { email } from "https://esm.town/v/std/email?v=11";
+
+export const githubStarWebhook = async (req: Request) => {
+  const { action, sender, repository } = await req.json();
+  if (action === "created") {
+    email({ text: `Repository ${repository.full_name} starred by ${sender.login}` });
+  }
+  return new Response("OK", { status: 200 });
+};
+```
 
 Go to the **Webhooks** tab in your GitHub repository's settings.
 
@@ -62,11 +70,42 @@ With your secret, the payload, and the signature header, you can use Octokit's
 [verify](https://github.com/octokit/webhooks.js/#webhooksverify) function to
 confirm that the webhook came from GitHub. Here's a val that does that for you:
 
-<Val url="https://www.val.town/embed/vtdocs.verifyGithubWebhookSignature" />
+```ts title="@vtdocs/verifyGithubWebhookSignature" val
+export const verifyGithubWebhookSignature = async (
+  secret: string,
+  payload: string,
+  signatureHeader: string,
+) => {
+  const { verify } = await import(
+    "https://esm.sh/@octokit/webhooks-methods@3.0.2?pin=v106"
+  );
+  return await verify(secret, payload, signatureHeader) === true;
+};
+```
 
 It can be integrated into the original example like this:
 
-<Val url="https://www.val.town/embed/neverstew.githubWebhookWithVerify" />
+```ts val
+import { email } from "https://esm.town/v/std/email?v=11";
+import { verifyGithubWebhookSignature } from "https://esm.town/v/vtdocs/verifyGithubWebhookSignature?v=2";
+
+export const githubWebhookWithVerify = async (req: Request) => {
+  const payload = await req.json();
+  const verified = await verifyGithubWebhookSignature(
+    Deno.env.get("githubWebhookToken"),
+    JSON.stringify(payload),
+    req.headers.get("X-Hub-Signature-256"),
+  );
+  if (!verified) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+  const { action, sender, repository } = payload;
+  if (action === "created") {
+    email({ text: `Repository ${repository.full_name} starred by ${sender.login}` });
+  }
+  return new Response("OK", { status: 200 });
+};
+```
 
 With your webhook pointing to the new example, your val now refuses payload that
 don't come from GitHub!

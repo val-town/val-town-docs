@@ -3,8 +3,6 @@ title: Get a Github user
 generated: 1701279907762
 ---
 
-import Val from "@components/Val.astro";
-
 For example, we can get a user without passing an authentication token.
 
 ![GitHub API endpoints have a cURL command that you can manually translate into a fetchJSON call (e.g. see Get a user). ](./get-a-github-user/screenshot_2023-06-13_at_003949.png)
@@ -13,12 +11,37 @@ GitHub API endpoints have a cURL command that you can manually translate into a 
 
 Here's a Val that returns a GitHub user object for a given username:
 
-<Val url="https://www.val.town/embed/vtdocs.getGithubUser" />
+```ts title="@vtdocs/getGithubUser" val
+import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON?v=41";
 
-You can fork it and alter it, or just call it directly like this:
+export const getGithubUser = async (username: string) => {
+  const user = await fetchJSON(
+    `https://api.github.com/users/${username}`,
+  );
+  return user;
+};
+```
 
-<Val url="https://www.val.town/embed/vtdocs.getSteve" />
+You can alter it, or just call it directly like this:
+
+```ts val
+import { getGithubUser } from "https://esm.town/v/vtdocs/getGithubUser";
+
+export const getSteve = getGithubUser("stevekrouse");
+```
 
 You can also do this with [octokit.js](https://github.com/octokit/octokit.js). Reminder: import npm packages by prepending the package name with `npm:`.
 
-<Val url="https://www.val.town/embed/vtdocs.getGithubUserViaOctokit" />
+```ts title="@vtdocs/getGithubUserViaOctokit" val
+export const getGithubUserViaOctokit = async (username: string) => {
+  const { Octokit } = await import("npm:@octokit/core");
+  const octokit = new Octokit();
+  const user = await octokit.request("GET /users/{username}", {
+    username,
+    headers: {
+      "X-GitHub-Api-Version": "2022-11-28",
+    },
+  });
+  return user;
+};
+```
