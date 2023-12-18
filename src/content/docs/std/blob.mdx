@@ -26,6 +26,14 @@ These functions are the ones most commonly used for storing JSON data, including
 
 - `async list(prefix?: string)`: List your blob keys. optionally provide a prefix to filter the query.
 
+### Copy key
+
+- `async copy(previous: string, next: string)`: Copy a blob from one key to another.
+
+### Move key
+
+- `async move(previous: string, next: string)`: Move a blob from one key to another.
+
 ### Delete keys
 
 - `async delete(key: string)`: Delete the specified key.
