@@ -3,8 +3,6 @@ title: Permissions
 description: Vals can be private, unlisted, or public
 ---
 
-import Val from "@components/Val.astro";
-
 There are three privacy states for a Val:
 
 1. 🌎 Public (anyone can view or run)
@@ -42,15 +40,61 @@ endpoints check for some kind of secret that only you know.
 Here's an example of a val exposed using the [HTTP Val](/types/http), secured
 with an environment variable that only I know.
 
-<Val url="https://www.val.town/embed/neverstew.secretEndpoint" />
+```ts title="@user/secretEndpoint" val
+export const secretEndpoint = (req: Request) => {
+  const secretHeader = req.headers.get("Authorization");
+  if (secretHeader !== Deno.env.get("supersecrettoken"))
+    return new Response("Unauthorized", { status: 401 });
+  return new Response("My deepest darkest secret");
+};
+```
 
 If I called it without supplying the environment variable, I'll be denied access:
 
-<Val url="https://www.val.town/embed/neverstew.secretEndpointFailure" />
+```ts val
+import { fetch } from "https://esm.town/v/std/fetch";
+
+const response = await fetch("https://user-secretEndpoint.web.val.run");
+console.log(response);
+```
+
+```js title="Logs"
+Response {
+  body: ReadableStream { locked: false },
+  bodyUsed: false,
+  headers: Headers { /* omitted */ },
+  ok: false,
+  redirected: false,
+  status: 401,
+  statusText: "Unauthorized",
+  url: "http://localhost:3001/v1/fetch?url=https%3A%2F%2Fuser-secretEndpoint.web.val.run"
+}
+```
 
 By supplying the environment variable in a header, I'm allowed access:
 
-<Val url="https://www.val.town/embed/neverstew.secretEndpointSuccess" />
+```ts val
+import { fetch } from "https://esm.town/v/std/fetch";
+
+const response = await fetch(
+  "https://user-secretEndpoint.web.val.run",
+  { headers: { Authorization: "birdsarentreal" } },
+);
+console.log(response);
+```
+
+```js title="Logs"
+Response {
+  body: ReadableStream { locked: false },
+  bodyUsed: false,
+  headers: Headers { /* omitted */ },
+  ok: true,
+  redirected: false,
+  status: 200,
+  statusText: "OK",
+  url: "http://localhost:3001/v1/fetch?url=https%3A%2F%2Fuser-secretEndpoint.web.val.run"
+}
+```
 
 The rest of this article will focus on various common combinations of public and
 private vals that you're likely to come across and how those interact with the
@@ -65,9 +109,16 @@ way — others can see that they're being used, but not their values.
 For example, I created a private val, `example3`. You won't be able to see or
 reference `example3` but I can use it in `example4` which is public.
 
-<Val url="https://www.val.town/embed/stevekrouse.example4" />
+```ts title="@user/example4"
+import { example3 } from "https://esm.town/v/user/example3";
+console.log("Hi,", example3);
+```
 
-You can _infer_ that the value of `example3` is `"Stevie"` because of
+```txt title="Logs"
+Hi, User
+```
+
+You can _infer_ that the value of `example3` is `"User"` because of
 how it's used here. This is why you have to be careful about publishing vals
 that reference private data. Typically you will reference private data in a way
 that makes it impossible for others to infer what it is, like you would with an
@@ -76,7 +127,19 @@ Redis store. You can see that I'm using these environment variables and the outp
 computation, but you can't get those values, nor can you rerun this script with
 my environment variables.
 
-<Val url="https://www.val.town/embed/stevekrouse.upstashJSONEx" />
+```ts val
+const { Redis } = await import("npm:@upstash/redis");
+const redis = new Redis({
+  url: Deno.env.get("upstashURL"),
+  token: Deno.env.get("upstashToken"),
+});
+await redis.set("json-ex-1", { a: { b: "nested json" } });
+return ((await redis.get("json-ex-1")) as any).a.b;
+```
+
+```ts title="Output"
+nested json
+```
 
 ## Using another's vals as a library
 

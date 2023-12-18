@@ -3,8 +3,6 @@ title: Web scraping
 generated: 1701279907934
 ---
 
-import Val from "@components/Val.astro";
-
 You can use vals to scrape websites.
 
 Either by fetching HTML and using a parsing library, or by making an API call to
@@ -49,4 +47,20 @@ structure. We also recommend
 [node-html-parser](https://www.val.town/examples/packages/node-html-parser) and
 [linkedom](https://www.val.town/search?q=linkedom).
 
-<Val url="https://www.val.town/embed/vtdocs.webscrapeWikipediaIntro" />
+```ts val
+import { fetchText } from "https://esm.town/v/stevekrouse/fetchText?v=6";
+import { load } from "npm:cheerio";
+
+const html = await fetchText(
+  "https://en.wikipedia.org/wiki/OpenAI",
+);
+const $ = load(html);
+// Cheerio accepts a CSS selector, here we pick the second <p>
+const intro = $("p:nth-of-type(2)").first().text();
+console.log(intro);
+```
+
+```txt title="Logs"
+OpenAI is an American artificial intelligence (AI) research organization consisting of the non-profit OpenAI, Inc.[5] registered in Delaware and its for-profit subsidiary OpenAI Global, LLC.[6] One of the leading organizations of the AI Spring,[7][8][9] OpenAI researches artificial intelligence with the declared intention of developing "safe and beneficial" artificial general intelligence, which it defines as "highly autonomous systems that outperform humans at most economically valuable work".[10] OpenAI has developed several large language models, advanced image generation models, and previously, also open-source models.[11][12]
+```
+

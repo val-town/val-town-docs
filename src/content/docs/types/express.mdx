@@ -11,8 +11,6 @@ sidebar:
     variant: caution
 ---
 
-import Val from "@components/Val.astro";
-
 :::note
 
 New vals [should use the Web API instead](/types/http), which supports a wider
@@ -58,9 +56,23 @@ methods: `method` `query` `body` `baseUrl` `params` `secure` `subdomains`
 The Express API can be called via GET or POST. You can access the JSON-parsed
 POST request body via `req.body`:
 
-<Val url="https://www.val.town/embed/stevekrouse.postWebhook1" />
+```ts val
+export let postWebhook1 = (req: express.Request, res: express.Response) => {
+  res.json({ data: `Hello + ${req.body.name}!` });
+};
+```
 
-<Val url="https://www.val.town/embed/stevekrouse.postWebhookTest1" />
+```ts val
+import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
+
+export let postWebhookTest1 = fetchJSON(
+  "https://stevekrouse-postWebhook1.express.val.run",
+  {
+    method: "POST",
+    body: JSON.stringify({ name: "Steve" }),
+  },
+);
+```
 
 Check out the [ExpressJS docs](http://expressjs.com/) to figure out how to use
 the `req` and `res` objects or add `express.Request` and `express.Rsponse` types
@@ -74,4 +86,10 @@ Like any Express server, you can respond with
 [custom headers](https://expressjs.com/en/api.html#res.set), and custom status
 codes.
 
-<Val url="https://www.val.town/embed/vtdocs.customStatusCode" />
+```ts val
+// Visit: https://api.val.town/v1/express/vtdocs.customStatusCode
+export const customStatusCode = (req: express.Request, res: express.Response) => {
+  // https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/418
+  res.status(418).send("I'm a teapot");
+};
+```

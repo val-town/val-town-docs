@@ -3,8 +3,6 @@ title: Importing
 description: Import code from vals, NPM, and URLs
 ---
 
-import Val from "@components/Val.astro";
-
 One of the best features of Val Town is the ability to import modules. There are thousands
 of modules written in JavaScript and TypeScript that you can instantly
 import to extend and supercharge your vals.
@@ -78,7 +76,20 @@ It's often not clear how a library will expose its methods. It can be helpful to
 log the keys of whatever object they return to you. That will tell you if you
 need to import it off of default or not, and what is available to you.
 
-<Val url="https://www.val.town/embed/stevekrouse.debugCheerioEx" />
+```ts val
+var cheerio = await import("npm:cheerio");
+console.log(Object.keys(cheerio));
+```
+
+```txt title="Logs"
+[
+  'contains', 'default',
+  'html',     'load',
+  'merge',    'parseHTML',
+  'root',     'text',
+  'xml'
+]
+```
 
 ### Look for Deno compatibility
 
