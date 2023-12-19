@@ -2,11 +2,13 @@
 title: Proxied fetch
 ---
 
-Val Town offers a proxied version of the standard fetch method that uses proxies and retries for more reliability. This is useful for websites that block requests made from data centers or have unreliable uptime. However it is slower than the standard `fetch` method. `std/fetch` has the same API as the standard fetch method.
+The Javascript Fetch API is directly available within a Val. However, the requests sent using this API are not proxied or retried. This is problematic in some use cases where requests may be blocked by the receiving server for using particular IP addresses. Additionally, network blips or unreliable web services may lead to failed Vals if not handled properly.
+
+The Val Town standard library contains an alternative version, `std/fetch`, that wraps the Javascript Fetch API to provide additional functionality. The fetch function from `std/fetch` reroutes requests using a proxy vendor so that all requests obtain different IP addresses. It also automatically retries failed requests several times. Note that using `std/fetch` may be slightly slower than directly calling the Javascript Fetch API due to rerouted requests.
 
 ## Usage
 
-You can use `std/fetch` just like the standard `fetch` method.
+After importing `std/fetch`, the fetch method is used with the same signature as the Javascript Fetch API.
 
 ```ts val
 import { fetch } from "https://esm.town/v/std/fetch";
