@@ -2,17 +2,24 @@
 title: Limits
 ---
 
-Val and evaluation fields have a size limit of 100kb for users on the free plan
-and 250kb for Pro subscribers. If your output, logs, errors, code or arguments
-exceed that limit, we’ll truncate the value, and try to keep a valid syntax by
-using [JSON repair](https://www.npmjs.com/package/jsonrepair). Here’s an
-example:
+Currently, vals can return a maximum of 250,000 characters of JSON. This is a limit we're working on increasing.
 
-1. Run val with code `new Array(1_000_000).fill("123")`
-2. Result would be `["123","123", ... ,"123"]`
-3. We truncate it to `["123","123", ... ,"1` (100kb ≈ 102400 characters)
-4. We apply JSON repair `["123","123", ... ,"1"]`
+In the meantime, one workaround is to gzip your data before returning it:
 
-If you need higher limits, reach out and let us know what’s your use-case is!
-And if 250kb is enough for you, please consider
-[subscribing to our Pro plan](https://val.town/pricing).
+```ts val
+import { gzip } from "npm:pako";
+
+export default async function(req: Request): Promise<Response> {
+  const largeData = "hi".repeat(250_000);
+  // return Response.json(largeData); // {"error":"The return is too large to process"}
+
+  return new Response(await gzip(JSON.stringify(largeData)), {
+    headers: {
+      "Content-Encoding": "gzip",
+      "Content-Type": "application/json",
+    },
+  });
+}
+```
+
+Please reach out if you need help with this or need higher limits. We can prioritize getting you access. Email steve@val.town.
