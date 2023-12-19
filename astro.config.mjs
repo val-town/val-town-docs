@@ -113,6 +113,20 @@ export default defineConfig({
       ],
       head: [
         {
+          tag: "meta",
+          attrs: {
+            property: "og:image",
+            content: "/share-image.jpg",
+          },
+        },
+        {
+          tag: "meta",
+          attrs: {
+            property: "twitter:image",
+            content: "/share-image.jpg",
+          },
+        },
+        {
           tag: "script",
           attrs: {
             src: "https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.0/src/lite-yt-embed.min.js",
