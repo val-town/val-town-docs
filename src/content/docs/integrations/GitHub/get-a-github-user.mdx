@@ -33,8 +33,9 @@ export const getSteve = getGithubUser("stevekrouse");
 You can also do this with [octokit.js](https://github.com/octokit/octokit.js). Reminder: import npm packages by prepending the package name with `npm:`.
 
 ```ts title="@vtdocs/getGithubUserViaOctokit" val
+import { Octokit } from "npm:@octokit/core";
+
 export const getGithubUserViaOctokit = async (username: string) => {
-  const { Octokit } = await import("npm:@octokit/core");
   const octokit = new Octokit();
   const user = await octokit.request("GET /users/{username}", {
     username,

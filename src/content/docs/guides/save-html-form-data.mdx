@@ -99,6 +99,7 @@ function responds.
 ```ts title="@user/renderFormAndSaveData" ins={5-27} val
 import { blob } from "https://esm.town/v/std/blob?v=11";
 import { email } from "https://esm.town/v/std/email?v=11";
+import { thisWebURL } from "https://esm.town/v/stevekrouse/thisWebURL?v=2";
 
 export const renderFormAndSaveData = async (req: Request) => {
   // A visit from a web browser? Serve a HTML page with a form
@@ -111,8 +112,7 @@ export const renderFormAndSaveData = async (req: Request) => {
   <title>Email Form</title>
 </head>
 <body>
-  <!-- Change the action here to THIS val's Express endpoint! -->
-  <form action="https://user-renderFormAndSaveData.web.val.run" method="post">
+  <form action="${thisWebURL()}" method="post">
     <label for="email">Email:</label>
     <input type="email" id="email" name="email" required>
     <br>

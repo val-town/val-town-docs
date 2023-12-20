@@ -58,9 +58,8 @@ the value, then click **Add**.
 You can then use Airtable from [val.town](https://val.town) like so:
 
 ```ts val
-const { Airtable } = await import(
-  "https://deno.land/x/airtable@v1.1.1/mod.ts"
-);
+import { Airtable } from "https://deno.land/x/airtable@v1.1.1/mod.ts";
+
 const airtable = new Airtable({
   apiKey: Deno.env.get("airtable_pat"),
   baseId: "appXSrKDlwbAijRmD",
@@ -68,7 +67,7 @@ const airtable = new Airtable({
 });
 // Sample data from: https://blog.airtable.com/database-vs-spreadsheet/
 const results = await airtable.select();
-export const airtable_deno_sample = results;
+console.log(results);
 ```
 
 Make sure to change:

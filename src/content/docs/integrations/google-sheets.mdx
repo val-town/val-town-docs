@@ -145,7 +145,7 @@ const data = await gsheet_call(
   "values/A1:C1?majorDimension=ROWS",
   {},
 );
-export const gsheet_append_example = data["values"][0];
+console.log(data["values"][0]);
 ```
 
 ![Sheet output example](./Google-Sheets/sheet_output.png)

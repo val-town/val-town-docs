@@ -23,10 +23,11 @@ export default app.fetch;
 And one with [Peko](https://peko.deno.dev/):
 
 ```ts val
+import { Peko } from "https://deno.land/x/peko@2.0.0/mod.ts";
+
 export const pekoExample = async (request) => {
-  const Peko = await import("https://deno.land/x/peko@2.0.0/mod.ts");
   const server = new Peko.Router();
-  server.get("/", () => new Response("Yes? There’s something at /hello"));
+  server.get("/", () => new Response("Yes? There's something at /hello"));
   server.get("/hello", () => new Response("Hello world!"));
   return server.requestHandler(request);
 };
@@ -37,8 +38,9 @@ export const pekoExample = async (request) => {
 And [nhttp](https://github.com/nhttp/nhttp):
 
 ```ts val
+import { nhttp } from "npm:nhttp-land@1";
+
 export const nhttpExample = async (request) => {
-  const { nhttp } = await import("npm:nhttp-land@1");
   const app = nhttp();
   app.get("/", () => {
     return "Hello, World";
@@ -56,8 +58,9 @@ A super tiny example with [itty-router](https://itty.dev/itty-router):
 
 
 ```ts val
+import { Router, json } from "npm:itty-router@4";
+
 export const ittyRouterExample = async (request: Request) => {
-  const { Router, json } = await import("npm:itty-router@4");
   const router = Router();
   router.get("/", () => "Hi");
   return router.handle(request).then(json);

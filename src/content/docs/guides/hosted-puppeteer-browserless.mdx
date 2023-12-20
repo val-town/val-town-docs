@@ -23,7 +23,7 @@ Browserless and Val Town to load a webpage.
 
 Copy your API Key from
 [https://cloud.browserless.io/account/](https://cloud.browserless.io/account/)
-and save it as a Val Town environment variable as `browserlessKey`.
+and save it as a Val Town environment variable as `browserless`.
 
 ![Screenshot 2023-06-24 at 22.43.01.png](./hosted-puppeteer-browserless/screenshot_2023-06-24_at_224301.png)
 
@@ -39,7 +39,7 @@ wikipedia page.
 import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON?v=41";
 
 const res = await fetchJSON(
-  `https://chrome.browserless.io/scrape?token=${Deno.env.get("browserlessKey")}`,
+  `https://chrome.browserless.io/scrape?token=${Deno.env.get("browserless")}`,
   {
     method: "POST",
     body: JSON.stringify({
@@ -79,7 +79,7 @@ const puppeteer = new PuppeteerDeno({
   productName: "chrome",
 });
 const browser = await puppeteer.connect({
-  browserWSEndpoint: `wss://chrome.browserless.io?token=${Deno.env.get("browserlessKey")}`,
+  browserWSEndpoint: `wss://chrome.browserless.io?token=${Deno.env.get("browserless")}`,
 });
 const page = await browser.newPage();
 await page.goto("https://en.wikipedia.org/wiki/OpenAI");
