@@ -4,8 +4,6 @@ generated: 1701279907727
 description: You can use Airtable with Val Town to store data or load edited data from other sources
 ---
 
-import Val from "@components/Val.astro";
-
 Airtable is a spreadsheet-database hybrid. Note that because
 [val.town](https://val.town) uses Deno, we use an unofficial library.
 
@@ -60,21 +58,16 @@ the value, then click **Add**.
 You can then use Airtable from [val.town](https://val.town) like so:
 
 ```ts val
-import process from "node:process";
+import { Airtable } from "https://deno.land/x/airtable@v1.1.1/mod.ts";
 
-export const airtable_deno_sample = (async () => {
-  const { Airtable } = await import(
-    "https://deno.land/x/airtable@v1.1.1/mod.ts"
-  );
-  const airtable = new Airtable({
-    apiKey: process.env.airtable_pat,
-    baseId: "appXSrKDlwbAijRmD",
-    tableName: "All content",
-  });
-  // Sample data from: https://blog.airtable.com/database-vs-spreadsheet/
-  const results = await airtable.select();
-  return results;
-})();
+const airtable = new Airtable({
+  apiKey: Deno.env.get("airtable_pat"),
+  baseId: "appXSrKDlwbAijRmD",
+  tableName: "All content",
+});
+// Sample data from: https://blog.airtable.com/database-vs-spreadsheet/
+const results = await airtable.select();
+console.log(results);
 ```
 
 Make sure to change:

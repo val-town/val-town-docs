@@ -2,7 +2,7 @@
 title: Scheduled
 sidebar:
   order: 1
-description: "Schedules let code on Val Town run every day, every hour, or whenever you’d like"
+description: "Schedules let code on Val Town run every day, every hour, or whenever you'd like"
 ---
 
 You can schedule code to run repeatedly on Val Town. Want to check an RSS
@@ -54,7 +54,6 @@ about the interval. For example, you can get the most recent time the interval
 was run to filter out data that was already seen:
 
 ```ts val
-// schedule-example.ts
 export const scheduleExampleTwo = async (interval: Interval) => {
   const { default: RssParser } = await import("npm:rss-parser");
   const parser = new RssParser();

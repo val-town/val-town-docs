@@ -50,17 +50,14 @@ If you set it up correctly, you should be able to copy & paste this Val and have
 it return the same results from your own Upstash database
 
 ```ts val
-import process from "node:process";
+import { Redis } from "npm:@upstash/redis";
 
-export const upstashEx = (async () => {
-  const { Redis } = await import("npm:@upstash/redis");
-  const redis = new Redis({
-    url: process.env.upstashURL,
-    token: process.env.upstashToken,
-  });
-  console.log(await redis.set("foo", "bar"));
-  console.log(await redis.get("foo"));
-})();
+const redis = new Redis({
+  url: Deno.env.get("upstashURL"),
+  token: Deno.env.get("upstashToken"),
+});
+console.log(await redis.set("foo", "bar"));
+console.log(await redis.get("foo"));
 ```
 
 ## Saving JSON
@@ -69,17 +66,14 @@ JSON is automatically stringified and parsed so you can set it and get it
 directly. You can store a JSON object of up to 1mb this way with a free acount.
 
 ```ts val
-import process from "node:process";
+import { Redis } from "npm:@upstash/redis";
 
-export const upstashJSONEx = (async () => {
-  const { Redis } = await import("npm:@upstash/redis");
-  const redis = new Redis({
-    url: process.env.upstashURL,
-    token: process.env.upstashToken,
-  });
-  await redis.set("json-ex-1", { a: { b: "nested json" } });
-  return ((await redis.get("json-ex-1")) as any).a.b;
-})();
+const redis = new Redis({
+  url: Deno.env.get("upstashURL"),
+  token: Deno.env.get("upstashToken"),
+});
+await redis.set("json-ex-1", { a: { b: "nested json" } });
+export const upstashJSON = ((await redis.get("json-ex-1")) as any).a.b;
 ```
 
 ## Further resources

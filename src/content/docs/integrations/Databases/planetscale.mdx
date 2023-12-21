@@ -43,14 +43,13 @@ respectively.
 Copy and paste this val to create a table with the given schema.
 
 ```ts val
-import process from "node:process";
 import { queryPlanetScale } from "https://esm.town/v/vtdocs/queryPlanetScale";
 
 export const planetScaleCreateStockTable = queryPlanetScale(
   {
-    host: process.env.planetScaleHost,
-    username: process.env.planetScaleUsername,
-    password: process.env.planetScalePassword,
+    host: Deno.env.get("planetScaleHost"),
+    username: Deno.env.get("planetScaleUsername"),
+    password: Deno.env.get("planetScalePassword"),
   },
   `CREATE TABLE stock (
   id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -65,14 +64,13 @@ export const planetScaleCreateStockTable = queryPlanetScale(
 Insert one or more items.
 
 ```ts val
-import process from "node:process";
 import { queryPlanetScale } from "https://esm.town/v/vtdocs/queryPlanetScale";
 
 export const planetScaleInsertStockTable = queryPlanetScale(
   {
-    host: process.env.planetScaleHost,
-    username: process.env.planetScaleUsername,
-    password: process.env.planetScalePassword,
+    host: Deno.env.get("planetScaleHost"),
+    username: Deno.env.get("planetScaleUsername"),
+    password: Deno.env.get("planetScalePassword"),
   },
   `INSERT INTO stock (name, price) VALUES (?, ?);`,
   ["banana", 15]
@@ -85,15 +83,14 @@ Use the `rows` property to get your query results - or return the entire
 `results` object to see what other data is available.
 
 ```ts val
-import process from "node:process";
 import { queryPlanetScale } from "https://esm.town/v/vtdocs/queryPlanetScale";
 
 export const planetScaleSelectStockTable = (async () => {
   const results = await queryPlanetScale(
     {
-      host: process.env.planetScaleHost,
-      username: process.env.planetScaleUsername,
-      password: process.env.planetScalePassword,
+      host: Deno.env.get("planetScaleHost"),
+      username: Deno.env.get("planetScaleUsername"),
+      password: Deno.env.get("planetScalePassword"),
     },
     `SELECT id, name, price FROM stock WHERE name=?`,
     ["banana"]

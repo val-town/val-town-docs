@@ -5,8 +5,6 @@ description: |
 generated: 1701279907965
 ---
 
-import Val from "@components/Val.astro";
-
 The Val Town APIs accept Bearer Token authentication for full access to your Val
 Town account. You can use the schemes below to give more scoped access to run
 specific vals.
@@ -33,17 +31,16 @@ export const privateAPIUnauthenticated = (
 
 Authenticated use will have read access to the authenticated user's private vals
 and environment variables, write access to the authenticated user's vals, and the ability to
-send the authenticated user emails via `console.email`.
+send the authenticated user emails via [`std/email`](/std/email).
 
 ```ts val
-import process from "node:process";
 import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
 
 export const privateAPIAuthenticated = fetchJSON(
   "https://api.val.town/v1/run/stevekrouse.example3",
   {
     method: "GET",
-    headers: { Authorization: "Bearer " + process.env.valtown },
+    headers: { Authorization: "Bearer " + Deno.env.get("valtown") },
   }
 );
 ```
@@ -63,7 +60,6 @@ check like a password against a value I store in my environment variables:
 
 ```ts val
 import { discordWebhook } from "https://esm.town/v/stevekrouse/discordWebhook";
-import process from "node:process";
 
 // # New Val Town User (on Clerk) -> Val Town Discord notification
 // Translates one kind of webhook (Clerk) into another (Discord)
@@ -72,7 +68,7 @@ export async function handleDiscordNewUser(req: express.Request, res) {
   if (req.get("auth") !== process.env.clerkNonSensitive)
     return res.end("Unauthorized");
   await discordWebhook({
-    url: process.env.discordUserEvents,
+    url: Deno.env.get("discordUserEvents"),
     content:
       req.body.data.email_addresses[0].email_address +
       " " +

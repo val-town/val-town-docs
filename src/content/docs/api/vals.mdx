@@ -3,38 +3,106 @@ title: Vals
 generated: 1701279907985
 ---
 
-import Val from "@components/Val.astro";
-
 The vals endpoints allow you to manipulate vals.
 
 ## POST `/v1/vals`
 
-<Val url="https://www.val.town/embed/neverstew.postVals" />
+```ts val
+import { createVal } from "https://esm.town/v/neverstew/createVal";
+
+export const postVals = createVal({
+  token: Deno.env.get("valtown"),
+  code: "const two = 1 + 1;",
+});
+```
 
 ## GET `/v1/vals/{val_id}`
 
-<Val url="https://www.val.town/embed/neverstew.getVal" />
+```ts val
+import { val } from "https://esm.town/v/neverstew/val";
+
+export const getVal = val({
+  id: "7f9019e4-dbf8-4ebe-b8cd-67730697624e",
+});
+```
 
 ## DELETE `/v1/vals/{val_id}`
 
-<Val url="https://www.val.town/embed/neverstew.deleteValExample" />
+```ts val
+import { deleteVal } from "https://esm.town/v/neverstew/deleteVal";
+
+export const deleteValExample = deleteVal({
+  token: Deno.env.get("valtown"),
+  id: "1f32d4c1-332e-4135-889f-8df408924a9d",
+});
+```
 
 ## GET `/v1/vals/{val_id}/versions`
 
-<Val url="https://www.val.town/embed/neverstew.getValVersions" />
+```ts val
+import { valVersions } from "https://esm.town/v/neverstew/valVersions";
+
+export const getValVersions = valVersions({
+  token: Deno.env.get("valtown"),
+  id: "0cfbf317-18a4-4da5-b887-b75bb8a33108",
+});
+```
 
 ## POST `/v1/vals/{val_id}/versions`
 
-<Val url="https://www.val.town/embed/neverstew.createValVersionExample" />
+```ts val
+import { createValVersion } from "https://esm.town/v/neverstew/createValVersion";
+import { val as val2 } from "https://esm.town/v/neverstew/val";
+
+export let createValVersionExample = (() =>
+  val2({
+    token: Deno.env.get("valtown"),
+    id: "543ae134-636f-43a7-bd7f-f766a3d52b47",
+  })
+    .then((val) => ({ id: val.id, code: val.code }))
+    .then(({ id, code }) =>
+      createValVersion({
+        token: Deno.env.get("valtown"),
+        code: `// my inserted comment
+      ${code}`,
+        valId: id,
+      })
+    ))();
+```
 
 ## GET `/v1/vals/{val_id}/versions/{version}`
 
-<Val url="https://www.val.town/embed/neverstew.getValVersion" />
+```ts val
+import { valVersion } from "https://esm.town/v/neverstew/valVersion";
+
+export const getValVersion = valVersion({
+  token: Deno.env.get("valtown"),
+  id: "7f9019e4-dbf8-4ebe-b8cd-67730697624e",
+  version: 4,
+});
+```
 
 ## DELETE `/v1/vals/{val_id}/versions/{version}`
 
-<Val url="https://www.val.town/embed/neverstew.deleteValVersionExample" />
+```ts val
+import { deleteValVersion } from "https://esm.town/v/neverstew/deleteValVersion";
+
+export let deleteValVersionExample = deleteValVersion({
+  token: Deno.env.get("valtown"),
+  id: "543ae134-636f-43a7-bd7f-f766a3d52b47",
+  version: 1,
+});
+```
 
 ## GET `/v1/vals/{val_id}/runs`
 
-<Val url="https://www.val.town/embed/neverstew.valRunsExample" />
+```ts val
+import { valRuns } from "https://esm.town/v/neverstew/valRuns";
+
+export const valRunsExample = valRuns({
+  token: Deno.env.get("valtown"),
+  id: "ae941dc9-97e5-4e2e-a25a-e07b733230ae",
+  limit: 1,
+  offset: 1,
+});
+```

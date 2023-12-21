@@ -4,17 +4,15 @@ generated: 1701279907748
 description: Use Val Town to receive HTTP webhooks from services like Discord or Stripe
 ---
 
-import Val from "@components/Val.astro";
-
 A webhook is another name for a
 [Request](https://developer.mozilla.org/en-US/docs/web/api/request) that is sent
-between two services on the web. They “hook” into the events that one service
+between two services on the web. They "hook" into the events that one service
 creates and notify another service of what happens. In other words, webhooks
 allow you to get realtime notifications.
 
 You can create a webhook handler in Val Town and then register it with the
 service you want the notification from. Webhooks are usually created via Val
-Town [HTTP Val](/types/http) , because it can accept standard HTTP requests.
+Town [HTTP Val](/types/http), because it can accept standard HTTP requests.
 
 ## Create a webhook handler
 
@@ -26,7 +24,25 @@ argument and return a
 Here's an example that connects the [Clerk](http://clerk.com) authentication
 service and [Discord](http://discord.com).
 
-<Val url="https://www.val.town/embed/neverstew.handleDiscordNewUser" />
+```ts val
+import { discordWebhook } from "https://esm.town/v/stevekrouse/discordWebhook?v=3";
+
+// # New Val Town User (on Clerk) -> Val Town Discord notification
+// Translates one kind of webhook (Clerk) into another (Discord)
+export async function handleDiscordNewUser(req: Request) {
+  // check custom auth secret sent from clerk
+  if (req.headers.get("auth") !== Deno.env.get("clerkNonSensitive"))
+    return new Response("Unauthorized", { status: 401 });
+  const body = await req.json();
+  await discordWebhook({
+    url: Deno.env.get("newUserDiscord"),
+    content: body.data.email_addresses[0].email_address +
+      " " +
+      body.data.profile_image_url,
+  });
+  return new Response("Success");
+}
+```
 
 The val above has three parts:
 

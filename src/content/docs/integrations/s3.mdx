@@ -6,8 +6,6 @@ description: |
   objects on S3 using Val Town.
 ---
 
-import Val from "@components/Val.astro";
-
 You can upload and download from AWS S3 inside val functions.
 
 In this guide, you'll create an AWS bucket, an IAM user, and then test your set
@@ -89,21 +87,16 @@ Finally, copy and save the **Access key** and **Secret access key** as
 Copy and run the following val in your workspace.
 
 ```ts val
-import process from "node:process";
+import { S3Client } from "https://deno.land/x/s3_lite_client@0.6.1/mod.ts";
 
-export const uploadTextToS3 = (async () => {
-  const { S3Client } = await import(
-    "https://deno.land/x/s3_lite_client@0.6.1/mod.ts"
-  );
-  const s3client = new S3Client({
-    endPoint: "s3.amazonaws.com",
-    region: process.env.awsS3Region,
-    bucket: process.env.awsS3Bucket,
-    accessKey: process.env.awsS3Key,
-    secretKey: process.env.awsS3Secret,
-  });
-  return await s3client.putObject("filename.txt", "File contents");
-})();
+const s3client = new S3Client({
+  endPoint: "s3.amazonaws.com",
+  region: Deno.env.get("awsS3Region"),
+  bucket: Deno.env.get("awsS3Bucket"),
+  accessKey: Deno.env.get("awsS3Key"),
+  secretKey: Deno.env.get("awsS3Secret"),
+});
+await s3client.putObject("filename.txt", "File contents");
 ```
 
 [putObject](https://deno.land/x/s3_lite_client@0.6.1/mod.ts?s=S3Client&p=prototype.putObject)
@@ -114,22 +107,17 @@ takes any of `ReadableStream<Uint8Array> | Uint8Array | string`.
 Copy and run the following val in your workspace.
 
 ```ts val
-import process from "node:process";
+import { S3Client } from "https://deno.land/x/s3_lite_client@0.6.1/mod.ts";
 
-export const downloadTextFromS3 = (async () => {
-  const { S3Client } = await import(
-    "https://deno.land/x/s3_lite_client@0.6.1/mod.ts"
-  );
-  const s3client = new S3Client({
-    endPoint: "s3.amazonaws.com",
-    region: process.env.awsS3Region,
-    bucket: process.env.awsS3Bucket,
-    accessKey: process.env.awsS3Key,
-    secretKey: process.env.awsS3Secret,
-  });
-  const res = await s3client.getObject("filename.txt");
-  return await res.text();
-})();
+const s3client = new S3Client({
+  endPoint: "s3.amazonaws.com",
+  region: Deno.env.get("awsS3Region"),
+  bucket: Deno.env.get("awsS3Bucket"),
+  accessKey: Deno.env.get("awsS3Key"),
+  secretKey: Deno.env.get("awsS3Secret"),
+});
+const res = await s3client.getObject("filename.txt");
+console.log(await res.text());
 ```
 
 [getObject](https://deno.land/x/s3_lite_client@0.6.1/mod.ts?s=S3Client&p=prototype.getObject)

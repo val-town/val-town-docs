@@ -5,10 +5,8 @@ description: |
   API shortcuts to get your own resources, like vals that you created or have run.
 ---
 
-import Val from "@components/Val.astro";
-
 When using the Val Town API, some of the most common functions operate on things
-that you own. For these kinds of operations, there are the “me” routes.
+that you own. For these kinds of operations, there are the "me" routes.
 
 ## GET `/v1/me`
 
@@ -18,7 +16,15 @@ This is the same as `/v1/users/{your_user_id}`
 
 :::
 
-<Val url="https://www.val.town/embed/neverstew.getMe" />
+```ts val
+import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON?v=41";
+
+export let getMe = fetchJSON(`https://api.val.town/v1/me`, {
+  headers: {
+    Authorization: `Bearer ${Deno.env.get("valtown")}`,
+  },
+});
+```
 
 ## GET `/v1/me/runs`
 
@@ -28,12 +34,44 @@ This is currently the only way to list runs across multiple vals.
 
 :::
 
-<Val url="https://www.val.town/embed/neverstew.getRuns" />
+```ts val
+import { runs } from "https://esm.town/v/stevekrouse/runs?v=17";
+
+export let getRuns = runs({
+  token: Deno.env.get("valtown"),
+  error: false,
+  limit: 10,
+  offset: 0,
+  // last 30 minutes
+  since: new Date(Number(new Date()) - 1800000),
+  until: new Date(),
+});
+```
 
 ## GET `/v1/me/likes`
 
-<Val url="https://www.val.town/embed/neverstew.getLikes" />
+```ts val
+import { likes } from "https://esm.town/v/neverstew/likes";
+
+export let getLikes = likes({
+  token: Deno.env.get("valtown"),
+  limit: 10,
+  offset: 0,
+});
+```
 
 ## GET `/v1/me/comments`
 
-<Val url="https://www.val.town/embed/neverstew.getComments" />
+```ts val
+import { comments } from "https://esm.town/v/neverstew/comments";
+
+export let getComments = comments({
+  token: Deno.env.get("valtown"),
+  relationship: "any",
+  limit: 10,
+  offset: 0,
+  // last 30 minutes
+  since: new Date(Number(new Date()) - 1800000),
+  until: new Date(),
+});
+```

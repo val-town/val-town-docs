@@ -20,11 +20,11 @@ help you upgrade - just contact us via Discord or email.
 
 In the old runtime, you would need to `await` the call to any `@user.function`.
 That is no longer the case! Now only async functions are async and synchronous
-functions don’t need to be awaited!
+functions don't need to be awaited!
 
-Happily this works without many changes because if you `await` something that’s
+Happily this works without many changes because if you `await` something that's
 not a `Promise` in JavaScript, it simply returns that value. However if you
-called `.then` on the value returned by another user’s synchronous function,
+called `.then` on the value returned by another user's synchronous function,
 that will no longer work in the new runtime.
 
 ### `setInterval` has been removed
@@ -39,7 +39,7 @@ Contact us if you need this functionality.
 
 In the prior runtime, all values were recursively awaited. This means that if
 you returned an array or object with a Promise nested somewhere inside it, we
-would’ve resolve that Promise to the underlying value in between all function
+would've resolve that Promise to the underlying value in between all function
 calls. This is too much magic, and we no longer do it. The main place that this
 breaking change is felt is when you return an array of promises. Now you need to
 wrap it with `Promise.all`, like you would in normal JavaScript. We manually
@@ -54,7 +54,7 @@ of val evaluation.
 If you referenced `@stevekrouse.valThatDoesntExist` it used to throw a runtime
 error. Now it returns `undefined`.
 
-### You can’t use `export` without proper variable assignment
+### You can't use `export` without proper variable assignment
 
 You used to be able to write `export a = 1`, but now that will be automatically
 converted to `export let a = 1`, in order to make it syntactically valid
@@ -63,7 +63,7 @@ JavaScript.
 ### ExpressJS types moved to `express` namespace
 
 If you wanted Typescript support for making ExpressJS handler vals, you used to
-add `Request` and `Response` types to your val’s arguments. However we had to
+add `Request` and `Response` types to your val's arguments. However we had to
 wrap those types in an `express` namespace, so they are now `express.Request`
 and `express.Response`.
 

@@ -6,8 +6,6 @@ description: |
   letting your vals receive and respond to messages.
 ---
 
-import Val from "@components/Val.astro";
-
 You can create Telegram bots using vals.
 
 In this example, you'll create a val that uses the [HTTP Val](/types/http) to
@@ -50,26 +48,47 @@ When Telegram users send messages to your bot, they will be forwarded to your
 webhook handler. We'll use the environment variable we just created to verify that the message
 came from our bot.
 
-Fork this val that uses the [HTTP Val](/types/http) :
+Copy this val that uses the [HTTP Val](/types/http) :
 
-<Val url="https://www.val.town/embed/neverstew.telegramWebhookEchoMessage" />
+```ts val
+import { telegramSendMessage } from "https://esm.town/v/vtdocs/telegramSendMessage?v=5";
+
+export const telegramWebhookEchoMessage = async (req: Request) => {
+  // Verify this webhook came from our bot
+  if (
+    req.headers.get("x-telegram-bot-api-secret-token") !==
+      Deno.env.get("telegramWebhookSecret")
+  ) {
+    return new Response(undefined, { status: 401 });
+  }
+  // Echo back the user's message
+  const body = await req.json();
+  const text: string = body.message.text;
+  const chatId: number = body.message.chat.id;
+  await telegramSendMessage(
+    Deno.env.get("telegramBotToken"),
+    { chat_id: chatId, text },
+  );
+  return Response.json("ok");
+};
+```
 
 ### Tell your bot about the webhook handler
 
 Use `@vtdocs.telegramSetWebhook` to tell your bot where to send webhooks.
 
 ```ts val
-import process from "node:process";
 import { telegramSetWebhook } from "https://esm.town/v/vtdocs/telegramSetWebhook?v=2";
 
+const token = Deno.env.get("telegramBotToken");
 export const setWebhookExample = telegramSetWebhook(
-  process.env.telegramBotToken,
+  token,
   {
     // Replace this with _your_ web endpoint
     url: "https://neverstew-telegramWebhookEchoMessage.web.val.run",
     // Optionally, filter what kind of updates you want to receive here
     allowed_updates: ["message"],
-    secret_token: process.env.telegramWebhookSecret,
+    secret_token: token,
   }
 );
 ```

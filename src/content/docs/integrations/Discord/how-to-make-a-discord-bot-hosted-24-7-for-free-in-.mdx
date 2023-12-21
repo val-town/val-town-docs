@@ -4,8 +4,6 @@ generated: 1701279907787
 description: How to make a Discord bot hosted 24/7 for free in 6 steps
 ---
 
-import Val from "@components/Val.astro";
-
 ![https://i.postimg.cc/bw5Xj8Rd/ping.gif](https://i.postimg.cc/bw5Xj8Rd/ping.gif)
 
 ## Introduction
@@ -107,19 +105,66 @@ There is a generous free plan, and no credit card required.
    [you're logged into Val Town](https://www.val.town/auth/signin).
 2. Press **Run** to add the `/ping` command to your bot.
 
-<Val url="https://www.val.town/embed/new?code=import+%7B+registerDiscordSlashCommand+%7D+from+%22https%3A%2F%2Fesm.town%2Fv%2Fneverstew%2FregisterDiscordSlashCommand%22%3B%0Aimport+process+from+%22node%3Aprocess%22%3B%0A%0Aexport+const+registerDiscordCommand+%3D+registerDiscordSlashCommand%28%0A++process.env.discordAppId%2C%0A++process.env.discordBotToken%2C%0A++%7B%0A++++name%3A+%22ping%22%2C%0A++++description%3A+%22Say+hi+to+your+bot%22%2C%0A++%7D%2C%0A%29.then%28r+%3D%3E+r.json%28%29%29%3B" />
+```ts val
+import { registerDiscordSlashCommand } from "https://esm.town/v/neverstew/registerDiscordSlashCommand";
+
+const result = await registerDiscordSlashCommand(
+  Deno.env.get("discordAppId"),
+  Deno.env.get("discordBotToken"),
+  {
+    name: "ping",
+    description: "Say hi to your bot",
+  });
+export const registerDiscordCommand = result.json();
+```
 
 ## Step 6: Listen for Slash Commands
 
 1. Press **Run** to listen for Slash Commands and reply.
 
-<Val url="https://www.val.town/embed/new?code=import+%7B+verify_discord_signature+%7D+from+%22https%3A%2F%2Fesm.town%2Fv%2Fmattx%2Fverify_discord_signature%3Fv%3D8%22%3B%0A%0Aexport+const+handleDiscordInteraction+%3D+async+%28req%3A+Request%29+%3D%3E+%7B%0A++if+%28req.method+%3D%3D%3D+%22GET%22%29+return+new+Response%28%29%3B%0A++const+body+%3D+await+req.json%28%29%3B%0A++const+verified+%3D+await+verify_discord_signature%28%0A++++Deno.env.get%28%27discordPublicKey%27%29%2C%0A++++JSON.stringify%28body%29%2C%0A++++req.headers.get%28%22X-Signature-Ed25519%22%29%2C%0A++++req.headers.get%28%22X-Signature-Timestamp%22%29%2C%0A++%29%3B%0A++if+%28%21verified%29%0A++++return+new+Response%28%22signature+invalid%22%2C+%7B%0A++++++status%3A+401%2C%0A++++++statusText%3A+%22signature+invalid%22%2C%0A++++%7D%29%3B%0A++%2F%2F+PING%0A++if+%28body.type+%3D%3D%3D+1%29%0A++++return+Response.json%28%7B+type%3A+1+%7D%29%3B+%2F%2F+PONG%0A++%2F%2F+APPLICATION_COMMAND+interactions%0A++if+%28body.type+%3D%3D%3D+2%29+%7B%0A++++if+%28body.data%3F.name+%3D%3D%3D+%22ping%22%29%0A++++++return+Response.json%28%7B%0A++++++++type%3A+4%2C%0A++++++++data%3A+%7B%0A++++++++++content%3A+%60Pong%21+It+is+%24%7Bnew+Date%28%29%7D%60%2C%0A++++++++%7D%2C%0A++++++%7D%29%3B%0A++++return+new+Response%28%22Bad+request%22%2C+%7B%0A++++++status%3A+400%2C%0A++++++statusText%3A+%22Bad+request%22%2C%0A++++%7D%29%3B%0A++%7D%0A++return+new+Response%28%22Not+handled%22%2C+%7B+status%3A+422+%7D%29%3B%0A%7D%3B" />
+```ts val
+import { verify_discord_signature } from "https://esm.town/v/mattx/verify_discord_signature?v=8";
 
-1. Next to your val's name, click 🔒 > **Unlisted.**
-2. In the val above, in the bottom-left corner of the val, click **Script** and change it to **HTTP.**
-3. Click on the URL at the bottom of that val that looks like
+export const handleDiscordInteraction = async (req: Request) => {
+  if (req.method === "GET") return new Response();
+  const body = await req.json();
+  const verified = await verify_discord_signature(
+    Deno.env.get('discordPublicKey'),
+    JSON.stringify(body),
+    req.headers.get("X-Signature-Ed25519"),
+    req.headers.get("X-Signature-Timestamp"),
+  );
+  if (!verified)
+    return new Response("signature invalid", {
+      status: 401,
+      statusText: "signature invalid",
+    });
+  // PING
+  if (body.type === 1)
+    return Response.json({ type: 1 }); // PONG
+  // APPLICATION_COMMAND interactions
+  if (body.type === 2) {
+    if (body.data?.name === "ping")
+      return Response.json({
+        type: 4,
+        data: {
+          content: `Pong! It is ${new Date()}`,
+        },
+      });
+    return new Response("Bad request", {
+      status: 400,
+      statusText: "Bad request",
+    });
+  }
+  return new Response("Not handled", { status: 422 });
+};
+```
+
+2. Next to your val's name, click 🔒 > **Unlisted.**
+3. In the val above, in the bottom-left corner of the val, click **Script** and change it to **HTTP.**
+4. Click on the URL at the bottom of that val that looks like
    [https://username-handleDiscordInteraction.web.val.run](https://stevekrouse-handlediscordinteraction.web.val.run/)
-4. Visit the General Information page for your bot and paste your copied
+5. Visit the General Information page for your bot and paste your copied
    endpoint into **INTERACTIONS ENDPOINT URL** and click **Save
    Changes**.
 

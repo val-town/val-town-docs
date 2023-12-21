@@ -4,14 +4,12 @@ generated: 1701279907843
 lastUpdated: 2023-12-05
 ---
 
-import Val from "@components/Val.astro";
-
 <div class="not-content">
   <lite-youtube videoid="AEaYaWf5B-I">&#x20;</lite-youtube>
 </div>
 
 You can submit forms to Val Town using the [HTTP Val](/types/http) . You can
-place these forms on any page on the internet – or host the form directly on Val
+place these forms on any page on the internet - or host the form directly on Val
 Town.
 
 These examples show how to accept and store email addresses on Val Town. The
@@ -27,13 +25,40 @@ Write a val function that accepts a
 a [Response](https://developer.mozilla.org/en-US/docs/web/api/response), or just
 fork the one below!
 
-<Val url="https://www.val.town/embed/neverstew.saveFormData" />
+```ts title="@user/saveFormData" val
+import { blob } from "https://esm.town/v/std/blob?v=11";
+import { email } from "https://esm.town/v/std/email?v=11";
+
+export const saveFormData = async (req: Request) => {
+  // Get existing list of submitted email addresses
+  let submittedEmailAddresses = await blob.getJSON("submittedEmailAddresses") as string[];
+
+  // If there were no email addresses stored, create an empty array
+  submittedEmailAddresses ??= [];
+
+  // Pick out the form data
+  const formData = await req.formData();
+  const emailAddress = formData.get("email") as string;
+  if (submittedEmailAddresses.includes(emailAddress)) {
+    return new Response("You're already signed up!");
+  }
+
+  // Send a notification email
+  email({ text: `${emailAddress} just signed up!`, subject: "New sign up" });
+
+  // Store form data
+  submittedEmailAddresses.push(emailAddress);
+  await blob.setJSON("submittedEmailAddresses", submittedEmailAddresses);
+
+  return new Response("Thanks! You're signed up!");
+};
+```
 
 ### Add the form to your webpage
 
-Copy your val’s Web endpoint URL using the menu (Endpoints > Copy web endpoint)
-and set it as the form’s action (this tells the form where to send its data when
-it’s submitted).
+Copy your val's Web endpoint URL using the menu (Endpoints > Copy web endpoint)
+and set it as the form's action (this tells the form where to send its data when
+it's submitted).
 
 Below is a full HTML page example. If you are adding a form to an existing page
 just copy and paste the `<form></form>` block.
@@ -46,7 +71,7 @@ just copy and paste the `<form></form>` block.
   </head>
   <body>
     <!-- Change the action here to your val's Express endpoint! -->
-    <form action="https://neverstew-saveFormData.web.val.run" method="post">
+    <form action="https://user-saveFormData.web.val.run" method="post">
       <label for="email">Email:</label>
       <input type="email" id="email" name="email" required />
       <br />
@@ -59,7 +84,7 @@ just copy and paste the `<form></form>` block.
 ## Host your form on Val Town
 
 There are two ways to do this. You can write a val function that serves a
-webpage, and a separate val that accepts the form data – or you can write a
+webpage, and a separate val that accepts the form data - or you can write a
 single val that does both like the example below.
 
 When a form is submitted, it sends a HTTP request with the
@@ -71,9 +96,56 @@ function) gets sent a
 You can check the HTTP method using `req.method` and change how your val
 function responds.
 
-<Val url="https://www.val.town/embed/neverstew.renderFormAndSaveData" />
+```ts title="@user/renderFormAndSaveData" ins={5-27} val
+import { blob } from "https://esm.town/v/std/blob?v=11";
+import { email } from "https://esm.town/v/std/email?v=11";
+import { thisWebURL } from "https://esm.town/v/stevekrouse/thisWebURL?v=2";
 
-See
-[Web forms — Working with user data](https://developer.mozilla.org/en-US/docs/Learn/Forms)
+export const renderFormAndSaveData = async (req: Request) => {
+  // A visit from a web browser? Serve a HTML page with a form
+  if (req.method === "GET") {
+    return new Response(
+      `
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Email Form</title>
+</head>
+<body>
+  <form action="${thisWebURL()}" method="post">
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+    <br>
+    <input type="submit" value="Submit">
+  </form>
+</body>
+</html>
+    `,
+      { headers: { "Content-Type": "text/html" } },
+    );
+  }
+
+  // Get existing list of submitted email addresses
+  let submittedEmailAddresses = await blob.getJSON("submittedEmailAddresses") as string[];
+
+  // If there were no email addresses stored, create an empty array
+  submittedEmailAddresses ??= [];
+
+  // Pick out the form data
+  const formData = await req.formData();
+  const emailAddress = formData.get("email") as string;
+  if (submittedEmailAddresses.includes(emailAddress)) {
+    return new Response("You're already signed up!");
+  }
+  email({ text: `${emailAddress} just signed up!`, subject: "New sign up" });
+  // Store form data
+  submittedEmailAddresses.push(emailAddress);
+  await blob.setJSON("submittedEmailAddresses", submittedEmailAddresses);
+
+  return new Response("Thanks! You're signed up!");
+};
+```
+
+See [Web forms — Working with user data](https://developer.mozilla.org/en-US/docs/Learn/Forms)
 on the MDN Web Docs site for more help with forms. Forms are a basic part of
 the web - you don't need a lot of front-end JavaScript to make them work.

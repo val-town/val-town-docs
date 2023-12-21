@@ -5,15 +5,53 @@ description: Val Town can both parse and generate RSS feeds for blogs and other 
 lastUpdated: 2023-12-05
 ---
 
-import Val from "@components/Val.astro";
-
 Val Town can both parse and generate RSS feeds for blogs and other updated
 sources.
 
 ## Polling RSS
 
-<Val url="https://www.val.town/embed/@stevekrouse.pollRSSFeeds" />
+```ts val
+import { email } from "https://esm.town/v/std/email?v=9";
+import { newRSSItems } from "https://esm.town/v/stevekrouse/newRSSItems";
+import { rssFeeds } from "https://esm.town/v/stevekrouse/rssFeeds";
+
+export async function pollRSSFeeds({ lastRunAt }: Interval) {
+  return Promise.all(
+    Object.entries(rssFeeds).map(async ([name, url]) => {
+      let items = await newRSSItems({
+        url,
+        lastRunAt,
+      });
+      if (items.length)
+        await email({
+          text: JSON.stringify(items, null, 2),
+          subject: `New from ${name} RSS`,
+        });
+      return { name, items };
+    }),
+  );
+}
+```
 
 ## Creating RSS
 
-<Val url="https://www.val.town/embed/@stevekrouse.valTownBlogRSS" />
+```ts val
+import { dataToRSS } from "https://esm.town/v/stevekrouse/dataToRSS";
+import { valTownBlogJSON } from "https://esm.town/v/stevekrouse/valTownBlogJSON";
+
+export async function valTownBlogRSS() {
+  const json = await valTownBlogJSON();
+  return dataToRSS(
+    json.map((blog) => ({
+      title: blog.title,
+      link: blog.url,
+      pubDate: blog.date,
+    })),
+    {
+      title: "Val Town Blog",
+      link: "https://blog.val.town",
+      rssLink: "https://stevekrouse-blogrss.web.val.run/",
+    },
+  );
+}
+```

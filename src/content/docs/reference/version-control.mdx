@@ -5,15 +5,15 @@ description: Every time you save a val it creates a new immutable version in the
 
 Vals are immutable but you can publish new versions of vals. Versions start at
 `0` and go up from there. When you reference a val, you always get the most
-recent version. You can toggle which version you’re looking at via the drop down
-menu next to the val’s name.
+recent version. You can toggle which version you're looking at via the drop down
+menu next to the val's name.
 
 ## Imports & pinning
 
 When you import one of your own vals, it will be imported unpinned, so you will
-automatically get all new changes. When you import another user’s val, via the `@` symbol helper it will
+automatically get all new changes. When you import another user's val, via the `@` symbol helper it will
 pin your import to the most recent version of that val (ie it will end it `?v=7`
-or whatever the current version number is), so if they change it, you won’t get
+or whatever the current version number is), so if they change it, you won't get
 automatic updates. This makes your code more stable and protects you against
 code injection attacks. You can override this default behavior if you trust the
 user not to break your code: remove the `v` query param in the import statement,
