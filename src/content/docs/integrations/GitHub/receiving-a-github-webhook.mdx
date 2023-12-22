@@ -11,7 +11,7 @@ stars your GitHub repository.
 First, create an Web API handler function val to receive star webhooks from
 GitHub, or use this one:
 
-```ts val
+```ts title="GitHub star webhook" val
 import { email } from "https://esm.town/v/std/email?v=11";
 
 export const githubStarWebhook = async (req: Request) => {
@@ -85,7 +85,7 @@ export const verifyGithubWebhookSignature = async (
 
 It can be integrated into the original example like this:
 
-```ts val
+```ts title="Improved GitHub star webhook" val
 import { email } from "https://esm.town/v/std/email?v=11";
 import { verifyGithubWebhookSignature } from "https://esm.town/v/vtdocs/verifyGithubWebhookSignature?v=2";
 

@@ -39,7 +39,7 @@ Click **New env variable**, then set the key to a name you'd like to use to refe
 
 You can then use deno-postgres to connect to the database like so:
 
-```ts val
+```ts title="Example" val
 const postgres = await import("https://deno.land/x/postgres/mod.ts");
 const client = new postgres.Client(Deno.env.get("neon_url"));
 await client.connect();
