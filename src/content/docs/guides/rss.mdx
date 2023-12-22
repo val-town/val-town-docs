@@ -10,7 +10,7 @@ sources.
 
 ## Polling RSS
 
-```ts val
+```ts title="Polling example" val
 import { email } from "https://esm.town/v/std/email?v=9";
 import { newRSSItems } from "https://esm.town/v/stevekrouse/newRSSItems";
 import { rssFeeds } from "https://esm.town/v/stevekrouse/rssFeeds";
@@ -35,7 +35,7 @@ export async function pollRSSFeeds({ lastRunAt }: Interval) {
 
 ## Creating RSS
 
-```ts val
+```ts title="Creating example" val
 import { dataToRSS } from "https://esm.town/v/stevekrouse/dataToRSS";
 import { valTownBlogJSON } from "https://esm.town/v/stevekrouse/valTownBlogJSON";
 
