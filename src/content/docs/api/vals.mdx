@@ -7,7 +7,7 @@ The vals endpoints allow you to manipulate vals.
 
 ## POST `/v1/vals`
 
-```ts val
+```ts title="Example" val
 import { createVal } from "https://esm.town/v/neverstew/createVal";
 
 export const postVals = createVal({
@@ -18,7 +18,7 @@ export const postVals = createVal({
 
 ## GET `/v1/vals/{val_id}`
 
-```ts val
+```ts title="Example" val
 import { val } from "https://esm.town/v/neverstew/val";
 
 export const getVal = val({
@@ -28,7 +28,7 @@ export const getVal = val({
 
 ## DELETE `/v1/vals/{val_id}`
 
-```ts val
+```ts title="Example" val
 import { deleteVal } from "https://esm.town/v/neverstew/deleteVal";
 
 export const deleteValExample = deleteVal({
@@ -39,7 +39,7 @@ export const deleteValExample = deleteVal({
 
 ## GET `/v1/vals/{val_id}/versions`
 
-```ts val
+```ts title="Example" val
 import { valVersions } from "https://esm.town/v/neverstew/valVersions";
 
 export const getValVersions = valVersions({
@@ -50,7 +50,7 @@ export const getValVersions = valVersions({
 
 ## POST `/v1/vals/{val_id}/versions`
 
-```ts val
+```ts title="Example" val
 import { createValVersion } from "https://esm.town/v/neverstew/createValVersion";
 import { val as val2 } from "https://esm.town/v/neverstew/val";
 
@@ -72,7 +72,7 @@ export let createValVersionExample = (() =>
 
 ## GET `/v1/vals/{val_id}/versions/{version}`
 
-```ts val
+```ts title="Example" val
 import { valVersion } from "https://esm.town/v/neverstew/valVersion";
 
 export const getValVersion = valVersion({
@@ -84,7 +84,7 @@ export const getValVersion = valVersion({
 
 ## DELETE `/v1/vals/{val_id}/versions/{version}`
 
-```ts val
+```ts title="Example" val
 import { deleteValVersion } from "https://esm.town/v/neverstew/deleteValVersion";
 
 export let deleteValVersionExample = deleteValVersion({
@@ -96,7 +96,7 @@ export let deleteValVersionExample = deleteValVersion({
 
 ## GET `/v1/vals/{val_id}/runs`
 
-```ts val
+```ts title="Example" val
 import { valRuns } from "https://esm.town/v/neverstew/valRuns";
 
 export const valRunsExample = valRuns({
