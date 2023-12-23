@@ -25,8 +25,7 @@ This uses the Deno-default
 [Deno.env](https://docs.deno.com/runtime/manual/basics/env_variables) variable,
 which is available globally.
 
-```tsx
-// use-deno-env.ts
+```ts
 export let sdk = new SomeSDK(Deno.env.get("someSdkSecret"));
 ```
 
@@ -37,8 +36,7 @@ Node.js environment. In Node.js, process is an always-available global variable,
 but since Val Town targets Deno, you'll need to import process from
 node:process:
 
-```tsx
-// import-process.ts
+```ts
 import process from "node:process";
 
 export let sdk = new SomeSDK(process.env.someSdkSecret);

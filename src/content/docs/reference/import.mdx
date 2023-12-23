@@ -76,7 +76,7 @@ It's often not clear how a library will expose its methods. It can be helpful to
 log the keys of whatever object they return to you. That will tell you if you
 need to import it off of default or not, and what is available to you.
 
-```ts val
+```ts title="Example" val
 var cheerio = await import("npm:cheerio");
 console.log(Object.keys(cheerio));
 ```
