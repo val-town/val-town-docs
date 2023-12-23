@@ -49,7 +49,7 @@ Val Town:
 If you set it up correctly, you should be able to *Run* this Val and have
 it return the same results from your own Upstash database
 
-```ts title="Data setting val" val
+```ts title="Saving data" val
 import { Redis } from "npm:@upstash/redis";
 
 const redis = new Redis({
@@ -65,7 +65,7 @@ console.log(await redis.get("foo"));
 JSON is automatically stringified and parsed so you can set it and get it
 directly. You can store a JSON object of up to 1mb this way with a free acount.
 
-```ts title="JSON setting val" val
+```ts title="Saving JSON value" val
 import { Redis } from "npm:@upstash/redis";
 
 const redis = new Redis({

@@ -50,7 +50,7 @@ Head to the **Table editor** in the sidebar.
 
 Copy and paste the following val to insert some data.
 
-```ts title="Data insertion val" val
+```ts title="Data insertion" val
 const { createClient } = await import(
   "https://esm.sh/@supabase/supabase-js@2"
 );
@@ -70,7 +70,7 @@ if (error) {
 
 Get back the data you just inserted by using `eq()` (like SQL's `WHERE`).
 
-```ts title="Data query val" val
+```ts title="Data query" val
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const supabase = createClient(
@@ -129,7 +129,7 @@ Save this connection string as a
 
 Copy and paste this val to create a table with the given schema.
 
-```ts title="Table creation val" val
+```ts title="Table creation" val
 import { supaBaseQuery } from "https://esm.town/v/vtdocs/supaBaseQuery";
 
 await supaBaseQuery(
@@ -149,7 +149,7 @@ await supaBaseQuery(
 Use a [prepared statement](https://deno-postgres.com/#/?id=prepared-statements-and-query-arguments)
 like below to prevent [SQL injection](https://en.wikipedia.org/wiki/SQL_injection).
 
-```ts title="Data insertion val" val
+```ts title="Data insertion" val
 import { supaBaseQuery } from "https://esm.town/v/vtdocs/supaBaseQuery";
 
 await supaBaseQuery(
@@ -163,7 +163,7 @@ await supaBaseQuery(
 
 Usually, you'll just want the `rows` property from the response.
 
-```ts title="Data query val" val
+```ts title="Data query" val
 import { supaBaseQuery } from "https://esm.town/v/vtdocs/supaBaseQuery";
 
 const data = await supaBaseQuery(
