@@ -14,8 +14,7 @@ just create a scheduled function and specify when it should run.
 Scheduled functions should take an `Interval` object as a parameter. Besides
 that, they can do and return anything - the return value is ignored.
 
-```tsx val
-// interval-example.tsx
+```tsx title="Example" val
 export function intervalHandler(interval: Interval) {
   console.log("Interval ran!");
 }
@@ -53,7 +52,7 @@ Scheduled Vals can optionally accept one argument, which includes some metadata
 about the interval. For example, you can get the most recent time the interval
 was run to filter out data that was already seen:
 
-```ts val
+```ts title="Example" val
 export const scheduleExampleTwo = async (interval: Interval) => {
   const { default: RssParser } = await import("npm:rss-parser");
   const parser = new RssParser();
