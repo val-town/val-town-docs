@@ -9,7 +9,7 @@ Val Town SQLite has two methods: `execute` [↗](https://docs.turso.tech/libsql/
 
 ## Simple query
 
-```ts val
+```ts title="Simple query" val
 import { sqlite } from "https://esm.town/v/std/sqlite";
 
 const data = await sqlite.execute("SELECT datetime();");
@@ -18,10 +18,10 @@ console.log(data.rows[0]);
 
 ## Create a table
 
-```ts val
+```ts title="Table creation" val
 import { sqlite } from "https://esm.town/v/std/sqlite";
 
-sqlite.execute(`create table if not exists kv(
+await sqlite.execute(`create table if not exists kv(
   key text unique, 
   value text
 )`);
@@ -29,7 +29,7 @@ sqlite.execute(`create table if not exists kv(
 
 ## Get data
 
-```ts val
+```ts title="Data query" val
 import { sqlite } from "https://esm.town/v/std/sqlite";
 
 console.log(await sqlite.execute(`select key, value from kv`));
@@ -37,10 +37,10 @@ console.log(await sqlite.execute(`select key, value from kv`));
 
 ## Insert data
 
-```ts val
+```ts title="Data insertion" val
 import { sqlite } from "https://esm.town/v/std/sqlite";
 
-sqlite.execute({
+await sqlite.execute({
   sql: `insert into kv(key, value) values (:key, :value)`,
   args: { key: "specialkey", value: "specialvalue" },
 });
@@ -48,10 +48,10 @@ sqlite.execute({
 
 ## Delete data
 
-```ts val
+```ts title="Data deletion" val
 import { sqlite } from "https://esm.town/v/std/sqlite";
 
-sqlite.execute({
+await sqlite.execute({
   sql: `delete from kv where key = :key`,
   args: { key: "specialkey" },
 });
@@ -59,7 +59,7 @@ sqlite.execute({
 
 ## Batch queries
 
-```ts val
+```ts title="Batching queries" val
 import { sqlite } from "https://esm.town/v/std/sqlite";
 
 const charge = 10;

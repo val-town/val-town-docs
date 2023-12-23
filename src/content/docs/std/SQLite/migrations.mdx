@@ -9,10 +9,10 @@ Let's look at an example…
 
 In our first migration, we create a users table:
 
-```ts val
+```ts title="Migration 1" val
 import { sqlite } from "https://esm.town/v/std/sqlite";
 
-sqlite.execute(`
+await sqlite.execute(`
   create table users (
     id integer primary key autoincrement,
     email text not null unique
@@ -23,10 +23,10 @@ sqlite.execute(`
 Later, we realize we also want to store names. We can update _the same val_ to alter
 the table:
 
-```ts val
+```ts title="Migration 2" val
 import { sqlite } from "https://esm.town/v/std/sqlite";
 
-sqlite.execute(`
+await sqlite.execute(`
   alter table users
   add column name text
 `);
