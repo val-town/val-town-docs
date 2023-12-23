@@ -40,10 +40,10 @@ Save the **Verification Token** as a
 When you add a **Request URL**, Slack will immediately send a challenge to
 verify the endpoint is correct.
 
-Copy this val that responds to the challenge, and replies to `app_mention`
+Run this val that responds to the challenge, and replies to `app_mention`
 events.
 
-```ts val
+```ts title="Reply to message val" val
 import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON?v=41";
 
 export const slackReplyToMessage = async (req: Request) => {
