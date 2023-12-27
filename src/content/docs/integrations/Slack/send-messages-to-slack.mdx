@@ -53,11 +53,10 @@ Copy the **Webhook URL** for the webhook you just created and save it as a
 
 ## Use [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) to send a message
 
-Translate the sample cURL request to a
-[fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) request. You
-can copy and paste the following val.
+Translate the sample cURL request to a [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) request.
+You can run the following val:
 
-```ts val
+```ts title="Send message" val
 const res = await fetch(Deno.env.get("slackWebhookURL"), {
   method: "POST",
   body: JSON.stringify({

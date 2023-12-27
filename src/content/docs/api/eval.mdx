@@ -30,7 +30,7 @@ You can compute with references to public vals, like
 
 Pass the `code` expression to be evaluated via a JSON-encoded body, like so:
 
-```ts val
+```ts title="Example" val
 import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
 
 export let evalPost1 = fetchJSON(
@@ -44,7 +44,7 @@ export let evalPost1 = fetchJSON(
 
 You can also pass arguments if the `code` parameter represents a function:
 
-```ts val
+```ts title="Example" val
 import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
 
 export let evalPost2 = fetchJSON(

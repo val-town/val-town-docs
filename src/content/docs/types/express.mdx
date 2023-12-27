@@ -56,17 +56,17 @@ methods: `method` `query` `body` `baseUrl` `params` `secure` `subdomains`
 The Express API can be called via GET or POST. You can access the JSON-parsed
 POST request body via `req.body`:
 
-```ts val
-export let postWebhook1 = (req: express.Request, res: express.Response) => {
+```ts title="@user/postWebhook" val
+export let postWebhook = (req: express.Request, res: express.Response) => {
   res.json({ data: `Hello + ${req.body.name}!` });
 };
 ```
 
-```ts val
+```ts title="Fetch @user/postWebhook" val
 import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
 
 export let postWebhookTest1 = fetchJSON(
-  "https://stevekrouse-postWebhook1.express.val.run",
+  "https://user-postWebhook.express.val.run",
   {
     method: "POST",
     body: JSON.stringify({ name: "Steve" }),
@@ -86,7 +86,7 @@ Like any Express server, you can respond with
 [custom headers](https://expressjs.com/en/api.html#res.set), and custom status
 codes.
 
-```ts val
+```ts title="Example" val
 // Visit: https://api.val.town/v1/express/vtdocs.customStatusCode
 export const customStatusCode = (req: express.Request, res: express.Response) => {
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/418

@@ -42,10 +42,10 @@ respectively.
 
 Copy and paste this val to create a table with the given schema.
 
-```ts val
+```ts title="Table creation" val
 import { queryPlanetScale } from "https://esm.town/v/vtdocs/queryPlanetScale";
 
-export const planetScaleCreateStockTable = queryPlanetScale(
+await queryPlanetScale(
   {
     host: Deno.env.get("planetScaleHost"),
     username: Deno.env.get("planetScaleUsername"),
@@ -63,10 +63,10 @@ export const planetScaleCreateStockTable = queryPlanetScale(
 
 Insert one or more items.
 
-```ts val
+```ts title="Data insertion" val
 import { queryPlanetScale } from "https://esm.town/v/vtdocs/queryPlanetScale";
 
-export const planetScaleInsertStockTable = queryPlanetScale(
+await queryPlanetScale(
   {
     host: Deno.env.get("planetScaleHost"),
     username: Deno.env.get("planetScaleUsername"),
@@ -79,24 +79,22 @@ export const planetScaleInsertStockTable = queryPlanetScale(
 
 ## 6. Query an item
 
-Use the `rows` property to get your query results - or return the entire
+Use the `rows` property to get your query results - or log the entire
 `results` object to see what other data is available.
 
-```ts val
+```ts title="Query stock table" val
 import { queryPlanetScale } from "https://esm.town/v/vtdocs/queryPlanetScale";
 
-export const planetScaleSelectStockTable = (async () => {
-  const results = await queryPlanetScale(
-    {
-      host: Deno.env.get("planetScaleHost"),
-      username: Deno.env.get("planetScaleUsername"),
-      password: Deno.env.get("planetScalePassword"),
-    },
-    `SELECT id, name, price FROM stock WHERE name=?`,
-    ["banana"]
-  );
-  return results.rows[0];
-})();
+const results = await queryPlanetScale(
+  {
+    host: Deno.env.get("planetScaleHost"),
+    username: Deno.env.get("planetScaleUsername"),
+    password: Deno.env.get("planetScalePassword"),
+  },
+  `SELECT id, name, price FROM stock WHERE name=?`,
+  ["banana"]
+);
+console.log(results.rows[0]);
 ```
 
 ## 7. Do more than queries!

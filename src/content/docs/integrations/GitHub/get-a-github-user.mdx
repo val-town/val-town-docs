@@ -24,15 +24,15 @@ export const getGithubUser = async (username: string) => {
 
 You can alter it, or just call it directly like this:
 
-```ts val
+```ts title="Usage of @vtdocs/getGithubUser" val
 import { getGithubUser } from "https://esm.town/v/vtdocs/getGithubUser";
 
-export const getSteve = getGithubUser("stevekrouse");
+console.log(await getGithubUser("stevekrouse"));
 ```
 
 You can also do this with [octokit.js](https://github.com/octokit/octokit.js). Reminder: import npm packages by prepending the package name with `npm:`.
 
-```ts title="@vtdocs/getGithubUserViaOctokit" val
+```ts title="Usage of npm:@octokit/core" val
 import { Octokit } from "npm:@octokit/core";
 
 export const getGithubUserViaOctokit = async (username: string) => {

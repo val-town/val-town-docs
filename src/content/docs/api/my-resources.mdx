@@ -16,7 +16,7 @@ This is the same as `/v1/users/{your_user_id}`
 
 :::
 
-```ts val
+```ts title="Example" val
 import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON?v=41";
 
 export let getMe = fetchJSON(`https://api.val.town/v1/me`, {
@@ -34,7 +34,7 @@ This is currently the only way to list runs across multiple vals.
 
 :::
 
-```ts val
+```ts title="Example" val
 import { runs } from "https://esm.town/v/stevekrouse/runs?v=17";
 
 export let getRuns = runs({
@@ -50,7 +50,7 @@ export let getRuns = runs({
 
 ## GET `/v1/me/likes`
 
-```ts val
+```ts title="Example" val
 import { likes } from "https://esm.town/v/neverstew/likes";
 
 export let getLikes = likes({
@@ -62,7 +62,7 @@ export let getLikes = likes({
 
 ## GET `/v1/me/comments`
 
-```ts val
+```ts title="Example" val
 import { comments } from "https://esm.town/v/neverstew/comments";
 
 export let getComments = comments({

@@ -7,7 +7,7 @@ description: |
 
 You can generate PDFs using val functions by using an external library like [jsPDF](https://github.com/parallax/jsPDF).
 
-```ts val
+```ts title="jsPDF usage example" val
 export const helloWorldPDF = async (req: Request) => {
   const { jsPDF } = await import("npm:jspdf");
   const doc = new jsPDF();
@@ -22,7 +22,7 @@ Here's a more comprehensive example that builds an invoice.
 
 ![Screenshot 2023-06-26 at 11.56.47.png](./generate-pdfs/screenshot_2023-06-26_at_115647.png)
 
-```ts val
+```ts title="Invoice generator" val
 import { generateInvoicePDF } from "https://esm.town/v/vtdocs/generateInvoicePDF?v=1";
 
 export const examplePDF = async (req: Request) => {

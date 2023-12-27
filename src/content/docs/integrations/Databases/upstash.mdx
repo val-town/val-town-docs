@@ -46,10 +46,10 @@ Val Town:
 
 ## Set some data
 
-If you set it up correctly, you should be able to copy & paste this Val and have
+If you set it up correctly, you should be able to *Run* this Val and have
 it return the same results from your own Upstash database
 
-```ts val
+```ts title="Saving data" val
 import { Redis } from "npm:@upstash/redis";
 
 const redis = new Redis({
@@ -65,7 +65,7 @@ console.log(await redis.get("foo"));
 JSON is automatically stringified and parsed so you can set it and get it
 directly. You can store a JSON object of up to 1mb this way with a free acount.
 
-```ts val
+```ts title="Saving JSON value" val
 import { Redis } from "npm:@upstash/redis";
 
 const redis = new Redis({
@@ -73,7 +73,7 @@ const redis = new Redis({
   token: Deno.env.get("upstashToken"),
 });
 await redis.set("json-ex-1", { a: { b: "nested json" } });
-export const upstashJSON = ((await redis.get("json-ex-1")) as any).a.b;
+console.log(((await redis.get("json-ex-1")) as any).a.b);
 ```
 
 ## Further resources

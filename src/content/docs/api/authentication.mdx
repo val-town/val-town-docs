@@ -21,7 +21,7 @@ If you don't pass an authentication token, your code will be run as an anonymous
 user and only have access to public vals. For example, unauthenticated access to
 a private val will fail:
 
-```ts val
+```ts title="Unauthenticated example" val
 import { fetch } from "https://esm.town/v/std/fetch";
 
 export const privateAPIUnauthenticated = (
@@ -33,7 +33,7 @@ Authenticated use will have read access to the authenticated user's private vals
 and environment variables, write access to the authenticated user's vals, and the ability to
 send the authenticated user emails via [`std/email`](/std/email).
 
-```ts val
+```ts title="Authenticated example" val
 import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
 
 export const privateAPIAuthenticated = fetchJSON(
@@ -58,7 +58,7 @@ You can roll arbitrary authentication schemes in user space. For example, I find
 it useful to simply supply a custom `auth` header from my Clerk webhooks that I
 check like a password against a value I store in my environment variables:
 
-```ts val
+```ts title="Clerk example" val
 import { discordWebhook } from "https://esm.town/v/stevekrouse/discordWebhook";
 
 // # New Val Town User (on Clerk) -> Val Town Discord notification
@@ -93,7 +93,7 @@ Below I show `hiddenAPI` which you can see and
 but you notice that it calls `@stevekrouse.hiddenAPIInternal` which is private
 and can't be inspected.
 
-```ts val
+```ts title="Hiding code example" val
 import { hiddenAPIInternal } from "https://esm.town/v/stevekrouse/hiddenAPIInternal";
 
 export let hiddenAPI = (...args) => hiddenAPIInternal(...args);

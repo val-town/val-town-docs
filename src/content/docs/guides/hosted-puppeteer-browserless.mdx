@@ -35,7 +35,7 @@ Check the documentation for the
 For example, here's how you scrape the introduction paragraph of OpenAI's
 wikipedia page.
 
-```ts val
+```ts title="Scrape API example" val
 import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON?v=41";
 
 const res = await fetchJSON(
@@ -71,10 +71,9 @@ instance running on Browserless.
 Once you've navigated to a page, you can run arbitrary JavaScript with
 `page.evaluate` - like getting the text from a paragraph.
 
-```ts val
-const { PuppeteerDeno } = await import(
-  "https://deno.land/x/puppeteer@16.2.0/src/deno/Puppeteer.ts"
-);
+```ts title="Puppeteer example" val
+import { PuppeteerDeno } from "https://deno.land/x/puppeteer@16.2.0/src/deno/Puppeteer.ts";
+
 const puppeteer = new PuppeteerDeno({
   productName: "chrome",
 });
@@ -87,9 +86,9 @@ const intro = await page.evaluate(
   `document.querySelector('p:nth-of-type(2)').innerText`
 );
 await browser.close();
-return intro;
+console.log(intro);
 ```
 
-```txt title="Val output"
+```txt title="Logs"
 "OpenAI is an American artificial intelligence (AI) research laboratory consisting of the non-profit OpenAI Incorporated and its for-profit subsidiary corporation OpenAI Limited Partnership. OpenAI conducts AI research with the declared intention of promoting and developing friendly AI."
 ```

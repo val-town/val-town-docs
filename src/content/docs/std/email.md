@@ -10,7 +10,7 @@ Want to receive emails instead? [Create an email handler val](/types/email/)
 
 ## Basic usage
 
-```ts val
+```ts title="Example" val
 import { email } from "https://esm.town/v/std/email";
 
 await email({ text: "emails emails emails!" });
@@ -36,7 +36,7 @@ The `from` is limited to a few options:
 
 You can attach files to your emails by using the `attachments` field.
 
-```ts val
+```ts title="Attachments example" val
 import { email } from "https://esm.town/v/std/email";
 
 export const stdEmailAttachmentExample = email({

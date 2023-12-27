@@ -17,7 +17,7 @@ Email handlers receive an argument called `Email` and can do anything with it:
 they can go on to reply to the email with the [standard library](/std/email),
 or call methods in response to it.
 
-```ts val
+```ts title="Example" val
 export function emailHandler(email: Email) {
   console.log("Email received!");
 }
@@ -37,7 +37,7 @@ interface Email {
 
 ## Example
 
-```ts title="@user/testEmail" val
+```ts title="Save received emails" val
 import { blob } from "https://esm.town/v/std/blob";
 import { email } from "https://esm.town/v/std/email";
 
@@ -60,12 +60,12 @@ export async function testEmail2(e: {
 }
 ```
 
-The email address for [@user.testEmail](https://www.val.town/v/user.testEmail) is `user.testEmail@valtown.email`. Note that the username does not contain
+The email address for a val `@user.testEmail` would be `user.testEmail@valtown.email`. Note that the username does not contain
 a leading `@` and that the email domain is `valtown.email`.
 
-You can view all the emails sent to your function with the followin val:
+You can view all the emails sent to your function with the following val:
 
-```ts val
+```ts title="List received emails" val
 import { blob } from "https://esm.town/v/std/blob";
 
 const testEmails = await blob.getJSON("testEmails") as [];

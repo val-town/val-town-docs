@@ -10,7 +10,7 @@ The Val Town standard library contains an alternative version, `std/fetch`, that
 
 After importing `std/fetch`, the fetch method is used with the same signature as the Javascript Fetch API.
 
-```ts val
+```ts title="Example" val
 import { fetch } from "https://esm.town/v/std/fetch";
 
 let result = await fetch("https://api64.ipify.org?format=json");

@@ -30,11 +30,10 @@ Copy the bot token you just received and save it as a Val Town environment varia
 Call `@vtdocs.telegramGetMe` with your newly created environment variable to check that it
 works.
 
-```ts val
-import process from "node:process";
+```ts title="Check token" val
 import { telegramGetMe } from "https://esm.town/v/vtdocs/telegramGetMe";
 
-export const getMeExample = telegramGetMe(process.env.telegramBotToken);
+console.log(await telegramGetMe(Deno.env.get("telegramBotToken")));
 ```
 
 ### Create an environment variable so you can verify webhooks
@@ -50,7 +49,7 @@ came from our bot.
 
 Copy this val that uses the [HTTP Val](/types/http) :
 
-```ts val
+```ts title="Webhook handler" val
 import { telegramSendMessage } from "https://esm.town/v/vtdocs/telegramSendMessage?v=5";
 
 export const telegramWebhookEchoMessage = async (req: Request) => {
@@ -77,7 +76,7 @@ export const telegramWebhookEchoMessage = async (req: Request) => {
 
 Use `@vtdocs.telegramSetWebhook` to tell your bot where to send webhooks.
 
-```ts val
+```ts title="Register webhook" val
 import { telegramSetWebhook } from "https://esm.town/v/vtdocs/telegramSetWebhook?v=2";
 
 const token = Deno.env.get("telegramBotToken");

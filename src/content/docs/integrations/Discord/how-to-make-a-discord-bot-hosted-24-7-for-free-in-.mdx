@@ -105,7 +105,7 @@ There is a generous free plan, and no credit card required.
    [you're logged into Val Town](https://www.val.town/auth/signin).
 2. Press **Run** to add the `/ping` command to your bot.
 
-```ts val
+```ts title="Register /ping command" val
 import { registerDiscordSlashCommand } from "https://esm.town/v/neverstew/registerDiscordSlashCommand";
 
 const result = await registerDiscordSlashCommand(
@@ -122,7 +122,7 @@ export const registerDiscordCommand = result.json();
 
 1. Press **Run** to listen for Slash Commands and reply.
 
-```ts val
+```ts title="Discord interaction handler" val
 import { verify_discord_signature } from "https://esm.town/v/mattx/verify_discord_signature?v=8";
 
 export const handleDiscordInteraction = async (req: Request) => {

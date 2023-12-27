@@ -51,7 +51,7 @@ export const secretEndpoint = (req: Request) => {
 
 If I called it without supplying the environment variable, I'll be denied access:
 
-```ts val
+```ts title="Without authentication" val
 import { fetch } from "https://esm.town/v/std/fetch";
 
 const response = await fetch("https://user-secretEndpoint.web.val.run");
@@ -73,7 +73,7 @@ Response {
 
 By supplying the environment variable in a header, I'm allowed access:
 
-```ts val
+```ts title="With authentication" val
 import { fetch } from "https://esm.town/v/std/fetch";
 
 const response = await fetch(
@@ -127,7 +127,7 @@ Redis store. You can see that I'm using these environment variables and the outp
 computation, but you can't get those values, nor can you rerun this script with
 my environment variables.
 
-```ts val
+```ts title="Example" val
 const { Redis } = await import("npm:@upstash/redis");
 const redis = new Redis({
   url: Deno.env.get("upstashURL"),
@@ -147,12 +147,11 @@ Using another's val is like using a library from npm. The code runs entirely in
 your sandbox and they don't get any access to your evaluation logs. In this way
 it is safe to pass other's code your private data and environment variables.
 
-```ts val
-import process from "node:process";
+```ts title="Example" val
 import { gpt3 } from "https://esm.town/v/patrickjm/gpt3?v=4";
 
 export let librarySecret = gpt3({
   prompt: "what is the meaning of life?",
-  openAiKey: process.env.openai,
+  openAiKey: Deno.env.get("openai"),
 });
 ```

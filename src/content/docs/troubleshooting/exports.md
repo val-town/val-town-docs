@@ -12,7 +12,7 @@ one export. For example, if you've written an email handler but forgotten
 to add the `export` keyword, you'll encounter an error reminding you to
 export something.
 
-```tsx val
+```ts title="Example" val
 /**
  * Note the 'export' keyword which tells JavaScript to export
  * this method and make it available to other files.
