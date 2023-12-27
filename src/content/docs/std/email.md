@@ -2,7 +2,7 @@
 title: Email
 ---
 
-`std/email` lets you send emails from Val town. You can send emails to yourself, only - unless you have Val Town Pro, in which case you can send emails to anyone.
+Send emails with [`std/email`](https://www.val.town/v/std/email). You can only send emails to yourself if you're on Val Town Free. If you're on Val Town Pro, you can email to anyone.
 
 :::note
 Want to receive emails instead? [Create an email handler val](/types/email/)
