@@ -35,7 +35,7 @@ Create a CNAME record to `domains.val.run`:
 | ----------------------- | ----------------- |
 | `something.example.com` | `domains.val.run` |
 
-Replace `something.example.com` with your domain. In some domain platforms, you should you'll only use the subdomain, which would be `something` in the example above.
+Replace `something.example.com` with your domain. In some domain platforms, you should only use the subdomain, which would be `something` in the example above.
 
 ### Apex domains
 
