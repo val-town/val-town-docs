@@ -21,6 +21,12 @@ Once the domain is added, you can choose a val to handle requests to that domain
 
 The DNS configuration will depend on the type of domain, apex domains (`example.com`) or subdomains (`something.example.com`). These settings will depend on the platform you use to manage your domains.
 
+:::note
+
+DNS changes can take a few minutes or up to an hour to take effect.
+
+:::
+
 ### Subdomains
 
 Create a CNAME record to `domains.val.run`:
