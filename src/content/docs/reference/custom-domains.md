@@ -3,21 +3,27 @@ title: Custom domains
 description: Point your own domains to any HTTP val
 ---
 
-:::note
-
-This page is still being written and reviewed
-
-:::
-
 Custom domains allow you to use your own domain names to access the HTTP vals you created. This feature enables a more branded and professional experience for users visiting your vals.
 
-## Setting up custom domains
+## Buy a domain
 
-Navigate to [custom domain settings](https://val.town/settings/domains), then add the domain that you want to redirect to one of your vals.
+The custom domains feature works with domains that you already own, and connects them to your val, which serves all traffic to the domain. You'll need to configure DNS settings with your domain registrar to make this work.
 
-Once the domain is added, you can choose a val to handle requests to that domain, and you'll get the DNS setup instructions, which are also covered below.
+Some domain registrars that you can use to buy a domain:
+
+- [Namecheap](https://www.namecheap.com/)
+- [Cloudflare Registrar](https://www.cloudflare.com/products/registrar/)
+- [GoDaddy](https://www.godaddy.com/)
+
+## Add your domain to Val Town
+
+Once you have a domain, navigate to Val Town's [custom domain settings](https://val.town/settings/domains) and add your domain that you want to redirect to one of your vals.
+
+Then, choose a val to handle requests to that domain.
 
 ## Configure the DNS
+
+Lastly, you'll need to configure the DNS settings in your domain registrar so that requests are routed to your val. We provide a summary of the information below on the domain page for your convenience.
 
 The DNS configuration will depend on the type of domain, apex domains (`example.com`) or subdomains (`something.example.com`). These settings will depend on the platform you use to manage your domains.
 
