@@ -51,4 +51,4 @@ export const stdEmailAttachmentExample = email({
 });
 ```
 
-Here's an example sending a [PDF](https://www.val.town/v/stevekrouse/sendPDF2).
+Here's an example sending a [PDF](https://www.val.town/v/stevekrouse/sendPDF).
