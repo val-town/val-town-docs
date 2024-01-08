@@ -1,7 +1,15 @@
 ---
 title: Custom domains
 description: Point your own domains to any HTTP val
+sidebar:
+    badge:
+        text: PRO
+        variant: note
 ---
+
+:::note
+Custom domains are available only to [Pro subscribers](https://www.val.town/pricing).
+:::
 
 Custom domains allow you to use your own domain names to access the HTTP vals you created. This feature enables a more branded and professional experience for users visiting your vals.
 
