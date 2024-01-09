@@ -3,6 +3,7 @@ title: Contact Us
 tableOfContents: false
 description: |
   The Val Town team is always available via email and Discord.
+lastUpdated: 2023-12-05
 ---
 
 - [hi@val.town](mailto:hi@val.town)

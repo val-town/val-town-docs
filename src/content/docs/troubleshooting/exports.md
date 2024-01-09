@@ -4,6 +4,7 @@ description: |
   Vals can export anything they want, but if you intend to use vals as
   web handlers, email handlers, or on a schedule, they'll need at least
   one export.
+lastUpdated: 2023-12-22
 ---
 
 Vals can export anything they want, but if you intend to use vals as
