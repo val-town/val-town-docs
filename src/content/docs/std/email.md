@@ -1,6 +1,8 @@
 ---
 title: Email
+lastUpdated: 2024-01-05
 ---
+
 
 Send emails with [`std/email`](https://www.val.town/v/std/email). You can only send emails to yourself if you're on Val Town Free. If you're on Val Town Pro, you can email to anyone.
 
