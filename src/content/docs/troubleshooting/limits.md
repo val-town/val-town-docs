@@ -1,6 +1,8 @@
 ---
 title: Limits
+lastUpdated: 2023-12-19
 ---
+
 
 Currently, vals can return a maximum of 250,000 characters of JSON. This is a limit we're working on increasing.
 
