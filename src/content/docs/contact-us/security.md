@@ -1,8 +1,10 @@
 ---
 title: Security
 generated: 1701279907852
-description: |
-  Val Town takes security seriously: these are the details on how to contact us if you have any concerns.
+description: >
+  Val Town takes security seriously: these are the details on how to contact us
+  if you have any concerns.
+lastUpdated: 2023-12-04
 ---
 
 The security of our systems is our top priority. We appreciate investigative

@@ -1,5 +1,6 @@
 ---
 title: Proxied fetch
+lastUpdated: 2023-12-27
 ---
 
 The Javascript Fetch API is directly available within a Val. However, the requests sent using this API are not proxied or retried. This is problematic in some use cases where requests may be blocked by the receiving server for using particular IP addresses. Additionally, network blips or unreliable web services may lead to failed Vals if not handled properly.

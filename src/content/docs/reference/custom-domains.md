@@ -2,9 +2,10 @@
 title: Custom domains
 description: Point your own domains to any HTTP val
 sidebar:
-    badge:
-        text: PRO
-        variant: note
+  badge:
+    text: PRO
+    variant: note
+lastUpdated: 2024-01-08
 ---
 
 :::note
