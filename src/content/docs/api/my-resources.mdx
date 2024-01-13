@@ -87,3 +87,14 @@ export let getComments = comments({
 ## Get `/v1/me/references`
 
 Returns vals that depend on any of the user's vals
+
+```ts title="Example" val
+import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON?v=42";
+
+export const references = await fetchJSON(
+  "https://api.val.town/v1/me/references",
+  {
+    headers: { Authorization: `Bearer ${Deno.env.get("valtown")}` },
+  }
+);
+```
