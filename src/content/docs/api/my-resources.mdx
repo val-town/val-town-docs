@@ -18,6 +18,8 @@ This is the same as `/v1/users/{your_user_id}`
 
 :::
 
+Get profile information for the current user
+
 ```ts title="Example" val
 import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON?v=41";
 
@@ -52,6 +54,8 @@ export let getRuns = runs({
 
 ## GET `/v1/me/likes`
 
+Get vals liked by the current user
+
 ```ts title="Example" val
 import { likes } from "https://esm.town/v/neverstew/likes";
 
@@ -63,6 +67,8 @@ export let getLikes = likes({
 ```
 
 ## GET `/v1/me/comments`
+
+Get comments related to current user, either given or received
 
 ```ts title="Example" val
 import { comments } from "https://esm.town/v/neverstew/comments";
@@ -77,3 +83,7 @@ export let getComments = comments({
   until: new Date(),
 });
 ```
+
+## Get `/v1/me/references`
+
+Returns vals that depend on any of the user's vals
