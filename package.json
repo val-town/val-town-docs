@@ -15,7 +15,7 @@
     "@fontsource/ibm-plex-sans": "^5.0.18",
     "astro": "^4.1.1",
     "sharp": "^0.33.1",
-    "starlight-links-validator": "^0.5.1",
+    "starlight-links-validator": "^0.5.2",
     "typescript": "^5.3.3",
     "hast-util-select": "^6.0.2",
     "hastscript": "^8.0.0"
