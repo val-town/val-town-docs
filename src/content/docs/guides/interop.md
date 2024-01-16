@@ -29,6 +29,15 @@ any [environment variables](/reference/environment-variables/)
 you've set in Val Town are set as environment variables in your
 local environment.
 
+**Private vals** can be run by setting [DENO_AUTH_TOKENS](https://docs.deno.com/runtime/manual/basics/modules/private). Create an [API token](https://docs.val.town/api/authentication/)
+in Val Town, and then use it for the esm.town domain:
+
+```sh
+$ DENO_AUTH_TOKENS=xxx@esm.town deno run https://esm.town/v/tmcw/privateVal
+
+Hello world!
+```
+
 ### Browsers
 
 Both Val Town and Deno aim to use the web platform and build
@@ -61,6 +70,9 @@ many APIs that aren't available in web browsers. Unlike web browsers,
 Deno can read files, interact with environment variables, and much
 more. Vals that use these Deno or Node-specific APIs will not
 automatically work in browsers.
+
+**Private vals** can't be used directly in browsers yet, because
+there's no web standard we can follow to support them.
 
 ### Node.js
 
