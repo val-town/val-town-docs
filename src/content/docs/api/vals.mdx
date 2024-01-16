@@ -8,16 +8,37 @@ The vals endpoints allow you to manipulate vals.
 
 ## POST `/v1/vals`
 
+Create a new val
+
 ```ts title="Example" val
-import { createVal } from "https://esm.town/v/neverstew/createVal";
+import { createVal } from "https://esm.town/v/nbbaier/createVal";
 
 export const postVals = createVal({
   token: Deno.env.get("valtown"),
+  name: "myNewVal",
   code: "const two = 1 + 1;",
+  readme: "Lorem ipsum dolor sit amet.",
+  privacy: "public",
+});
+```
+
+## PUT `/v1/vals`
+
+Create or update a val by name and code.
+
+```ts title="Example" val
+import { updateValByName } from "https://esm.town/v/nbbaier/updateValByName";
+
+export const updatedVal = updateValByName({
+  token: Deno.env.get("valtown"),
+  name: "myNewVal",
+  code: "const two = 2;",
 });
 ```
 
 ## GET `/v1/vals/{val_id}`
+
+Get val by id.
 
 ```ts title="Example" val
 import { val } from "https://esm.town/v/neverstew/val";
@@ -28,6 +49,8 @@ export const getVal = val({
 ```
 
 ## DELETE `/v1/vals/{val_id}`
+
+Delete a val.
 
 ```ts title="Example" val
 import { deleteVal } from "https://esm.town/v/neverstew/deleteVal";
@@ -40,6 +63,8 @@ export const deleteValExample = deleteVal({
 
 ## GET `/v1/vals/{val_id}/versions`
 
+List versions of a val
+
 ```ts title="Example" val
 import { valVersions } from "https://esm.town/v/neverstew/valVersions";
 
@@ -50,6 +75,8 @@ export const getValVersions = valVersions({
 ```
 
 ## POST `/v1/vals/{val_id}/versions`
+
+Create a new version of a val
 
 ```ts title="Example" val
 import { createValVersion } from "https://esm.town/v/neverstew/createValVersion";
@@ -73,6 +100,8 @@ export let createValVersionExample = (() =>
 
 ## GET `/v1/vals/{val_id}/versions/{version}`
 
+Get a specific version of a val
+
 ```ts title="Example" val
 import { valVersion } from "https://esm.town/v/neverstew/valVersion";
 
@@ -84,6 +113,8 @@ export const getValVersion = valVersion({
 ```
 
 ## DELETE `/v1/vals/{val_id}/versions/{version}`
+
+Delete a val version.
 
 ```ts title="Example" val
 import { deleteValVersion } from "https://esm.town/v/neverstew/deleteValVersion";

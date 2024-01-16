@@ -14,6 +14,8 @@ lastUpdated: 2023-12-22
 
 ## GET `/v1/alias/{username}`
 
+Get a user profile information by their username
+
 ```ts title="Example" val
 import { alias } from "https://esm.town/v/neverstew/alias";
 
@@ -22,7 +24,9 @@ export let aliasExample = alias({
 });
 ```
 
-## GET `/v1/alias/{username}/{handle}`
+## GET `/v1/alias/{username}/{val_name}`
+
+Get a val by the author's username and val name
 
 ```ts title="Example" val
 import { alias } from "https://esm.town/v/neverstew/alias";

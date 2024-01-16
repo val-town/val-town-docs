@@ -16,28 +16,25 @@ You pass `args` to Run API function calls via a JSON-encoded array. While it may
 feel a bit clunky to always pass an array (even when passing a single argument),
 this is a clean and expressive way to accept any number of arguments.
 
-## GET `/v1/run/{handle}.{val}`
+## GET `/v1/run/{username}.{val_name}`
 
 ```ts title="Example" val
 import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
 
 export let runGET = fetchJSON(
-  `https://api.val.town/v1/run/stevekrouse.add?args=${JSON.stringify([1, 2])}`,
+  `https://api.val.town/v1/run/stevekrouse.add?args=${JSON.stringify([1, 2])}`
 );
 ```
 
-## POST `/v1/run/{handle}.{val}`
+## POST `/v1/run/{username}.{val_name}`
 
 ```ts title="Example" val
 import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
 
-export let runPOST = fetchJSON(
-  `https://api.val.town/v1/run/stevekrouse.add`,
-  {
-    method: "POST",
-    body: JSON.stringify({
-      args: [1, 2],
-    }),
-  },
-);
+export let runPOST = fetchJSON(`https://api.val.town/v1/run/stevekrouse.add`, {
+  method: "POST",
+  body: JSON.stringify({
+    args: [1, 2],
+  }),
+});
 ```
