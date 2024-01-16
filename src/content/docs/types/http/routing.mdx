@@ -1,7 +1,7 @@
 ---
 title: Routing
 generated: 1701279907950
-lastUpdated: 2023-12-22
+lastUpdated: 2024-01-16
 ---
 
 One of the coolest things about the Request/Response API is that it works with modern web frameworks, so you can use routing and their helper methods!
@@ -66,4 +66,34 @@ export const ittyRouterExample = async (request: Request) => {
   router.get("/", () => "Hi");
   return router.handle(request).then(json);
 };
+```
+
+### feTS
+
+A simple example of using [feTS](https://the-guild.dev/openapi/fets) server.
+
+```ts title="feTS example" val
+import { createRouter, Response } from "npm:fets";
+
+const router = createRouter().route({
+  method: "GET",
+  path: "/greetings",
+  schemas: {
+    responses: {
+      200: {
+        type: "object",
+        properties: {
+          message: {
+            type: "string",
+          },
+        },
+        required: ["message"],
+        additionalProperties: false,
+      },
+    },
+  },
+  handler: () => Response.json({ message: "Hello World!" }),
+});
+
+export default router.fetch;
 ```
