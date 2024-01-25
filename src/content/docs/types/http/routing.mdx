@@ -1,7 +1,7 @@
 ---
 title: Routing
 generated: 1701279907950
-lastUpdated: 2023-12-22
+lastUpdated: 2024-01-16
 ---
 
 One of the coolest things about the Request/Response API is that it works with modern web frameworks, so you can use routing and their helper methods!
@@ -66,4 +66,50 @@ export const ittyRouterExample = async (request: Request) => {
   router.get("/", () => "Hi");
   return router.handle(request).then(json);
 };
+```
+
+### feTS
+
+A simple example of using [feTS server](https://the-guild.dev/openapi/fets/server/quick-start):
+
+```ts title="@user/fetsServer" val
+import { createRouter, Response } from "npm:fets";
+
+export const router = createRouter().route({
+  method: "GET",
+  path: "/greetings",
+  schemas: {
+    responses: {
+      200: {
+        type: "object",
+        properties: {
+          message: {
+            type: "string",
+          },
+        },
+        required: ["message"],
+        additionalProperties: false,
+      },
+    },
+  },
+  handler: () => Response.json({ message: "Hello World!" }),
+});
+
+export default router.fetch;
+```
+
+Notice, that it exports the `router`, which allows to use the [feTS client](https://the-guild.dev/openapi/fets/client/quick-start) to make routes type safe:
+
+```ts title="@user/fetsClient" val
+import { type router } from "https://esm.town/v/user/fetsServer";
+import { createClient } from "npm:fets";
+
+const client = createClient<typeof router>({
+  endpoint: "https://user-fetsServer.web.val.run",
+});
+
+// The `response` and `greetings` have proper types automatically inferred
+const response = await client["/greetings"].get();
+const greetings = await response.json();
+console.log(greetings);
 ```
