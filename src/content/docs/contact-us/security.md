@@ -34,3 +34,28 @@ Please email findings to [security@val.town](mailto:security@val.town).
   personal details to third parties without your permission.
 - We offer various bug bounties as compensation, depending on the severity of
   the exploit found.
+
+## In-scope domains
+
+Val Town uses the following domains:
+
+- `val.town`
+- `valtown.email`
+- `api.val.town`
+- `esm.town`
+- `*.val.run`
+
+Subdomains of these domains are additionally in scope for the program.
+
+## Out of scope issues
+
+- Reports that target vulnerabilities on outdated or deprecated browsers, open source libraries, or infrastructure
+- Reports relating to missing security hardening headers
+- Reports from automated tools or scans
+- Our policies on presence/absence of SPF/DMARC/DKIM/CAA/BIMI records
+- Self-XSS or developer console code execution
+- Login/logout CSRF
+- Phishing or social engineering attacks
+- Brute force login attempts
+- Bugs on Vals themselves. Vals are user-controlled code and are not part of Val Town's product surface
+- Violating any laws or breaching any agreements in order to discover vulnerabilities
