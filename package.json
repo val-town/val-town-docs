@@ -13,7 +13,7 @@
     "@astrojs/check": "^0.4.1",
     "@astrojs/starlight": "^0.16.0",
     "@fontsource/ibm-plex-sans": "^5.0.18",
-    "astro": "^4.2.1",
+    "astro": "^4.2.6",
     "sharp": "^0.33.2",
     "starlight-links-validator": "^0.5.2",
     "typescript": "^5.3.3",
