@@ -17,8 +17,8 @@ later.
 
 You can defer work by two mechanisms:
 
-- Creating a Promise or async function (recommended)
-- Using setTimeout or setInterval
+- Creating a `Promise` or async function (recommended)
+- Using `setTimeout` or `setInterval`
 
 Here's an example of deferring work using an anonymous
 async function. This val responds to HTTP requests
@@ -36,23 +36,6 @@ export async function handle() {
     // Log a message
     console.log("Hi!");
   })();
-  return Response.json({ ok: true });
-}
-```
-
-The same approach works if you use a `Promise` object:
-
-```ts title="Unawaited promise" val
-export async function handle() {
-  // Schedule work to do later
-  new Promise<void>(async (resolve) => {
-    // Wait 1 second
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    // Log a message
-    console.log("Hi!");
-    // Finish the work
-    resolve();
-  });
   return Response.json({ ok: true });
 }
 ```
