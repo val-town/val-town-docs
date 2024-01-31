@@ -1,8 +1,10 @@
 ---
-title: Early-returning HTTP responses
+title: Deferred functions
 description: |
   You can do asynchronous work after return a response from
   an HTTP handler.
+sidebar:
+  order: 5
 lastUpdated: 2024-01-31
 ---
 
@@ -13,10 +15,10 @@ HTTP responses as soon as they're returned from the handler method. So
 you can return a response immediately and defer additional work until
 later.
 
-You can defer work by three mechanisms:
+You can defer work by two mechanisms:
 
 - Creating a Promise or async function (recommended)
-- Using setTimeout
+- Using setTimeout or setInterval
 
 Here's an example of deferring work using an anonymous
 async function. This val responds to HTTP requests
