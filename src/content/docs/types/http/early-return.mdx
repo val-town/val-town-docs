@@ -1,0 +1,60 @@
+---
+title: Early-returning HTTP responses
+description: |
+  You can do asynchronous work after return a response from
+  an HTTP handler.
+lastUpdated: 2024-01-31
+---
+
+If you need to return an HTTP response first, and then do additional
+asynchronous work, you can do that with Val Town. Vals by default wait
+until all Promises and timeouts are resolved before exiting, but send
+HTTP responses as soon as they're returned from the handler method. So
+you can return a response immediately and defer additional work until
+later.
+
+You can defer work by three mechanisms:
+
+- Creating a Promise or async function (recommended)
+- Using setTimeout
+
+Here's an example of deferring work using an anonymous
+async function. This val responds to HTTP requests
+with `{ "ok": true }` immediately, and then waits a second,
+and then logs the word "Hi!". You can use the same structure
+to schedule time-consuming work like database queries
+or network traffic till after the Val's response is already sent.
+
+```ts title="Unawaited async function" val
+export async function handle() {
+  // Schedule work to do later
+  (async () => {
+    // Wait 1 second
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    // Log a message
+    console.log("Hi!");
+  })();
+  return Response.json({ ok: true });
+}
+```
+
+The same approach works if you use a `Promise` object:
+
+```ts title="Unawaited promise" val
+export async function handle() {
+  // Schedule work to do later
+  new Promise<void>(async (resolve) => {
+    // Wait 1 second
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    // Log a message
+    console.log("Hi!");
+    // Finish the work
+    resolve();
+  });
+  return Response.json({ ok: true });
+}
+```
+
+The key to both techniques is that the async work does
+_not_ use the `await` keyword, so JavaScript does not wait
+for it to finish before returning the Response object.
