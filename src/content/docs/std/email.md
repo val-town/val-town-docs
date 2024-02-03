@@ -1,6 +1,6 @@
 ---
 title: Email
-lastUpdated: 2024-01-05
+lastUpdated: 2024-02-02
 ---
 
 Send emails with [`std/email`](https://www.val.town/v/std/email). You can only send emails to yourself if you're on Val Town Free. If you're on Val Town Pro, you can email to anyone.
@@ -32,6 +32,23 @@ The `from` is limited to a few options:
 1. It defaults to `notifications@val.town` if you don't specify it.
 
 2. If you do specify it, it must be of the form: `your_username.valname@valtown.email`.
+
+## `replyTo`
+
+`replyTo` accepts a string email or an object with strings for `email` and `name` (optional).
+
+This can be useful if you are sending emails to others with Val Town Pro.
+
+```ts title="replyTo" val
+import { email } from "https://esm.town/v/std/email";
+
+await email({
+  to: "someone_else@example.com",
+  from: "your_username.valname@valtown.email",
+  replyTo: "your_email@example.com",
+  text: "these pretzels are making me thirsty",
+});
+```
 
 ## Attachments
 
