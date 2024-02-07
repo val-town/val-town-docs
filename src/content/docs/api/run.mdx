@@ -3,8 +3,23 @@ title: Run
 generated: 1701279907981
 description: |
   An API that lets you run custom TypeScript functions via HTTP
-lastUpdated: 2023-12-22
+sidebar:
+  badge:
+    text: Deprecated
+    variant: caution
+lastUpdated: 2024-02-07
 ---
+
+
+:::caution[Deprecated]
+
+The Run API is deprecated. Only select vals can be invoked through it.
+New vals [should use the Web API instead](/types/http), which supports a wider
+range of inputs & outputs.
+
+Read our [blog post](https://blog.val.town/blog/deprecating-the-run-api/) for more details.
+
+:::
 
 The Run API lets you run any Val as an API. Unauthenticated use will only have
 access to public vals. If you run a JSON Val, it simply returns that Val. A
