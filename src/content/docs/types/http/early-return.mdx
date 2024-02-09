@@ -1,0 +1,78 @@
+---
+title: Deferred functions
+description: |
+  You can do asynchronous work after return a response from
+  an HTTP handler.
+sidebar:
+  order: 5
+lastUpdated: 2024-01-31
+---
+
+Val Town supports asynchronous functions with the basic primitives
+of [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises)
+in JavaScript. All kinds of handler vals, including HTTP, Email,
+and Interval, can be async functions: if they return a Promise,
+we await it.
+
+We also wait until other, non-awaited asynchronous work is done
+before exiting from a Val: we wait for the runtime to gracefully
+exit after all promises have resolved.
+
+You can use this feature to make an HTTP val that responds quickly
+to an incoming HTTP request, and then does some other work
+_after_ sending a response.
+
+Here's an example of deferring work using an anonymous
+async function. This val responds to HTTP requests
+with `{ "ok": true }` immediately, and then waits a second,
+and then logs the word "Hi!". You can use the same structure
+to schedule time-consuming work like database queries
+or network traffic till after the Val's response is already sent.
+
+```ts title="Unawaited async function" val
+export async function handle() {
+  // Schedule work to do later
+  (async () => {
+    // Wait 1 second
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    // Log a message
+    console.log("Hi!");
+  })();
+  return Response.json({ ok: true });
+}
+```
+
+The key to both techniques is that the async work does
+_not_ use the `await` keyword, so JavaScript does not wait
+for it to finish before returning the Response object.
+
+### waitUntil
+
+This technique is a stopgap until full support for
+[waitUntil](https://developer.mozilla.org/en-US/docs/Web/API/ExtendableEvent/waitUntil)
+lands in Val Town, which will handle this case more explicitly.
+
+### Promises should otherwise be awaited
+
+While this is a  useful technique, it's important to emphasize that,
+in general, you should otherwise `await` every Promise.
+If you don't remember to use `await` with Promises - besides this
+narrow usecase, errors that occur in promises won't be properly
+handled and functions may run out-of-order.
+
+For example, if you use `fetch` to request some resource,
+but forget to await it, then it won't throw errors when it fails,
+and you won't have the values you expect to have:
+
+```ts
+export async function handle() {
+  try {
+    // Result will be an opaque Promise, not a useful value.
+    const result = fetch('https://google.com/');
+  } catch (e) {
+    // Errors will never be caught here because
+    // fetch is not awaited.
+    handleError(e);
+  }
+}
+```
