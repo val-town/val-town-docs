@@ -28,7 +28,7 @@ You'll use this key to authenticate requests to the Accounts API, letting you fe
 
 ### 2. Add that key as a Val Town environment variable
 
-Add the API key as an [environment variable](/reference/environment-variables/) in Val Town. In this example, we've named the environment variable `pipedream_api_key`:
+Add the API key as an [environment variable](https://www.val.town/settings/environment-variables) in Val Town. In this example, we've named the environment variable `pipedream_api_key`:
 
 ![Environment Variables](./Google-Sheets/pipedream-val-town-env-var.png)
 
@@ -42,7 +42,7 @@ You'll be directed through the OAuth authorization process to connect your Googl
 
 ### 4. Copy the account ID
 
-Click the `...` to the right of the account and **Copy Account ID**:
+Click the `…` to the right of the account and **Copy Account ID**:
 
 ![Account ID](./Google-Sheets/pipedream-copy-account-id.png)
 
@@ -54,7 +54,7 @@ In the Google Sheet you'd like to access, copy the sheet ID from the URL bar. It
 
 ![Sheet ID](./Google-Sheets/sheet_id.png)
 
-### 5. Fetch a Google Sheets access token and use it in your val
+### 6. Fetch a Google Sheets access token and use it in your val
 
 In your val, fetch a fresh Google Sheets access token from Pipedream and use it to authenticate requests:
 
@@ -85,7 +85,7 @@ async function fetchAccessToken() {
 
 async function makeSheetsRequest(url, method, body = null) {
   const accessToken = await fetchAccessToken();
-  const options = {
+  const options: RequestInit = {
     method,
     headers: {
       Authorization: `Bearer ${accessToken}`,
