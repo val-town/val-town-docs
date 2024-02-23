@@ -1,21 +1,131 @@
 ---
 title: Google Sheets
 description: Using the Google Sheets API, you can add rows to a spreadsheet with Val Town.
-lastUpdated: 2023-12-22
+lastUpdated: 2024-02-23
 ---
 
 You can send data to Google Sheets from a val. You can collect
-data from incoming HTTP requests or from a HTTP endpoint on a schedule.
+data from incoming HTTP requests or from an HTTP endpoint on a schedule.
 
-Authencating with the Google Sheets API is a bit tricky, but we walk you through it below. It should only take a few minutes, and only needs to be done once.
+You have two options for authenticating with the Google Sheets API:
 
-Google reccomends [OAuth2 server to server authentication](https://developers.google.com/identity/protocols/oauth2/service-account) for bot-based applications. We will walk you through creating a Google Cloud service account, giving it access to one of your Google Sheets, and using its key to make authenticated requests to the Google Sheets API.
+1. [Use Pipedream's Accounts API](#use-pipedreams-accounts-api) to fetch a fresh OAuth access token at runtime.
+2. [Use your own Google Cloud service account](#use-your-own-google-cloud-service-account).
 
-## 1. Create a Google Cloud service account
+## Use Pipedream's Accounts API
 
-[Creating a Google Cloud service account](https://developers.google.com/identity/protocols/oauth2/service-account#creatinganaccount) is the reccomended way to authenticate to the Google Sheets API.
+[Pipedream](https://pipedream.com) provides a workflow automation product for developers. Workflows are built as a sequence of steps — pre-built actions for thousands of APIs or custom code — triggered by an event (HTTP request, timer, when a new row is added to a Google Sheets, and more). 
 
-### a. Create a Google Cloud project
+Pipedream also manages the OAuth token refresh process for apps like Google Sheets, exposing a fresh access token in the workflow runtime and the [Accounts API](https://pipedream.com/docs/rest-api#accounts). If you connect your Google Sheets account to Pipedream, you can use the Accounts API to fetch a fresh token within your val and use that token to authenticate requests to the Google Sheets API.
+
+### 1. Sign up for Pipedream and retrieve your API key
+
+[Sign up for Pipedream](https://pipedream.com/auth/signup) and visit [https://pipedream.com/settings/user](https://pipedream.com/settings/user). Find the **API Key** section and copy your key:
+
+![API Key](./Google-Sheets/pipedream-api-key.png)
+
+You'll use this key to authenticate requests to the Accounts API, letting you fetch Google Sheets access tokens in your val.
+
+### 2. Add that key as a Val Town environment variable
+
+Add the API key as an [environment variable](/reference/environment-variables/) in Val Town. In this example, we've named the environment variable `pipedream_api_key`:
+
+![Environment Variables](./Google-Sheets/pipedream-val-town-env-var.png)
+
+### 3. Connect your Google Sheets account in Pipedream
+
+Visit [https://pipedream.com/accounts](https://pipedream.com/accounts). Click the **Connect an app** button at the top-right:
+
+![Connect an app](./Google-Sheets/pipedream-connect-app.png)
+
+You'll be directed through the OAuth authorization process to connect your Google Sheets account to Pipedream. Once you've connected your account, you'll see it listed on the Accounts page.
+
+### 4. Copy the account ID
+
+Click the `...` to the right of the account and **Copy Account ID**:
+
+![Account ID](./Google-Sheets/pipedream-copy-account-id.png)
+
+All account IDs are prefixed with `apn_`, so yours should look something like `apn_abc123`.
+
+### 5. Note your sheet ID
+
+In the Google Sheet you'd like to access, copy the sheet ID from the URL bar. It's the long string of characters between `/d/` and `/edit`.
+
+![Sheet ID](./Google-Sheets/sheet_id.png)
+
+### 5. Fetch a Google Sheets access token and use it in your val
+
+In your val, fetch a fresh Google Sheets access token from Pipedream and use it to authenticate requests:
+
+```ts title="Example" val
+import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON?v=41";
+
+const accountID = "<YOUR ACCOUNT ID HERE>";
+const sheetID = "<YOUR SHEET ID HERE>";
+const baseURL = `https://sheets.googleapis.com/v4/spreadsheets/${sheetID}/values`;
+
+async function fetchAccessToken() {
+  const response = await fetch(
+    `https://api.pipedream.com/v1/accounts/${accountID}?include_credentials=1`,
+    {
+      headers: {
+        Authorization: `Bearer ${Deno.env.get("pipedream_api_key")}`,
+      },
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error(`Error fetching access token: ${response.statusText}`);
+  }
+
+  const { data } = await response.json();
+  return data.credentials.oauth_access_token;
+}
+
+async function makeSheetsRequest(url, method, body = null) {
+  const accessToken = await fetchAccessToken();
+  const options = {
+    method,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+
+  if (body) {
+    options.body = JSON.stringify(body);
+  }
+
+  return fetchJSON(url, options);
+}
+
+// Write data to a sheet
+await makeSheetsRequest(
+  `${baseURL}/A1:C1:append?valueInputOption=RAW`,
+  "POST",
+  { values: [[Date(), Math.random(), 1]] },
+);
+
+// Read data from a sheet
+const data = await makeSheetsRequest(
+  `${baseURL}/A1:C1?majorDimension=ROWS`,
+  "GET",
+);
+
+console.log(data.values[0]);
+```
+
+## Use your own Google Cloud service account
+
+Authenticating with the Google Sheets API is a bit tricky, but we walk you through it below. It should only take a few minutes, and only needs to be done once.
+
+Google recommends [OAuth2 server to server authentication](https://developers.google.com/identity/protocols/oauth2/service-account) for bot-based applications. We will walk you through creating a Google Cloud service account, giving it access to one of your Google Sheets, and using its key to make authenticated requests to the Google Sheets API.
+
+### 1. Create a Google Cloud service account
+
+[Creating a Google Cloud service account](https://developers.google.com/identity/protocols/oauth2/service-account#creatinganaccount) is the recommended way to authenticate to the Google Sheets API.
+
+#### a. Create a Google Cloud project
 
 Open the [Google Cloud console](https://console.cloud.google.com/) and click on
 the **Select a project** dropdown in the top left.
@@ -30,7 +140,7 @@ Choose any name for the project name, then click **Create**.
 
 ![New project page](./Google-Sheets/project_name.png)
 
-### b. Enable the Google Sheets API
+#### b. Enable the Google Sheets API
 
 Open the [Google Sheets API page](https://console.cloud.google.com/apis/library/sheets.googleapis.com),
 then double check if the correct project is selected.
@@ -41,7 +151,7 @@ Once you have made sure that you are using the correct project, click **Enable**
 
 ![Enable button](./Google-Sheets/enable.png)
 
-### c. Create a service account
+#### c. Create a service account
 
 On the left of the screen, click on **Credentials**.
 
@@ -62,7 +172,7 @@ to a Google Sheet.
 
 Click **Done**, as granting permissions to this service account is not required.
 
-### d. Create a service account key
+#### d. Create a service account key
 
 To the right of the screen, open the menu on the newly created service account,
 and click **Manage keys**.
@@ -79,7 +189,7 @@ Click **Create key**. Leave the type as JSON.
 
 You will get a JSON file in your downloads directory.
 
-### e. Import the key into Val Town
+#### e. Import the key into Val Town
 
 Open the service account key JSON file in a text editor, and copy the full contents.
 
@@ -92,7 +202,7 @@ Once you are finished, click **Add**.
 
 ![Environment Variables](./Google-Sheets/env.png)
 
-## 2. Create a sheet and grant access
+### 2. Create a sheet and grant access
 
 Open [Google Sheets](https://docs.google.com/spreadsheets/u/0/) and create a new empty sheet or open an existing one.
 
@@ -105,7 +215,7 @@ Lastly, copy the sheet ID from the URL bar. It's the long string of characters b
 
 ![Sheet ID](./Google-Sheets/sheet_id.png)
 
-## 3. Create a val to send data
+### 3. Create a val to send data
 
 To interact with the Google Sheets API, use the [@mattx.gsheet_call](https://www.val.town/v/mattx/gsheet_call) wrapper.
 
