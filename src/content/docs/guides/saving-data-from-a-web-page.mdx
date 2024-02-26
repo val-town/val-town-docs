@@ -1,86 +1,119 @@
 ---
-title: Saving data from a web page
+title: Saving data from a web page (Blob)
 generated: 1701279907847
-lastUpdated: 2023-12-15
+lastUpdated: 2024-02-25
 ---
 
-import Val from "@components/Val.astro";
+You can fetch data from Val Town from any web page using HTTP vals and some JavaScript.
 
-You can insert and fetch data from Val Town from any web page using the [Run](/api/run) API and some JavaScript.
+This article will use [blob storage](/std/blob) to store the data. You can also read teh [SQLite version of this article](/guides/saving-data-from-a-web-page-sqlite/).
 
-## 1. Create a val to store some state
+:::note
+Blob storage in Val Town is a versatile key-value store that enables you to store a wide variety of data types, including binary, JSON, XML, and more. Its simplicity makes it suitable for various use cases, from storing simple text, images to more complex data structures. However, it's important to note that blob storage does not support transactions, which means it might not be the best choice for use cases where data concurrency is a concern. This limitation highlights the need for careful consideration when designing systems that require concurrent data modifications or access.
+:::
 
-Fork, or copy and paste this val into your workspace - keep it named as `comments` so the snippets in this guide work correctly.
+## 1. Create a HTTP val to store some state
 
-<Val url="https://www.val.town/embed/vtdocs.comments" />
+The val below creates an HTTP API that allows for saving _comments_. It accepts `POST` requests and then adds a received comment to a list stored in blob storage. Create a copy of it and name it `appendToComments`.
 
-## 2. Create a val that can mutate that state
+```ts val
+import { blob } from "https://esm.town/v/std/blob";
 
-Fork, or copy and paste the below val into your workspace.
+export default async function (req: Request): Promise<Response> {
+  // Accept only POST requests
+  if (req.method !== "POST") {
+    return new Response("Method Not Allowed", { status: 405 });
+  }
 
-When it's set to public, anyone can send an API request to it, and the data they send will be appended to the `comments` val you created in the previous step.
+  // Extract the JSON body from the request to get the comment data.
+  const commentData = await req.json();
+  
+  // Retrieve the existing comments from the blob storage. If it doesn't exist, initialize it as an empty array.
+  const comments = (await blob.getJSON("comments-list") as any[]) ?? [];
+  
+  // Add the new comment data to the array of comments.
+  comments.push(commentData);
+  
+  // Save the updated comments array back to the blob storage.
+  await blob.setJSON("comments-list", comments);
+  
+  return new Response("OK", { status: 200 });
+}
+```
 
-<Val url="https://www.val.town/embed/vtdocs.appendToComments" />
+Make sure to mark it as [HTTP val](/types/http) and make it [public](/reference/permissions/).
 
-## 3. Use this JavaScript snippet on your webpage
 
-Get the Run API endpoint for the val you created in the step above.
+## 2. Use this JavaScript snippet on your webpage
 
-![Screenshot 2023-07-11 at 15.30.12.png](./saving-data-from-a-web-page/screenshot_2023-07-11_at_153012.png)
+Copy the generated API URL for the val created in the previous step.
 
-The below JavaScript snippet sends data to your `appendToComments` val which writes the data to your `comments` val.
+![Screenshot showing the location of the API URL](./saving-data-from-a-web-page/url.png)
 
-```jsx
-// change this URL to your appendToComments's Run API endpoint!
-fetch("https://api.val.town/v1/run/vtdocs.appendToComments", {
+The below JavaScript snippet sends data to your `appendToComments` val which saves it in the blob storage.
+
+```js
+// change this URL to your appendToComments's API URL!
+fetch("https://user-appendtocomments.web.val.run", {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
   },
   body: JSON.stringify({
-    // the single arg here maps to the `data` arg
-    args: ["hello world!"],
+    author: "user",
+    content: "Hello world!",
   }),
 }).then((r) => {
-  // status will be 200 if everything went okay
+  // Status will be 200 if everything went okay
   console.log(r.status, r.statusText);
 });
 ```
 
-## 4. Directly read from `comments`
 
-If you make your `comments` val public, anyone can read from it directly with the Run API with this JavaScript snippet.
+## 3. Read comments
 
-```jsx
-// change this URL to your comments' Run API endpoint!
-fetch("https://api.val.town/v1/run/vtdocs.comments")
-  .then((r) => r.json())
-  .then((json) => console.log(json.data));
+To read the first comment you can expand the existing val or create a new HTTP val, like here:
+
+```ts val
+import { blob } from "https://esm.town/v/std/blob";
+
+export default async function (req: Request): Promise<Response> {
+  // Accept only GET requests
+  if (req.method !== "GET") {
+    return new Response("Method Not Allowed", { status: 405 });
+  }
+
+  // Retrieve the comments array from the blob storage. If it doesn't exist, initialize it as an empty array.
+  const comments = (await blob.getJSON("comments-list") as any[]) ?? [];
+
+  // Check if there are any comments. If not, return a message indicating no comments are available.
+  if (comments.length === 0) {
+    return new Response("No comments available", { status: 404 });
+  }
+
+  // Return the first element of the comments array as a JSON response.
+  return new Response(JSON.stringify(comments[0]), {
+    headers: { "Content-Type": "application/json" },
+  });
+}
 ```
 
-When the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) doesn't include a method, it sends a GET request.
+Copy the val, mark it as HTTP val and make it public.
 
-## 5. Indirectly read from `comments`
+Go ahead and check it by reviewing the contents of the "browser preview" tab. You can also do this by visiting the provided API URL in your browser; this action will automatically send a GET request. Alternatively, you can run the following JavaScript in your browser's DevTools for more controller interaction:
 
-Maybe you want to hide some of your data. You can keep `comments` private and just provide access to a slice of it by using a public function val like this.
-
-<Val url="https://www.val.town/embed/vtdocs.getFirstComment" />
-
-Go ahead and test this by calling this one in your browser's developer console with this snippet.
-
-```jsx
-const r = await fetch("https://api.val.town/v1/run/vtdocs.getFirstComment");
+```js
+const r = await fetch("https://user-getfirstcomment.web.val.run");
 console.log(await r.json());
 ```
 
-If the val is a function, it's implicitly called by the Run API.
 
-## 6. Use anything that supports HTTP!
+## 4. Use anything that supports HTTP!
 
 Like `cURL`:
 
 ```bash
-curl https://api.val.town/v1/run/vtdocs.getFirstComment
+curl https://user-getfirstcomment.web.val.run
 ## "hello world!"
 ```
 
@@ -88,10 +121,6 @@ Or `python3`:
 
 ```python
 import json, urllib.request
-body = urllib.request.urlopen("https://api.val.town/v1/run/vtdocs.getFirstComment").read()
+body = urllib.request.urlopen("https://user-getfirstcomment.web.val.run").read()
 print(json.loads(body)) # hello world!
 ```
-
-## 7. See the Val Town API reference
-
-For more details, and alternative ways of interacting with Val Town, see [Val Town API](/api/overview)
