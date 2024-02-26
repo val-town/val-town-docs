@@ -2,21 +2,12 @@
 title: Environment variables
 generated: 1701279907850
 description: Using environment variables to store secrets that vals can securely access
-lastUpdated: 2023-12-22
+lastUpdated: 2024-02-26
 ---
 
 The proper place to store secrets, keys, and API tokens is in
 [Environment Variables](https://val.town/settings/environment-variables). When you add a key and value to
 the list of environment variables on that page, it becomes available via the `Deno.env` and `process.env` variables.
-
-:::danger
-
-Any public or unlisted code can be run by others via the
-[Run API](/api/run). Be careful about publishing any code that
-references your environment variables because it could allow others the ability to use your
-environment variables (but not see what they are).
-
-:::
 
 Environment variables can be accessed via `Deno.env` or `process.env`.
 
