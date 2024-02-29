@@ -1,6 +1,16 @@
 import { h } from "hastscript";
 import { select } from "hast-util-select";
 
+/**
+ * Be careful to handle Unicode in Base64
+ * https://developer.mozilla.org/en-US/docs/Glossary/Base64#the_unicode_problem
+ */
+function stringToBase64(str) {
+  const bytes = new TextEncoder().encode(str);
+  const binString = String.fromCodePoint(...bytes);
+  return btoa(binString);
+}
+
 export function valTownOpenButton() {
   return {
     name: "Val Town Open Button",
@@ -44,12 +54,9 @@ export function valTownOpenButton() {
         const meta = codeBlock.meta.trim();
         if (meta !== "val") return;
 
-        // Generate the URL
-        const encodedCode = encodeURIComponent(codeBlock.code).replace(
-          /%20/g,
-          "+"
-        );
-        const url = `https://www.val.town/new?code=${encodedCode}`;
+        const url = `https://www.val.town/new?${new URLSearchParams({
+          code64: stringToBase64(codeBlock.code),
+        }).toString()}`;
 
         // Display large button if there is a title
         const caption = select(".has-title figcaption", renderData.blockAst);
@@ -64,8 +71,8 @@ export function valTownOpenButton() {
                 target: "_blank",
                 rel: "noopener",
               },
-              [h("span", { class: "title" }, ["Run in Val Town ↗"])]
-            )
+              [h("span", { class: "title" }, ["Run in Val Town ↗"])],
+            ),
           );
         } else {
           // Display a mini button next to the copy button
@@ -84,8 +91,8 @@ export function valTownOpenButton() {
                     h("div"),
                     h("span", {}, ["Run in Val Town"]),
                   ]),
-                ]
-              )
+                ],
+              ),
             );
             return;
           }
