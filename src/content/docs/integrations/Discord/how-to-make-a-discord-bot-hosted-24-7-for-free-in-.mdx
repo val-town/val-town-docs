@@ -116,7 +116,7 @@ const result = await registerDiscordSlashCommand(
     name: "ping",
     description: "Say hi to your bot",
   });
-export const registerDiscordCommand = result.json();
+console.log(await result.json())
 ```
 
 ## Step 6: Listen for Slash Commands
