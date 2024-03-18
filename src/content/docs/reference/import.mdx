@@ -1,7 +1,7 @@
 ---
 title: Importing
 description: Import code from vals, NPM, and URLs
-lastUpdated: 2024-01-05
+lastUpdated: 2024-03-18
 ---
 
 One of the best features of Val Town is the ability to import modules. There are thousands
@@ -23,7 +23,7 @@ you type the `@` symbol.
 import { example1 } from "https://esm.town/v/stevekrouse/example1";
 ```
 
-All vals are hosted on `https://esm.town/v/username/valname?v=version`,
+All vals are hosted on [esm.town](/api/esm-town),
 and are available for import on Val Town, Deno, Bun, and most JavaScript runtimes.
 In this way, Val Town builds upon the new http-style imports, to make a lightweight package registry,
 but where each snippet of code is a package.
@@ -39,6 +39,17 @@ To import an npm module, like [zod](https://www.npmjs.com/package/zod), add
 ```ts
 import { z } from "npm:zod";
 ```
+
+:::note[NPM compatibility and the sandbox]
+
+Most NPM modules are supported and will work great in Val Town. However,
+we do run in a security sandbox: a val can't access the filesystem. Some
+NPM modules try to do that, and won't be able to. Using esm.sh
+is often an effective workaround for these modules. See
+[permissions errors](/troubleshooting/permission-errors/) for more
+information.
+
+:::
 
 ## HTTP Imports
 
@@ -69,7 +80,7 @@ anyone has used that library before.
 [You can find the most common packages here](https://www.val.town/examples/packages).
 
 Or you could look for examples related to `cheerio` by searching for it or even
-more pointedly by searching for [`import("npm:cheerio")`](https://www.val.town/search?q=import(%22npm:cheerio%22)).
+more pointedly by searching for [`"npm:cheerio"`](https://www.val.town/search?q=%22npm:cheerio%22).
 
 ### Log keys
 
@@ -104,8 +115,8 @@ Also, some modules are written with the assumption that they can access system
 resources, compile C code, and more, so they won't work in a secure environment
 like Val Town.
 
-:::note
+:::tip[We're here to help]
 
-As always, ask in our Discord if you want help.
+As always, [ask in our Discord if you want help](/contact-us/contact-us).
 
 :::

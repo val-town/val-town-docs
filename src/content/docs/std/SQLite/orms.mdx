@@ -4,10 +4,14 @@ lastUpdated: 2024-01-05
 ---
 
 Writing SQL is really fast and it's great for small projects. As your projects
-grow, you might want to take advantage of an ORM or query builder instead. Here
+grow, you might want to take advantage of an <abbr title="Object relational mapping">ORM</abbr> or query builder instead. Here
 are a few examples of how to do that with popular tools.
 
 ## Drizzle
+
+Here's how to use the awesome [Drizzle ORM](https://orm.drizzle.team/)
+module with Val Town and SQLite. It's great because it allows you to write
+very expressive SQL. We even use Drizzle to build Val Town!
 
 ```ts title="Example" val
 import { sqlite } from "https://esm.town/v/std/sqlite";

@@ -2,17 +2,18 @@
 title: Custom domains
 description: Point your own domains to any HTTP val
 sidebar:
+  order: 5
   badge:
     text: PRO
     variant: note
-lastUpdated: 2024-01-08
+lastUpdated: 2024-03-18
 ---
 
 :::note
 Custom domains are available only to [Pro subscribers](https://www.val.town/pricing).
 :::
 
-Custom domains allow you to use your own domain names to access the HTTP vals you created. This feature enables a more branded and professional experience for users visiting your vals.
+Custom domains allow you to use your own domain names to access the HTTP vals you created. This feature enables a branded and professional experience for users visiting your vals.
 
 ## Buy a domain
 
@@ -26,9 +27,9 @@ Some domain registrars that you can use to buy a domain:
 
 ## Add your domain to Val Town
 
-Once you have a domain, navigate to Val Town's [custom domain settings](https://val.town/settings/domains) and add your domain that you want to redirect to one of your vals.
+Once you have a domain, navigate to Val Town's [custom domain settings](https://val.town/settings/domains) and add the domain that you want to redirect to one of your vals.
 
-Then, choose a val to handle requests to that domain.
+Then choose a val to handle requests to that domain.
 
 ## Configure the DNS
 
@@ -38,7 +39,7 @@ The DNS configuration will depend on the type of domain, apex domains (`example.
 
 :::note
 
-DNS changes can take a few minutes or up to an hour to take effect.
+DNS changes can take up to an hour to take effect.
 
 :::
 

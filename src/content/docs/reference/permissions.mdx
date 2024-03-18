@@ -4,35 +4,27 @@ description: Vals can be private, unlisted, or public
 lastUpdated: 2023-12-22
 ---
 
-There are three privacy states for a Val:
+There are three privacy settings for a Val:
 
-1. 🌎 Public (anyone can view or run)
-2. 🔗 Unlisted (anyone with the name or link can view or run)
-3. 🔒 Private (only you can view or run)
+| Permissions | Visible on the website    | Web & express endpoints |
+| ----------- | ------------------------- | ----------------------- |
+| Public      | Yes                       | ✅                      |
+| Unlisted    | Only if you have the link | ✅                      |
+| Private     | No                        | Requires token          |
 
 All Vals default to private. You can publish a Val by clicking the 🔒 next to
 its name.
-
-Publishing your Val as either Public or Unlisted makes it accessible via the Run
-API. Be careful about publishing a function val that has access to your environment variables
-— your environment variables will be used if others call that function via the Run API.
-Publishing a val makes it a public API.
 
 You get to choose whether you share vals. They can be fully private, so only you
 can view, edit, and run them. Private vals are super useful for automating parts of
 your life or business. Or you can share vals publicly in the Val Town community,
 and let anyone learn from your creativity and expand on your work.
 
-| Permissions | Visible on the website    | Web & express endpoints          |
-| ----------- | ------------------------- | -------------------------------- |
-| Public      | Yes                       | Accessible                       |
-| Unlisted    | Only if you have the link | Accessible                       |
-| Private     | No                        | Requires token with each request |
 
 ## Exposing your vals to the internet
 
 Public vals are great because they can be called from anywhere, anytime,
-instantly. They can also be called _by anyone._
+instantly.
 
 Since anyone can call your public endpoints, if they interact with some data
 that should only be changed by yourself, you will need to make sure that those
@@ -41,16 +33,19 @@ endpoints check for some kind of secret that only you know.
 Here's an example of a val exposed using the [HTTP Val](/types/http), secured
 with an environment variable that only I know.
 
-```ts title="@user/secretEndpoint" val
+```ts title="user/secretEndpoint" val
 export const secretEndpoint = (req: Request) => {
   const secretHeader = req.headers.get("Authorization");
-  if (secretHeader !== Deno.env.get("supersecrettoken"))
+  
+  if (secretHeader !== Deno.env.get("supersecrettoken")) {
     return new Response("Unauthorized", { status: 401 });
+  }
+  
   return new Response("My deepest darkest secret");
 };
 ```
 
-If I called it without supplying the environment variable, I'll be denied access:
+If I called it without supplying the environment variable, I'd be denied access:
 
 ```ts title="Without authentication" val
 import { fetch } from "https://esm.town/v/std/fetch";
@@ -144,8 +139,8 @@ nested json
 
 ## Using another's vals as a library
 
-Using another's val is like using a library from npm. The code runs entirely in
-your sandbox and they don't get any access to your evaluation logs. In this way
+You can [import](/reference/import) any Public or Unlisted vals and use
+them in your own code. In this way
 it is safe to pass other's code your private data and environment variables.
 
 ```ts title="Example" val
@@ -156,3 +151,11 @@ export let librarySecret = gpt3({
   openAiKey: Deno.env.get("openai"),
 });
 ```
+
+:::danger[Import security]
+
+If you're importing someone else's code, read the code first to make
+sure it's trustworthy, and we recommend version-pinning any dependencies
+against other people's code, like `?v=4` in the example above.
+
+:::

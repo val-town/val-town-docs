@@ -1,10 +1,18 @@
 ---
 title: Runtime
 description: Val Town uses the Deno runtime to run your code
-lastUpdated: 2023-12-05
+lastUpdated: 2024-03-18
 ---
 
-Val Town uses the Deno runtime.
+Val Town uses the [Deno](https://deno.com/) runtime.
+
+- TypeScript and TSX are available for all vals, and at the time of this
+  writing we support TypeScript 5.4.
+- There is no filesystem access permitted.
+- `--allow-net` is enabled, so they can make HTTP requests.
+- Vals have access to [environment variables](/reference/environment-variables)
+- The experimental [Temporal API](https://tc39.es/proposal-temporal/docs/) is
+  enabled.
 
 ## Included environment
 
@@ -14,7 +22,3 @@ Val Town uses the Deno runtime.
 - `setInterval`
 
 You can view the [custom types we support here](https://www.val.town/docs/types).
-
-## Not included
-
-- reading or writing to a local file system

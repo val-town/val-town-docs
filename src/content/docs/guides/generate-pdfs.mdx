@@ -7,11 +7,12 @@ description: >
 lastUpdated: 2023-12-22
 ---
 
-You can generate PDFs using val functions by using an external library like [jsPDF](https://github.com/parallax/jsPDF).
+You can generate PDFs using an external library like [jsPDF](https://github.com/parallax/jsPDF).
 
 ```ts title="jsPDF usage example" val
+import { jsPDF } from "npm:jspdf";
+
 export const helloWorldPDF = async (req: Request) => {
-  const { jsPDF } = await import("npm:jspdf");
   const doc = new jsPDF();
   doc.text("Hello world!", 10, 10);
   return new Response(doc.output(), {

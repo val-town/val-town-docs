@@ -15,3 +15,7 @@
 .sl-markdown-content img:not(:where(.not-content *)) {
   border: 1px solid #eee;
 }
+
+.sl-markdown-content abbr {
+  border-bottom: 1px dotted var(--sl-color-text-accent);
+}
