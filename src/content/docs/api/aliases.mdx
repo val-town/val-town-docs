@@ -6,6 +6,8 @@ description: |
 lastUpdated: 2023-12-22
 ---
 
+import Val from '@components/Val.astro'
+
 :::note
 
 💡 These endpoints accept a `token` parameter for private vals
@@ -16,25 +18,19 @@ lastUpdated: 2023-12-22
 
 Get a user profile information by their username
 
-```ts title="Example" val
-import { alias } from "https://esm.town/v/neverstew/alias";
+<Val code={`
+import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
 
-export let aliasExample = alias({
-  username: "stevekrouse",
-});
-```
+console.log(await fetchJSON("https://api.val.town/v1/alias/stevekrouse"));
+`.trim()}/>
+
 
 ## GET `/v1/alias/{username}/{val_name}`
 
 Get a val by the author's username and val name
 
-```ts title="Example" val
-import { alias } from "https://esm.town/v/neverstew/alias";
+<Val code={`
+import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
 
-export const aliasValExample = alias({
-  username: "stevekrouse",
-  valName: "parentReference",
-  // for private vals, pass your val town api token
-  // token: Deno.env.get("valtown")
-});
-```
+console.log(await fetchJSON("https://api.val.town/v1/alias/stevekrouse/fetchJSON"));
+`.trim()}/>

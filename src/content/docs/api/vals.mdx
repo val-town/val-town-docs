@@ -4,85 +4,85 @@ generated: 1701279907985
 lastUpdated: 2023-12-22
 ---
 
+import Val from '@components/Val.astro'
+
 The vals endpoints allow you to manipulate vals.
 
 ## POST `/v1/vals`
 
 Create a new val
 
-```ts title="Example" val
+<Val disabled code={`
 import { createVal } from "https://esm.town/v/nbbaier/createVal";
 
-export const postVals = createVal({
+console.log(await createVal({
   token: Deno.env.get("valtown"),
   name: "myNewVal",
   code: "const two = 1 + 1;",
   readme: "Lorem ipsum dolor sit amet.",
   privacy: "public",
-});
-```
+}));
+`.trim()} />
 
 ## PUT `/v1/vals`
 
 Create or update a val by name and code.
 
-```ts title="Example" val
+<Val disabled code={`
 import { updateValByName } from "https://esm.town/v/nbbaier/updateValByName";
 
-export const updatedVal = updateValByName({
+console.log(await updateValByName({
   token: Deno.env.get("valtown"),
   name: "myNewVal",
   code: "const two = 2;",
-});
-```
+}));
+`.trim()} />
 
 ## GET `/v1/vals/{val_id}`
 
 Get val by id.
 
-```ts title="Example" val
-import { val } from "https://esm.town/v/neverstew/val";
+<Val code={`
+import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
 
-export const getVal = val({
-  id: "7f9019e4-dbf8-4ebe-b8cd-67730697624e",
-});
-```
+console.log(await fetchJSON("https://api.val.town/v1/vals/7f9019e4-dbf8-4ebe-b8cd-67730697624e"));
+`.trim()} />
 
 ## DELETE `/v1/vals/{val_id}`
 
 Delete a val.
 
-```ts title="Example" val
+<Val disabled code={`
 import { deleteVal } from "https://esm.town/v/neverstew/deleteVal";
 
-export const deleteValExample = deleteVal({
+console.log(await deleteVal({
   token: Deno.env.get("valtown"),
   id: "1f32d4c1-332e-4135-889f-8df408924a9d",
-});
-```
+}));
+`.trim()} />
 
 ## GET `/v1/vals/{val_id}/versions`
 
 List versions of a val
 
-```ts title="Example" val
+<Val disabled code={`
 import { valVersions } from "https://esm.town/v/neverstew/valVersions";
 
-export const getValVersions = valVersions({
+console.log(await valVersions({
   token: Deno.env.get("valtown"),
   id: "0cfbf317-18a4-4da5-b887-b75bb8a33108",
-});
-```
+}));
+`.trim()} />
 
 ## POST `/v1/vals/{val_id}/versions`
 
 Create a new version of a val
 
-```ts title="Example" val
+<Val disabled code={`
 import { createValVersion } from "https://esm.town/v/neverstew/createValVersion";
 import { val as val2 } from "https://esm.town/v/neverstew/val";
 
-export let createValVersionExample = (() =>
+console.log(await (() =>
   val2({
     token: Deno.env.get("valtown"),
     id: "543ae134-636f-43a7-bd7f-f766a3d52b47",
@@ -91,32 +91,32 @@ export let createValVersionExample = (() =>
     .then(({ id, code }) =>
       createValVersion({
         token: Deno.env.get("valtown"),
-        code: `// my inserted comment
-      ${code}`,
+        code: \`// my inserted comment
+      \${code}\`,
         valId: id,
       })
-    ))();
-```
+    ))());
+`.trim()} />
 
 ## GET `/v1/vals/{val_id}/versions/{version}`
 
 Get a specific version of a val
 
-```ts title="Example" val
+<Val disabled code={`
 import { valVersion } from "https://esm.town/v/neverstew/valVersion";
 
-export const getValVersion = valVersion({
+console.log(await valVersion({
   token: Deno.env.get("valtown"),
   id: "7f9019e4-dbf8-4ebe-b8cd-67730697624e",
   version: 4,
-});
-```
+}));
+`.trim()} />
 
 ## DELETE `/v1/vals/{val_id}/versions/{version}`
 
 Delete a val version.
 
-```ts title="Example" val
+<Val disabled code={`
 import { deleteValVersion } from "https://esm.town/v/neverstew/deleteValVersion";
 
 export let deleteValVersionExample = deleteValVersion({
@@ -124,17 +124,17 @@ export let deleteValVersionExample = deleteValVersion({
   id: "543ae134-636f-43a7-bd7f-f766a3d52b47",
   version: 1,
 });
-```
+`.trim()} />
 
 ## GET `/v1/vals/{val_id}/runs`
 
-```ts title="Example" val
+<Val disabled code={`
 import { valRuns } from "https://esm.town/v/neverstew/valRuns";
 
-export const valRunsExample = valRuns({
+console.log(await valRuns({
   token: Deno.env.get("valtown"),
   id: "ae941dc9-97e5-4e2e-a25a-e07b733230ae",
   limit: 1,
   offset: 1,
-});
-```
+}));
+`.trim()} />
