@@ -10,6 +10,7 @@ sidebar:
 lastUpdated: 2024-02-07
 ---
 
+import Val from "@components/Val.astro";
 
 :::caution[Deprecated]
 
@@ -33,23 +34,23 @@ this is a clean and expressive way to accept any number of arguments.
 
 ## GET `/v1/run/{username}.{val_name}`
 
-```ts title="Example" val
+<Val disabled code={`
 import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
 
 export let runGET = fetchJSON(
-  `https://api.val.town/v1/run/stevekrouse.add?args=${JSON.stringify([1, 2])}`
+  \`https://api.val.town/v1/run/stevekrouse.add?args=${JSON.stringify([1, 2])}\`
 );
-```
+`.trim()} />
 
 ## POST `/v1/run/{username}.{val_name}`
 
-```ts title="Example" val
+<Val disabled code={`
 import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
 
-export let runPOST = fetchJSON(`https://api.val.town/v1/run/stevekrouse.add`, {
+export let runPOST = fetchJSON(\`https://api.val.town/v1/run/stevekrouse.add\`, {
   method: "POST",
   body: JSON.stringify({
     args: [1, 2],
   }),
 });
-```
+`.trim()} />

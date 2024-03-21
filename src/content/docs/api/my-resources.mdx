@@ -7,6 +7,8 @@ description: >
 lastUpdated: 2023-12-22
 ---
 
+import Val from '@components/Val.astro'
+
 When using the Val Town API, some of the most common functions operate on things
 that you own. For these kinds of operations, there are the "me" routes.
 
@@ -20,15 +22,15 @@ This is the same as `/v1/users/{your_user_id}`
 
 Get profile information for the current user
 
-```ts title="Example" val
+<Val disabled code={`
 import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON?v=41";
 
-export let getMe = fetchJSON(`https://api.val.town/v1/me`, {
+console.log(await fetchJSON(\`https://api.val.town/v1/me\`, {
   headers: {
-    Authorization: `Bearer ${Deno.env.get("valtown")}`,
+    Authorization: \`Bearer \${Deno.env.get("valtown")}\`,
   },
-});
-```
+}));
+`.trim()} />
 
 ## GET `/v1/me/runs`
 
@@ -38,10 +40,10 @@ This is currently the only way to list runs across multiple vals.
 
 :::
 
-```ts title="Example" val
+<Val disabled code={`
 import { runs } from "https://esm.town/v/stevekrouse/runs?v=17";
 
-export let getRuns = runs({
+console.log(await runs({
   token: Deno.env.get("valtown"),
   error: false,
   limit: 10,
@@ -49,31 +51,31 @@ export let getRuns = runs({
   // last 30 minutes
   since: new Date(Number(new Date()) - 1800000),
   until: new Date(),
-});
-```
+}));
+`.trim()} />
 
 ## GET `/v1/me/likes`
 
 Get vals liked by the current user
 
-```ts title="Example" val
+<Val disabled code={`
 import { likes } from "https://esm.town/v/neverstew/likes";
 
-export let getLikes = likes({
+console.log(likes({
   token: Deno.env.get("valtown"),
   limit: 10,
   offset: 0,
-});
-```
+}));
+`} />
 
 ## GET `/v1/me/comments`
 
 Get comments related to current user, either given or received
 
-```ts title="Example" val
+<Val disabled code={`
 import { comments } from "https://esm.town/v/neverstew/comments";
 
-export let getComments = comments({
+console.log(comments({
   token: Deno.env.get("valtown"),
   relationship: "any",
   limit: 10,
@@ -81,20 +83,20 @@ export let getComments = comments({
   // last 30 minutes
   since: new Date(Number(new Date()) - 1800000),
   until: new Date(),
-});
-```
+}))
+`.trim()} />
 
-## Get `/v1/me/references`
+## GET `/v1/me/references`
 
-Returns vals that depend on any of the user's vals
+Returns vals that depend on any of the user’s vals
 
-```ts title="Example" val
+<Val disabled code={`
 import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON?v=42";
 
-export const references = await fetchJSON(
+console.log(await fetchJSON(
   "https://api.val.town/v1/me/references",
   {
-    headers: { Authorization: `Bearer ${Deno.env.get("valtown")}` },
+    headers: { Authorization: \`Bearer \${Deno.env.get("valtown")}\` },
   }
-);
-```
+))
+`.trim()} />
