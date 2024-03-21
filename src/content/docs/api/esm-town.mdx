@@ -1,0 +1,26 @@
+---
+title: Esm.town
+description: Endpoint for getting val source code
+lastUpdated: 2024-03-18
+---
+
+## Get val code
+
+```
+GET https://esm.town/v/alias/{username}/{val_name}
+```
+
+This is the endpoint for val source code: it's what Val Town itself
+uses internally when you run vals. For example, the `std/set` val
+is available on esm.town at https://esm.town/v/std/set?v=15
+
+- This endpoint will always redirect to a specific version (`?v=15`)
+  if a version isn't provided initially.
+- We detect your client - whether it's a browser, Deno, or something
+  else, and try to serve raw TypeScript source code when the client
+  is able to parse it, and transpiled JavaScript when it can't.
+  This includes [JSX syntax](/types/http/jsx/).
+  See [our guide on interoperability](/guides/interop/) for more
+  information on using vals in other systems.
+- Private vals are accessible on esm.town only by providing a
+  [Bearer token](/api/authentication).

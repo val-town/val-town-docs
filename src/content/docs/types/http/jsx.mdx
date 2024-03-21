@@ -7,9 +7,10 @@ sidebar:
   order: 2
 ---
 
-Val Town supports server-rendered JSX. This lets you use JSX syntax to construct
+Val Town supports server-rendered [JSX](https://en.wikipedia.org/wiki/JSX_%28JavaScript%29). This lets you use JSX syntax to construct
 your HTML string. It does not include any client-side JSX framework features,
-such a re-rendering on the client.
+such as re-rendering on the client, but you can string that together yourself
+by writing client-side vals.
 
 To use JSX, you'll need to insert what TypeScript calls a
 "[per-file pragma](https://www.typescriptlang.org/tsconfig#jsxImportSource)" - a
@@ -96,3 +97,11 @@ export const honoExample = () => {
   });
 };
 ```
+
+:::tip[Interoperability]
+
+Deno has JSX and TypeScript support, but browsers do not. But you
+can still use your vals in browsers and systems that don't support
+these technologies when you use the [esm.town module endpoint](/api/esm-town) because we automatically transpile their code.
+
+:::

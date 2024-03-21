@@ -1,9 +1,9 @@
 ---
 title: Email
-lastUpdated: 2024-02-02
+lastUpdated: 2024-03-18
 ---
 
-Send emails with [`std/email`](https://www.val.town/v/std/email). You can only send emails to yourself if you're on Val Town Free. If you're on Val Town Pro, you can email to anyone.
+Send emails with [`std/email`](https://www.val.town/v/std/email). You can only send emails to yourself if you're on Val Town Free. If you're on [Val Town Pro](https://www.val.town/pricing), you can email anyone.
 
 :::note
 Want to receive emails instead? [Create an email handler val](/types/email/)
@@ -17,7 +17,7 @@ import { email } from "https://esm.town/v/std/email";
 await email({ text: "emails emails emails!" });
 ```
 
-## `to`, `cc`, and `bcc`
+### `to`, `cc`, and `bcc`
 
 By default, the `to` field is set to the owner of the Val Town account that calls it.
 
@@ -25,7 +25,7 @@ If you have Val Town Pro, you can send emails to anyone via the `to`, `cc`, and 
 
 If you don't have Val Town Pro, you can only send emails to yourself, so leave those fields blank.
 
-## `from`
+### `from`
 
 The `from` is limited to a few options:
 
@@ -33,7 +33,7 @@ The `from` is limited to a few options:
 
 2. If you do specify it, it must be of the form: `your_username.valname@valtown.email`.
 
-## `replyTo`
+### `replyTo`
 
 `replyTo` accepts a string email or an object with strings for `email` and `name` (optional).
 
@@ -50,9 +50,12 @@ await email({
 });
 ```
 
-## Attachments
+### Attachments
 
 You can attach files to your emails by using the `attachments` field.
+Attachments need to be [Base64](https://en.wikipedia.org/wiki/Base64) encoded,
+which is that the [btoa](https://developer.mozilla.org/en-US/docs/Web/API/btoa)
+method is doing in this example:
 
 ```ts title="Attachments example" val
 import { email } from "https://esm.town/v/std/email";

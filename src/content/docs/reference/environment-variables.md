@@ -1,6 +1,5 @@
 ---
 title: Environment variables
-generated: 1701279907850
 description: Using environment variables to store secrets that vals can securely access
 lastUpdated: 2024-02-26
 ---
@@ -11,6 +10,9 @@ the list of environment variables on that page, it becomes available via the `De
 
 Environment variables can be accessed via `Deno.env` or `process.env`.
 
+- The "key" and "value" of each environment variable can be any string
+- Vals can't set environment variables: Environment variables are set via the settings page. Trying to update an environment variable, for example by using `Deno.env.set`, is a no-op.
+
 ### Deno.env
 
 This uses the Deno-default
@@ -18,7 +20,8 @@ This uses the Deno-default
 which is available globally.
 
 ```ts
-export let sdk = new SomeSDK(Deno.env.get("someSdkSecret"));
+const secret = Deno.env.get("someSdkSecret");
+export let sdk = new SomeSDK(secret);
 ```
 
 ### process.env
@@ -31,9 +34,6 @@ node:process:
 ```ts
 import process from "node:process";
 
-export let sdk = new SomeSDK(process.env.someSdkSecret);
+const secret = process.env.someSdkSecret;
+export let sdk = new SomeSDK(secret);
 ```
-
-### Notes
-
-- **Vals can't set environment variables**: Environment variables are set via the settings page. Trying to update an environment variable, for example by using `Deno.env.set`, is a no-op.

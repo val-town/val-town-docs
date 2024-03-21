@@ -5,18 +5,36 @@ description: Every time you save a val it creates a new immutable version in the
 lastUpdated: 2023-12-15
 ---
 
-Vals are immutable but you can publish new versions of vals. Versions start at
+Vals are immutable, but you can publish new versions of vals. Versions start at
 `0` and go up from there. When you reference a val, you always get the most
-recent version. You can toggle which version you're looking at via the drop down
+recent version. You can toggle which version you're looking at via the dropdown
 menu next to the val's name.
 
 ## Imports & pinning
 
 When you import one of your own vals, it will be imported unpinned, so you will
-automatically get all new changes. When you import another user's val, via the `@` symbol helper it will
-pin your import to the most recent version of that val (ie it will end it `?v=7`
-or whatever the current version number is), so if they change it, you won't get
-automatic updates. This makes your code more stable and protects you against
+automatically get all new changes.
+
+When you import another user's val by typing `@` and accepting an autosuggestion,
+it will pin your import to the most recent version of that val
+(ie it will end it `?v=7` or whatever the current version number is), so if they change it, you won't get automatic updates.
+
+This makes your code more stable and protects you against
 code injection attacks. You can override this default behavior if you trust the
 user not to break your code: remove the `v` query param in the import statement,
 and your code will always use the latest version of that val.
+
+### Versions of external imports
+
+You can also specify versions of NPM modules by using an `@` symbol:
+
+```ts
+import { min } from "npm:lodash-es@4.17.21";
+
+// Or you can specify a version range, like
+// you would in a package.json file:
+import { min } from "npm:lodash-es@4";
+```
+
+We highly recommend pinning imported modules because their APIs can
+change between versions and unexpectedly break your code.

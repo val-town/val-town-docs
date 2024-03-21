@@ -5,10 +5,12 @@ description: Val Town can both parse and generate RSS feeds for blogs and other 
 lastUpdated: 2023-12-05
 ---
 
-Val Town can both parse and generate RSS feeds for blogs and other updated
-sources.
+Val Town can both parse and generate [RSS](https://en.wikipedia.org/wiki/RSS) feeds for blogs and other updated sources.
 
 ## Polling RSS
+
+You would run this example in val town as a [Scheduled val](/types/scheduled)
+that ran on a regular interval, and it would check a blog's feed every 15 minutes.
 
 ```ts title="Polling example" val
 import { email } from "https://esm.town/v/std/email?v=9";
