@@ -4,11 +4,7 @@ generated: 1701279907843
 lastUpdated: 2023-12-05
 ---
 
-<div class="not-content">
-  <lite-youtube videoid="AEaYaWf5B-I">&#x20;</lite-youtube>
-</div>
-
-You can submit forms to Val Town using the [HTTP Val](/types/http) . You can
+You can submit forms to Val Town using the [HTTP handler Val](/types/http) . You can
 place these forms on any page on the internet - or host the form directly on Val
 Town.
 
@@ -18,12 +14,11 @@ notification for each new signup.
 
 ## Add a form to your website
 
-### Create a val that uses the [HTTP Val](/types/http)
+### Create a val that uses the [HTTP handler Val](/types/http)
 
 Write a val function that accepts a
 [Request](https://developer.mozilla.org/en-US/docs/web/api/request) and returns
-a [Response](https://developer.mozilla.org/en-US/docs/web/api/response), or just
-fork the one below!
+a [Response](https://developer.mozilla.org/en-US/docs/web/api/response).
 
 ```ts title="@user/saveFormData" val
 import { blob } from "https://esm.town/v/std/blob?v=11";
