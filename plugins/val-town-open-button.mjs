@@ -51,8 +51,9 @@ export function valTownOpenButton() {
         if (!["js", "ts", "jsx", "tsx"].includes(codeBlock.language)) return;
 
         // Only run on blocks marked with `val` meta
-        const meta = codeBlock.meta.trim();
-        if (meta !== "val") return;
+        const meta = codeBlock.meta.trim().split(" ");
+        if (!meta.includes("val")) return;
+
 
         const url = `https://www.val.town/new?${new URLSearchParams({
           code64: stringToBase64(codeBlock.code),
