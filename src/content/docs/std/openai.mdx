@@ -1,0 +1,47 @@
+---
+title: OpenAI
+lastUpdated: 2024-04-04
+---
+
+# Val Town OpenAI API Wrapper Integration
+
+Use OpenAI's chat completion API with [`std/openai`](https://www.val.town/v/std/openai). This integration enables access to OpenAI's language models without needing to acquire API keys.
+
+## Usage
+
+```ts title="Example" val
+import { OpenAI } from "https://esm.town/v/std/openai";
+
+const openai = new OpenAI();
+
+const functionExpression = await openai.chat.completions.create({
+  messages: [
+    { role: "user", content: "Say hello in a creative way" },
+  ],
+  model: "gpt-4",
+  max_tokens: 30,
+});
+
+console.log(functionExpression.choices[0].message.content);
+```
+
+## Limits
+
+While our wrapper simplifies the integration of OpenAI, there are a few limitations to keep in mind:
+
+- **Usage Quota**: We limit each user to 10 requests per minute.
+- **Features**: Chat completions is the only endpoint available.
+
+If these limits are too low, let us know! You can also get around the limitation by using your own keys:
+
+1. Create your own API key on [OpenAI's website](https://platform.openai.com/api-keys)
+2. Create an [environment variable](https://www.val.town/settings/environment-variables?adding=true) named `OPENAI_API_KEY`
+3. Use the `OpenAI` client from `npm:openai`:
+
+```ts title="Example" val
+import { OpenAI } from "npm:openai";
+
+// Create an environment variable named OPENAI_API_KEY at https://www.val.town/settings/environment-variables
+
+const openai = new OpenAI();
+```
