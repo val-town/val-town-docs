@@ -105,16 +105,4 @@ export default router.fetch;
 
 Notice, that it exports the `router`, which allows to use the [feTS client](https://the-guild.dev/openapi/fets/client/quick-start) to make routes type safe:
 
-```ts title="@user/fetsClient" val
-import { type router } from "https://esm.town/v/user/fetsServer";
-import { createClient } from "npm:fets";
-
-const client = createClient<typeof router>({
-  endpoint: "https://user-fetsServer.web.val.run",
-});
-
-// The `response` and `greetings` have proper types automatically inferred
-const response = await client["/greetings"].get();
-const greetings = await response.json();
-console.log(greetings);
-```
+<vt-playground id="playground" val="maxm/fetsClientExample"></vt-playground>
