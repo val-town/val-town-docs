@@ -14,7 +14,7 @@ It's common to use script vals to write standalone functions that can
 be imported by your HTTP, Scheduled, and Email vals. A script val
 can be as simple as a function that just adds two numbers:
 
-```tsx
+```tsx val
 export function add(a: number, b: number) {
   return a + b;
 }

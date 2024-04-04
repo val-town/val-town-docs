@@ -52,6 +52,7 @@ export function valTownOpenButton() {
 
         // Only run on blocks marked with `val` meta
         const meta = codeBlock.meta.trim().split(" ");
+        console.log("ok", meta)
         if (!meta.includes("val")) return;
 
 
