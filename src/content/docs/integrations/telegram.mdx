@@ -7,6 +7,9 @@ description: |
 lastUpdated: 2023-12-22
 ---
 
+import Val from "@components/Val.astro";
+
+
 You can create Telegram bots using vals.
 
 In this example, you'll create a val that uses the [HTTP Val](/types/http) to
@@ -50,28 +53,8 @@ came from our bot.
 
 Copy this val that uses the [HTTP Val](/types/http) :
 
-```ts title="Webhook handler" val
-import { telegramSendMessage } from "https://esm.town/v/vtdocs/telegramSendMessage?v=5";
+<Val url="https://www.val.town/embed/maxm/telegramWebhookExample" />
 
-export const telegramWebhookEchoMessage = async (req: Request) => {
-  // Verify this webhook came from our bot
-  if (
-    req.headers.get("x-telegram-bot-api-secret-token") !==
-      Deno.env.get("telegramWebhookSecret")
-  ) {
-    return new Response(undefined, { status: 401 });
-  }
-  // Echo back the user's message
-  const body = await req.json();
-  const text: string = body.message.text;
-  const chatId: number = body.message.chat.id;
-  await telegramSendMessage(
-    Deno.env.get("telegramBotToken"),
-    { chat_id: chatId, text },
-  );
-  return Response.json("ok");
-};
-```
 
 ### Tell your bot about the webhook handler
 

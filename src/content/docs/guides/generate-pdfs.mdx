@@ -7,42 +7,14 @@ description: >
 lastUpdated: 2023-12-22
 ---
 
+import Val from "@components/Val.astro";
+
 You can generate PDFs using an external library like [jsPDF](https://github.com/parallax/jsPDF).
 
-```ts title="jsPDF usage example" val
-import { jsPDF } from "npm:jspdf";
-
-export const helloWorldPDF = async (req: Request) => {
-  const doc = new jsPDF();
-  doc.text("Hello world!", 10, 10);
-  return new Response(doc.output(), {
-    headers: { "Content-Type": "application/pdf" },
-  });
-};
-```
+<Val url="https://www.val.town/embed/maxm/jsPDFExample" />
 
 Here's a more comprehensive example that builds an invoice.
 
 ![Screenshot 2023-06-26 at 11.56.47.png](./generate-pdfs/screenshot_2023-06-26_at_115647.png)
 
-```ts title="Invoice generator" val
-import { generateInvoicePDF } from "https://esm.town/v/vtdocs/generateInvoicePDF?v=1";
-
-export const examplePDF = async (req: Request) => {
-  const invoicePDF = generateInvoicePDF({
-    invoiceNumber: "001",
-    date: new Date().toDateString(),
-    customerName: "Alice Bar",
-    customerEmail: "alice@bar.com",
-    items: [{ description: "Arabica Beans 500g", quantity: 2, price: 10 }, {
-      description: "Robusta Beans 500g",
-      quantity: 1,
-      price: 11,
-    }],
-    currencySymbol: "$",
-  });
-  return new Response(invoicePDF, {
-    headers: { "Content-Type": "application/pdf" },
-  });
-};
-```
+<Val url="https://www.val.town/embed/maxm/completeJSPDFExample" />

@@ -6,6 +6,8 @@ description: |
 lastUpdated: 2023-12-22
 ---
 
+import Val from "@components/Val.astro";
+
 1. Create a Discord webhook
 2. Add the webhook to your [Val Town environment variables](https://www.val.town/settings/environment-variables)
 3. Use `@stevekrouse.discordWebhook` to send the message
@@ -39,23 +41,4 @@ You can [browse example usages of this function here](https://www.val.town/v/ste
 
 ![Untitled](./send-discord-message-via-webhook/untitled-1.png)
 
-```ts title="Integration example" val
-import { discordWebhook } from "https://esm.town/v/stevekrouse/discordWebhook?v=3";
-
-// # New Val Town User (on Clerk) -> Val Town Discord notification
-// Translates one kind of webhook (Clerk) into another (Discord)
-export async function handleDiscordNewUser(req: Request) {
-  // check custom auth secret sent from clerk
-  if (req.headers.get("auth") !== Deno.env.get("clerkNonSensitive"))
-    return new Response("Unauthorized", { status: 401 });
-  const body = await req.json();
-  await discordWebhook({
-    url: Deno.env.get("newUserDiscord"),
-    content:
-      body.data.email_addresses[0].email_address +
-      " " +
-      body.data.profile_image_url,
-  });
-  return new Response("Success");
-}
-```
+<Val url="https://www.val.town/embed/maxm/discordClerkWebhookHandlerExample" />
