@@ -37,7 +37,7 @@ send the authenticated user emails via [`std/email`](/std/email).
 ```ts title="Authenticated example" val
 import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
 
-export const privateAPIAuthenticated = fetchJSON(
+export const privateAPIAuthenticated = await fetchJSON(
   "https://api.val.town/v1/run/stevekrouse.example3",
   {
     method: "GET",

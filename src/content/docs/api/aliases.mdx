@@ -19,7 +19,7 @@ Get a user profile information by their username
 ```ts title="Example" val
 import { alias } from "https://esm.town/v/neverstew/alias";
 
-export let aliasExample = alias({
+export let aliasExample = await alias({
   username: "stevekrouse",
 });
 ```
@@ -31,7 +31,7 @@ Get a val by the author's username and val name
 ```ts title="Example" val
 import { alias } from "https://esm.town/v/neverstew/alias";
 
-export const aliasValExample = alias({
+export const aliasValExample = await alias({
   username: "stevekrouse",
   valName: "parentReference",
   // for private vals, pass your val town api token

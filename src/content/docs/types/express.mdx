@@ -66,7 +66,7 @@ export let postWebhook = (req: express.Request, res: express.Response) => {
 ```ts title="Fetch @user/postWebhook" val
 import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
 
-export let postWebhookTest1 = fetchJSON(
+export let postWebhookTest1 = await fetchJSON(
   "https://user-postWebhook.express.val.run",
   {
     method: "POST",
