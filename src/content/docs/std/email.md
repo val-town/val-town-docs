@@ -14,8 +14,12 @@ Want to receive emails instead? [Create an email handler val](/types/email/)
 ```ts title="Example" val
 import { email } from "https://esm.town/v/std/email";
 
-await email({ text: "emails emails emails!" });
+await email({ subject: "New Ink & Switch Post!",  text: "https://www.inkandswitch.com/embark/" });
 ```
+
+### `subject`
+
+The email subject line. It defaults to `Message from @your_username on Val Town`.
 
 ### `to`, `cc`, and `bcc`
 
