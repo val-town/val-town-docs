@@ -23,7 +23,7 @@ Get profile information for the current user
 ```ts title="Example" val
 import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON?v=41";
 
-export let getMe = fetchJSON(`https://api.val.town/v1/me`, {
+export let getMe = await fetchJSON(`https://api.val.town/v1/me`, {
   headers: {
     Authorization: `Bearer ${Deno.env.get("valtown")}`,
   },

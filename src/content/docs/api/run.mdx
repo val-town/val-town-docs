@@ -36,7 +36,7 @@ this is a clean and expressive way to accept any number of arguments.
 ```ts title="Example" val
 import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
 
-export let runGET = fetchJSON(
+export let runGET = await fetchJSON(
   `https://api.val.town/v1/run/stevekrouse.add?args=${JSON.stringify([1, 2])}`
 );
 ```
@@ -46,7 +46,7 @@ export let runGET = fetchJSON(
 ```ts title="Example" val
 import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
 
-export let runPOST = fetchJSON(`https://api.val.town/v1/run/stevekrouse.add`, {
+export let runPOST = await fetchJSON(`https://api.val.town/v1/run/stevekrouse.add`, {
   method: "POST",
   body: JSON.stringify({
     args: [1, 2],
