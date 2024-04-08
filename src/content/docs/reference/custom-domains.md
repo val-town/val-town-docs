@@ -63,3 +63,7 @@ Create the following two A records:
 | `example.com` | `99.83.186.151` |
 
 Replace `example.com` with your domain. In some domain platforms, you should replace `example.com` with `@`.
+
+<hr>
+
+Val Town custom domains are powered by [SaaS Custom Domains](https://saascustomdomains.com).
