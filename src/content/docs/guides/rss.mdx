@@ -5,6 +5,8 @@ description: Val Town can both parse and generate RSS feeds for blogs and other 
 lastUpdated: 2023-12-05
 ---
 
+import Val from "@components/Val.astro";
+
 Val Town can both parse and generate [RSS](https://en.wikipedia.org/wiki/RSS) feeds for blogs and other updated sources.
 
 ## Polling RSS
@@ -37,23 +39,5 @@ export async function pollRSSFeeds({ lastRunAt }: Interval) {
 
 ## Creating RSS
 
-```ts title="Creating example" val
-import { dataToRSS } from "https://esm.town/v/stevekrouse/dataToRSS";
-import { valTownBlogJSON } from "https://esm.town/v/stevekrouse/valTownBlogJSON";
+<Val url="https://www.val.town/embed/maxm/rssFeedExample" />
 
-export async function valTownBlogRSS() {
-  const json = await valTownBlogJSON();
-  return dataToRSS(
-    json.map((blog) => ({
-      title: blog.title,
-      link: blog.url,
-      pubDate: blog.date,
-    })),
-    {
-      title: "Val Town Blog",
-      link: "https://blog.val.town",
-      rssLink: "https://stevekrouse-blogrss.web.val.run/",
-    },
-  );
-}
-```
