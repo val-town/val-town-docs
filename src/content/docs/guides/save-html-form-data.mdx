@@ -4,6 +4,8 @@ generated: 1701279907843
 lastUpdated: 2023-12-05
 ---
 
+import Val from "@components/Val.astro";
+
 You can submit forms to Val Town using the [HTTP handler Val](/types/http) . You can
 place these forms on any page on the internet - or host the form directly on Val
 Town.
@@ -20,34 +22,7 @@ Write a val function that accepts a
 [Request](https://developer.mozilla.org/en-US/docs/web/api/request) and returns
 a [Response](https://developer.mozilla.org/en-US/docs/web/api/response).
 
-```ts title="@user/saveFormData" val
-import { blob } from "https://esm.town/v/std/blob?v=11";
-import { email } from "https://esm.town/v/std/email?v=11";
-
-export const saveFormData = async (req: Request) => {
-  // Get existing list of submitted email addresses
-  let submittedEmailAddresses = await blob.getJSON("submittedEmailAddresses") as string[];
-
-  // If there were no email addresses stored, create an empty array
-  submittedEmailAddresses ??= [];
-
-  // Pick out the form data
-  const formData = await req.formData();
-  const emailAddress = formData.get("email") as string;
-  if (submittedEmailAddresses.includes(emailAddress)) {
-    return new Response("You're already signed up!");
-  }
-
-  // Send a notification email
-  email({ text: `${emailAddress} just signed up!`, subject: "New sign up" });
-
-  // Store form data
-  submittedEmailAddresses.push(emailAddress);
-  await blob.setJSON("submittedEmailAddresses", submittedEmailAddresses);
-
-  return new Response("Thanks! You're signed up!");
-};
-```
+<Val url="https://www.val.town/embed/maxm/saveFormDataExample?v=1" />
 
 ### Add the form to your webpage
 
@@ -91,55 +66,9 @@ function) gets sent a
 You can check the HTTP method using `req.method` and change how your val
 function responds.
 
-```ts title="@user/renderFormAndSaveData" ins={5-27} val
-import { blob } from "https://esm.town/v/std/blob?v=11";
-import { email } from "https://esm.town/v/std/email?v=11";
-import { thisWebURL } from "https://esm.town/v/stevekrouse/thisWebURL?v=2";
+{/* TODO: When we fix the scoll-to-line issue on embeded vals add "#L5-27" back to the end of this link. */}
 
-export const renderFormAndSaveData = async (req: Request) => {
-  // A visit from a web browser? Serve a HTML page with a form
-  if (req.method === "GET") {
-    return new Response(
-      `
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Email Form</title>
-</head>
-<body>
-  <form action="${thisWebURL()}" method="post">
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required>
-    <br>
-    <input type="submit" value="Submit">
-  </form>
-</body>
-</html>
-    `,
-      { headers: { "Content-Type": "text/html" } },
-    );
-  }
-
-  // Get existing list of submitted email addresses
-  let submittedEmailAddresses = await blob.getJSON("submittedEmailAddresses") as string[];
-
-  // If there were no email addresses stored, create an empty array
-  submittedEmailAddresses ??= [];
-
-  // Pick out the form data
-  const formData = await req.formData();
-  const emailAddress = formData.get("email") as string;
-  if (submittedEmailAddresses.includes(emailAddress)) {
-    return new Response("You're already signed up!");
-  }
-  email({ text: `${emailAddress} just signed up!`, subject: "New sign up" });
-  // Store form data
-  submittedEmailAddresses.push(emailAddress);
-  await blob.setJSON("submittedEmailAddresses", submittedEmailAddresses);
-
-  return new Response("Thanks! You're signed up!");
-};
-```
+<Val url="https://www.val.town/embed/maxm/saveFormDataExample?v=2" />
 
 See [Web forms — Working with user data](https://developer.mozilla.org/en-US/docs/Learn/Forms)
 on the MDN Web Docs site for more help with forms. Forms are a basic part of

@@ -5,6 +5,8 @@ description: Create a Slack bot that replies to mentions
 lastUpdated: 2023-12-22
 ---
 
+import Val from "@components/Val.astro";
+
 You can build a Slack bot using vals.
 
 Vals can receive events from Slack's
@@ -44,42 +46,9 @@ verify the endpoint is correct.
 Run this val that responds to the challenge, and replies to `app_mention`
 events.
 
-```ts title="Reply to message" val
-import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON?v=41";
 
-export const slackReplyToMessage = async (req: Request) => {
-  const body = await req.json();
-  // Verify the request is genuine
-  if (body.token !== Deno.env.get("slackVerificationToken")) {
-    return new Response(undefined, { status: 401 });
-  }
-  // Respond to the initial challenge (when events are enabled)
-  if (body.challenge) {
-    return Response.json({ challenge: body.challenge });
-  }
-  // Reply to app_mention events
-  if (body.event.type === "app_mention") {
-    // Note: `body.event` has information about the event
-    // like the sender and the message text
-    const result = await fetchJSON(
-      "https://slack.com/api/chat.postMessage",
-      {
-        headers: {
-          "Authorization": `Bearer ${Deno.env.get("slackToken")}`,
-        },
-        method: "POST",
-        body: JSON.stringify({
-          channel: body.event.channel,
-          thread_ts: body.event.ts,
-          text: "Hello, ~World~ from Val Town!",
-        }),
-      },
-    );
-    // Slack replies with information about the created message
-    console.log(result);
-  }
-};
-```
+<Val url="https://www.val.town/embed/maxm/slackBotExample" />
+
 
 ## 4. Set up event subscriptions
 

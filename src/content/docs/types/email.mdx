@@ -6,6 +6,8 @@ sidebar:
 lastUpdated: 2023-12-22
 ---
 
+import Val from "@components/Val.astro";
+
 Email handler vals get their own email address that you can send email
 to, and when Val Town receives that email, it triggers the val with the email
 as its first argument. Ever wanted a robot that you could forward emails to,
@@ -22,9 +24,9 @@ Email handlers receive an argument called `Email` and can do anything with it:
 they can go on to reply to the email with the [standard library](/std/email),
 or call methods in response to it.
 
-```ts title="Example" val
+```ts title="Example"
 export function emailHandler(email: Email) {
-  console.log("Email received!");
+  console.log("Email received!", email.from, email.subject, email.text);
 }
 ```
 
@@ -42,28 +44,9 @@ interface Email {
 
 ## Example
 
-```ts title="Save received emails" val
-import { blob } from "https://esm.town/v/std/blob";
-import { email } from "https://esm.town/v/std/email";
+**Save received emails**
 
-export async function testEmail2(e: {
-  from: string;
-  to: string[];
-  subject: string;
-  text: string;
-  html: string;
-}) {
-  const testEmails = await blob.getJSON("testEmails") as [];
-  await blob.setJSON("testEmails", [...testEmails, {
-    ...e,
-    from: "~redacted~",
-  }]);
-  return email({
-    text: JSON.stringify(e),
-    subject: "Emailed received at @stevekrouse.testEmail2!",
-  });
-}
-```
+<Val url="https://www.val.town/embed/maxm/emailExample" />
 
 The email address for a val `@user.testEmail` would be `user.testEmail@valtown.email`. Note that the username does not contain
 a leading `@` and that the email domain is `valtown.email`.

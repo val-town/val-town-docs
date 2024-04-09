@@ -8,6 +8,9 @@ sidebar:
 lastUpdated: 2024-01-31
 ---
 
+import Val from "@components/Val.astro";
+
+
 Val Town supports asynchronous functions with the basic primitives
 of [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises)
 in JavaScript. All kinds of handler vals, including HTTP, Email,
@@ -29,18 +32,7 @@ and then logs the word "Hi!". You can use the same structure
 to schedule time-consuming work like database queries
 or network traffic till after the Val's response is already sent.
 
-```ts title="Unawaited async function" val
-export async function handle() {
-  // Schedule work to do later
-  (async () => {
-    // Wait 1 second
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    // Log a message
-    console.log("Hi!");
-  })();
-  return Response.json({ ok: true });
-}
-```
+<Val url="https://www.val.town/embed/maxm/unawaitedAsyncExample" />
 
 The key to both techniques is that the async work does
 _not_ use the `await` keyword, so JavaScript does not wait

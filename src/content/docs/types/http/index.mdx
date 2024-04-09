@@ -8,6 +8,7 @@ sidebar:
 lastUpdated: 2023-12-22
 ---
 
+import Val from "@components/Val.astro";
 import { LinkCard } from "@astrojs/starlight/components";
 
 HTTP Vals let you expose an API or website from your val.
@@ -22,11 +23,7 @@ These handlers need to export a function that takes a `Request` object
 as the first parameter and returns a `Response` object. The function
 can be asynchronous.
 
-```ts title="Example" val
-export function handler(request: Request) {
-  return Response.json({ ok: true });
-}
-```
+<Val url="https://www.val.town/embed/maxm/exampleHTTP" />
 
 <LinkCard title="Basic examples" href="/types/http/basic-examples" />
 

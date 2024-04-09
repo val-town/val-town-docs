@@ -5,6 +5,8 @@ description: How to make a Discord bot hosted 24/7 for free in 6 steps
 lastUpdated: 2023-12-22
 ---
 
+import Val from "@components/Val.astro";
+
 ![https://i.postimg.cc/bw5Xj8Rd/ping.gif](https://i.postimg.cc/bw5Xj8Rd/ping.gif)
 
 ## Introduction
@@ -123,43 +125,7 @@ export const registerDiscordCommand = result.json();
 
 1. Press **Run** to listen for Slash Commands and reply.
 
-```ts title="Discord interaction handler" val
-import { verify_discord_signature } from "https://esm.town/v/mattx/verify_discord_signature?v=8";
-
-export const handleDiscordInteraction = async (req: Request) => {
-  if (req.method === "GET") return new Response();
-  const body = await req.json();
-  const verified = await verify_discord_signature(
-    Deno.env.get('discordPublicKey'),
-    JSON.stringify(body),
-    req.headers.get("X-Signature-Ed25519"),
-    req.headers.get("X-Signature-Timestamp"),
-  );
-  if (!verified)
-    return new Response("signature invalid", {
-      status: 401,
-      statusText: "signature invalid",
-    });
-  // PING
-  if (body.type === 1)
-    return Response.json({ type: 1 }); // PONG
-  // APPLICATION_COMMAND interactions
-  if (body.type === 2) {
-    if (body.data?.name === "ping")
-      return Response.json({
-        type: 4,
-        data: {
-          content: `Pong! It is ${new Date()}`,
-        },
-      });
-    return new Response("Bad request", {
-      status: 400,
-      statusText: "Bad request",
-    });
-  }
-  return new Response("Not handled", { status: 422 });
-};
-```
+<Val url="https://www.val.town/embed/maxm/discordBotExample" />
 
 2. Next to your val's name, click 🔒 > **Unlisted.**
 3. In the val above, in the bottom-left corner of the val, click **Script** and change it to **HTTP.**
