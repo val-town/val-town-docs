@@ -11,14 +11,20 @@ The vals endpoints allow you to manipulate vals.
 Create a new val
 
 <vt-playground disabled code={`
-import { createVal } from "https://esm.town/v/nbbaier/createVal";
+import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
 
-console.log(await createVal({
-  token: Deno.env.get("valtown"),
-  name: "myNewVal",
-  code: "const two = 1 + 1;",
-  readme: "Lorem ipsum dolor sit amet.",
-  privacy: "public",
+console.log(await fetchJSON("https://api.val.town/v1/vals", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer " + Deno.env.get("valtown"),
+  },
+  body: JSON.stringify({
+    name: "myNewVal",
+    code: "const two = 1 + 1;",
+    readme: "Lorem ipsum dolor sit amet.",
+    privacy: "public",
+  }),
 }));
 `.trim()} />
 
@@ -27,12 +33,18 @@ console.log(await createVal({
 Create or update a val by name and code.
 
 <vt-playground disabled code={`
-import { updateValByName } from "https://esm.town/v/nbbaier/updateValByName";
+import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
 
-console.log(await updateValByName({
-  token: Deno.env.get("valtown"),
-  name: "myNewVal",
-  code: "const two = 2;",
+console.log(await fetchJSON("https://api.val.town/v1/vals/7f9019e4-dbf8-4ebe-b8cd-67730697624e", {
+  method: "PUT",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer " + Deno.env.get("valtown"),
+  },
+  body: JSON.stringify({
+    name: "myNewVal",
+    code: "const two = 2;",
+  }),
 }));
 `.trim()} />
 
@@ -51,11 +63,14 @@ console.log(await fetchJSON("https://api.val.town/v1/vals/7f9019e4-dbf8-4ebe-b8c
 Delete a val.
 
 <vt-playground disabled code={`
-import { deleteVal } from "https://esm.town/v/neverstew/deleteVal";
+import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
 
-console.log(await deleteVal({
-  token: Deno.env.get("valtown"),
-  id: "1f32d4c1-332e-4135-889f-8df408924a9d",
+console.log(await fetchJSON("https://api.val.town/v1/vals/7f9019e4-dbf8-4ebe-b8cd-67730697624e", {
+  method: "DELETE",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer " + Deno.env.get("valtown"),
+  },
 }));
 `.trim()} />
 
@@ -64,11 +79,12 @@ console.log(await deleteVal({
 List versions of a val
 
 <vt-playground disabled code={`
-import { valVersions } from "https://esm.town/v/neverstew/valVersions";
+import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
 
-console.log(await valVersions({
-  token: Deno.env.get("valtown"),
-  id: "0cfbf317-18a4-4da5-b887-b75bb8a33108",
+console.log(await fetchJSON("https://api.val.town/v1/vals/0cfbf317-18a4-4da5-b887-b75bb8a33108/versions", {
+  headers: {
+    "Authorization": "Bearer " + Deno.env.get("valtown"),
+  },
 }));
 `.trim()} />
 
@@ -77,23 +93,18 @@ console.log(await valVersions({
 Create a new version of a val
 
 <vt-playground disabled code={`
-import { createValVersion } from "https://esm.town/v/neverstew/createValVersion";
-import { val as val2 } from "https://esm.town/v/neverstew/val";
+import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
 
-console.log(await (() =>
-  val2({
-    token: Deno.env.get("valtown"),
-    id: "543ae134-636f-43a7-bd7f-f766a3d52b47",
-  })
-    .then((val) => ({ id: val.id, code: val.code }))
-    .then(({ id, code }) =>
-      createValVersion({
-        token: Deno.env.get("valtown"),
-        code: \`// my inserted comment
-      \${code}\`,
-        valId: id,
-      })
-    ))());
+console.log(await fetchJSON("https://api.val.town/v1/vals/7f9019e4-dbf8-4ebe-b8cd-67730697624e/versions", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer " + Deno.env.get("valtown"),
+  },
+  body: JSON.stringify({
+    code: "const two = 2;",
+  }),
+}));
 `.trim()} />
 
 ## GET `/v1/vals/{val_id}/versions/{version}`
@@ -101,12 +112,12 @@ console.log(await (() =>
 Get a specific version of a val
 
 <vt-playground disabled code={`
-import { valVersion } from "https://esm.town/v/neverstew/valVersion";
+import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
 
-console.log(await valVersion({
-  token: Deno.env.get("valtown"),
-  id: "7f9019e4-dbf8-4ebe-b8cd-67730697624e",
-  version: 4,
+console.log(await fetchJSON("https://api.val.town/v1/vals/7f9019e4-dbf8-4ebe-b8cd-67730697624e/versions/1", {
+  headers: {
+    "Authorization": "Bearer " + Deno.env.get("valtown"),
+  },
 }));
 `.trim()} />
 
@@ -115,24 +126,27 @@ console.log(await valVersion({
 Delete a val version.
 
 <vt-playground disabled code={`
-import { deleteValVersion } from "https://esm.town/v/neverstew/deleteValVersion";
+import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
 
-export let deleteValVersionExample = deleteValVersion({
-  token: Deno.env.get("valtown"),
-  id: "543ae134-636f-43a7-bd7f-f766a3d52b47",
-  version: 1,
-});
+console.log(await fetchJSON("https://api.val.town/v1/vals/7f9019e4-dbf8-4ebe-b8cd-67730697624e/versions/1", {
+  method: "DELETE",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer " + Deno.env.get("valtown"),
+  },
+}));
 `.trim()} />
 
 ## GET `/v1/vals/{val_id}/runs`
 
-<vt-playground disabled code={`
-import { valRuns } from "https://esm.town/v/neverstew/valRuns";
+List runs of a val.
 
-console.log(await valRuns({
-  token: Deno.env.get("valtown"),
-  id: "ae941dc9-97e5-4e2e-a25a-e07b733230ae",
-  limit: 1,
-  offset: 1,
+<vt-playground disabled code={`
+import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
+
+console.log(await fetchJSON("https://api.val.town/v1/vals/7f9019e4-dbf8-4ebe-b8cd-67730697624e/runs", {
+  headers: {
+    "Authorization": "Bearer " + Deno.env.get("valtown"),
+  },
 }));
 `.trim()} />
