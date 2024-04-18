@@ -6,8 +6,6 @@ description: |
 lastUpdated: 2023-12-22
 ---
 
-import Val from '@components/Val.astro'
-
 :::note
 
 💡 These endpoints accept a `token` parameter for private vals
@@ -18,18 +16,18 @@ import Val from '@components/Val.astro'
 
 Get a user profile information by their username
 
-<Val code={`
+<vt-playground code={`
 import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
 
 console.log(await fetchJSON("https://api.val.town/v1/alias/stevekrouse"));
-`.trim()}/>
+`.trim()}></vt-playground>
 
 
 ## GET `/v1/alias/{username}/{val_name}`
 
 Get a val by the author's username and val name
 
-<Val code={`
+<vt-playground code={`
 import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
 
 console.log(await fetchJSON("https://api.val.town/v1/alias/stevekrouse/fetchJSON"));

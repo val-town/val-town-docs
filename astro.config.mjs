@@ -134,6 +134,14 @@ export default defineConfig({
           },
         },
         {
+          tag: "script",
+          attrs: {
+            src: "https://raw.esm.sh/vt-playground@latest/dist/vt-playground.js",
+            defer: true,
+            type: "module",
+          },
+        },
+        {
           tag: "link",
           attrs: {
             href: "https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.0/src/lite-yt-embed.min.css",

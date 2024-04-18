@@ -10,8 +10,6 @@ sidebar:
 lastUpdated: 2024-02-07
 ---
 
-import Val from "@components/Val.astro";
-
 :::caution[Deprecated]
 
 The Run API is deprecated. Only select vals can be invoked through it.
@@ -34,7 +32,7 @@ this is a clean and expressive way to accept any number of arguments.
 
 ## GET `/v1/run/{username}.{val_name}`
 
-<Val disabled code={`
+<vt-playground disabled code={`
 import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
 
 console.log(await fetchJSON(
@@ -44,7 +42,7 @@ console.log(await fetchJSON(
 
 ## POST `/v1/run/{username}.{val_name}`
 
-<Val disabled code={`
+<vt-playground disabled code={`
 import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
 
 console.log(await fetchJSON(\`https://api.val.town/v1/run/stevekrouse.add\`, {

@@ -4,15 +4,13 @@ generated: 1701279907985
 lastUpdated: 2023-12-22
 ---
 
-import Val from '@components/Val.astro'
-
 The vals endpoints allow you to manipulate vals.
 
 ## POST `/v1/vals`
 
 Create a new val
 
-<Val disabled code={`
+<vt-playground disabled code={`
 import { createVal } from "https://esm.town/v/nbbaier/createVal";
 
 console.log(await createVal({
@@ -28,7 +26,7 @@ console.log(await createVal({
 
 Create or update a val by name and code.
 
-<Val disabled code={`
+<vt-playground disabled code={`
 import { updateValByName } from "https://esm.town/v/nbbaier/updateValByName";
 
 console.log(await updateValByName({
@@ -42,7 +40,7 @@ console.log(await updateValByName({
 
 Get val by id.
 
-<Val code={`
+<vt-playground code={`
 import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
 
 console.log(await fetchJSON("https://api.val.town/v1/vals/7f9019e4-dbf8-4ebe-b8cd-67730697624e"));
@@ -52,7 +50,7 @@ console.log(await fetchJSON("https://api.val.town/v1/vals/7f9019e4-dbf8-4ebe-b8c
 
 Delete a val.
 
-<Val disabled code={`
+<vt-playground disabled code={`
 import { deleteVal } from "https://esm.town/v/neverstew/deleteVal";
 
 console.log(await deleteVal({
@@ -65,7 +63,7 @@ console.log(await deleteVal({
 
 List versions of a val
 
-<Val disabled code={`
+<vt-playground disabled code={`
 import { valVersions } from "https://esm.town/v/neverstew/valVersions";
 
 console.log(await valVersions({
@@ -78,7 +76,7 @@ console.log(await valVersions({
 
 Create a new version of a val
 
-<Val disabled code={`
+<vt-playground disabled code={`
 import { createValVersion } from "https://esm.town/v/neverstew/createValVersion";
 import { val as val2 } from "https://esm.town/v/neverstew/val";
 
@@ -102,7 +100,7 @@ console.log(await (() =>
 
 Get a specific version of a val
 
-<Val disabled code={`
+<vt-playground disabled code={`
 import { valVersion } from "https://esm.town/v/neverstew/valVersion";
 
 console.log(await valVersion({
@@ -116,7 +114,7 @@ console.log(await valVersion({
 
 Delete a val version.
 
-<Val disabled code={`
+<vt-playground disabled code={`
 import { deleteValVersion } from "https://esm.town/v/neverstew/deleteValVersion";
 
 export let deleteValVersionExample = deleteValVersion({
@@ -128,7 +126,7 @@ export let deleteValVersionExample = deleteValVersion({
 
 ## GET `/v1/vals/{val_id}/runs`
 
-<Val disabled code={`
+<vt-playground disabled code={`
 import { valRuns } from "https://esm.town/v/neverstew/valRuns";
 
 console.log(await valRuns({

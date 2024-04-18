@@ -6,13 +6,11 @@ description: |
 lastUpdated: 2023-12-22
 ---
 
-import Val from "@components/Val.astro";
-
 ## GET `/v1/users/{user_id}`
 
 Get a user's profile information
 
-<Val code={`
+<vt-playground code={`
 import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
 
 console.log(await fetchJSON("https://api.val.town/v1/users/a0bf3b31-15a5-4d5c-880e-4b1e22c9bc18/vals"));
@@ -22,7 +20,7 @@ console.log(await fetchJSON("https://api.val.town/v1/users/a0bf3b31-15a5-4d5c-88
 
 List a user's vals
 
-<Val code={`
+<vt-playground code={`
 import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
 
 console.log(await fetchJSON("https://api.val.town/v1/users/a0bf3b31-15a5-4d5c-880e-4b1e22c9bc18/vals"));

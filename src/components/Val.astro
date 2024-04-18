@@ -1,12 +1,16 @@
 ---
-const { code, disabled = false } = Astro.props;
+const { url } = Astro.props;
 ---
 
-<script
-  type="module"
-  src="http://cdn.jsdelivr.net/npm/vt-playground@0.1.4/dist/vt-playground.js"
-></script>
-
 <div class="not-content">
-  <vt-playground code={code} {disabled}></vt-playground>
+  <iframe
+    title="Embedded interactive val"
+    src={url}
+    width="100%"
+    height="400px"
+    style="border: none;"
+    loading="lazy"
+  >
+    &#x20;
+  </iframe>
 </div>

@@ -6,8 +6,6 @@ generated: 1701279907968
 lastUpdated: 2023-12-22
 ---
 
-import Val from '@components/Val.astro'
-
 The Eval API lets you run arbitrary JavaScript/TypeScript, with full access to
 the Val Town runtime.
 
@@ -33,7 +31,7 @@ You can compute with references to public vals, like
 
 Pass the `code` expression to be evaluated via a JSON-encoded body, like so:
 
-<Val code={`
+<vt-playground code={`
 import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
 
 console.log(await (fetchJSON(
@@ -47,7 +45,7 @@ console.log(await (fetchJSON(
 
 You can also pass arguments if the `code` parameter represents a function:
 
-<Val code={`
+<vt-playground code={`
 import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
 
 console.log(await fetchJSON(

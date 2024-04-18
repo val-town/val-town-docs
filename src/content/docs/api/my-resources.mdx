@@ -7,8 +7,6 @@ description: >
 lastUpdated: 2023-12-22
 ---
 
-import Val from '@components/Val.astro'
-
 When using the Val Town API, some of the most common functions operate on things
 that you own. For these kinds of operations, there are the "me" routes.
 
@@ -22,7 +20,7 @@ This is the same as `/v1/users/{your_user_id}`
 
 Get profile information for the current user
 
-<Val disabled code={`
+<vt-playground disabled code={`
 import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON?v=41";
 
 console.log(await fetchJSON(\`https://api.val.town/v1/me\`, {
@@ -40,7 +38,7 @@ This is currently the only way to list runs across multiple vals.
 
 :::
 
-<Val disabled code={`
+<vt-playground disabled code={`
 import { runs } from "https://esm.town/v/stevekrouse/runs?v=17";
 
 console.log(await runs({
@@ -58,7 +56,7 @@ console.log(await runs({
 
 Get vals liked by the current user
 
-<Val disabled code={`
+<vt-playground disabled code={`
 import { likes } from "https://esm.town/v/neverstew/likes";
 
 console.log(likes({
@@ -72,7 +70,7 @@ console.log(likes({
 
 Get comments related to current user, either given or received
 
-<Val disabled code={`
+<vt-playground disabled code={`
 import { comments } from "https://esm.town/v/neverstew/comments";
 
 console.log(comments({
@@ -90,7 +88,7 @@ console.log(comments({
 
 Returns vals that depend on any of the user’s vals
 
-<Val disabled code={`
+<vt-playground disabled code={`
 import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON?v=42";
 
 console.log(await fetchJSON(
