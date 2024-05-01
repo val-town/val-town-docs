@@ -10,7 +10,7 @@ export default defineConfig({
     starlightLinksValidator(),
     starlight({
       title: "Docs | Val Town",
-      defaultLocale: "root",
+      defaultLocale: "en",
       components: {
         Footer: "./src/components/Footer.astro",
       },

@@ -11,12 +11,12 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.5.10",
-    "@astrojs/starlight": "^0.21.3",
-    "@fontsource/ibm-plex-sans": "^5.0.19",
-    "astro": "^4.5.12",
+    "@astrojs/starlight": "^0.22.0",
+    "@fontsource/ibm-plex-sans": "^5.0.20",
+    "astro": "^4.7.0",
     "sharp": "^0.33.3",
-    "starlight-links-validator": "^0.7.1",
-    "typescript": "^5.4.3",
+    "starlight-links-validator": "^0.8.0",
+    "typescript": "^5.4.5",
     "hast-util-select": "^6.0.2",
     "hastscript": "^9.0.0"
   }
