@@ -16,7 +16,7 @@ import { OpenAI } from "https://esm.town/v/std/openai";
 
 const openai = new OpenAI();
 
-const functionExpression = await openai.chat.completions.create({
+const completion = await openai.chat.completions.create({
   messages: [
     { role: "user", content: "Say hello in a creative way" },
   ],
@@ -24,7 +24,7 @@ const functionExpression = await openai.chat.completions.create({
   max_tokens: 30,
 });
 
-console.log(functionExpression.choices[0].message.content);
+console.log(completion.choices[0].message.content);
 ```
 
 ## Limits
