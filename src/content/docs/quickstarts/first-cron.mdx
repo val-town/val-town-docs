@@ -30,7 +30,7 @@ export default async function (interval: Interval) {
 
 This function will be run on a schedule.
 
-#### Step 3: Get the weather
+### Step 3: Get the weather
 
 In the following example code, we are use `getWeather` from [stevekrouse/getWeather](https://val.town/v/stevekrouse/getWeather). It uses the free [wttr.in](https://wttr.in/:help) service to get weather data.
 
@@ -52,7 +52,7 @@ export default async function (interval: Interval) {
 You'll notice that we're using a val in another val. This is a common pattern in Val Town. If you type `@` in the val editor, you'll be able to search and import other vals inline.
 :::
 
-#### Step 4: Send yourself an email
+### Step 4: Send yourself an email
 
 We're going to use [std/email](https://val.town/std/email) to send an email to yourself.
 
@@ -76,7 +76,7 @@ export default async function (interval: Interval) {
 
 You should have an email with a subject like "Weather now is Sunny and 67°F".
 
-#### Step 5: Schedule the val
+### Step 5: Schedule the val
 
 We want this to run every morning. For example, in NYC, you could use `0 9 * * *` to run at 5am ET every morning.
 
@@ -87,7 +87,7 @@ We reccomend [crongpt.com](https://crongpt.com) to help you write cron expressio
 3. Click **Cron**
 4. Paste in your cron expression
 
-#### Next steps
+### Next steps
 
 🥳 Congratulations! You've created a val that sends you a weather notification every morning. You can to customize it to your needs. There are a LOT of weather vals you can use or gain inspiration from:
 
