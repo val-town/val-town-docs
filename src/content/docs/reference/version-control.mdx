@@ -2,7 +2,7 @@
 title: Version Control
 description: Every time you save a val it creates a new immutable version in the
   version history.
-lastUpdated: 2023-12-15
+lastUpdated: 2024-05-09
 ---
 
 Vals are immutable, but you can publish new versions of vals. Versions start at
@@ -12,12 +12,21 @@ menu next to the val's name.
 
 ## Imports & pinning
 
-When you import one of your own vals, it will be imported unpinned, so you will
-automatically get all new changes.
+Vals are imported via esm.town URLs. If you leave off the version number, it's an unpinned import, and you'll always get the latest version. If you include a version number, it's a pinned import, and you'll always get that version.
 
-When you import another user's val by typing `@` and accepting an autosuggestion,
+```ts title="Unpinned val import"
+import { myVal } from "https://esm.town/v/username/valname";
+```
+
+```ts title="Pinned val import"
+import { myVal } from "https://esm.town/v/username/valname?v=7";
+```
+
+When you import one of your own vals, via the `@` helper, it will be imported unpinned, so you will
+automatically get all new changes. When you import another user's val via `@`,
 it will pin your import to the most recent version of that val
-(ie it will end it `?v=7` or whatever the current version number is), so if they change it, you won't get automatic updates.
+(ie it will end it `?v=7` or whatever the current version number is),
+so if they change it, you won't get automatic updates.
 
 This makes your code more stable and protects you against
 code injection attacks. You can override this default behavior if you trust the

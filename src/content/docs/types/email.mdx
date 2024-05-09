@@ -3,16 +3,14 @@ title: Email
 description: A kind of val that is able to receive emails sent to it.
 sidebar:
   order: 4
-lastUpdated: 2023-12-22
+lastUpdated: 2024-05-09
 ---
 
 import Val from "@components/Val.astro";
 
 Email handler vals get their own email address that you can send email
-to, and when Val Town receives that email, it triggers the val with the email
-as its first argument. Ever wanted a robot that you could forward emails to,
-or to be able to control something via an email trigger? With email
-handler vals it's simple: they get their own, unique address.
+to. When Val Town receives that email, it triggers the val with the email
+as its first argument.
 
 :::tip
 Vals can send email, too! Using the [email function in the standard library](/std/email)
@@ -20,9 +18,7 @@ Vals can send email, too! Using the [email function in the standard library](/st
 
 ## Type Signature
 
-Email handlers receive an argument called `Email` and can do anything with it:
-they can go on to reply to the email with the [standard library](/std/email),
-or call methods in response to it.
+Email handlers receive an argument called `Email` that represents the email that was sent to the val. Here's an example of an email handler:
 
 ```ts title="Example"
 export function emailHandler(email: Email) {
@@ -44,18 +40,14 @@ interface Email {
 
 ## Example
 
-**Save received emails**
+This val forwards any email it receives to me. Try it out by sending an email to `stevekrouse.forwarder@valtown.email`.
 
-<Val url="https://www.val.town/embed/maxm/emailExample" />
+<Val url="https://www.val.town/embed/stevekrouse/forwarder" />
 
-The email address for a val `@user.testEmail` would be `user.testEmail@valtown.email`. Note that the username does not contain
-a leading `@` and that the email domain is `valtown.email`.
+## Limitations
 
-You can view all the emails sent to your function with the following val:
+:::note[Attachements not supported]
 
-```ts title="List received emails" val
-import { blob } from "https://esm.town/v/std/blob";
+Email handler vals do not support attachments. If they receive an email with an attachment, the attachment will be stripped. If this is something you want, please [upvote the feature request](https://github.com/val-town/val-town-product/discussions/75) to support attachments in email handler vals.
 
-const testEmails = await blob.getJSON("testEmails") as [];
-console.log("Received emails:\n", testEmails ?? []);
-```
+:::

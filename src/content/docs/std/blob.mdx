@@ -1,66 +1,90 @@
 ---
 title: Blob Storage
-lastUpdated: 2024-03-18
+lastUpdated: 2024-05-09
 ---
 
 Val Town comes with blob storage built-in. It allows for storing any data: text, JSON, images. You can access it via [`std/blob`](https://www.val.town/v/std/blob).
 
-You may find this admin viewer helpful: https://www.val.town/v/stevekrouse/blob_admin
-
 Blob storage is scoped globally to your account. If you set a blob in one val, you can retrieve it by the same key in another val. It's backed by Cloudflare R2.
 
-- Blob-stored data counts towards your total Val Town storage - 10mb on the free plan and 1gb on pro. Check our [pricing page](https://val.town/pricing) to learn more.
-- Keys for blobs can be up to 512 characters long.
+You may find [this admin viewer](https://www.val.town/v/stevekrouse/blob_admin) helpful for viewing and editing your blobs.
 
-## Usage
+##### Get JSON
 
-```ts title="Example" val
+```ts title="Get JSON"
 import { blob } from "https://esm.town/v/std/blob";
 
-await blob.setJSON("myKey", { foo: "bar" });
-export let blobDemo = await blob.getJSON("myKey");
+let blobDemo = await blob.getJSON("myKey");
+console.log(blobDemo); // returns `undefined` if not found
 ```
 
-### JSON
+##### Set JSON
 
-These functions are the ones most commonly used for storing JSON data, including simple strings.
+```ts title="Set JSON"
+import { blob } from "https://esm.town/v/std/blob";
 
-- `async getJSON(key: string)` - Retrieves a blob as JSON for a given key. Returns `undefined` if the key is not found.
-- `async setJSON(key: string, value: any)` - Sets a blob for a given key with a value that is automatically converted to JSON.
+await blob.setJSON("myKey", { hello: "world" });
+```
 
-### List keys
+##### List keys
 
-- `async list(prefix?: string)`: List your blob keys. optionally provide a prefix to filter the query.
+```ts title="List Keys"
+import { blob } from "https://esm.town/v/std/blob";
 
-### Copy key
+let allKeys = await blob.listKeys();
+console.log(allKeys);
 
-- `async copy(previous: string, next: string)`: Copy a blob from one key to another.
+const appKeys = await blob.listKeys("app_");
+console.log(appKeys); // all keys that begin with `app_`
+```
 
-### Move key
+##### Delete by key
 
-- `async move(previous: string, next: string)`: Move a blob from one key to another.
+```ts title="Delete"
+import { blob } from "https://esm.town/v/std/blob";
 
-### Delete keys
+await blob.delete("myKey");
+```
 
-- `async delete(key: string)`: Delete the specified key.
+### Examples
 
-## Lower-level get/set
+- [Counter](https://www.val.town/v/std/docsBlobCounterDemo)
+- [RSS Notifications](https://www.val.town/v/stevekrouse/rssNotifyExample) (saving the last run time)
+- Picture: [Save](https://www.val.town/v/andreterron/blobSavePictureExample) & [Read](https://www.val.town/v/andreterron/blobReadPictureExample)
+
+### Error Handling
+
+- `blob.get` can throw [`ValTownBlobNotFoundError`](https://val.town/v/std/ValTownBlobNotFoundError)
+- Any method can throw [`ValTownBlobError`](https://val.town/v/andreterron/ValTownBlobError) for unexpected errors.
+
+### Utilities
+
+Our Blob SDK also includes some utility functions to make working with blobs easier.
+
+##### Copy
+
+```ts title="Copy"
+import { blob } from "https://esm.town/v/std/blob";
+
+await blob.copy("myKey", "myKeyCopy");
+```
+
+##### Move
+
+```ts title="Move"
+import { blob } from "https://esm.town/v/std/blob";
+
+await blob.move("myKey", "myKeyNew");
+```
+
+### Lower-level API
 
 We do provide access to the lower-level getter and setters, which are useful if you are storing non-JSON or binary data, need to stream in your response or request data, or do anything else lower-level.
 
 - `async get(key: string)`: Retrieves a blob for a given key.
 - `async set(key: string, value: string | BodyInit)`: Sets the blob value for a given key. See [BodyInit](https://deno.land/api@v1.38.1?s=BodyInit).
 
-## Examples
+### Limitations
 
-- https://www.val.town/v/stevekrouse/blobDemo
-- https://www.val.town/v/andreterron/exampleSetBlobJson
-- https://www.val.town/v/andreterron/exampleGetBlobJson
-- https://www.val.town/v/std/docsBlobCounterDemo
-- https://www.val.town/v/andreterron/blobSavePictureExample
-- https://www.val.town/v/andreterron/blobReadPictureExample
-
-## Error Handling
-
-- `blob.get` can throw [`ValTownBlobNotFoundError`](https://val.town/v/std/ValTownBlobNotFoundError)
-- Any method can throw [`ValTownBlobError`](https://val.town/v/andreterron/ValTownBlobError) for unexpected errors.
+- Blob-stored data counts towards your total Val Town storage – 10mb on the free plan and 1gb on pro. Check our [pricing page](https://val.town/pricing) to learn more.
+- Keys for blobs can be up to 512 characters long.
