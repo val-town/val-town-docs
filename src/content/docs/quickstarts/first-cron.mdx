@@ -1,0 +1,102 @@
+---
+title: Your first cron val
+description: Make your first val - a weather notifier
+lastUpdated: 2024-05-09
+---
+
+This is a step-by-step guide to a cron val that sends you a weather email every morning.
+
+If you get stuck, please ask for help in the [Val Town Discord](https://discord.gg/dHv45uN5RY). We're friendly!
+
+### Step 1: Sign up to Val Town
+
+[Sign up to Val Town](https://www.val.town/auth/signup). It's free.
+
+:::note
+The email you sign up with will be the one that receives the weather emails.
+:::
+
+### Step 2: Create a Scheduled/Cron val
+
+In the top-right corner of Val Town, click **New** > **Scheduled function**.
+
+This will create an schedule a new empty val in your account that looks like this:
+
+```ts title="Step 2"
+export default async function (interval: Interval) {
+‎
+}
+```
+
+This function will be run on a schedule.
+
+#### Step 3: Get the weather
+
+In the following example code, we are use `getWeather` from [stevekrouse/getWeather](https://val.town/v/stevekrouse/getWeather). It uses the free [wttr.in](https://wttr.in/:help) service to get weather data.
+
+1. Add these lines to your code
+2. Replace `Brooklyn, NY` with your location
+3. Click **Run Now**
+4. View the output in the val's logs
+
+```ts title="Step 3" ins={1,4-5}
+import { getWeather } from "https://esm.town/v/stevekrouse/getWeather";
+
+export default async function (interval: Interval) {
+  let weather = await getWeather("Brooklyn, NY");
+  console.log(weather.current_condition[0].FeelsLikeF);
+}
+```
+
+:::tip
+You'll notice that we're using a val in another val. This is a common pattern in Val Town. If you type `@` in the val editor, you'll be able to search and import other vals inline.
+:::
+
+#### Step 4: Send yourself an email
+
+We're going to use [std/email](https://val.town/std/email) to send an email to yourself.
+
+1. Add these lines to your code
+2. Click **Run Now**
+3. Check your email inbox
+
+```ts title="Step 4" ins={1,7-10}
+import { email } from "https://esm.town/v/std/email";
+import { getWeather } from "https://esm.town/v/stevekrouse/getWeather";
+
+export default async function (interval: Interval) {
+  let weather = await getWeather("Brooklyn, NY");
+  let feelsLike = weather.current_condition[0].FeelsLikeF;
+  let description = weather.current_condition[0].weatherDesc[0].value;
+  await email({
+    subject: `Weather now is ${description} and ${feelsLike}°F`,
+  });
+}
+```
+
+You should have an email with a subject like "Weather now is Sunny and 67°F".
+
+#### Step 5: Schedule the val
+
+We want this to run every morning. For example, in NYC, you could use `0 9 * * *` to run at 5am ET every morning.
+
+We reccomend [crongpt.com](https://crongpt.com) to help you write cron expressions. It also handles the timezone conversion from your timezone to Val Town's server timezone (UTC).
+
+1. Go to [crongpt.com](https://crongpt.com) and generate your cron expression
+2. Click ⚙ (the gear icon) in the top right corner of the val editor
+3. Click **Cron**
+4. Paste in your cron expression
+
+#### Next steps
+
+🥳 Congratulations! You've created a val that sends you a weather notification every morning. You can to customize it to your needs. There are a LOT of weather vals you can use or gain inspiration from:
+
+- [`Which_Jacket`](https://www.val.town/v/emilycoe/Which_Jacket) - email alerts about which jacket to wear
+- [`umbrellaReminder`](https://www.val.town/v/stevekrouse/umbrellaReminder) - email alerts when it's going to rain
+- [`weatherGPT`](https://www.val.town/v/stevekrouse/weatherGPT) - email alerts with a ChatGPT-written message
+- [`powderNotify`](https://www.val.town/v/chet/powderNotifyCron) - email alerts when it snows
+- [`sailingNotifyCron`](https://www.val.town/v/chet/sailingNotifyCron) - email alerts when it's a good day to sail
+- [`discordWebhookWeatherHyd`](https://www.val.town/v/boson/discordWebhookWeatherHyd) - send weather updates to Discord
+- [`weather_forecast_in_the_morning`](https://www.val.town/v/flafi87/weather_forecast_in_the_morning) - weather forecast on Telegram
+- [`weatherBot`](https://www.val.town/v/jdan/weatherBot) - OpenAI Weather Bot via function calling
+- [`aqi`](https://www.val.town/v/stevekrouse/aqi) - email alerts when AQI is unhealthy near you

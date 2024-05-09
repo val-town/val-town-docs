@@ -46,6 +46,10 @@ export default defineConfig({
           link: "/",
         },
         {
+          label: "Quickstarts",
+          autogenerate: { directory: "quickstarts" },
+        },
+        {
           label: "Types of vals",
           items: [
             {
