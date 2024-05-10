@@ -1,0 +1,113 @@
+---
+title: Your first HTTP val
+description: Make your first val - a weather notifier
+lastUpdated: 2024-05-10
+---
+
+This is a step-by-step guide to an HTTP val that renders and processes a form.
+
+If you get stuck, please ask for help in the [Val Town Discord](https://discord.gg/dHv45uN5RY). We're friendly!
+
+### Step 1: Sign up to Val Town
+
+[Sign up to Val Town](https://www.val.town/auth/signup). It's free.
+
+### Step 2: Create an HTTP val
+
+In the top-right corner of Val Town, click **New** > **HTTP**.
+
+This will create an schedule a new empty val in your account that looks like this:
+
+```ts title="Step 2"
+export default async function (req: Request) {
+‎
+}
+```
+
+### Step 3: Render HTML
+
+While you can [render html as a string](https://www.val.town/v/tmcw/htmlExample), we reccomend using [a flavor of JSX](http://localhost:4321/types/http/jsx/). In this example, we're going to use server-rendered React JSX.
+
+```tsx title="Step 3" ins={1, 5-9}
+/** @jsxImportSource https://esm.sh/react */
+import { renderToString } from "npm:react-dom/server";
+
+export default async function (req: Request) {
+  return new Response(renderToString(<h1>hello world</h1>), {
+    headers: {
+      "Content-Type": "text/html",
+    },
+  });
+}
+```
+
+### Step 4: Render a form
+
+Add a form to the JSX:
+
+```tsx title="Step 4" ins={4-14, 17}
+/** @jsxImportSource https://esm.sh/react */
+import { renderToString } from "npm:react-dom/server";
+
+const Page = () => (
+  <html>
+    <body>
+      <form action="/" method="post">
+        <h1>Subscribe to my newsletter</h1>
+        <input type="email" placeholder="you@email.com" />
+        <button>Subscribe</button>
+      </form>
+    </body>
+  </html>
+);
+
+export default async function (req: Request) {
+  return new Response(renderToString(<Page />), {
+    headers: {
+      "Content-Type": "text/html",
+    },
+  });
+}
+```
+
+Now you can try filling out and submitting your form. You should see a POST request in your vals logs.
+
+### Step 5: Process the form submission
+
+```tsx title="Step 5"
+/** @jsxImportSource https://esm.sh/react */
+import { renderToString } from "npm:react-dom/server";
+
+const Page = () => (
+  <html>
+    <body>
+      <form action="/" method="post">
+        <h1>Subscribe to my newsletter</h1>
+        <input name="email" type="email" placeholder="you@email.com" />
+        <button>Subscribe</button>
+      </form>
+    </body>
+  </html>
+);
+
+export default async function (req: Request) {
+  if (req.method === "POST") {
+    const formData = await req.formData();
+    const email = formData.get("email");
+    return new Response(`Thanks for subscribing, ${email}!`, {
+      headers: {
+        "Content-Type": "text/html",
+      },
+    });
+  }
+  return new Response(renderToString(<Page />), {
+    headers: {
+      "Content-Type": "text/html",
+    },
+  });
+}
+```
+
+### Next steps
+
+🥳 Congratulations!
