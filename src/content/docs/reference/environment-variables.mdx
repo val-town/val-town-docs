@@ -1,12 +1,13 @@
 ---
 title: Environment variables
 description: Using environment variables to store secrets that vals can securely access
-lastUpdated: 2024-02-26
+lastUpdated: 2024-05-14
 ---
 
+import Val from "@components/Val.astro";
+
 The proper place to store secrets, keys, and API tokens is in
-[Environment Variables](https://val.town/settings/environment-variables). When you add a key and value to
-the list of environment variables on that page, it becomes available via the `Deno.env` and `process.env` variables.
+[Environment Variables](https://val.town/settings/environment-variables).
 
 Environment variables can be accessed via `Deno.env` or `process.env`.
 
@@ -37,3 +38,17 @@ import process from "node:process";
 const secret = process.env.someSdkSecret;
 export let sdk = new SomeSDK(secret);
 ```
+
+## Environment variables are private in public vals
+
+It is safe for a a public val to reference your environment variables.
+Others can see that they're being used, but not their values.
+
+For example, in this public script val, you can see that I'm using a discord bot's environment variable, but you cannot run this code or get the value of the environment variable.
+
+<Val
+  url="https://www.val.town/embed/stevekrouse/sendDiscordDMExample?v=3"
+  height="180px"
+/>
+
+If you expose an HTTP API or email handler val, those vals can be _triggered_ by anyone who knows their URL or email address, but they still can't access your environment variables. This is how server-side code normally works. If someone wants to run your code with _their_ environment variables, they need to _import_ your code and run it in their own vals.

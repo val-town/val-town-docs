@@ -32,11 +32,11 @@ with an environment variable that only I know.
 ```ts title="user/secretEndpoint" val
 export const secretEndpoint = (req: Request) => {
   const secretHeader = req.headers.get("Authorization");
-  
+
   if (secretHeader !== Deno.env.get("supersecrettoken")) {
     return new Response("Unauthorized", { status: 401 });
   }
-  
+
   return new Response("My deepest darkest secret");
 };
 ```
@@ -68,10 +68,9 @@ By supplying the environment variable in a header, I'm allowed access:
 ```ts title="With authentication" val
 import { fetch } from "https://esm.town/v/std/fetch";
 
-const response = await fetch(
-  "https://user-secretEndpoint.web.val.run",
-  { headers: { Authorization: "birdsarentreal" } },
-);
+const response = await fetch("https://user-secretEndpoint.web.val.run", {
+  headers: { Authorization: "birdsarentreal" },
+});
 console.log(response);
 ```
 
@@ -120,13 +119,14 @@ computation, but you can't get those values, nor can you rerun this script with
 my environment variables.
 
 ```ts title="Example" val
-const { Redis } = await import("npm:@upstash/redis");
+import { Redis } from "npm:@upstash/redis";
 const redis = new Redis({
   url: Deno.env.get("upstashURL"),
   token: Deno.env.get("upstashToken"),
 });
 await redis.set("json-ex-1", { a: { b: "nested json" } });
-return ((await redis.get("json-ex-1")) as any).a.b;
+const get = await redis.get("json-ex-1");
+console.log(get);
 ```
 
 ```ts title="Output"

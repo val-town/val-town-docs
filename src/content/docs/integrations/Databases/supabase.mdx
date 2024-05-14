@@ -52,9 +52,8 @@ Head to the **Table editor** in the sidebar.
 Copy and paste the following val to insert some data.
 
 ```ts title="Data insertion" val
-const { createClient } = await import(
-  "https://esm.sh/@supabase/supabase-js@2"
-);
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
 const supabase = createClient(
   Deno.env.get("supabaseURL"),
   Deno.env.get("supabaseKey")
@@ -62,9 +61,7 @@ const supabase = createClient(
 const { data, error } = await supabase
   .from("my_first_table")
   .insert({ name: "Alice", data: { job: "software engineer" } });
-if (error) {
-  throw error;
-}
+console.log(data, error);
 ```
 
 ### 6. Query back that data
