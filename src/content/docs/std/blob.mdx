@@ -31,10 +31,10 @@ await blob.setJSON("myKey", { hello: "world" });
 ```ts title="List Keys"
 import { blob } from "https://esm.town/v/std/blob";
 
-let allKeys = await blob.listKeys();
+let allKeys = await blob.list();
 console.log(allKeys);
 
-const appKeys = await blob.listKeys("app_");
+const appKeys = await blob.list("app_");
 console.log(appKeys); // all keys that begin with `app_`
 ```
 
