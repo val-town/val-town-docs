@@ -1,11 +1,11 @@
 ---
 title: Exports
 description: |
-  Vals with triggers (HTTP, Scheduled, Email) require at least one export.
+  Vals with triggers (HTTP, Cron, Email) require at least one export.
 lastUpdated: 2024-05-09
 ---
 
-Vals with triggers (HTTP, Scheduled, Email) require at least one export: the function to run when that val is triggered. If your val has multiple exports, then we require one of them to the `default` export, which will be the function that runs when the val is triggered.
+Vals with triggers (HTTP, Cron, Email) require at least one export: the function to run when that val is triggered. If your val has multiple exports, then we require one of them to the `default` export, which will be the function that runs when the val is triggered.
 
 Script vals can export anything or nothing.
 

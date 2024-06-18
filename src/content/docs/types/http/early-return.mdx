@@ -2,7 +2,7 @@
 title: Deferred functions
 description: |
   You can do asynchronous work after return a response from
-  an HTTP handler.
+  an HTTP val.
 sidebar:
   order: 5
 lastUpdated: 2024-01-31
@@ -14,7 +14,7 @@ import Val from "@components/Val.astro";
 Val Town supports asynchronous functions with the basic primitives
 of [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises)
 in JavaScript. All kinds of handler vals, including HTTP, Email,
-and Interval, can be async functions: if they return a Promise,
+and Cron, can be async functions: if they return a Promise,
 we await it.
 
 We also wait until other, non-awaited asynchronous work is done
