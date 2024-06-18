@@ -10,7 +10,7 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/check": "^0.5.10",
+    "@astrojs/check": "^0.7.0",
     "@astrojs/starlight": "^0.23.2",
     "@fontsource/ibm-plex-sans": "^5.0.20",
     "astro": "^4.7.0",
