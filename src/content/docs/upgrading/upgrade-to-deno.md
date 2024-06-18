@@ -29,7 +29,7 @@ that will no longer work in the new runtime.
 
 ### `setInterval` has been removed
 
-Use Scheduled Vals instead.
+Use Cron Vals instead.
 
 ### `setTimeout` has been removed
 
@@ -81,14 +81,14 @@ magic. Now the Express fields behave the way the Express docs say they do.
 
 ## Non-breaking changes
 
-### Interval evaluations has `0` arguments where it used to have `1`
+### Cron evaluations has `0` arguments where it used to have `1`
 
 On your [intervals page](https://www.val.town/settings/intervals), you may
-notice that where it used to say that intervals have `1` argument (circled below
+notice that where it used to say that crons have `1` argument (circled below
 in red), it now says they take `0` arguments (circled below in purple). This
-does not affect that fact that intervals pass the `Interval` object to the
+does not affect that fact that crons pass the `Interval` object to the
 function that has been scheduled, which allows you to get the `lastRunAt` value
-of the interval in your schedule vals.
+of the interval in your cron vals.
 
 ![Screenshot 2023-03-14 at 2.27.48 PM.png](./upgrade-to-deno/screenshot_2023-03-14_at_22748_pm.png)
 

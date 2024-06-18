@@ -1,5 +1,5 @@
 ---
-title: Scheduled (Cron)
+title: Cron (Scheduled)
 sidebar:
   order: 1
 description: Schedules let code on Val Town run every day, every hour, or
@@ -13,20 +13,20 @@ You can schedule code to run repeatedly on Val Town. Want to check an RSS
 feed every hour, or send a reminder email every day? This is how to do it:
 just create a scheduled function and specify when it should run.
 
-- Scheduled functions can be configured with [cron syntax](https://en.wikipedia.org/wiki/Cron), or simple intervals like "once an hour"
+- Cron functions can be configured with [cron syntax](https://en.wikipedia.org/wiki/Cron), or simple intervals like "once an hour"
 - Functions can run up to once every 15 minutes, or [once a minute, with the Pro plan](https://www.val.town/pricing).
 
 ## Type Signature
 
-Scheduled functions should take an `Interval` object as a parameter, and can return anything as a result. The return value is ignored.
+Cron functions should take an `Interval` object as a parameter, and can return anything as a result. The return value is ignored.
 
 ```tsx title="Example" val
-export function intervalHandler(interval: Interval) {
-  console.log("Interval ran!");
+export function cronValHandler(interval: Interval) {
+  console.log("Cron val ran!");
 }
 ```
 
-The interval type has the following shape:
+The Interval type has the following shape:
 
 ```ts
 interface Interval {

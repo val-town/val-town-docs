@@ -62,8 +62,8 @@ export default defineConfig({
               collapsed: true,
             },
             {
-              label: "Scheduled",
-              link: "types/scheduled",
+              label: "Cron",
+              link: "types/cron",
             },
             {
               label: "Email",
