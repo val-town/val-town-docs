@@ -1,7 +1,7 @@
 ---
 title: Importing
-description: Import code from vals, NPM, and URLs
-lastUpdated: 2024-03-18
+description: Import code from vals, NPM, JSR, and URLs
+lastUpdated: 2024-06-19
 ---
 
 One of the best features of Val Town is the ability to import modules. There are thousands
@@ -9,7 +9,7 @@ of modules written in JavaScript and TypeScript that you can instantly
 import to extend and supercharge your vals.
 
 Val Town supports importing code from a variety of sources, including other vals on Val Town,
-[NPM](https://www.npmjs.com/), [esm.sh](https://esm.sh/), [deno.land](https://deno.land/x).
+[NPM](https://www.npmjs.com/), [JSR](https://jsr.io), [esm.sh](https://esm.sh/), [deno.land](https://deno.land/x).
 You can also import code from arbitrary URLs if they provide the correct `Content-Type` header
 and contain JavaScript or TypeScript.
 Imports in Val Town work the same as in Deno, so you can [learn more from their docs](https://docs.deno.com/runtime/manual/basics/modules/).
@@ -50,6 +50,14 @@ is often an effective workaround for these modules. See
 information.
 
 :::
+
+## JSR
+
+Val Town supports importing [JSR](https://jsr.io) modules. Simply add `jsr:` and `@` in front of the module name:
+
+```ts
+import { concat } from "jsr:@std/bytes";
+```
 
 ## HTTP Imports
 
