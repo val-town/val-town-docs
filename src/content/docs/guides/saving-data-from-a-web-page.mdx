@@ -1,97 +1,47 @@
 ---
 title: Saving data from a web page
 generated: 1701279907847
-lastUpdated: 2023-12-15
+lastUpdated: 2024-07-03
 ---
 
 import Val from "@components/Val.astro";
 
-You can insert and fetch data from Val Town from any web page using the [Run](/api/run) API and some JavaScript.
+There are many ways to save data from a web page, depending on your use-case, technologies, and other contraints. First, you'll want to pick a storage mechanism. Val Town has two built-in:
 
-## 1. Create a val to store some state
+[Blob storage](/std/blob) is a very simple key-value store for storing files, JSON, images, large blobs of data, while [SQLite](/std/sqlite) is a SQL database with ACID transactions, indexes, and more. You can also use external services like Firebase, Supabase, Neon, Upstash, etc.
 
-Fork, or copy and paste this val into your workspace - keep it named as `comments` so the snippets in this guide work correctly.
+Once you've picked a storage mechanism, you'll need to decide how to interact with it. You can either use form submissions or client-side JavaScript to make API calls to Val Town.
 
-<Val url="https://www.val.town/embed/vtdocs/comments" />
+## Blob storage
 
-## 2. Create a val that can mutate that state
+For example, this val is an app that displays comments, accepts new comments, and allows you to delete comments.
 
-Fork, or copy and paste the below val into your workspace.
+<Val url="https://www.val.town/embed/stevekrouse/blobCommentDemo" />
 
-When it's set to public, anyone can send an API request to it, and the data they send will be appended to the `comments` val you created in the previous step.
+There are three parts relating to blob storage:
 
-<Val url="https://www.val.town/embed/vtdocs/appendToComments" />
+1. `GET /` - Getting the comments from blob storage to render them on the page
+2. `POST /comment` - Handling the form submission to add a new comment to blob storage
+3. `POST /comment/:id/delete` – Handling the delete button to remove a comment from blob storage
 
-## 3. Use this JavaScript snippet on your webpage
+The way this val is rendered (Hono JSX) and the the HTML page talks to the server (form submissions) is arbitrary and can be replaced with any other front-end framework or server-side rendering. For example, you could have a NextJS or Remix app that makes a call to Val Town to get the data. Or you a client side VueJS app that makes a call to Val Town to get the data from the browser.
 
-Get the Run API endpoint for the val you created in the step above.
+This is a fork of the above app that uses client-side React to make the API calls:
 
-![Screenshot 2023-07-11 at 15.30.12.png](./saving-data-from-a-web-page/screenshot_2023-07-11_at_153012.png)
+<Val url="https://www.val.town/embed/stevekrouse/blobCommentsReact" />
 
-The below JavaScript snippet sends data to your `appendToComments` val which writes the data to your `comments` val.
+You could easily host the React part anywhere (Vercel, Netlify, etc) and have it make calls to Val Town (via your val's HTTP URL) to get and modify the data.
 
-```jsx
-// change this URL to your appendToComments's Run API endpoint!
-fetch("https://api.val.town/v1/run/vtdocs.appendToComments", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    // the single arg here maps to the `data` arg
-    args: ["hello world!"],
-  }),
-}).then((r) => {
-  // status will be 200 if everything went okay
-  console.log(r.status, r.statusText);
-});
-```
+You can learn more about blob storage here: [Val Town Blob](/std/blob).
 
-## 4. Directly read from `comments`
+## SQLite example
 
-If you make your `comments` val public, anyone can read from it directly with the Run API with this JavaScript snippet.
+The above demo is simple because it stores the data in the same simple JSON format that you want on the frontend. However, there are many limitations to blob storage. The most egregious is that it's not concurrency safe. If two people try to add a comment at the same time, one of the comments will be lost. For that – and many other reasons, such as indexing, querying, etc – you might want to use SQLite.
 
-```jsx
-// change this URL to your comments' Run API endpoint!
-fetch("https://api.val.town/v1/run/vtdocs.comments")
-  .then((r) => r.json())
-  .then((json) => console.log(json.data));
-```
+This is the same Hono demo but using SQLite on the backend. We will leave it as an exercise to an ambitious and helpful reader to convert the React demo to use SQLite and submit a PR to this docs page.
 
-When the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) doesn't include a method, it sends a GET request.
+<Val url="https://www.val.town/embed/stevekrouse/sqliteCommentDemo" />
 
-## 5. Indirectly read from `comments`
+Note: we left the `CREATE TABLE` statement in the code, so that this val will immediately work if you fork it. However, you may want to comment out that line after the first run to speed up this val.
 
-Maybe you want to hide some of your data. You can keep `comments` private and just provide access to a slice of it by using a public function val like this.
-
-<Val url="https://www.val.town/embed/vtdocs/getFirstComment" />
-
-Go ahead and test this by calling this one in your browser's developer console with this snippet.
-
-```jsx
-const r = await fetch("https://api.val.town/v1/run/vtdocs.getFirstComment");
-console.log(await r.json());
-```
-
-If the val is a function, it's implicitly called by the Run API.
-
-## 6. Use anything that supports HTTP!
-
-Like `cURL`:
-
-```bash
-curl https://api.val.town/v1/run/vtdocs.getFirstComment
-## "hello world!"
-```
-
-Or `python3`:
-
-```python
-import json, urllib.request
-body = urllib.request.urlopen("https://api.val.town/v1/run/vtdocs.getFirstComment").read()
-print(json.loads(body)) # hello world!
-```
-
-## 7. See the Val Town API reference
-
-For more details, and alternative ways of interacting with Val Town, see [Val Town API](/api/overview)
+You can learn more about SQLite here: [Val Town SQLite](/std/sqlite).
