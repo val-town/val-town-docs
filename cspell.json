@@ -8,6 +8,7 @@
       "addWords": true
     }
   ],
+  "files": ["src/content/docs"],
   "dictionaries": ["project-words"],
   "ignorePaths": ["node_modules", "/project-words.txt"]
 }
