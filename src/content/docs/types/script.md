@@ -7,7 +7,7 @@ sidebar:
 lastUpdated: 2024-03-18
 ---
 
-Script vals are free form JavaScript, TypeScript, or JSX. They are useful
+Script vals are freeform JavaScript, TypeScript, or JSX. They are useful
 for testing, saving utility functions, and one-off operations.
 
 It's common to use script vals to write standalone functions that can

@@ -6,6 +6,30 @@
 npm create astro@latest -- --template starlight
 ```
 
+## Spell-checking
+
+This project uses [cspell](https://cspell.org/) to keep typos at bay. You can run cspell by running
+the tests:
+
+```
+npm test
+```
+
+These also run in GitHub Actions, so PRs will fail if they include new typos. If you have
+introduced a new valid word that is not in the cspell dictionary and should be accepted
+project-wide, add it to the list in `./project-words.txt`. If you have added a new jargon
+word to a document and want to make a one-off exception, add a `cspell:ignore` comment
+in that document's frontmatter, like this:
+
+```
+---
+title: Your first cron val
+description: Make your first cron val - a weather notifier
+lastUpdated: 2024-05-09
+# cspell:ignore crongpt
+---
+```
+
 ## 🚀 Project Structure
 
 Inside of your Astro + Starlight project, you'll see the following folders and files:

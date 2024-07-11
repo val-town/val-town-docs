@@ -3,7 +3,7 @@ title: Blob Storage
 lastUpdated: 2024-05-09
 ---
 
-Val Town comes with blob storage built-in. It allows for storing any data: text, JSON, images. You can access it via [`std/blob`](https://www.val.town/v/std/blob).
+Val Town comes with blob storage built-in. It allows for storing any data, like text, JSON, or images. You can access it via [`std/blob`](https://www.val.town/v/std/blob).
 
 Blob storage is scoped globally to your account. If you set a blob in one val, you can retrieve it by the same key in another val. It's backed by Cloudflare R2.
 
@@ -79,7 +79,9 @@ await blob.move("myKey", "myKeyNew");
 
 ### Lower-level API
 
-We do provide access to the lower-level getter and setters, which are useful if you are storing non-JSON or binary data, need to stream in your response or request data, or do anything else lower-level.
+We provide access to the lower-level getter and setters,
+which are useful if you are storing non-JSON or binary data,
+need to stream in your response or request data, or do anything else lower-level.
 
 - `async get(key: string)`: Retrieves a blob for a given key.
 - `async set(key: string, value: string | BodyInit)`: Sets the blob value for a given key. See [BodyInit](https://deno.land/api@v1.38.1?s=BodyInit).

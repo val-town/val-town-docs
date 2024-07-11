@@ -4,6 +4,7 @@ generated: 1701279907898
 description: |
   Using Upstash, a hosting provider that provides free 1MB Redis instances.
 lastUpdated: 2023-12-22
+# cspell:ignore mattx
 ---
 
 import Val from "@components/Val.astro";
@@ -47,7 +48,7 @@ Val Town:
 
 ## Set some data
 
-If you set it up correctly, you should be able to *Run* this Val and have
+If you set it up correctly, you should be able to _Run_ this Val and have
 it return the same results from your own Upstash database
 
 ```ts title="Saving data" val
@@ -64,7 +65,7 @@ console.log(await redis.get("foo"));
 ## Saving JSON
 
 JSON is automatically stringified and parsed so you can set it and get it
-directly. You can store a JSON object of up to 1mb this way with a free acount.
+directly. You can store a JSON object of up to 1mb this way with a free account.
 
 ```ts title="Saving JSON value" val
 import { Redis } from "npm:@upstash/redis";

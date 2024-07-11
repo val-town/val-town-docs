@@ -1,6 +1,7 @@
 ---
 title: Interop with Node, Deno, and Browsers
 lastUpdated: 2024-01-16
+# cspell:ignore interoperating
 ---
 
 Vals can be written in TypeScript and JavaScript. JavaScript

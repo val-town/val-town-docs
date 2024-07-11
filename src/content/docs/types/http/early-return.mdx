@@ -10,7 +10,6 @@ lastUpdated: 2024-01-31
 
 import Val from "@components/Val.astro";
 
-
 Val Town supports asynchronous functions with the basic primitives
 of [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises)
 in JavaScript. All kinds of handler vals, including HTTP, Email,
@@ -46,10 +45,10 @@ lands in Val Town, which will handle this case more explicitly.
 
 ### Promises should otherwise be awaited
 
-While this is a  useful technique, it's important to emphasize that,
+While this is a useful technique, it's important to emphasize that,
 in general, you should otherwise `await` every Promise.
 If you don't remember to use `await` with Promises - besides this
-narrow usecase, errors that occur in promises won't be properly
+narrow use-case, errors that occur in promises won't be properly
 handled and functions may run out-of-order.
 
 For example, if you use `fetch` to request some resource,
@@ -60,7 +59,7 @@ and you won't have the values you expect to have:
 export async function handle() {
   try {
     // Result will be an opaque Promise, not a useful value.
-    const result = fetch('https://google.com/');
+    const result = fetch("https://google.com/");
   } catch (e) {
     // Errors will never be caught here because
     // fetch is not awaited.
