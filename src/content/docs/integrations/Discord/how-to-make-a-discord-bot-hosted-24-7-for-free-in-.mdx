@@ -3,6 +3,7 @@ title: Discord bot
 generated: 1701279907787
 description: How to make a Discord bot hosted 24/7 for free in 6 steps
 lastUpdated: 2023-12-22
+# cspell:ignore Dall
 ---
 
 import Val from "@components/Val.astro";
@@ -117,7 +118,8 @@ const result = await registerDiscordSlashCommand(
   {
     name: "ping",
     description: "Say hi to your bot",
-  });
+  },
+);
 export const registerDiscordCommand = result.json();
 ```
 
@@ -137,7 +139,7 @@ export const registerDiscordCommand = result.json();
 
 ![9.png](./how-to-make-a-discord-bot-hosted-24-7-for-free-in-/9.png)
 
-## 💬 Try it out!
+## 💬 Try it out
 
 Refresh Discord and try out your bot using `/ping`
 

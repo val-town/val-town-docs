@@ -2,6 +2,7 @@
 title: Google Sheets
 description: Using the Google Sheets API, you can add rows to a spreadsheet with Val Town.
 lastUpdated: 2024-02-23
+# cspell:ignore pipedreams mattx
 ---
 
 You can send data to Google Sheets from a val. You can collect
@@ -14,7 +15,7 @@ You have two options for authenticating with the Google Sheets API:
 
 ## Use Pipedream's Accounts API
 
-[Pipedream](https://pipedream.com) provides a workflow automation product for developers. Workflows are built as a sequence of steps — pre-built actions for thousands of APIs or custom code — triggered by an event (HTTP request, timer, when a new row is added to a Google Sheets, and more). 
+[Pipedream](https://pipedream.com) provides a workflow automation product for developers. Workflows are built as a sequence of steps — pre-built actions for thousands of APIs or custom code — triggered by an event (HTTP request, timer, when a new row is added to a Google Sheets, and more).
 
 Pipedream also manages the OAuth token refresh process for apps like Google Sheets, exposing a fresh access token in the workflow runtime and the [Accounts API](https://pipedream.com/docs/rest-api#accounts). If you connect your Google Sheets account to Pipedream, you can use the Accounts API to fetch a fresh token within your val and use that token to authenticate requests to the Google Sheets API.
 

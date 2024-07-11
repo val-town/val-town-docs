@@ -10,6 +10,7 @@ sidebar:
     text: Deprecated
     variant: caution
 lastUpdated: 2023-12-22
+# cspell:ignore Charsets
 ---
 
 :::caution[Deprecated]
@@ -76,7 +77,7 @@ export let postWebhookTest1 = fetchJSON(
 ```
 
 Check out the [ExpressJS docs](http://expressjs.com/) to figure out how to use
-the `req` and `res` objects or add `express.Request` and `express.Rsponse` types
+the `req` and `res` objects or add `express.Request` and `express.Response` types
 to your parameters and you'll see what properties exist on them inline:
 
 ![Screenshot 2023-03-14 at 3.29.23 PM.png](./express/screenshot_2023-03-14_at_32923_pm.png)
@@ -89,7 +90,10 @@ codes.
 
 ```ts title="Example" val
 // Visit: https://api.val.town/v1/express/vtdocs.customStatusCode
-export const customStatusCode = (req: express.Request, res: express.Response) => {
+export const customStatusCode = (
+  req: express.Request,
+  res: express.Response,
+) => {
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/418
   res.status(418).send("I'm a teapot");
 };
