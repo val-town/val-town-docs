@@ -6,6 +6,12 @@ import { valTownOpenButton } from "./plugins/val-town-open-button.mjs";
 // https://astro.build/config
 export default defineConfig({
   site: "https://docs.val.town/",
+  redirects: {
+    "/api/vals/": "/openapi.html#tag/vals",
+    "/api/my-resources/": "/openapi.html#tag/me",
+    "/api/users/": "/openapi.html#tag/users",
+    "/api/aliases/": "/openapi.html#tag/alias",
+  },
   integrations: [
     starlightLinksValidator(),
     starlight({
