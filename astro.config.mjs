@@ -8,9 +8,11 @@ export default defineConfig({
   site: "https://docs.val.town/",
   redirects: {
     "/api/vals/": "/openapi.html#tag/vals",
+    "/api/eval/": "/openapi.html#tag/vals",
     "/api/my-resources/": "/openapi.html#tag/me",
     "/api/users/": "/openapi.html#tag/users",
     "/api/aliases/": "/openapi.html#tag/alias",
+    "/api/run/": "/openapi.html#tag/vals/GET/v1/run/{valname}",
   },
   integrations: [
     starlightLinksValidator(),
