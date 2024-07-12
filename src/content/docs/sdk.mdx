@@ -1,0 +1,118 @@
+---
+title: Val Town SDK
+description:
+  Interact with Val Town via the TypeScript SDK to programmatically
+  create and update vals, get user information, and much more.
+lastUpdated: 2024-07-11
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+The Val Town TypeScript SDK lets you interact with our
+[REST API](/api/overview) from the comfort of a typed
+client that works well with editor autocomplete.
+
+<CardGrid>
+  <LinkCard
+    title="SDK Repository on GitHub"
+    href="https://github.com/val-town/sdk"
+  />
+  <LinkCard
+    title="NPM Package"
+    href="https://www.npmjs.com/package/@valtown/sdk"
+  />
+</CardGrid>
+
+The Val Town SDK supports:
+
+- Node.js 18 LTS or later
+- Deno v1.28.0 or higher, using `import ValTown from "npm:@valtown/sdk"`
+- Bun 1.0 or later
+- Cloudflare Workers
+- Vercel Edge Runtime
+
+### Installing the SDK
+
+The latest version of the SDK is always available on NPM.
+
+To use the SDK with Node.js, install it with NPM or
+your preferred package manager:
+
+```bash title="Install the SDK for Node.js"
+npm install @valtown/sdk
+```
+
+In Deno, it isn't necessary to install NPM packages
+explicitly: you can import the module and Deno will
+download it on the fly:
+
+```ts
+import ValTown from "npm:@valtown/sdk"
+```
+### Getting started in Node.js
+
+Here is how to get started with the SDK,
+with Node.js, writing [ESM](https://nodejs.org/api/esm.html).
+You should have [Node.js](https://nodejs.org/en) already
+installed, version 18 or newer.
+There are _many_ ways to set up JavaScript and TypeScript
+projects, and it's likely that you already have a project
+you intend to integrate against, so we don't document every
+approach.
+
+```bash title="Setting up an example Node.js project"
+# Create a directory for your project
+mkdir example-project
+cd example-project
+# Create a package.json file
+npm init
+# Install the SDK
+npm install @valtown/sdk
+```
+
+Create a file named `index.mjs`. Note that it needs to end
+with `.mjs`, not `.js`, because this file is using ESM import
+syntax. Alternatively, you can [add `"type": "module"` to your package.json file.](https://nodejs.org/api/esm.html#enabling)
+
+```ts title="index.mjs"
+import ValTown from "@valtown/sdk";
+
+const valTown = new ValTown();
+
+async function main() {
+  const myProfile = await valTown.me.profile.retrieve();
+  console.log(myProfile);
+}
+
+main();
+```
+
+Finally, the API expects to be authenticated with an API
+token, so [create an API token on Val Town](https://www.val.town/settings/api), and set it in your
+terminal environment:
+
+```bash title="Setting your Val Town API Token"
+export VAL_TOWN_API_KEY=your api token…
+```
+
+Now you should be able to run `index.mjs` and get your profile
+information:
+
+```bash title="Running index.mjs and getting profile information"
+node index.mjs
+
+{
+  id: '19892fed-baf3-41fb-a5cc-96c80e95edec',
+  bio: '👷 Building Val Town',
+  username: 'tmcw',
+  profileImageUrl: 'https://img.clerk.com/eyJ0eXBl…',
+  tier: 'pro',
+  email: 'tom@macwright.com'
+}
+```
+
+## Documentation
+
+The SDK’s documentation can be found in [its repository](https://github.com/val-town/sdk/blob/main/api.md)
+and code snippets for each endpoint are included in
+the [Val Town OpenAPI reference](/openapi.html)
