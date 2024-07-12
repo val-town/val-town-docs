@@ -91,6 +91,10 @@ export default defineConfig({
           ],
         },
         {
+          label: "Val Town SDK",
+          link: "/sdk",
+        },
+        {
           label: "Troubleshooting",
           autogenerate: { directory: "troubleshooting" },
           collapsed: true,
