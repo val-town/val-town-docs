@@ -1,0 +1,65 @@
+---
+title: HTTP (Preview)
+hide_title: true
+sidebar:
+  order: 5
+  label: HTTP
+  badge:
+    text: Preview
+    variant: note
+---
+
+We built a new runtime for HTTP vals that is much faster at scale. We've seen up to a 5x speedup for some vals! This is a preview feature, so expect rough edges. We'd love to hear your feedback on it.
+
+## Usage
+
+We created a new val type – `HTTP (Preview)` – to let you opt-into trying it out. Here's how:
+
+1. Create a normal `HTTP` val
+2. Change the val type to `HTTP (Preview)`
+
+That's it! Run your val 5 times in quick succession to see the difference.
+
+{/* Here's a simple script you can run to test it out yourself: TODO */}
+
+{/* Or if you'd prefer, here's a utility website to do the same thing: TODO */}
+
+## Architecture
+
+Up till now, every time you run a val it starts a new Deno process and installs all your dependencies from scratch. This takes 100ms miliseconds at least, and can take much longer depending on how many dependencies you have.
+
+With the new `HTTP (Preview)` val, we keep your Deno process around and forward multiple requests to it. This means that the first request will still have the 100ms+ cold start time, but every request after that will be _much_ faster. For example, the simplest posssible val that just returns "hello world!" will take 100ms to boot up the first time, but then only 10ms for subsequent requests. To be clear, that's not including network latency to the val (which from NYC, for example, is 90ms), just the time it takes for the val to respond.
+
+So in summary, a user from NYC hitting a "hello world!" val will see a 180ms response time for the first request and 90ms for every request after that using `HTTP (Preview)`. With the normal `HTTP` val type, they would see 190ms for every request. The difference is even more pronounced for vals with more dependencies, particularly big ones or ones that boot up WASM. For example, we migrated the Date Me Directory to `HTTP (Preview)` and saw total requests time (from NYC) go from 800ms to 200ms!
+
+There's one hitch in this story. We currently have 4 servers that run your HTTP vals. We are not yet smartly routing your requests to the server that has your val already running. This means that if you run a val 4 times in quick succession, you might hit 4 different servers, and each one will have to boot up your val from scratch. We are working on a smarter routing layer, but in the meantime, we recommend running your val 5 times in quick succession to correctly benchmark `HTTP (Preview)`.
+
+We want to be conservative with this rollout, so we're only keeping `HTTP (Preview)` vals alive for 10 seconds after the end of the last request it receives. As we get more comfortable keeping vals alive for longer, we'll increase this timeout window, particularly for Pro users. We're considering ways to keep vals alive indefinitely, but that will require some changes to our pricing to make it sustainable.
+
+## Limitations
+
+There are currently two limitations to the `HTTP (Preview)` compared to the normal `HTTP` type:
+
+1. It doesn't show `console.log` statements
+2. It doesn't support cancelling any running executions
+
+We expect to have fixes for these limitations in the next couple weeks. In the meantime, we reccomend using the normal HTTP val type in development and then switching to HTTP (Preview) for production.
+
+## Breaking changes
+
+There is one breaking change with this new feature: it only re-runs your val handler, not any of the other code in your val. This means that if you have any code outside of your handler that you want to run on every request, you'll need to move it into your handler. This is a good practice anyway, as it makes your val more predictable and easier to reason about.
+
+## Rollout
+
+We intend for this new runtime to be the default `HTTP` val type. So what is now `HTTP` will become `HTTP (Deprecated)`, and what is now `HTTP (Preview)` will become `HTTP`. There are two phases to the rollout:
+
+1. **Preview** - `HTTP (Preview)` released to all users. This is planned for July 17th, 2024. Users can opt-into `HTTP (Preview)` by changing their val type.
+2. **Release** - All new `HTTP` vals will default to the new runtime. We plan for this to happen on August 1st, 2024. We will rename the val types accordingly:
+   - What is now `HTTP (Preview)` will become `HTTP`
+   - What is now `HTTP` will become `HTTP (Deprecated)`
+
+We won't automatically upgrade `HTTP (Deprecated)`, because of the breaking change mentioned above. We will reccomend most users to upgrade to `HTTP` once it becomes the default, but we will keep `HTTP (Deprecated)` around to give users time to upgrade and confirm they're not affected by the breaking change.
+
+## Feedback
+
+We'd love to hear your feedback on this new feature! You can send a message in our #general or #bugs channels in [our Discord](https://discord.gg/dHv45uN5RY) or email us at [feedback@val.town](mailto:feedback@val.town).
