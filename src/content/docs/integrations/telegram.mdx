@@ -1,10 +1,9 @@
 ---
 title: Telegram  bot
-generated: 1701279907743
 description: |
   You can create a bot for Telegram, the popular messaging app, using Val Town,
   letting your vals receive and respond to messages.
-lastUpdated: 2023-12-22
+lastUpdated: 2024-08-05
 ---
 
 import Val from "@components/Val.astro";
@@ -26,12 +25,12 @@ your bot and obtain a bot token.
 
 ### Add the bot token as an environment variable
 
-Copy the bot token you just received and save it as a Val Town environment variable as
+Copy the bot token you just received and save it as a [Val Town environment variable](https://www.val.town/settings/environment-variables) as
 `telegramBotToken`.
 
 ### Check your token works
 
-Call `@vtdocs.telegramGetMe` with your newly created environment variable to check that it
+Call [`vtdocs/telegramGetMe`](https://www.val.town/v/vtdocs/telegramGetMe) with your newly created environment variable to check that it
 works.
 
 ```ts title="Check token" val
@@ -43,7 +42,7 @@ console.log(await telegramGetMe(Deno.env.get("telegramBotToken")));
 ### Create an environment variable so you can verify webhooks
 
 Generate a random string and save it as a Val Town environment variable as
-`telegramWebhookSecret`.
+`telegramWebhookSecret`. A valid token is 1-256 characters. Only characters A-Z, a-z, 0-9, _ and - are allowed.
 
 ### Create a webhook handler to receive messages
 
@@ -55,16 +54,15 @@ Copy this val that uses the [HTTP Val](/types/http) :
 
 <Val url="https://www.val.town/embed/maxm/telegramWebhookExample" />
 
-
 ### Tell your bot about the webhook handler
 
-Use `@vtdocs.telegramSetWebhook` to tell your bot where to send webhooks.
+Use [`vtdocs/telegramSetWebhook`](https://www.val.town/v/vtdocs/telegramSetWebhook) to tell your bot where to send webhooks.
 
 ```ts title="Register webhook" val
 import { telegramSetWebhook } from "https://esm.town/v/vtdocs/telegramSetWebhook?v=2";
 
 const token = Deno.env.get("telegramBotToken");
-export const setWebhookExample = telegramSetWebhook(
+export const setWebhookExample = await telegramSetWebhook(
   token,
   {
     // Replace this with _your_ web endpoint
@@ -74,6 +72,7 @@ export const setWebhookExample = telegramSetWebhook(
     secret_token: token,
   }
 );
+console.log(setWebhookExample)
 ```
 
 ### Send a message to your bot to check it works!
