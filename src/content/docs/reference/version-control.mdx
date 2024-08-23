@@ -47,3 +47,20 @@ import { min } from "npm:lodash-es@4";
 
 We highly recommend pinning imported modules because their APIs can
 change between versions and unexpectedly break your code.
+
+### Lockfiles
+
+When you save a Val we generate a
+[deno.lock](https://docs.deno.com/runtime/manual/basics/modules/integrity_checking/)
+lockfile. This pins all versions of your dependencies and also calculates hashes
+to verify that the content of a dependency does not change.
+
+When you save a Val, we regenerate the lockfile from scratch, re-pinning your
+unpinned dependencies to whatever their current versions are at that new time.
+
+Additionally, when you save a val, we find all the vals in your account that
+depend on that val and mark their lockfiles for regeneration. That way you can
+keep rapidly iterating and we'll make sure to update dependency relationships in
+your vals.
+
+Read more about how and why we use lockfiles here: https://blog.val.town/blog/lockfiles/
