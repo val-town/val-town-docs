@@ -10,17 +10,17 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/check": "^0.7.0",
-    "@astrojs/starlight": "^0.24.5",
-    "@fontsource/ibm-plex-sans": "^5.0.20",
-    "astro": "^4.13.0",
+    "@astrojs/check": "^0.9.3",
+    "@astrojs/starlight": "^0.26.2",
+    "@fontsource/ibm-plex-sans": "^5.0.21",
+    "astro": "^4.15.2",
     "hast-util-select": "^6.0.2",
     "hastscript": "^9.0.0",
-    "sharp": "^0.33.4",
-    "starlight-links-validator": "^0.10.1",
-    "typescript": "^5.5.2"
+    "sharp": "^0.33.5",
+    "starlight-links-validator": "^0.11.0",
+    "typescript": "^5.5.4"
   },
   "devDependencies": {
-    "cspell": "^8.13.0"
+    "cspell": "^8.14.2"
   }
 }
