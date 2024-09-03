@@ -58,4 +58,6 @@ Subdomains of these domains are additionally in scope for the program.
 - Phishing or social engineering attacks
 - Brute force login attempts
 - Bugs on Vals themselves. Vals are user-controlled code and are not part of Val Town's product surface
+- Denial of Service or brute force attacks
 - Violating any laws or breaching any agreements in order to discover vulnerabilities
+
