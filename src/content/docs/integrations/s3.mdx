@@ -91,7 +91,7 @@ Copy and run the following val in your workspace.
 import { S3Client } from "https://deno.land/x/s3_lite_client@0.6.1/mod.ts";
 
 const s3client = new S3Client({
-  endPoint: "s3.amazonaws.com",
+  endPoint: `s3.${Deno.env.get("awsS3Region")}.amazonaws.com`,
   region: Deno.env.get("awsS3Region"),
   bucket: Deno.env.get("awsS3Bucket"),
   accessKey: Deno.env.get("awsS3Key"),
