@@ -67,3 +67,7 @@ export function handler(req) {
   return new Response(new URL(req.url).searchParams.get("name"));
 }
 ```
+
+## Endpoints
+
+HTTP vals can be accessed by subdomains ending in `web.val.run`, like `https://username-valname.web.val.run`. Express vals are accessed on a different subdomain path, ending in `express.val.run`. You may need to update code and links that point to the val.
