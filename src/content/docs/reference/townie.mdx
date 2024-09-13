@@ -4,49 +4,61 @@ description: Use the AI assistant Townie to create or edit vals
 lastUpdated: 2024-09-10
 ---
 
-Townie is an AI assistant that can help you create and edit vals in Val Town.
+[Townie][] is an AI assistant that can help you create and edit vals in Val Town.
 You can use Townie to create backend services, websites, and other vals
 that are deployed instantly to quickly iterate on an idea.
 
 ## Get started
 
 To create a new val based on your own prompts,
-navigate to [Townie](https://val.town/townie), type in a prompt, and hit submit.
+navigate to [Townie][], type in a prompt, and hit submit.
 Once Townie has created a val, you'll see a preview of the live code.
-You can continue the conversation to iterate on your val further or open the **_Code_** tab
-to make manual edits if needed.
+You can continue the conversation to iterate on your val further or make manual edits to the code if needed.
 
-## Edit an existing val
+Note that Townie currenly only creates [HTTP vals][], but you can simulate [script][script vals] or [cron vals][] by making a simple site with a trigger button. Once you have code working the way you like, you can manually change the val type to make it function as a cron or standalone script val.
 
-To start a conversation with Townie based on an existing HTTP val, go to the val's detail page and click the **_Edit with Townie_** link.
-Note that Townie currently only edit HTTP vals.
+## Val Town Template
 
-You can also start a new chat thread based on an existing val by clicking **_Edit an existing val_** in the Townie sidebar, then searching for the val you would like to edit.
+Townie's default system prompt includes a template that is used as a basis for vals created in Townie. The template is intended to work well for code that can run on the server or in a client-side context.
+To change what libraries or approaches Townie uses, you can often include instructions in the prompt. For example, you could say _"Use Hono instead of React"_.
 
-## Start a new chat
+## Diffs
 
-To start a new chat about the current val, click the dropdown above the conversation and click **_Start a new chat_**.
+Townie will attempt to make small changes as unified diffs. For small changes, this works well, but can be error prone on larger diffs or when Townie hallucinates.
+To disable this behavior, use a phrase like _"Repond with the full code"_ in your prompt.
+If Townie is continuing to reply with the full code, but you'd prefer to switch back to diffs, use the phrase _"Respond with a valid unified diff"_ in your prompt.
 
-## Delete a chat thread
+## Checking for errors
 
-To delete a chat thread, click the dropdown above the conversation and click **_Delete chat_**.
+If Townie produces code with errors, it attempts to catch these errors and recover from them.
+There are two places to check for errors in HTTP vals: in the val's _Requests_ log or in your browser's console, depending on where the error occurs.
 
-## Tips for effective prompting
+## Recover from errors
 
-1. **Be Specific:** Provide detailed instructions for your desired val.
-1. **Offer Context:** Explain the purpose of your val or any specific requirements.
-1. **Request Explanations:** Ask Townie to clarify or elaborate on the generated code.
-1. **Iterate:** Refine your requests based on initial results to improve the output.
-1. **Consider Alternatives:** Ask Townie to suggest different approaches or implementations.
+Sometimes Townie can make mistakes and cause errors.
+These can usually be recovered from by using specific prompts.
+If Townie omits parts of the code or a diff patch fails, try replying with a phrase like _"Respond with the full code"_.
 
-Sometimes Townie can make mistakes.
-If we are able to catch the error, a button to **_Fix the code_** will appear above the prompt.
-In other cases, mistakes can usually be recovered from by using specific prompts.
+## Basic prompt-writing tips
 
-- If Townie generates only partial code or a diff patch fails, try replying with a phrase like _"Respond with the full code"_.
-- If you prefer that Townie respond to a small change with only a diff to speed up the code generation, you can say _"Respond with a valid unified diff only"_
+- Saying something like _"Make it better"_ can sometimes yield iterative improvements.
+- Copying and pasting errors into the prompt can help Townie diagnose issues.
+- You can try _Chain of Thought_ prompting by asking Townie to carefully think through steps before writing code.
+- Similarly, try asking Townie to brainstorm multiple approaches for comparison before writing code.
+- Provide instructions as a numbered list to have Townie carry out tasks in a specific order.
+
+## Starting from scratch
+
+When conversations grow in length, Townie may have a tendency to hallucinate or create errors. Starting a new chat thread on the same val can sometimes help.
+
 
 ## Advanced
 
 Townie uses a custom system prompt to generate code that is appropriate for Val Town.
-If you'd like to adjust the prompt for a specific use-case, open the Townie settings by clicking the cog icon, edit the prompt and hit **_Save_**.
+If you'd like to adjust the prompt for a specific use-case,
+you can edit the default prompt used in Townie's settings.
+
+[townie]: https://val.town/townie
+[http vals]: /types/http
+[script vals]: /types/script
+[cron vals]: /types/cron
