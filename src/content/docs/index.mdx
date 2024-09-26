@@ -1,13 +1,10 @@
 ---
 title: Val Town Docs
-description:
-  Create APIs, websites, scheduled functions, email yourself, and persist data
-  — all from the browser and instantly deployed.
+description: Create deployed apps, APIs, sites, and crons with JavaScript
 tableOfContents: false
-lastUpdated: 2024-05-09
 ---
 
-Val Town is a social website to write and deploy JavaScript. Create APIs, websites, scheduled functions, email yourself,
+Val Town is a website to write and deploy apps. Create APIs, websites, scheduled functions, email yourself,
 and persist data — all from the browser and instantly deployed.
 
 - Vals are runnable JavaScript, TypeScript, and JSX modules
@@ -15,17 +12,21 @@ and persist data — all from the browser and instantly deployed.
 - Vals can be public, unlisted, or private [↗](/reference/permissions)
 - Vals are run via the Deno runtime
 
-There are four different kinds of vals:
+There are 4 types of vals, each with different triggers:
 
-  - [**Script**](/types/script) - freeform, run manually, for one-off operations or testing
-  - [**HTTP**](/types/http) - expose an API endpoint, make a website, or accept webhooks
-  - [**Cron**](/types/cron) - trigger code on a timer or cron schedule
-  - [**Email**](/types/email) - trigger code on an incoming email
+- [**Script**](/types/script) - freeform, run manually, for one-offs or testing
+- [**HTTP**](/types/http) - make a website, API endpoint, accept webhooks
+- [**Cron**](/types/cron) - trigger code on a timer
+- [**Email**](/types/email) - trigger code on an incoming email
 
-**The Val Town Standard Library** provides a set of useful services:
+**The Val Town Standard Library** provides a some free hosted services:
 
-  - [**Blob Storage**](/std/blob) - store and retrieve any data
-  - [**SQLite**](/std/sqlite) - store and retrieve structured data
-  - [**Email**](/std/email) - send emails
+- [**SQLite**](/std/sqlite) - store and retrieve structured data
+- [**Blob Storage**](/std/blob) - store and retrieve any data
+- [**OpenAI**](/std/openai) - use the OpenAI API
+- [**Email**](/std/email) - send emails
+- [**Proxied Fetch**](/std/proxied-fetch) - make requests from anonymous IP addresses
+
+If you're new to Val Town or programming, we reccommend starting with [Townie](/townie), our AI assistant that can write vals for you, or one of our quickstarts: [website](/quickstarts/first-website), [cron](/quickstarts/first-cron).
 
 You can also use Val Town programmatically using the [Val Town SDK](/sdk).
