@@ -1,0 +1,122 @@
+---
+title: Migrating Deprecated HTTP Vals
+generated: 1701279907950
+lastUpdated: 2024-10-02
+sidebar:
+  order: 3
+---
+
+We're migrating all HTTP vals to a new runtime. Vals on the old runtime are
+labeled "HTTP (deprecated)" in the UI.
+
+For a comprehensive guide on migrating your HTTP vals, please refer to our
+[Migration Checklist](#migration-checklist).
+
+The new runtime executes code differently, which may affect your val's behavior.
+Here's what you need to know:
+
+
+### Accidentally re-using values.
+
+Previously, HTTP vals executed all code for each request, generating new values
+every time. For example, this val would return a different random number on each
+request:
+
+```ts val
+const randomValue = Math.random()
+export default async function (req: Request): Promise<Response> {
+  return Response.json({ randomValue })
+}
+```
+
+```bash
+curl https://std-rand.web.val.run # => {"randomValue":0.35380812508500936}
+                                  # => {"randomValue":0.48797154766298423}
+                                  # => {"randomValue":0.31486102144764216}
+```
+
+Our new runtime reuses Deno processes between requests when possible. This means
+values defined outside the request handler will be shared across requests:
+
+```bash
+curl https://std-rand.web.val.run # => {"randomValue":0.22669880732624748}
+                                  # => {"randomValue":0.22669880732624748}
+                                  # => {"randomValue":0.22669880732624748}
+```
+
+To fix this, you can move the call to `Math.random()` inside the request
+handler.
+
+```ts val
+export default async function (req: Request): Promise<Response> {
+  const randomValue = Math.random()
+  return Response.json({ randomValue })
+}
+```
+
+This will generate a new random value on every request, and return a new random
+value, just like before.
+
+```bash
+curl https://std-rand.web.val.run # => {"randomValue":0.7862069462810053}
+                                  # => {"randomValue":0.33484196890793516}
+                                  # => {"randomValue":0.7272455873033288}
+```
+
+### Intentionally caching values for performance!
+
+Sometimes, you may want to reuse values across requests for performance reasons.
+The new runtime's behavior can be advantageous in these scenarios. You can
+initialize values or perform expensive operations outside the request handler,
+and they'll be cached between requests:
+
+```ts val
+// Expensive initialization or data fetching
+const expensiveData = await fetchLargeDataset()
+const cache = new Map()
+
+export default async function (req: Request): Promise<Response> {
+  const url = new URL(req.url)
+  const key = url.searchParams.get('key')
+
+  if (cache.has(key)) {
+    return Response.json({ data: cache.get(key) })
+  }
+
+  const result = expensiveComputation(key, expensiveData)
+  cache.set(key, result)
+
+  return Response.json({ data: result })
+}
+```
+
+In this example:
+
+1. `fetchLargeDataset()` is called only once when the val is initialized, not on
+   every request.
+2. We create a `cache` Map that persists between requests.
+3. The request handler checks the cache first, potentially saving computation
+   time.
+4. If the result isn't cached, it performs the computation and stores the result
+   for future requests.
+
+This approach can significantly improve performance for repeated requests or
+when dealing with expensive initializations. However, be mindful of memory
+usage, as cached data will persist in memory until the val is restarted.
+
+### Migration Checklist
+
+When migrating your HTTP vals to the new runtime:
+
+1. Review your code for any variables declared outside the request handler.
+2. Determine if these variables should be regenerated for each request or if
+   they can be safely cached.
+3. Move variables that need to be unique per request inside the handler
+   function.
+4. Consider opportunities to improve performance by intentionally caching
+   expensive computations or initializations.
+5. Test your val thoroughly to ensure it behaves as expected under the new
+   runtime.
+
+If you run into any issues during your migration please reach out to us at
+[hi@val.town](mailto:hi@val.town).
