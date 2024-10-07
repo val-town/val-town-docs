@@ -27,6 +27,9 @@ console.log(completion.choices[0].message.content);
 
 ## Images
 
+To send an image to ChatGPT, the easiest way is by converting it to a 
+data URL, which is easiest to do with [@stevekrouse/fileToDataURL](https://www.val.town/v/stevekrouse/fileToDataURL).
+
 ```ts title="Image Example" val
 import { fileToDataURL } from "https://esm.town/v/stevekrouse/fileToDataURL";
 
