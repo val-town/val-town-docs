@@ -7,7 +7,7 @@ Use OpenAI's chat completion API with [`std/openai`](https://www.val.town/v/std/
 
 For free Val Town users, [all calls are sent to `gpt-4o-mini`](https://www.val.town/v/std/openaiproxy?v=12#L85).
 
-## Usage
+## Basic Usage
 
 ```ts title="Example" val
 import { OpenAI } from "https://esm.town/v/std/openai";
@@ -23,6 +23,36 @@ const completion = await openai.chat.completions.create({
 });
 
 console.log(completion.choices[0].message.content);
+```
+
+## Images
+
+```ts title="Image Example" val
+import { fileToDataURL } from "https://esm.town/v/stevekrouse/fileToDataURL";
+
+const dataURL = await fileToDataURL(file);
+const response = await chat([
+  {
+    role: "system",
+    content: `You are an nutritionist. 
+  Estimate the calories.
+  We only need a VERY ROUGH estimate.
+  Respond ONLY in a JSON array with values conforming to: {ingredient: string, calories: number}
+  `,
+  },
+  {
+    role: "user",
+    content: [{
+      type: "image_url",
+      image_url: {
+        url: dataURL,
+      },
+    }],
+  },
+], {
+  model: "gpt-4o",
+  max_tokens: 200,
+});
 ```
 
 ## Limits
