@@ -53,6 +53,19 @@ If you want to experiment with calling the Val Town API from within Val Town (as
 is shown above), you should copy-and-paste one of your Val Town API tokens into
 [your environment variables](https://www.val.town/settings/environment-variables).
 
+## API Token Lifecycles
+
+API Tokens come with configurable expiration dates. We strongly recommend
+setting expiration dates for your tokens and rotating them regularly.
+
+If you accidentally leak or misplace an API token, you can delete it [on the API
+Tokens paage](https://www.val.town/settings/api), immediately preventing any
+further access to your account.
+
+In rare cases where we detect a potential leak of your API Token, we'll take
+proactive measures. We'll automatically revoke the compromised token and
+promptly notify you via email.
+
 ## Custom Authentication
 
 You can roll arbitrary authentication schemes in user space. For example, I find
