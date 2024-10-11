@@ -17,12 +17,10 @@ navigate to [Townie][], type in a prompt, and hit submit.
 Once Townie has created a val, you'll see a preview of the live code.
 You can continue the conversation to iterate on your val further or make manual edits to the code if needed.
 
-Townie currently only creates [HTTP vals][], but you can simulate [script][script vals] or [cron vals][] by making a simple site with a trigger button. Once you have code working the way you like, you can manually change the val type to make it function as a cron or standalone script val.
-
-## Val Town Template
+## HTTP val Template
 
 Townie's default system prompt includes a template that is used as a basis for vals created in Townie. The template is intended to work well for code that can run on the server or in a client-side context. By default, it'll tend to use React to build front-end interfaces
-and the built-in [SQLite][] storage for persisting data.
+and the built-in [SQLite][/std/sqlite/] storage for persisting data.
 
 To change what libraries or approaches Townie uses, you can include instructions in the prompt. For example, you could say _"Use Hono instead of React."_
 
@@ -30,7 +28,6 @@ To change what libraries or approaches Townie uses, you can include instructions
 
 - Saying something like _"Make it better"_ can sometimes yield iterative improvements.
 - Copying and pasting errors into the prompt can help Townie diagnose issues.
-- You can try _Chain of Thought_ prompting by asking Townie to carefully think through steps before writing code.
 - Similarly, try asking Townie to brainstorm multiple approaches for comparison before writing code.
 - Provide instructions as a numbered list to have Townie carry out tasks in a specific order.
 
@@ -44,7 +41,7 @@ prompt used in Townie's settings.
 
 ### Diffs
 
-Townie will attempt to make small changes as unified diffs. For small changes, this works well, but can be error prone on larger diffs or when Townie hallucinates.
+You can ask Townie "to make changes as unified diffs." For small changes, this works well, but can be error prone on larger diffs or when Townie hallucinates.
 To disable this behavior, use a phrase like _"Respond with the full code"_ in your prompt.
 If Townie is continuing to reply with the full code, but you'd prefer to switch back to diffs, use the phrase _"Respond with a valid unified diff"_ in your prompt.
 
