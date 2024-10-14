@@ -62,6 +62,7 @@ Use [`vtdocs/telegramSetWebhook`](https://www.val.town/v/vtdocs/telegramSetWebho
 import { telegramSetWebhook } from "https://esm.town/v/vtdocs/telegramSetWebhook?v=2";
 
 const token = Deno.env.get("telegramBotToken");
+const secret_token = Deno.env.get("telegramWebhookSecret");
 export const setWebhookExample = await telegramSetWebhook(
   token,
   {
@@ -69,7 +70,7 @@ export const setWebhookExample = await telegramSetWebhook(
     url: "https://neverstew-telegramWebhookEchoMessage.web.val.run",
     // Optionally, filter what kind of updates you want to receive here
     allowed_updates: ["message"],
-    secret_token: token,
+    secret_token: secret_token,
   }
 );
 console.log(setWebhookExample)
