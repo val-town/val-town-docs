@@ -45,25 +45,31 @@ DNS changes can take up to an hour to take effect.
 
 ### Subdomains
 
-Create a CNAME record to `domains.val.run`:
+Create a CNAME record to `domains.val.run.`:
 
-| CNAME record            | value             |
-| ----------------------- | ----------------- |
-| `something.example.com` | `domains.val.run` |
+| CNAME record             | value              |
+| ------------------------ | ------------------ |
+| `something.example.com.` | `domains.val.run.` |
 
-Replace `something.example.com` with your domain. In some domain platforms, you should only use the subdomain, which would be `something` in the example above.
+Replace `something.example.com.` with your domain. In some domain platforms, you should only use the subdomain, which would be `something` in the example above.
 
 ### Apex domains
 
 Create the following two A records:
 
-| A record      | value           |
-| ------------- | --------------- |
-| `example.com` | `75.2.96.173`   |
-| `example.com` | `99.83.186.151` |
+| A record       | value           |
+| -------------- | --------------- |
+| `example.com.` | `75.2.96.173`   |
+| `example.com.` | `99.83.186.151` |
 
-Replace `example.com` with your domain. In some domain platforms, you should replace `example.com` with `@`.
+Replace `example.com.` with your domain. In some domain platforms, you should replace `example.com.` with `@`.
 
-<hr>
+:::note
+
+Some registrars, such as [Cloudflare](https://developers.cloudflare.com/dns/cname-flattening/), support CNAME records for apex domains as well.
+
+:::
+
+---
 
 Val Town custom domains are powered by [SaaS Custom Domains](https://saascustomdomains.com).
