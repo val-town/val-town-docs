@@ -63,7 +63,7 @@ export async function myEndpoint(req) {
             headers: {
                 "Access-Control-Allow-Origin": "https://specific-domain.com",
                 "Access-Control-Allow-Methods": "GET,POST",
-                "Access-Control-Allow-Headers": "8",
+                "Access-Control-Allow-Headers": "*",
                 "Access-Control-Max-Age": "86400",
             },
         });
