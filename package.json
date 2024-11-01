@@ -14,7 +14,7 @@
     "@astrojs/starlight": "^0.28.2",
     "@fontsource/ibm-plex-sans": "^5.1.0",
     "astro": "^4.15.10",
-    "hast-util-select": "^6.0.2",
+    "hast-util-select": "^6.0.3",
     "hastscript": "^9.0.0",
     "sharp": "^0.33.5",
     "starlight-links-validator": "^0.12.2",
