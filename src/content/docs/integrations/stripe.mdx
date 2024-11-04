@@ -7,39 +7,33 @@ lastUpdated: 2024-10-29
 ---
 
 import Val from "@components/Val.astro";
+import gif from './stripe/stripe-try-it-out.gif'
 
-You can accept payments in Val Town using Stripe.
+You can accept payments in Val Town. With this guide, you'll be able to use Payment Links to accept payments in Val Town using Stripe.
 
-## 1. Sign into your Stripe account
+### Obtain credentials from the Stripe
+Head over to the [Stripe dashboard](https://dashboard.stripe.com/dashboard) and get your secret key.
 
-![stripeLogin](./stripe/stripeLogin.png)
+![stripe-keys.png](./stripe/stripe-keys.png)
 
-Visit [Stripe](https://dashboard.stripe.com/login) and sign into your account.
+### Add Stripe to your environment variables
+Go to your [Val Town environment varibales](https://www.val.town/settings/environment-variables) and add your secret key to Val Town.
 
-## 2. Create a new account
+![stripe-env.png](./stripe/stripe-env.png)
 
-![stripeCreateAccount](./stripe/stripeCreateAccount.png)
+### Ask Townie to generate our app
 
-Create a new account for the app you're building.
+We can ask [Townie](https://www.val.town/townie), Val Town's bot, to generate our app for us. Here is an example prompt:
 
-## Examples
+```Create a tipping app with Stripe Checkout in the server. Use tailwind css for styling and make the buttons purple. The preset tip options should be 1, 5, 10, 20.```
 
-### Tip Jar (Payment Links)
+![stripe-townie.png](./stripe/stripe-townie.png)
 
-## 3. Create a Payment Link for your app
 
-![stripePaymentLink](./stripe/stripePaymentLink.png)
 
-Go to the Payment Links page by clicking the Payment Link link under the payments section in the menu on the left.
+### Try it out!
+You can now use Stripe in Val Town! Also feel free to [fork](https://www.val.town/v/vawogbemi/StripeDemohttps://www.val.town/v/vawogbemi/StripeDemo) the val below to try it out.
 
-![stripePaymentLink2](./stripe/stripePaymentLink2.png)
+<img src={gif.src} width={gif.width} />
 
-![stripePaymentLink3](./stripe/stripePaymentLink3.png)
-
-Once you're on the Paymment Links page click on the create new Payment Link button and fill out the fields.
-
-## 4. Create a val that uses the Payment Link
-
-Here is an example of a tip jar val that uses Stripe Payment Links. Fork this val and add your Stripe Payment Link. Feel free to customize the val to your preferences.
-
-<Val url="https://www.val.town/embed/vawogbemi/stripeTippingDemo" />
+<Val url="https://www.val.town/embed/vawogbemi/StripeDemo"/>
