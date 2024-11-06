@@ -9,29 +9,33 @@ lastUpdated: 2024-10-29
 import Val from "@components/Val.astro";
 import gif from './stripe/stripe-try-it-out.gif'
 
-You can accept payments in Val Town. With this guide, you'll be able to use Payment Links to accept payments in Val Town using Stripe.
+You can accept payments in Val Town. With this guide, you'll be able to accept payments in Val Town using Stripe.
 
-### Obtain credentials from the Stripe
+## Obtain credentials from the Stripe
 Head over to the [Stripe dashboard](https://dashboard.stripe.com/dashboard) and get your secret key.
 
 ![stripe-keys.png](./stripe/stripe-keys.png)
 
-### Add Stripe to your environment variables
+## Add Stripe to your environment variables
 Go to your [Val Town environment varibales](https://www.val.town/settings/environment-variables) and add your secret key to Val Town.
 
 ![stripe-env.png](./stripe/stripe-env.png)
 
-### Ask Townie to generate our app
+## Ask Townie to generate our app
 
 We can ask [Townie](https://www.val.town/townie), Val Town's bot, to generate our app for us. Here is an example prompt:
 
-```Create a tipping app with Stripe Checkout in the server. Use tailwind css for styling and make the buttons purple. The preset tip options should be 1, 5, 10, 20.```
+```
+Create a tipping app with Stripe Checkout in the server. Use Tailwind CSS for 
+styling and make the buttons purple. The preset tip options should 
+be 1, 5, 10, 20.
+```
 
 ![stripe-townie.png](./stripe/stripe-townie.png)
 
 
 
-### Try it out!
+## Try it out!
 You can now use Stripe in Val Town! Also feel free to [fork](https://www.val.town/v/vawogbemi/StripeDemohttps://www.val.town/v/vawogbemi/StripeDemo) the val below to try it out.
 
 <img src={gif.src} width={gif.width} />
