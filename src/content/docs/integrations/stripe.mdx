@@ -8,7 +8,11 @@ description: |
 import Val from "@components/Val.astro";
 import gif from './stripe/stripe-try-it-out.gif'
 
-You can accept payments in Val Town. With this guide, you'll be able to accept payments in Val Town using Stripe.
+You can accept payments in Val Town with Stripe. This guide teaches you the simplest method: [Stripe Payment Links](https://stripe.com/payments/payment-links). Here's how it works:
+
+1.  When users click to pay on your site, you redirect them to your stripe payment link
+2. They pay with stripe
+3. Stripe redirects them back to your site, where you can now store their payment information in a database, and thank them for their payment
 
 ## Obtain credentials from the Stripe
 Head over to the [Stripe dashboard](https://dashboard.stripe.com/dashboard) and get your secret key.
