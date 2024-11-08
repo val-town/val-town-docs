@@ -1,26 +1,26 @@
 {
-  "name": "val-town-docs",
-  "type": "module",
-  "version": "0.0.1",
-  "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro check && astro build",
-    "preview": "astro preview",
-    "astro": "astro"
-  },
-  "dependencies": {
-    "@astrojs/check": "^0.9.4",
-    "@astrojs/starlight": "0.29.0",
-    "@fontsource/ibm-plex-sans": "^5.1.0",
-    "astro": "^4.16.10",
-    "hast-util-select": "^6.0.3",
-    "hastscript": "^9.0.0",
-    "sharp": "^0.33.5",
-    "starlight-links-validator": "^0.13.0",
-    "typescript": "^5.6.3"
-  },
-  "devDependencies": {
-    "cspell": "^8.16.0"
-  }
+	"name": "val-town-docs",
+	"type": "module",
+	"version": "0.0.1",
+	"scripts": {
+		"dev": "astro dev",
+		"start": "astro dev",
+		"build": "astro check && astro build",
+		"preview": "astro preview",
+		"astro": "astro"
+	},
+	"dependencies": {
+		"@astrojs/check": "0.9.3",
+		"@astrojs/starlight": "0.29.0",
+		"@fontsource/ibm-plex-sans": "^5.1.0",
+		"astro": "^4.16.10",
+		"hast-util-select": "^6.0.3",
+		"hastscript": "^9.0.0",
+		"sharp": "^0.33.5",
+		"starlight-links-validator": "^0.13.0",
+		"typescript": "^5.6.3"
+	},
+	"devDependencies": {
+		"cspell": "^8.16.0"
+	}
 }
