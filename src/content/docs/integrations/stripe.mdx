@@ -1,0 +1,218 @@
+---
+title: Stripe
+generated: 
+description: | 
+    Accept payments in Val Town using Stripe
+---
+
+import Val from "@components/Val.astro";
+import casual from './stripe/stripe-casual.gif'
+import competitive from './stripe/stripe-competitive.gif'
+
+You can accept payments in Val Town with Stripe. This guide teaches you the simplest method: [Stripe Payment Links](https://stripe.com/payments/payment-links). Here's how it works:
+
+1. When users click to pay on your site, you redirect them to your Stripe Payment Link.
+2. They pay with Stripe.
+3. Stripe redirects them back to your site, where you can now store their payment information in a database, and thank them for their payment.
+
+## Try it out
+:::note
+The val below uses Stripe's [test mode](https://docs.stripe.com/testing#use-test-cards), so you can make payments using a test credit card. Click [here](https://www.val.town/v/vawogbemi/StripeDemo) to try it out!
+:::
+
+<img src={casual.src} width={casual.width} />
+
+<Val url="https://www.val.town/embed/vawogbemi/StripeDemo"/>
+
+## 1. Create a Payment Link
+Head over to [Payment Links](https://dashboard.stripe.com/payment-links) in the Stripe dashboard and click the "create payment link" button.
+
+## 2. Configure your Payment Link
+On the `Payment page` tab, we'll need to create a new product for our 1.00 tip.
+
+![stripe-config1.png](./stripe/stripe-config1.png)
+
+On the `After payment` tab, we need to select `Don't show confirmation page` and fill out the input with our val's `/success` endpoint so we can redirect users there after a successful transaction.
+
+![stripe-config2.png](./stripe/stripe-config2.png)
+
+## 3. Repeat for each tip amount
+
+Repeat steps 1 - 2 for each tip amount that will be used in the app. Here's how we handle all the payment links in the app:
+
+```ts title="Handle Payment Links" val
+const [tipAmount, setTipAmount] = useState(5);
+  const paymentLinks = {
+    1: "https://buy.stripe.com/test_eVa5nA3FhblYg1y3cc",
+    5: "https://buy.stripe.com/test_6oE3fs7Vx0Hk4iQcMN",
+    10: "https://buy.stripe.com/test_aEU3fs4Jl89M7v26oq",
+    20: "https://buy.stripe.com/test_bIY4jwcbN61E2aI4gj",
+  };
+
+  const handleTip = () => {
+    window.location.href = paymentLinks[tipAmount];
+  };
+```
+
+## 4. Handling successful transactions
+After configuring and creating your Payment Links, we need to give our val the ability to handle successful transactions. Here's the code used in the example val above:
+
+```ts title="Client code" val
+function Success() {
+  useEffect(() => {
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 },
+    });
+  }, []);
+
+  return (
+    <div className="container mx-auto max-w-md p-6 bg-white rounded-lg shadow-lg text-center">
+      <h1 className="text-2xl font-bold mb-4">Thank You for Your Tip!</h1>
+      <p className="mb-4">Your generosity is greatly appreciated.</p>
+      <a href="/" className="text-indigo-600 hover:underline">Back to Home</a>
+    </div>
+  );
+}
+
+function client() {
+  const root = document.getElementById("root");
+  if (root) {
+    const url = new URL(window.location.href);
+    if (url.pathname === "/success") {
+      createRoot(root).render(<Success />);
+    }
+    ...
+  }
+  ...
+}
+```
+:::note
+In order to allow additional actions in the server, we need to update the redirect to include `{CHECKOUT_SESSION_ID}` so we can use Stripe to fetch checkout details server side. An example updated redirect url looks like this: `https://vawogbemi-stripedemo.web.val.run/success?session_id={CHECKOUT_SESSION_ID}`, the [Take it further section](#take-it-further) goes into more detail about using Stripe server side.
+:::
+
+```ts title="Server code" val
+export default async function server(request: Request): Promise<Response> {
+  const url = new URL(request.url);
+
+if (url.pathname === "/success") {
+    return new Response(
+      `
+      <html>
+        <head>
+          <title>Tip Successful</title>
+          <script src="https://cdn.tailwindcss.com"></script>
+        </head>
+        <body class="bg-gray-100 flex items-center justify-center min-h-screen">
+          <div id="root"></div>
+          <script src="https://esm.town/v/std/catch"></script>
+          <script type="module" src="${import.meta.url}"></script>
+        </body>
+      </html>
+    `,
+      {
+        headers: {
+          "content-type": "text/html",
+        },
+      },
+    );
+  }
+
+  ...
+
+}
+```
+
+## Take it further
+Congratulations 🥳! You can now use Stripe in Val Town with Payment Links! 
+
+<img src={competitive.src} width={competitive.width} />
+<Val url="https://www.val.town/embed/vawogbemi/StripeCheckoutDemo"/>
+
+What if we wanted to allow users to tip custom amounts though? In order to give users the ability to tip custom amounts, we must use the more customizable [Stripe Checkout](https://docs.stripe.com/payments/checkout).
+
+### Obtain credentials from the Stripe dashboard
+Head over to the [Stripe dashboard](https://dashboard.stripe.com/dashboard) and get your secret key.
+
+![stripe-keys.png](./stripe/stripe-keys.png)
+
+### Add Stripe to your Val Town environment variables
+Go to your [Val Town environment varibales](https://www.val.town/settings/environment-variables) and add your secret key to Val Town.
+
+![stripe-env.png](./stripe/stripe-env.png)
+
+### Use Stripe in the server
+
+```ts title="Create checkout session endpoint" val
+...
+
+if (url.pathname === "/create-checkout-session" && req.method === "POST") {
+    const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY"), {
+      apiVersion: "2022-11-15",
+    });
+
+    const data = await req.json();
+    const { amount, name, comment } = data;
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      line_items: [
+        {
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: "Tip",
+            },
+            unit_amount: Math.round(amount * 100),
+          },
+          quantity: 1,
+        },
+      ],
+      mode: "payment",
+      success_url: `${url.origin}/success?session_id={CHECKOUT_SESSION_ID}&amount=${amount}&name=${
+        encodeURIComponent(name)
+      }&comment=${encodeURIComponent(comment)}`,
+      cancel_url: `${url.origin}`,
+    });
+
+    return new Response(JSON.stringify({ url: session.url }), {
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  ...
+```
+
+```ts title="Success endpoint" val
+...
+
+if (url.pathname === "/success") {
+    const sessionId = url.searchParams.get("session_id");
+    const amount = url.searchParams.get("amount");
+    const name = url.searchParams.get("name");
+    const comment = url.searchParams.get("comment");
+
+    const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY"), {
+      apiVersion: "2022-11-15",
+    });
+
+    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    const paymentIntent = await stripe.paymentIntents.retrieve(session.payment_intent as string);
+
+    if (paymentIntent.status === "succeeded") {
+      const sanitizedName = name.replace(/'/g, "");
+      const sanitizedComment = comment.replace(/'/g, "");
+      await sqlite.execute(
+        `INSERT INTO ${KEY}_payments_${SCHEMA_VERSION} (name, amount, comment) VALUES (?, ?, ?)`,
+        [sanitizedName, amount, sanitizedComment],
+      );
+    }
+
+    const paymentsJson = JSON.stringify([{ name, amount, comment }]);
+
+    ...
+}
+
+...
+```
