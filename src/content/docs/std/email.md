@@ -58,7 +58,7 @@ await email({
 
 You can attach files to your emails by using the `attachments` field.
 Attachments need to be [Base64](https://en.wikipedia.org/wiki/Base64) encoded,
-which is that the [btoa](https://developer.mozilla.org/en-US/docs/Web/API/btoa)
+which is what the [btoa](https://developer.mozilla.org/en-US/docs/Web/API/btoa)
 method is doing in this example:
 
 ```ts title="Attachments example" val
