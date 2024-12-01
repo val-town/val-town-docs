@@ -21,6 +21,6 @@
 		"typescript": "^5.6.3"
 	},
 	"devDependencies": {
-		"cspell": "^8.16.0"
+		"cspell": "^8.16.1"
 	}
 }
