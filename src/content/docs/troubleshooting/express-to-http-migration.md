@@ -1,7 +1,8 @@
 ---
 title: Express to HTTP migration
 description: How to migrate existing vals from the deprecated express type to the HTTP type
-lastUpdated: 2024-09-03
+sidebar:
+  hidden: true
 ---
 
 The deprecated Express type of Val is being replaced by HTTP on October 1, 2024. If you still have Express vals running and want to upgrade them, here are some tips for doing so. [Reach out to us if you need help with the process](/contact-us/contact-us/).

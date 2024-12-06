@@ -1,15 +1,16 @@
 ---
 title: Runtime
 description: Val Town uses the Deno runtime to run your code
-lastUpdated: 2024-03-18
 sidebar:
   order: 4
 ---
 
-Val Town uses the [Deno](https://deno.com/) runtime.
+import { LinkCard } from "@astrojs/starlight/components";
+
+Val Town code runs on the [Deno](https://deno.com/) runtime.
 
 - TypeScript and TSX are available for all vals, and at the time of this
-  writing we support TypeScript 5.4.
+  writing we support TypeScript 5.6.2.
 - There is no filesystem access permitted.
 - `--allow-net` is enabled, so they can make HTTP requests.
 - Vals have access to [environment variables](/reference/environment-variables)
@@ -20,7 +21,25 @@ Val Town uses the [Deno](https://deno.com/) runtime.
 
 - `fetch` to make HTTP requests
 - `import` from npm and https
-- `setTimeout`
-- `setInterval`
 
-You can view the [custom types we support here](https://www.val.town/docs/types).
+<LinkCard
+  title="Custom Types"
+  description="View the custom types we support"
+  href="https://www.val.town/docs/types"
+/>
+
+### Versions
+
+We run the same version of Deno, V8, and TypeScript for all vals.
+
+At the time of this writing (likely out of date), we run:
+
+- Deno 2.1.2
+- V8 13.0.245.12-rusty
+- TypeScript 5.6.2
+
+<LinkCard
+  title="Versions"
+  description="View up-to-date versions of Deno, v8, and TypeScript we run"
+  href="https://www.val.town/v/std/deno_version"
+/>

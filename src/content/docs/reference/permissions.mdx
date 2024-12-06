@@ -1,5 +1,5 @@
 ---
-title: Permissions
+title: Val Permissions
 description: Vals can be private, unlisted, or public
 lastUpdated: 2023-12-22
 sidebar:
@@ -9,11 +9,11 @@ sidebar:
 
 There are three privacy settings for a Val:
 
-| Permissions | Visible on the website    | Web & express endpoints |
-| ----------- | ------------------------- | ----------------------- |
-| Public      | Yes                       | ✅                      |
-| Unlisted    | Only if you have the link | ✅                      |
-| Private     | No                        | Requires [API token](https://www.val.town/settings/api)         |
+| Permissions | Visible on the website    | Web & express endpoints                                 |
+| ----------- | ------------------------- | ------------------------------------------------------- |
+| Public      | Yes                       | ✅                                                      |
+| Unlisted    | Only if you have the link | ✅                                                      |
+| Private     | No                        | Requires [API token](https://www.val.town/settings/api) |
 
 You get to choose whether you share vals. They can be fully private, so only you
 can view, edit, and run them. Private vals are super useful for automating parts of
@@ -158,3 +158,50 @@ sure it's trustworthy, and we recommend version-pinning any dependencies
 against other people's code, like `?v=4` in the example above.
 
 :::
+
+## Hiding Code
+
+You can hide the code of a public API by wrapping a private Val in a public val.
+Below I show `hiddenAPI` which you can see and
+[call via API](https://api.val.town/v1/run/stevekrouse.hiddenAPI?args=[%22hi%22]),
+but you notice that it calls `@stevekrouse.hiddenAPIInternal` which is private
+and can't be inspected.
+
+```ts title="Hiding code example" val
+import { hiddenAPIInternal } from "https://esm.town/v/stevekrouse/hiddenAPIInternal";
+
+export let hiddenAPI = (...args) => hiddenAPIInternal(...args);
+```
+
+## Custom Authentication
+
+You can roll arbitrary authentication schemes in user space. For example, I find
+it useful to simply supply a custom `auth` header from my Clerk webhooks that I
+check like a password against a value I store in my environment variables:
+
+```ts title="Clerk example" val
+import { discordWebhook } from "https://esm.town/v/stevekrouse/discordWebhook";
+
+// # New Val Town User (on Clerk) -> Val Town Discord notification
+// Translates one kind of webhook (Clerk) into another (Discord)
+export async function handleDiscordNewUser(req: express.Request, res) {
+  // check custom auth secret sent from clerk
+  if (req.get("auth") !== process.env.clerkNonSensitive)
+    return res.end("Unauthorized");
+  await discordWebhook({
+    url: Deno.env.get("discordUserEvents"),
+    content:
+      req.body.data.email_addresses[0].email_address +
+      " " +
+      req.body.data.profile_image_url,
+  });
+  res.end("Success");
+}
+```
+
+I call this value `clerkNonSensitive` because this value doesn't protect any
+data. It merely makes it impossible for anyone to trigger this public API
+endpoint without the password. The worst that could happen if this password
+leaks is that our team temporarily gets spam discord messages. Then I could just
+change the password to a new value. For more sensitive use-cases, you'll want to
+sign & possibly encrypt the conveyed data using standard authentication methods.

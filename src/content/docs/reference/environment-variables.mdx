@@ -30,13 +30,9 @@ export let sdk = new SomeSDK(secret);
 ### process.env
 
 This is the conventional way to access environment variables when you're in a
-Node.js environment. In Node.js, process is an always-available global variable,
-but since Val Town targets Deno, you'll need to import process from
-node:process:
+Node.js environment.
 
 ```ts
-import process from "node:process";
-
 const secret = process.env.someSdkSecret;
 export let sdk = new SomeSDK(secret);
 ```
