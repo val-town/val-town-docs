@@ -27,9 +27,8 @@ To change what libraries or approaches Townie uses, you can include instructions
 ## Basic prompt-writing tips
 
 - Saying something like _"Make it better"_ can sometimes yield iterative improvements.
-- Copying and pasting errors into the prompt can help Townie diagnose issues.
-- Similarly, try asking Townie to brainstorm multiple approaches for comparison before writing code.
-- Provide instructions as a numbered list to have Townie carry out tasks in a specific order.
+- Try asking Townie to brainstorm multiple approaches for comparison before writing code.
+- Provide instructions as a numbered list to have Townie make multiple changes in a single go.
 
 ## Using a custom system prompt
 
@@ -42,12 +41,11 @@ prompt used in Townie's settings.
 ### Diffs
 
 You can ask Townie to "respond with a diff." For small changes, this works well, but can be error prone on larger diffs or when Townie hallucinates.
-To disable this behavior, use a phrase like _"Respond with the full code"_ in your prompt.
-If Townie is continuing to reply with the full code, but you'd prefer to switch back to diffs, use the phrase _"Respond with a valid unified diff"_ in your prompt.
 
 ### Checking for errors
 
 If Townie produces code with errors, it attempts to catch these errors and recover from them.
+
 There are two places to check for errors in HTTP vals: in the val's _Requests_ log or in your browser's console, depending on where the error occurs.
 
 ### Recovering from errors

@@ -1,9 +1,7 @@
 ---
 title: Migrating Deprecated HTTP Vals
-generated: 1701279907950
-lastUpdated: 2024-10-02
 sidebar:
-  order: 3
+  hidden: true
 ---
 
 We're migrating all HTTP vals to a new runtime. Vals on the old runtime are
@@ -15,7 +13,6 @@ For a comprehensive guide on migrating your HTTP vals, please refer to our
 The new runtime executes code slightly differently, which will impact a very small number of vals.
 Here's what you need to know:
 
-
 ### Accidentally re-using values.
 
 Previously, HTTP vals executed all code for each request, generating new values
@@ -23,9 +20,9 @@ every time. For example, this val would return a different random number on each
 request:
 
 ```ts val
-const randomValue = Math.random()
+const randomValue = Math.random();
 export default async function (req: Request): Promise<Response> {
-  return Response.json({ randomValue })
+  return Response.json({ randomValue });
 }
 ```
 
@@ -49,8 +46,8 @@ handler.
 
 ```ts val
 export default async function (req: Request): Promise<Response> {
-  const randomValue = Math.random()
-  return Response.json({ randomValue })
+  const randomValue = Math.random();
+  return Response.json({ randomValue });
 }
 ```
 
@@ -72,21 +69,21 @@ and they'll be cached between requests:
 
 ```ts val
 // Expensive initialization or data fetching
-const expensiveData = await fetchLargeDataset()
-const cache = new Map()
+const expensiveData = await fetchLargeDataset();
+const cache = new Map();
 
 export default async function (req: Request): Promise<Response> {
-  const url = new URL(req.url)
-  const key = url.searchParams.get('key')
+  const url = new URL(req.url);
+  const key = url.searchParams.get("key");
 
   if (cache.has(key)) {
-    return Response.json({ data: cache.get(key) })
+    return Response.json({ data: cache.get(key) });
   }
 
-  const result = expensiveComputation(key, expensiveData)
-  cache.set(key, result)
+  const result = expensiveComputation(key, expensiveData);
+  cache.set(key, result);
 
-  return Response.json({ data: result })
+  return Response.json({ data: result });
 }
 ```
 

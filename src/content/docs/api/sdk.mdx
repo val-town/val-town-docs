@@ -1,12 +1,10 @@
 ---
-title: Val Town SDK
-description:
-  Interact with Val Town via the TypeScript SDK to programmatically
+title: JavaScript SDK
+description: Interact with Val Town via the TypeScript SDK to programmatically
   create and update vals, get user information, and much more.
-lastUpdated: 2024-07-11
 ---
 
-import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+import { LinkCard, CardGrid } from "@astrojs/starlight/components";
 
 The Val Town TypeScript SDK lets you interact with our
 [REST API](/api/overview) from the comfort of a typed
@@ -14,41 +12,52 @@ client that works well with editor autocomplete.
 
 <CardGrid>
   <LinkCard
-    title="SDK Repository on GitHub"
-    href="https://github.com/val-town/sdk"
+    title="Reference Docs"
+    href="https://github.com/val-town/sdk/blob/main/api.md"
   />
+  <LinkCard title="GitHub Repo" href="https://github.com/val-town/sdk" />
   <LinkCard
     title="NPM Package"
     href="https://www.npmjs.com/package/@valtown/sdk"
   />
 </CardGrid>
 
-The Val Town SDK supports:
+The Val Town SDK runs in:
 
-- Node.js 18 LTS or later
-- Deno v1.28.0 or higher, using `import ValTown from "npm:@valtown/sdk"`
-- Bun 1.0 or later
+- Val Town
+- Node.js 18 LTS+
+- Deno v1.28.0+
+- Bun 1.0+
 - Cloudflare Workers
 - Vercel Edge Runtime
 
-### Installing the SDK
+### Getting started in Val Town
 
-The latest version of the SDK is always available on NPM.
+The quickest way to get started with the SDK is to use it in
+Val Town, for example by [forking this val](https://www.val.town/v/stevekrouse/demoSDK).
 
-To use the SDK with Node.js, install it with NPM or
-your preferred package manager:
+```ts title="Using the SDK in Val Town" val
+import ValTown from "npm:@valtown/sdk";
 
-```bash title="Install the SDK for Node.js"
-npm install @valtown/sdk
+const vt = new ValTown();
+
+// print your username
+const me = await vt.me.profile.retrieve();
+console.log(me.email);
+
+// list some of your vals
+const { data: vals } = await vt.users.vals.list(me.id, {});
+console.log(vals);
+
+// list vals you've liked
+const { data: likes } = await vt.me.likes.list({});
+console.log(likes);
 ```
 
-In Deno, it isn't necessary to install NPM packages
-explicitly: you can import the module and Deno will
-download it on the fly:
+Authentication is set by the `VAL_TOWN_API_KEY` environment
+variable, which is automatically set within Val Town. You can control the
+API scopes of that key in your val's settings page.
 
-```ts
-import ValTown from "npm:@valtown/sdk"
-```
 ### Getting started in Node.js
 
 Here is how to get started with the SDK,
@@ -110,9 +119,3 @@ node index.mjs
   email: 'tom@macwright.com'
 }
 ```
-
-## Documentation
-
-The SDK’s documentation can be found in [its repository](https://github.com/val-town/sdk/blob/main/api.md)
-and code snippets for each endpoint are included in
-the [Val Town OpenAPI reference](/openapi.html)

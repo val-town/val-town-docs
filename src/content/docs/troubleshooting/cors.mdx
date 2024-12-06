@@ -2,11 +2,21 @@
 title: CORS
 description: |
   Understanding Cross-Origin Resource Sharing (CORS) in Val Town
-lastUpdated: 2024-10-22
 ---
+
+import { LinkButton } from "@astrojs/starlight/components";
 
 This document explains how Val Town handles Cross-Origin Resource Sharing (CORS)
 headers, why they're important, and how to customize them for your vals.
+
+<LinkButton
+  href="https://docs.astro.build"
+  variant="secondary"
+  icon="external"
+  iconPlacement="start"
+>
+  Live demo
+</LinkButton>
 
 ## Default CORS Configuration
 
@@ -39,14 +49,14 @@ default headers.
 
 ### Example: Custom CORS Configuration
 
-```javascript
+```ts title="Custom Cors" val
 export async function myEndpoint() {
-    return new Response("Hello", {
-        headers: {
-            "Access-Control-Allow-Origin": "https://specific-domain.com",
-            "Access-Control-Allow-Methods": "GET,POST",
-        },
-    });
+  return new Response("Hello", {
+    headers: {
+      "Access-Control-Allow-Origin": "https://specific-domain.com",
+      "Access-Control-Allow-Methods": "GET,POST",
+    },
+  });
 }
 ```
 
@@ -55,20 +65,21 @@ export async function myEndpoint() {
 For complete control over CORS behavior, you can handle OPTIONS requests
 explicitly:
 
-```javascript
+```javascript title="Handle Preflight Request" val
 export async function myEndpoint(req) {
-    if (req.method === "OPTIONS") {
-        return new Response(null, {
-            status: 204,
-            headers: {
-                "Access-Control-Allow-Origin": "https://specific-domain.com",
-                "Access-Control-Allow-Methods": "GET,POST",
-                "Access-Control-Allow-Headers": "*",
-                "Access-Control-Max-Age": "86400",
-            },
-        });
-    }
-    // Handle actual request...
+  if (req.method === "OPTIONS") {
+    return new Response(null, {
+      status: 204,
+      headers: {
+        "Access-Control-Allow-Origin": "https://specific-domain.com",
+        "Access-Control-Allow-Methods": "GET,POST",
+        "Access-Control-Allow-Headers": "*",
+        "Access-Control-Max-Age": "86400",
+      },
+    });
+  }
+  // Handle the actual request
+  return Response.json({ message: "Hello" });
 }
 ```
 
@@ -77,13 +88,13 @@ export async function myEndpoint(req) {
 If we detect that you've set your own `"Access-Control-Allow-Origin"` header we
 won't add any custom CORS headers to your request.
 
-```javascript
+```javascript title="Remove CORS Headers" val
 export async function myEndpoint() {
-    return new Response("Hello", {
-        headers: {
-            "Access-Control-Allow-Origin": "", // The minimum possible configuration to disable our headers.
-        },
-    });
+  return new Response("Hello", {
+    headers: {
+      "Access-Control-Allow-Origin": "", // The minimum possible configuration to disable our headers.
+    },
+  });
 }
 ```
 

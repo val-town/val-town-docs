@@ -1,18 +1,13 @@
 ---
-title: Esm.town
+title: esm.town
 description: Endpoint for getting val source code
-lastUpdated: 2024-03-18
 ---
 
-## Get val code
+esm.town is the home of source code hosted on Val Town. Every val has a corresponding esm.town URL – simply replace `val.town` with `esm.town` in the URL to get the source code for that val. Vals import code from other vals using their esm.town URL.
 
-```
-GET https://esm.town/v/{username}/{val_name}
-```
+For example, https://val.town/v/stevekrouse/demoSDK has its source code available at https://esm.town/v/stevekrouse/demoSDK.
 
-This is the endpoint for val source code: it's what Val Town itself
-uses internally when you run vals. For example, the `std/set` val
-is available on esm.town at https://esm.town/v/std/set?v=15
+There are a few things to note about esm.town:
 
 - This endpoint will always redirect to a specific version (`?v=15`)
   if a version isn't provided initially.

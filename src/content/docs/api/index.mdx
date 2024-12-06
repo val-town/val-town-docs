@@ -1,0 +1,34 @@
+---
+title: Overview
+sidebar:
+  order: 1
+---
+
+import { LinkCard, CardGrid } from "@astrojs/starlight/components";
+
+import { Aside } from "@astrojs/starlight/components";
+
+Val Town's REST API allows you to programmatically manage your account and its resources: vals, blob storage, sqlite databases, likes, comments, and more.
+
+<Aside type="tip">
+  Val Town's REST API should not be confused with [HTTP vals](/types/http),
+  which are a way for you to create your own custom HTTP endpoints.
+</Aside>
+
+<CardGrid>
+  <LinkCard
+    title="API Reference"
+    description="Interactive reference documentation for our API"
+    href="https://api.val.town/documentation"
+  />
+  <LinkCard
+    title="Authentication"
+    description="Learn how to authenticate with the Val Town API"
+    href="./authentication"
+  />
+  <LinkCard
+    title="TypeScript SDK"
+    description="Interact with Val Town via our SDK"
+    href="./sdk"
+  />
+</CardGrid>

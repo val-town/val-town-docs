@@ -1,57 +1,35 @@
 ---
 title: Authentication
 description: |
-  How to authenticate to Val Town using a Bearer token in HTTP headers
-generated: 1701279907965
-lastUpdated: 2023-12-22
+  How to authenticate to Val Town using API Tokens
 ---
 
-The Val Town APIs accept Bearer Token authentication for full access to your Val
-Town account. You can use the schemes below to give more scoped access to run
-specific vals.
+Val Town's REST API supports Bearer Token authentication.
 
-## Val Town Authentication
+You can create and manage your API tokens on the [API Tokens page](https://www.val.town/settings/api).
 
-Keep your Val Town API token extremely guarded because it conveys access to your
-entire account and all of its environment variables. Never expose this token on the client.
+If you're using the Val Town API from within Val Town, a short-lived API token is automatically injected into your environment variables. These injected tokens are what provide authenticated access to Val Town Standard Library services.
 
-Val Town's API uses Bearer Authentication, which means you pass an HTTP Header
-`Authorization: Bearer <token>`.
+All tokens are scoped to the permissions you've granted them.
 
-If you don't pass an authentication token, your code will be run as an anonymous
-user and only have access to public vals. For example, unauthenticated access to
-a private val will fail:
+## Scopes
 
-```ts title="Unauthenticated example" val
-import { fetch } from "https://esm.town/v/std/fetch";
+Val Town API tokens are scoped to read/write scopes for:
 
-export const privateAPIUnauthenticated = (
-  await fetch("https://api.val.town/v1/run/stevekrouse.example3")
-).status;
-```
+- `val` – [vals](https://docs.val.town/openapi#tag/vals)
+- `user` – [user account details](https://docs.val.town/openapi#tag/me)
+- `blob` – [blob storage](https://docs.val.town/openapi#tag/blobs)
+- `sqlite` – [sqlite database](https://docs.val.town/openapi#tag/sqlite)
+- `email` – [ability to send emails](https://docs.val.town/openapi#tag/emails)
 
-Authenticated use will have read access to the authenticated user's private vals
-and environment variables, write access to the authenticated user's vals, and the ability to
-send the authenticated user emails via [`std/email`](/std/email).
+You can confiure the scopes on the [API Tokens page](https://www.val.town/settings/api) or the settings page of your val.
 
-```ts title="Authenticated example" val
-import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON";
-
-export const privateAPIAuthenticated = fetchJSON(
-  "https://api.val.town/v1/run/stevekrouse.example3",
-  {
-    method: "GET",
-    headers: { Authorization: "Bearer " + Deno.env.get("valtown") },
-  }
-);
-```
-
-You can access your
-[Val Town API tokens here](https://www.val.town/settings/api).
-
-If you want to experiment with calling the Val Town API from within Val Town (as
-is shown above), you should copy-and-paste one of your Val Town API tokens into
-[your environment variables](https://www.val.town/settings/environment-variables).
+The default scope for vals exclue `val:write` and `user:write`
+to limit potential damage from
+misconfiguration, vulnerable libraries, or account compromises. You can
+manually enable those scopes if you need them, but we advise extreme
+caution when doing so. Be sure to audit all your dependencies recursively
+for such vals.
 
 ## API Token Lifecycles
 
@@ -65,50 +43,3 @@ further access to your account from that token.
 In rare cases where we detect a potential leak of your API Token, we'll take
 proactive measures. We'll automatically revoke the compromised token and
 promptly notify you via email.
-
-## Custom Authentication
-
-You can roll arbitrary authentication schemes in user space. For example, I find
-it useful to simply supply a custom `auth` header from my Clerk webhooks that I
-check like a password against a value I store in my environment variables:
-
-```ts title="Clerk example" val
-import { discordWebhook } from "https://esm.town/v/stevekrouse/discordWebhook";
-
-// # New Val Town User (on Clerk) -> Val Town Discord notification
-// Translates one kind of webhook (Clerk) into another (Discord)
-export async function handleDiscordNewUser(req: express.Request, res) {
-  // check custom auth secret sent from clerk
-  if (req.get("auth") !== process.env.clerkNonSensitive)
-    return res.end("Unauthorized");
-  await discordWebhook({
-    url: Deno.env.get("discordUserEvents"),
-    content:
-      req.body.data.email_addresses[0].email_address +
-      " " +
-      req.body.data.profile_image_url,
-  });
-  res.end("Success");
-}
-```
-
-I call this value `clerkNonSensitive` because this value doesn't protect any
-data. It merely makes it impossible for anyone to trigger this public API
-endpoint without the password. The worst that could happen if this password
-leaks is that our team temporarily gets spam discord messages. Then I could just
-change the password to a new value. For more sensitive use-cases, you'll want to
-sign & possibly encrypt the conveyed data using standard authentication methods.
-
-## Hiding Code
-
-You can hide the code of a public API by wrapping a private Val in a public val.
-Below I show `hiddenAPI` which you can see and
-[call via API](https://api.val.town/v1/run/stevekrouse.hiddenAPI?args=[%22hi%22]),
-but you notice that it calls `@stevekrouse.hiddenAPIInternal` which is private
-and can't be inspected.
-
-```ts title="Hiding code example" val
-import { hiddenAPIInternal } from "https://esm.town/v/stevekrouse/hiddenAPIInternal";
-
-export let hiddenAPI = (...args) => hiddenAPIInternal(...args);
-```

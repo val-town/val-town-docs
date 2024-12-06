@@ -4,18 +4,17 @@ description: Create deployed apps, APIs, sites, and crons with JavaScript
 tableOfContents: false
 ---
 
-Val Town is a website to write and deploy apps. Create APIs, websites, scheduled functions, email yourself,
-and persist data — all from the browser and instantly deployed.
+Val Town is a platform to write and deploy JavaScript. Create APIs, websites, scheduled functions, and persist data — all from the browser and instantly deployed.
 
 - Vals are runnable JavaScript, TypeScript, and JSX modules
 - Vals can import other vals, NPM, and more [↗](/reference/import)
 - Vals can be public, unlisted, or private [↗](/reference/permissions)
-- Vals are run via the Deno runtime
+- Vals are run via the Deno runtime [↗](/reference/runtime)
 
-There are 4 types of vals, each with different triggers:
+There are **4 types of vals**, each with different _triggers_:
 
-- [**Script**](/types/script) - freeform, run manually, for one-offs or testing
-- [**HTTP**](/types/http) - make a website, API endpoint, accept webhooks
+- [**Script**](/types/script) - freeform, run manually, for one-offs or dependencies
+- [**HTTP**](/types/http) - API endpoint, website, or webhook
 - [**Cron**](/types/cron) - trigger code on a timer
 - [**Email**](/types/email) - trigger code on an incoming email
 
@@ -29,4 +28,6 @@ There are 4 types of vals, each with different triggers:
 
 If you're new to Val Town or programming, we recommend starting with [Townie](https://www.val.town/townie), our AI assistant that can write vals for you, or one of our quickstarts: [website](/quickstarts/first-website), [cron](/quickstarts/first-cron).
 
-You can also use Val Town programmatically using the [Val Town SDK](/sdk).
+You can access Val Town programmatically via our [REST API](/api/) or [JavaScript SDK](/api/sdk).
+
+If you have any questions, feedback, or need help, please reach out to us on [Discord](https://discord.gg/dHv45uN5RY) or [email](mailto:docs-help@val.town).
