@@ -11,3 +11,4 @@
 /api/esm-town /reference/esm-town
 /api/overview /api/
 /sdk /api/sdk
+/create-a-discord-welcome-bot /integrations/Discord/bot
