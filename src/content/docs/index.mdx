@@ -4,30 +4,95 @@ description: Create deployed apps, APIs, sites, and crons with JavaScript
 tableOfContents: false
 ---
 
-Val Town is a platform to write and deploy JavaScript. Create APIs, websites, scheduled functions, and persist data — all from the browser and instantly deployed.
+import { LinkCard, CardGrid } from "@astrojs/starlight/components";
 
-- Vals are runnable JavaScript, TypeScript, and JSX modules
+Val Town is a collaborative website to create and scale Javascript functions. Create APIs, crons, store data – all from the browser, and deployed in miliseconds.
+
+##### What is a val?
+
+- Vals are hosted JavaScript functions
+- Vals run on the Val Town serverless platform
 - Vals can import other vals, NPM, and more [↗](/reference/import)
 - Vals can be public, unlisted, or private [↗](/reference/permissions)
 - Vals are run via the Deno runtime [↗](/reference/runtime)
+- Vals support JavaScript, TypeScript, JSX, and TSX
 
 There are **4 types of vals**, each with different _triggers_:
 
-- [**Script**](/types/script) - freeform, run manually, for one-offs or dependencies
-- [**HTTP**](/types/http) - API endpoint, website, or webhook
-- [**Cron**](/types/cron) - trigger code on a timer
-- [**Email**](/types/email) - trigger code on an incoming email
+<CardGrid>
+  <LinkCard
+    title="Script"
+    description="Triggered manually"
+    href="/types/script"
+  />
+  <LinkCard
+    title="HTTP"
+    description="Triggered by https requests. You can make APIs or websites"
+    href="/types/http"
+  />
+  <LinkCard
+    title="Cron"
+    description="Triggered by a timer or cron expression"
+    href="/types/cron"
+  />
+  <LinkCard
+    title="Email"
+    description="Triggered by an incoming email"
+    href="/types/email"
+  />
+</CardGrid>
 
-**The Val Town Standard Library** provides some free hosted services:
+##### Where to start
 
-- [**SQLite**](/std/sqlite) - store and retrieve structured data
-- [**Blob Storage**](/std/blob) - store and retrieve any data
-- [**OpenAI**](/std/openai) - use the OpenAI API
-- [**Email**](/std/email) - send emails
-- [**Proxied Fetch**](/std/fetch) - make requests from anonymous IP addresses
+If you're new to Val Town, we recommend starting with [Townie](https://www.val.town/townie), our AI assistant that can write vals for you.
 
-If you're new to Val Town or programming, we recommend starting with [Townie](https://www.val.town/townie), our AI assistant that can write vals for you, or one of our quickstarts: [website](/quickstarts/first-website), [cron](/quickstarts/first-cron).
+We also reccomend our quickstarts.
+
+<CardGrid>
+  <LinkCard
+    title="Your first HTTP val"
+    description="Create a link in bio website"
+    href="/quickstarts/first-website"
+  />
+  <LinkCard
+    title="Your first cron val"
+    description="Send yourself a daily weather email"
+    href="/quickstarts/first-cron"
+  />
+</CardGrid>
+
+##### Val Town Standard Library
+
+Our standard library provides free hosted services.
+
+<CardGrid>
+  <LinkCard
+    title="SQLite"
+    description="Store and retrieve structured data"
+    href="/std/sqlite"
+  />
+  <LinkCard
+    title="Blob Storage"
+    description="Store and retrieve any data"
+    href="/std/blob"
+  />
+  <LinkCard
+    title="OpenAI"
+    description="Use the OpenAI API"
+    href="/std/openai"
+  />
+  <LinkCard title="Email" description="Send emails" href="/std/email" />
+  <LinkCard
+    title="Proxied Fetch"
+    description="Make requests from anonymous IP addresses"
+    href="/std/fetch"
+  />
+</CardGrid>
+
+##### API and SDK
 
 You can access Val Town programmatically via our [REST API](/api/) or [JavaScript SDK](/api/sdk).
 
-If you have any questions, feedback, or need help, please reach out to us on [Discord](https://discord.gg/dHv45uN5RY) or [email](mailto:docs-help@val.town).
+##### Contact us
+
+We're here to help! If you have any questions or feedback, please reach out to us on [Discord](https://discord.gg/dHv45uN5RY) or [email](mailto:docs-help@val.town).

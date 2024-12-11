@@ -8,19 +8,37 @@ sidebar:
 # cspell:ignore orms
 ---
 
+import { LinkCard, CardGrid } from "@astrojs/starlight/components";
+
 [SQLite](https://www.sqlite.org/) is a lightweight, standard database. Every Val Town account comes with its own private SQLite database that is accessible from any of your vals via [`std/sqlite`](https://www.val.town/v/std/sqlite).
 
 Val Town SQLite is powered by [Turso](https://turso.tech/).
 
-- [Usage](./usage)
-- [Migrations](./migrations)
-- [ORMs](./orms)
+<CardGrid>
+  <LinkCard
+    title="Usage"
+    description="How to use Val Town SQLite in your vals"
+    href="./usage"
+  />
+  <LinkCard
+    title="Migrations"
+    description="How to manage your database schema"
+    href="./migrations"
+  />
+  <LinkCard
+    title="ORMs"
+    description="How to use ORMs with Val Town SQLite"
+    href="./orms"
+  />
+</CardGrid>
+
+### SQLite Admin Panels
 
 We recommend these admin data viewers for managing your database – viewing or editing data or your database table schema:
 
-- [Outerbase Studio](https://libsqlstudio.com/) **(recommended)** - formely known as LibSQL Studio – see instructions [here](https://libsqlstudio.com/docs/connect-valtown)
-- [SQLite Explorer](https://www.val.town/v/nbbaier/sqliteExplorerApp) (built in Val Town)
+- [Outerbase Studio](https://libsqlstudio.com/) **(recommended)** - formely LibSQL Studio – see [instructions](https://libsqlstudio.com/docs/connect-valtown)
+- [SQLite Explorer](https://www.val.town/v/nbbaier/sqliteExplorerApp) – built in a val – easy to customize in Val Town!
 
-## Limits
+### Limits
 
 You can store 10mb on the free plan and up to 1gb on the paid plan. Contact us if you need more space.
