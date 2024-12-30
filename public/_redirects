@@ -1,3 +1,7 @@
+# The docs site will redirect /url-path to /url-path/ for a live page, but not
+# for a page we've removed. We add both versions of the removed url to ensure we
+# cover all requests.
+
 /api/esm-town /reference/esm-town
 /api/esm-town/ /reference/esm-town
 /api/overview /api/
