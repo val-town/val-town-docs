@@ -70,7 +70,7 @@ Some registrars, such as [Cloudflare](https://developers.cloudflare.com/dns/cnam
 
 ## Debugging
 
-::: tip
+:::tip
 
 Use this [DNS Debugger](https://stevekrouse-dns_record_debugger.web.val.run/) to see the uncached settings of your domain
 
