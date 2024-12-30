@@ -68,6 +68,29 @@ Some registrars, such as [Cloudflare](https://developers.cloudflare.com/dns/cnam
 
 :::
 
+## Debugging
+
+::: tip
+
+Use this [DNS Debugger](https://stevekrouse-dns_record_debugger.web.val.run/) to see the uncached settings of your domain
+
+:::
+
+Unfortunately, custom domains can take minutes or hours to propogagte, 
+which is quite fustrating, because you don't know if you just need to wait
+or if your settings are incorrect.
+
+Even worse, the domain settings can be cached in multiple places, 
+including some outside of your control, including your local network.
+So if you check your custom domain too early, then you'll continue to not see 
+it working, even when it's properly working on systems that don't have it cached.
+(If we had a dollar every time a user sent us a message asking for help
+getting their custom domain working, and when we checked it was already working,
+we'd have almost ten dollars.)
+
+In other words, use our [DNS Debugger](https://stevekrouse-dns_record_debugger.web.val.run/)
+to see if your custom domain is correctly set up.
+
 ---
 
 Val Town custom domains are powered by [SaaS Custom Domains](https://saascustomdomains.com).
