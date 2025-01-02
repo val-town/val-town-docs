@@ -181,3 +181,26 @@ Type ".help" for more information.
 [Bun](https://bun.sh/) has Node.js compatibility but doesn't support
 HTTP imports yet, so the best way to use Vals with Bun is to run them
 through dnt using the information above.
+
+### Smallweb
+
+[Smallweb](https://smallweb.run/) is self-hostable personal cloud contained in a single folder.
+
+Since it is also built on top of Deno, you can run easily run vals from smallweb. You'll just need to adapt the default export. HTTP vals use a function has their default exports, while smallweb uses an object with a `fetch` property.
+
+```ts
+// ~/smallweb/my-app/main.ts
+
+import handler from "https://esm.town/v/tmcw/randomVal";
+
+export default {
+  fetch: handler
+}
+```
+
+If your val makes use of the val.town API (or depends on the `sqlite` or `blob` vals), you'll need to pass your `valtown` token as an environment variable. You can do this by creating a `.env` file in the app directory:
+
+```sh
+# ~/smallweb/my-app/.env
+valtown=<your-valtown-token>
+```
