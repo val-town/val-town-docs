@@ -77,3 +77,22 @@ export const stdEmailAttachmentExample = email({
 ```
 
 Here's an example sending a [PDF](https://www.val.town/v/stevekrouse/sendPDF).
+
+### Headers
+
+You can set custom headers in emails that you send:
+
+```ts title="Custom headers example" val
+import { email } from "https://esm.town/v/std/email?v=13"
+
+console.log(
+  await email({
+    text: "Hi",
+    headers: {
+      "X-Custom-Header": "xxx",
+    },
+  }),
+)
+```
+
+This is also [documented in our REST API](https://docs.val.town/openapi#/tag/emails/POST/v1/email), and supported in the [SDK](https://docs.val.town/api/sdk/). 
