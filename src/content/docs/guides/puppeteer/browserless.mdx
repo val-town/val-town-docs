@@ -1,8 +1,6 @@
 ---
-title: Hosted Puppeteer (Browserless)
-generated: 1701279907777
-description: How to use Browserless and Val Town to load a webpage
-lastUpdated: 2023-12-05
+title: Browserless Puppeteer
+description: How to use Browserless in Val Town to load a webpage
 ---
 
 Some websites are partially (or entirely) rendered on the client (aka your web
@@ -43,13 +41,15 @@ const res = await fetchJSON(
   {
     method: "POST",
     body: JSON.stringify({
-      "url": "https://en.wikipedia.org/wiki/OpenAI",
-      "elements": [{
-        // The second <p> element on the page
-        "selector": "p:nth-of-type(2)",
-      }],
+      url: "https://en.wikipedia.org/wiki/OpenAI",
+      elements: [
+        {
+          // The second <p> element on the page
+          selector: "p:nth-of-type(2)",
+        },
+      ],
     }),
-  },
+  }
 );
 // For this request, Browserless returns one data item
 const data = res.data;
