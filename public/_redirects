@@ -32,3 +32,5 @@
 /web-scraping/ /guides/web-scraping/
 /reference/custom-domains /types/http/custom-domains/
 /reference/custom-domains/ /types/http/custom-domains/
+/guides/hosted-puppeteer-browserless/ /integrations/browserless/
+/guides/hosted-puppeteer-browserless /integrations/browserless/

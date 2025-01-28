@@ -1,0 +1,25 @@
+---
+title: Browserbase
+description: How to use Browserbase & Puppeteer to with Val Town
+---
+
+import Val from "@components/Val.astro";
+
+[Browserbase](https://www.browserbase.com/) offers a reliable, high performance serverless developer platform to run, manage, and monitor headless browsers at scale to power web automation and AI agents.
+
+## Quick start
+
+The quickest way to get started is to get your Steel API key and fork this val.
+
+<Val url="https://www.val.town/embed/browserbase/browserbasePuppeteerExample" />
+
+1. Get your free Browserbase API key at https://www.browserbase.com/
+2. Add it to your [Val Town Environment Variables](https://www.val.town/settings/environment-variables) as `BROWSERBASE_API_KEY`
+3. Fork [this val](https://www.val.town/v/browserbase/browserbasePuppeteerExample)
+4. Click `Run` on that val
+5. View the output in the logs
+
+:::note
+To use Puppeteer in Val Town, we reccomend using the
+[deno-puppeteer](https://deno.land/x/puppeteer@16.2.0) library – as is done in the above starter val.
+:::

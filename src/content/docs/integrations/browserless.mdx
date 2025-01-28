@@ -1,8 +1,6 @@
 ---
-title: Hosted Puppeteer (Browserless)
-generated: 1701279907777
-description: How to use Browserless and Val Town to load a webpage
-lastUpdated: 2023-12-05
+title: Browserless
+description: How to use Browserless to scrape websites with Val Town
 ---
 
 Some websites are partially (or entirely) rendered on the client (aka your web
@@ -13,8 +11,7 @@ One solution is to use a headless browser that runs a web browser in the
 background that fetches the page, renders it, and _then_ allows you to search
 the final document.
 
-Headless browsers aren't a good fit for Val Town due to the amount of resources
-they require to run. However, services like [Browserless](https://browserless.io/)
+Services like [Browserless](https://browserless.io/)
 provide APIs to interact with a hosted headless browser. For example, their
 [/scrape API](https://www.browserless.io/docs/scrape). Here's how to use
 Browserless and Val Town to load a webpage.
@@ -43,13 +40,15 @@ const res = await fetchJSON(
   {
     method: "POST",
     body: JSON.stringify({
-      "url": "https://en.wikipedia.org/wiki/OpenAI",
-      "elements": [{
-        // The second <p> element on the page
-        "selector": "p:nth-of-type(2)",
-      }],
+      url: "https://en.wikipedia.org/wiki/OpenAI",
+      elements: [
+        {
+          // The second <p> element on the page
+          selector: "p:nth-of-type(2)",
+        },
+      ],
     }),
-  },
+  }
 );
 // For this request, Browserless returns one data item
 const data = res.data;
