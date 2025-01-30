@@ -1,0 +1,35 @@
+---
+title: Forks and Branches
+description: Other users can fork your Project, and you can fork other user’s Projects.
+lastUpdated: 2025-01-30
+---
+Forks and branches are important when collaborating with other users, or managing large scale projects. 
+
+### Forks vs. Branches
+
+- **Forks:** Forked vals and projects are linked to the original. They are often used for large-scale changes or cross-account collaboration. Changes in a fork can be merged back via pull requests. 
+- **Branches:** Introduced for projects, branches are ideal for feature development and iterative changes. They share project history and are typically merged back into the main branch when complete.
+
+### Forking
+Forking creates a copy of a val or project in your account while maintaining references to the original. For projects, forking includes the main branch when a non-main branch is forked to maintain consistency.
+
+### Branching
+
+- **Branch Merging:**  A branch can only be merged into its parent if there are no conflicts. All edits are copied to the parent project, and the fork version is updated to match the latest version in the parent.
+
+- **Pulling from Upstream:** Pull updates from the parent project into your fork as a single edit. The fork version updates to reflect the latest upstream changes.
+
+
+### Behavior and Limitations
+
+- **Merge Conflicts:** Merges cannot proceed with conflicts.
+
+- **Duplicate Forks, Project Names:** You cannot fork the same project again, or fork a project with the same name as an existing one. You also cannot fork your own projects at this time.
+
+
+### Differences from Git
+
+- **Merge Commits:** Operates like a squash merge, copying all edits instead of linking to history.
+
+- **Branch Parent:** Parent relationships are fixed; merged forks remain independent.
+

@@ -84,7 +84,6 @@ export default defineConfig({
           label: "Reference",
           autogenerate: { directory: "reference" },
         },
-
         {
           label: "Standard Library",
           items: [
@@ -97,6 +96,12 @@ export default defineConfig({
             { label: "Blob", link: "std/blob" },
             { label: "Proxied fetch", link: "std/fetch" },
             { label: "OpenAI", link: "std/openai" },
+          ],
+        },
+        {
+          label: "Collaboration",
+          items: [
+            { label: "Forks and Branches", link: "collaboration/forks-branches" },
           ],
         },
         {
