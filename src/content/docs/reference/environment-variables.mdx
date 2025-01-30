@@ -8,8 +8,9 @@ sidebar:
 
 import Val from "@components/Val.astro";
 
-The proper place to store secrets, keys, and API tokens is in
-[Environment Variables](https://val.town/settings/environment-variables).
+You can store secrets, keys, and API token in two places:
+- [Global Environment Variables](https://val.town/settings/environment-variables): For single Vals, but **not accessible in Projects**.
+- Project Environment Variables: Added through the Project's left side bar.
 
 Environment variables can be accessed via `Deno.env` or `process.env`.
 
