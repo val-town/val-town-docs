@@ -62,23 +62,33 @@ export default defineConfig({
           label: "Vals",
           items: [
             {
+              label: "Overview",
+              link: "vals/",
+            },
+            {
               label: "Script",
-              link: "types/script",
+              link: "vals/script",
             },
             {
               label: "HTTP",
-              autogenerate: { directory: "types/http" },
+              autogenerate: { directory: "vals/http" },
               collapsed: true,
+              // TODO - get this to not be bold
             },
             {
               label: "Cron",
-              link: "types/cron",
+              link: "vals/cron",
             },
             {
               label: "Email",
-              link: "types/email",
+              link: "vals/email",
             },
           ],
+        },
+        {
+          label: "Projects",
+          badge: "Beta",
+          autogenerate: { directory: "projects" },
         },
         {
           label: "Reference",
@@ -96,12 +106,6 @@ export default defineConfig({
             { label: "Blob", link: "std/blob" },
             { label: "Proxied fetch", link: "std/fetch" },
             { label: "OpenAI", link: "std/openai" },
-          ],
-        },
-        {
-          label: "Collaboration",
-          items: [
-            { label: "Forks and Branches", link: "collaboration/forks-branches" },
           ],
         },
         {
