@@ -1,0 +1,52 @@
+---
+title: Branches
+description: Project Branches are used for feature development, testing, and sharing
+sidebar:
+  order: 1
+---
+
+Every project has a `main` branch, which is the default branch. You can create branches off the `main` branch for feature development, testing, and sharing.
+
+## Creating a branch
+
+You need to be the owner of a project to create a branch. If you are not the owner, you can [fork the project](/projects/forks) and send a pull request.
+
+You can branch off `main` or any other branch.
+
+## Merging
+
+You can merge changes from a branch back into its parent branch or from the parent into the branch.
+
+### Merging into parent branch
+
+A branch can only be merged into its parent if there are no conflicts. All edits are copied to the parent project, including file and folder renames, additions, deletions, and relocations.
+
+### Merging from parent branch
+
+You can pull updates from the parent project into your branch.
+
+### Merge conflicts
+
+Merges cannot proceed if there are merge conflicts. Merge conflicts happen when the same line has been edited in both the parent and the branch.
+
+You can resolve conflicts by:
+
+1. Merging from the parent into the branch
+2. Finding all merge conflicts in the project and resolving them. They will look like:
+
+```
+<<<<<<< main
+This is the main branch
+=======
+This is the branch
+>>>>>>> branch
+```
+
+3. Once all merge conflicts are resolved, you can then merge the branch back into the parent.
+
+### Limitations
+
+- Parent-child relationships are fixed. You can't change the base branch or re-parent a branch.
+- There is no support for squashing or rebasing changes.
+- You cannot delete a branch currently, but we will add that soon.
+- You cannot change the name of the `main` branch.

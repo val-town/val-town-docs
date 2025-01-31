@@ -1,0 +1,44 @@
+---
+title: Overview
+description: Learn about the basics of Projects
+sidebar:
+  order: 0
+---
+
+import { LinkCard, CardGrid } from "@astrojs/starlight/components";
+
+Projects are groups of related vals, files, and folders that are versioned together. They are used to manage large codebases, organize related files, and collaborate with others.
+
+Learn more about [why we created Val Town Projects in our announcement post](http://blog.val.town/blog/projects/).
+
+## Project features
+
+- **Versioned Workspace:** Projects contain and track changes to vals, files, folders, READMEs via an version number that goes up on any change to any file
+- **Multiple Entrypoints:** Add multiple [HTTP](../vals/http), [Cron](../vals/cron), [Email](../vals/email), and [Script](../vals/script) vals
+- **Relative Imports:** Import files and folders relative to the project root (ie. `import foo from '../bar/foo'`)
+- **Static Files:** Add static files (HTML, CSS, Markdown, etc) to projects
+- **Scoped [Environment Variables](../reference/environment-variables)**
+
+## Collaboration
+
+<CardGrid>
+  <LinkCard
+    title="Branches"
+    description="Create branches for feature development, testing, and sharing"
+    href="/projects/branches"
+  />
+  <LinkCard
+    title="Forks"
+    description="Fork another user's project to make changes and send a pull request"
+    href="/projects/forks"
+  />
+</CardGrid>
+
+## Limitations
+
+- Maximum files per project: 1000
+- Maxmim branches per project: 100
+- Binary files are not supported. We recommend [Blob Storage](/std/blob).
+- Free tier users are limited to 5 private or unlisted projects. Pro users can have unlimited private projects. All users can have unlimited public projects.
+
+Please contact us if you need more resources or have any questions.

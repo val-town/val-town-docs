@@ -62,29 +62,38 @@ export default defineConfig({
           label: "Vals",
           items: [
             {
+              label: "Overview",
+              link: "vals/",
+            },
+            {
               label: "Script",
-              link: "types/script",
+              link: "vals/script",
             },
             {
               label: "HTTP",
-              autogenerate: { directory: "types/http" },
+              autogenerate: { directory: "vals/http" },
               collapsed: true,
+              // TODO - get this to not be bold
             },
             {
               label: "Cron",
-              link: "types/cron",
+              link: "vals/cron",
             },
             {
               label: "Email",
-              link: "types/email",
+              link: "vals/email",
             },
           ],
+        },
+        {
+          label: "Projects",
+          badge: "Beta",
+          autogenerate: { directory: "projects" },
         },
         {
           label: "Reference",
           autogenerate: { directory: "reference" },
         },
-
         {
           label: "Standard Library",
           items: [

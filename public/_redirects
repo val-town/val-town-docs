@@ -34,3 +34,4 @@
 /reference/custom-domains/ /types/http/custom-domains/
 /guides/hosted-puppeteer-browserless/ /integrations/browserless/
 /guides/hosted-puppeteer-browserless /integrations/browserless/
+/types/* /vals/:splat
