@@ -26,8 +26,6 @@
 /types/scheduled/ /types/cron
 /types/web /types/http
 /types/web/ /types/http
-/vals /
-/vals/ /
 /web-scraping /guides/web-scraping/
 /web-scraping/ /guides/web-scraping/
 /reference/custom-domains /types/http/custom-domains/
