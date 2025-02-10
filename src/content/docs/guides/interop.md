@@ -72,9 +72,6 @@ Deno can read files, interact with environment variables, and much
 more. Vals that use these Deno or Node-specific APIs will not
 automatically work in browsers.
 
-**Private vals** can't be used directly in browsers yet, because
-there's no web standard we can follow to support them.
-
 ### Node.js
 
 Using [Node.js](https://nodejs.org/en) with Vals directly relies on relatively new APIs in Node.js,
