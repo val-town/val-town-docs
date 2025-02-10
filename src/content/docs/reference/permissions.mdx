@@ -1,7 +1,7 @@
 ---
 title: Permissions
 description: Vals can be private, unlisted, or public
-lastUpdated: 2023-12-22
+lastUpdated: 2024-02-10
 sidebar:
   order: 3
 # cspell:ignore birdsarentreal supersecrettoken
@@ -9,28 +9,32 @@ sidebar:
 
 There are three privacy settings for a Val:
 
-| Permissions | Visible on the website    | Web & express endpoints                                 |
-| ----------- | ------------------------- | ------------------------------------------------------- |
-| Public      | Yes                       | ✅                                                      |
-| Unlisted    | Only if you have the link | ✅                                                      |
-| Private     | No                        | Requires [API token](https://www.val.town/settings/api) |
+### Public
+- Discoverable and visible to everyone on the Val.town website
+- Anyone can view the code and import it into their own vals
+- HTTP endpoints are accessible to anyone
 
-You get to choose whether you share vals. They can be fully private, so only you
-can view, edit, and run them. Private vals are super useful for automating parts of
-your life or business. Or you can share vals publicly in the Val Town community,
-and let anyone learn from your creativity and expand on your work.
+### Unlisted
+- Only visible to people who have the direct link
+- Won't appear in search results or public listings
+- Anyone with the link can view the code and import it
+- HTTP endpoints are accessible to anyone who knows the URL
+
+### Private
+- Only visible to you
+- Only your vals can import the code
+- HTTP endpoints are accessible to anyone who knows the URL
 
 ## Exposing your vals to the internet
 
-Public vals are great because they can be called from anywhere, anytime,
-instantly.
+HTTP endpoints are accessible to anyone who knows the URL, regardless of the val's privacy setting. If your endpoint handles sensitive data, you should add authentication.
 
-Since anyone can call your public endpoints, if they interact with some data
+Since anyone can call your endpoints, if they interact with some data
 that should only be changed by yourself, you will need to make sure that those
 endpoints check for some kind of secret that only you know.
 
 Here's an example of a val exposed using the [HTTP Val](/types/http), secured
-with an environment variable that only I know.
+with an environment variable that only I know:
 
 ```ts title="user/secretEndpoint" val
 export const secretEndpoint = (req: Request) => {
@@ -90,9 +94,6 @@ Response {
 }
 ```
 
-The rest of this article will focus on various common combinations of public and
-private vals that you're likely to come across and how those interact with the
-permissions system.
 
 ## Public code referencing private data
 
@@ -205,3 +206,9 @@ endpoint without the password. The worst that could happen if this password
 leaks is that our team temporarily gets spam discord messages. Then I could just
 change the password to a new value. For more sensitive use-cases, you'll want to
 sign & possibly encrypt the conveyed data using standard authentication methods.
+
+## Legacy Private Vals
+
+Prior to February 10th, 2024, private HTTP vals required an API token to access their endpoints. The endpoint was only accessible to the val owner and wasn't visible on the Val Town website.
+
+This behavior was changed - HTTP endpoints are now accessible to anyone who knows the URL, regardless of privacy setting. Private vals created before this date have been given a `Legacy private` permission setting to preserve their original behavior.
