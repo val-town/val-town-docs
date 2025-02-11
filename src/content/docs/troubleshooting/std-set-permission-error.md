@@ -1,4 +1,9 @@
-# Std/set Error: Val Permissions Update
+---
+title: Std/set Error: Val Permissions Update
+description: How to fix the std/set permission error
+sidebar:
+  hidden: true
+---
 
 On February 11th, 2025, we finished making improvements to Val Town's security by updating new [granular controls over val permissions](https://blog.val.town/blog/api-token-scopes/) to the `read-only` default. Vals that were previously able to create or modify other vals can now only do so if you explicitly allow them.
 
