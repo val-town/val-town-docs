@@ -30,52 +30,8 @@ blob.setJSON("createdAt", Date.now());
 
 Below is a real world example of swapping out `std/set` for `std/blob` in [a cron val](https://www.val.town/v/stevekrouse/pollRSSFeeds2) that polls RSS feeds and emails the results:
 
-Using `std/set`:
-```js
-import { email } from "https://esm.town/v/std/email?v=9";
-import { set } from "https://esm.town/v/std/set?v=11";
-import { inkAndSwitchRssUrl } from "https://esm.town/v/stevekrouse/inkAndSwitchRssUrl";
-import { newRSSItems } from "https://esm.town/v/stevekrouse/newRSSItems";
-import { pollRSSInkAndSwitch } from "https://esm.town/v/stevekrouse/pollRSSInkAndSwitch";
+![Using std/blob instead of std/set](./std-set-permission-error/blob-update-versioning.png)
 
-export async function pollRSSFeeds2() {
-  let items = await newRSSItems({
-    url: inkAndSwitchRssUrl,
-    lastRunAt: pollRSSInkAndSwitch,
-  });
-  if (items.length)
-    await email({
-      text: JSON.stringify(items, null, 2),
-      subject: `New RSS Item`,
-    });
-  return set("pollRSSInkAndSwitch", Date.now());
-}
-```
-
-Using `std/blob`:
-```js
-import { email } from "https://esm.town/v/std/email?v=9";
-import { blob } from "https://esm.town/v/std/blob?v=13"; // Updated import
-import { inkAndSwitchRssUrl } from "https://esm.town/v/stevekrouse/inkAndSwitchRssUrl";
-import { newRSSItems } from "https://esm.town/v/stevekrouse/newRSSItems";
-
-export async function pollRSSFeeds2() {
-  let pollRSSInkAndSwitch = await blob.getJSON("pollRSSInkAndSwitch");
-  if (!pollRSSInkAndSwitch) {
-    pollRSSInkAndSwitch = (await import("https://esm.town/v/stevekrouse/pollRSSInkAndSwitch")).pollRSSInkAndSwitch;
-  }
-  let items = await newRSSItems({
-    url: inkAndSwitchRssUrl,
-    lastRunAt: pollRSSInkAndSwitch,
-  });
-  if (items.length)
-    await email({
-      text: JSON.stringify(items, null, 2),
-      subject: `New RSS Item`,
-    });
-  return blob.setJSON("pollRSSInkAndSwitch", Date.now()); // Updated function call
-}
-```
 
 If you want to learn more about how to use blob storage, [check out our docs here](https://docs.val.town/std/blob/#_top). You can also view and manually edit your blobs by forking this [blob admin val](https://www.val.town/v/stevekrouse/blob_admin).
 
