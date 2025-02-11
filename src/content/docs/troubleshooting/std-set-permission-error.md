@@ -5,9 +5,9 @@ sidebar:
   hidden: true
 ---
 
-On February 11th, 2025, we migrated all remaining users' vals to the safer API scopes scopes. This change was [announced in this blog post](https://blog.val.town/blog/api-token-scopes/) on Nov 1, 2024. At that time, the changes applied only to the users who were not using the `val:write` scope, so as to give users who would be affected time to upgrade their vals. As of February 11th, 2025, all user's vals default to these safer scopes. In particular, the `vals:write` permission is missing from your vals, unless and until you explicitly add it in your val's settings.
+On Nov 1, 2024, [we announced safer default API scopes for vals](https://blog.val.town/blog/api-token-scopes/), which don't include the `val:write` scope. Some users were not included in that upgrade, because we detected it might cause some of their vals to break. We reached out to those users on Jan 10, 2025 to give them a month to upgrade their vals. We removed the `val:write` scope from all those remaining users vals on Feb 11, 2025 unless we heard back from you.
 
-One of the most common uses of the `val:write` permission is the now-deprecated [std.set](https://www.val.town/v/std/set) function, since it modifies another val. If you're seeing an error with `std/set`, there are two actions you can take, outlined below. 
+One of the most common uses of the `val:write` permission is the now-deprecated [std.set](https://www.val.town/v/std/set), since it modifies another val. If you're seeing an error with `std/set`, there are two actions you can take, outlined below. 
 
 As always, feel free to reach out in [#general](https://discord.com/channels/1020432421243592714/1020432421243592717) on Discord or [via email](/contact-us/contact-us/) if you have any questions or want to set up a time to pair program.
 
