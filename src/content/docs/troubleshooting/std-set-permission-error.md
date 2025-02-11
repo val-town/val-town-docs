@@ -1,6 +1,6 @@
 ---
-title: "Std/set Error: Val Permissions Update"
-description: "How to fix the std/set permissions error"
+title: "Upgrade Guide: Safer Val Scopes"
+description: "How to upgrade your vals for the safer default scopes rolled out to everyone on Feb 11, 2025"
 sidebar:
   hidden: true
 ---
