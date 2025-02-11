@@ -5,7 +5,7 @@ sidebar:
   hidden: true
 ---
 
-On February 11th, 2025, we finished making improvements to Val Town's security by updating new [granular controls over val permissions](https://blog.val.town/blog/api-token-scopes/) to the `read-only` default. Vals that were previously able to create or modify other vals can now only do so if you explicitly allow them.
+On February 11th, 2025, we migrated all remaining users' vals to the safer API scopes scopes. This change was [announced in this blog post](https://blog.val.town/blog/api-token-scopes/) on Nov 1, 2024. At that time, the changes applied only to the users who were not using the `val:write` scope, so as to give users who would be affected time to upgrade their vals. As of February 11th, 2025, all user's vals default to these safer scopes. In particular, the `vals:write` permission is missing from your vals, unless and until you explicitly add it in your val's settings.
 
 The deprecated [std.set](https://www.val.town/v/std/set) function requires any vals using it to have a `val:write` permission, since it modifies another val. If you're seeing this error, there are two actions you can take:
 
