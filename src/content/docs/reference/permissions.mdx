@@ -160,20 +160,6 @@ against other people's code, like `?v=4` in the example above.
 
 :::
 
-## Hiding Code
-
-You can hide the code of a public API by wrapping a private Val in a public val.
-Below I show `hiddenAPI` which you can see and
-[call via API](https://api.val.town/v1/run/stevekrouse.hiddenAPI?args=[%22hi%22]),
-but you notice that it calls `@stevekrouse.hiddenAPIInternal` which is private
-and can't be inspected.
-
-```ts title="Hiding code example" val
-import { hiddenAPIInternal } from "https://esm.town/v/stevekrouse/hiddenAPIInternal";
-
-export let hiddenAPI = (...args) => hiddenAPIInternal(...args);
-```
-
 ## Custom Authentication
 
 You can roll arbitrary authentication schemes in user space. For example, I find
