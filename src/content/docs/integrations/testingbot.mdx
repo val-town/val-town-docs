@@ -1,0 +1,95 @@
+---
+title: TestingBot
+description: How to use TestingBot to scrape websites with Val Town
+---
+
+Some websites are partially (or entirely) rendered on the client (aka your web
+browser). If you try to search the initial HTML for elements that haven't
+finished rendering, you won't find them.
+
+One solution is to use a headless browser that runs a web browser in the
+background that fetches the page, renders it, and _then_ allows you to search
+the final document.
+
+[TestingBot](https://testingbot.com/)
+provides an API to interact with a remote headless browser. You can use a Function to [scrape a website](https://testingbot.com/support/functions/scrape.html) and fetch its contents. 
+
+## Sign up to TestingBot and retrieve your credentials
+
+Copy the API key and SECRET from the 
+[TestingBot dashboard](https://testingbot.com/members/)
+and save it as Val Town environment variables `testingbot_key` and `testingbot_secret`.
+
+## Make an API call to the [/scrape API](https://testingbot.com/support/functions/scrape.html)
+
+Check the documentation for the
+[/scrape API](https://testingbot.com/support/functions/scrape.html) and prepare your request.
+
+For example, here's how you scrape the introduction paragraph of OpenAI's
+Wikipedia page.
+
+```ts title="Scrape API example" val
+import { fetchJSON } from "https://esm.town/v/stevekrouse/fetchJSON?v=41";
+
+const res = await fetchJSON(
+  `https://cloud.testingbot.com/scrape?key=${Deno.env.get("testingbot_key")}&secret=${Deno.env.get("testingbot_secret")}&browserName=chrome&version=latest&platform=WIN10`,
+  {
+    method: "POST",
+    body: JSON.stringify({
+      url: "https://en.wikipedia.org/wiki/OpenAI",
+      elements: [
+        {
+          // The second <p> element on the page
+          selector: "p:nth-of-type(2)",
+        },
+      ],
+    }),
+  }
+);
+// For this request, TestingBot will return one data item
+const data = res.data;
+// That contains a single element
+const elements = res.data[0].results;
+// Which we want to turn into its innerText value
+const intro = elements[0].text;
+return intro;
+```
+
+There are other functions available, such as [taking screenshots](https://testingbot.com/support/functions/screenshot.html), [generating PDFs](https://testingbot.com/support/functions/pdf.html) and more.
+
+## Use Puppeteer to instrument a remote browser
+
+You can use the [Puppeteer](https://pptr.dev/) library to connect to a remote browser running on TestingBot.
+
+Once you've navigated to a URL, you can run arbitrary JavaScript with
+`page.evaluate` - like getting the text from a paragraph.
+
+```ts title="Puppeteer example" val
+import { PuppeteerDeno } from "https://deno.land/x/puppeteer@16.2.0/src/deno/Puppeteer.ts";
+
+const puppeteer = new PuppeteerDeno({
+  productName: "chrome",
+});
+const capabilities = {
+    'tb:options': {
+        key: Deno.env.get("testingbot_key"),
+        secret: Deno.env.get("testingbot_secret")
+    },
+    browserName: 'chrome',
+    browserVersion: 'latest'
+};
+const browser = await puppeteer.connect({
+  browserWSEndpoint: `wss://cloud.testingbot.com/puppeteer?capabilities=${encodeURIComponent(JSON.stringify(capabilities))}`,
+});
+const page = await browser.newPage();
+await page.goto("https://en.wikipedia.org/wiki/OpenAI");
+const intro = await page.evaluate(
+  `document.querySelector('p:nth-of-type(2)').innerText`
+);
+await browser.close();
+console.log(intro);
+```
+
+```txt title="Logs"
+"OpenAI is an American artificial intelligence (AI) research laboratory consisting of the non-profit OpenAI Incorporated and its for-profit subsidiary corporation OpenAI Limited Partnership. OpenAI conducts AI research with the declared intention of promoting and developing friendly AI."
+```
