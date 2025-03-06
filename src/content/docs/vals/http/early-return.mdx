@@ -1,47 +1,47 @@
 ---
-title: Deferred functions
-description: |
-  You can do asynchronous work after return a response from
-  an HTTP val.
+title: Early Return
+description: How to return a response early from an HTTP val
 sidebar:
   order: 5
-lastUpdated: 2024-01-31
 ---
 
 import Val from "@components/Val.astro";
 
-Val Town supports asynchronous functions with the basic primitives
-of [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises)
-in JavaScript. All kinds of handler vals, including HTTP, Email,
-and Cron, can be async functions: if they return a Promise,
-we await it.
+Sometimes you need to respond quickly to an incoming HTTP request, and then do other work _after_ sending the response. This makes for snappier UIs for users, and some webhook platforms require responses within a couple seconds. We recommend accomplishing this today by using a queue.
 
-We also wait until other, non-awaited asynchronous work is done
-before exiting from a Val: we wait for the runtime to gracefully
-exit after all promises have resolved.
+### How to set up a queue
 
-You can use this feature to make an HTTP val that responds quickly
-to an incoming HTTP request, and then does some other work
-_after_ sending a response.
+In your early-returning HTTP val:
 
-Here's an example of deferring work using an anonymous
-async function. This val responds to HTTP requests
-with `{ "ok": true }` immediately, and then waits a second,
-and then logs the word "Hi!". You can use the same structure
-to schedule time-consuming work like database queries
-or network traffic till after the Val's response is already sent.
+```ts title="early-returning.ts" val
+async function handle(request: Request) {
+  // Send off the relevant data a queue HTTP val.
+  // This `fetch` is not awaited.
+  fetch("https://my-queue.web.val.run", {
+    method: "POST",
+    body: req.body,
+  });
 
-<Val url="https://www.val.town/embed/maxm/unawaitedAsyncExample" />
+  // Respond immediately, before the queued work is done
+  return Response.json("ok");
+}
+```
 
-The key to both techniques is that the async work does
-_not_ use the `await` keyword, so JavaScript does not wait
-for it to finish before returning the Response object.
+Your queue is another HTTP val that listens for requests and processes them in their own time. Nobody is waiting for the response from the queue, so it can take as long as it needs to:
+
+```ts title="queue.ts" val
+async function handle(request: Request) {
+  // Do some work with the request body that takes a long time
+  await doSomeWork(request.body);
+
+  return Response.json("ok");
+}
+```
 
 ### waitUntil
 
 This technique is a stopgap until full support for
-[waitUntil](https://developer.mozilla.org/en-US/docs/Web/API/ExtendableEvent/waitUntil)
-lands in Val Town, which will handle this case more explicitly.
+[waitUntil](https://developer.mozilla.org/en-US/docs/Web/API/ExtendableEvent/waitUntil) lands in Val Town, which will handle this case more explicitly.
 
 ### Promises should otherwise be awaited
 
@@ -67,3 +67,10 @@ export async function handle() {
   }
 }
 ```
+
+### HTTP Val Lifecycle
+
+When your HTTP val receives a request, we spin up a process to serve it.
+We keep this process alive for some amount of time after the response is sent
+to be ready for any other requests that might come its way. After some time of
+inactivity, your HTTP process is terminated. This means that if you fire off Promises without awaiting them, they may or may not finish before the val times out, depending on how long they take and whether the val is being kept alive to serve other traffic. The safest path is to await all `Promise`s or make yourself a queue.
