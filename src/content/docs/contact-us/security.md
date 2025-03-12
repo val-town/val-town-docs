@@ -1,16 +1,9 @@
 ---
-title: Security
-generated: 1701279907852
-description: >
-  Val Town takes security seriously: these are the details on how to contact us
-  if you have any concerns.
-lastUpdated: 2023-12-04
+title: Vulnerability Disclosure Policy
+description: How to report security vulnerabilities to Val Town
 ---
 
-The security of our systems is our top priority. We appreciate investigative
-work into system security carried out by ethical security researchers. If you
-discover a vulnerability, however small, we would like to know about it so we
-can address, as quickly as possible.
+We appreciate investigative work into our system's security by ethical security researchers. If you discover a vulnerability, please contact us so we can take steps to address it. We offer bug bounties as compensation, depending on the severity of the exploit found.
 
 ## Reporting a vulnerability
 
@@ -20,7 +13,7 @@ Please email findings to [security@val.town](mailto:security@val.town).
 
 - Do not take advantage of the vulnerability or problem you have discovered. For
   example only download data that is necessary to demonstrate the
-  vulnerability - do not download any more. Also do not delete, modify, or view
+  vulnerability - do not download any more. Do not delete, modify, or view
   other people's data.
 - Do not publish or reveal the problem until it has been resolved.
 - Do not use attacks on physical security, social engineering, distributed
@@ -32,7 +25,7 @@ Please email findings to [security@val.town](mailto:security@val.town).
   against you in regard to your report.
 - We will handle your report with strict confidentiality, and not pass on your
   personal details to third parties without your permission.
-- We offer various bug bounties as compensation, depending on the severity of
+- We offer bug bounties as compensation, depending on the severity of
   the exploit found.
 
 ## In-scope domains
@@ -43,9 +36,9 @@ Val Town uses the following domains:
 - `valtown.email`
 - `api.val.town`
 - `esm.town`
-- `*.val.run`
+- `val.run`
 
-Subdomains of these domains are additionally in scope for the program.
+Subdomains of these domains are in scope for the program.
 
 ## Out of scope issues
 
@@ -60,4 +53,3 @@ Subdomains of these domains are additionally in scope for the program.
 - Bugs on Vals themselves. Vals are user-controlled code and are not part of Val Town's product surface
 - Denial of Service or brute force attacks
 - Violating any laws or breaching any agreements in order to discover vulnerabilities
-
