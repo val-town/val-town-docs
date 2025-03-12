@@ -35,7 +35,9 @@ The `from` is limited to a few options:
 
 1. It defaults to `notifications@val.town` if you don't specify it.
 
-2. If you do specify it, it must be of the form: `your_username.valname@valtown.email`.
+2. If you do specify it, it must be of the form:
+  - `{ email: "your_username.valname@valtown.email }"` or
+  - `{ email: "your_username.valname@valtown.email", name: "Sender Name" }`.
 
 ### `replyTo`
 
