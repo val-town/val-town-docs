@@ -19,28 +19,24 @@ The email you sign up with will be the one that receives the weather emails.
 
 ### Step 2: Create a Cron val
 
-In the top-right corner of Val Town, click **New** > **Cron**.
+In the top-right corner of Val Town, click **+** > **Val** > **Cron**. Give it a name. 
 
 This will create and schedule a new empty val in your account that looks like this:
 
-```ts title="Step 2"
+```ts title="Step 2" val
 export default async function (interval: Interval) {
-‎
+  // your code…
 }
 ```
 
-This function will be run on a schedule.
+This function will be run on a schedule. By default, this runs every hour. You can change the frequency by clicking the clock icon in the top right corner.
 
 ### Step 3: Get the weather
 
 In the following example code, we are using `getWeather` from [stevekrouse/getWeather](https://val.town/v/stevekrouse/getWeather). It uses the free [wttr.in](https://wttr.in/:help) service to get weather data.
 
 1. Add these lines to your code
-2. Replace `Brooklyn, NY` with your location
-3. Click **Run Now**
-4. View the output in the val's logs
-
-```ts title="Step 3" ins={1,4-5}
+```ts title="Step 3" ins={1,4-5} val
 import { getWeather } from "https://esm.town/v/stevekrouse/getWeather";
 
 export default async function (interval: Interval) {
@@ -48,6 +44,9 @@ export default async function (interval: Interval) {
   console.log(weather.current_condition[0].FeelsLikeF);
 }
 ```
+2. Replace `Brooklyn, NY` with your location
+3. Click **Run**
+4. View the output in the val's logs
 
 :::tip
 You'll notice that we're using a val in another val. This is a common pattern in Val Town. If you type `@` in the val editor, you'll be able to search and import other vals inline.
@@ -58,10 +57,7 @@ You'll notice that we're using a val in another val. This is a common pattern in
 We're going to use [std/email](https://val.town/v/std/email) to send an email to yourself.
 
 1. Add these lines to your code
-2. Click **Run Now**
-3. Check your email inbox
-
-```ts title="Step 4" ins={1,7-10}
+```ts title="Step 4" ins={1,7-10} 
 import { email } from "https://esm.town/v/std/email";
 import { getWeather } from "https://esm.town/v/stevekrouse/getWeather";
 
@@ -75,6 +71,9 @@ export default async function (interval: Interval) {
 }
 ```
 
+2. Click **Run**
+3. Check your email inbox
+
 You should have an email with a subject like "Weather now is Sunny and 67°F".
 
 ### Step 5: Schedule the val
@@ -84,7 +83,7 @@ We want this to run every morning. For example, in NYC, you could use `0 9 * * *
 We recommend [crongpt.com](https://crongpt.com) to help you write cron expressions. It also handles the timezone conversion from your timezone to Val Town's server timezone (UTC).
 
 1. Go to [crongpt.com](https://crongpt.com) and generate your cron expression
-2. Click ⚙ (the gear icon) in the top right corner of the val editor
+2. Click the clock icon in the top right corner of the val editor
 3. Click **Cron**
 4. Paste in your cron expression
 
