@@ -1,218 +1,214 @@
 ---
 title: Stripe
-generated: 
-description: | 
-    Accept payments in Val Town using Stripe
+description: Accept payments in Val Town using Stripe
 ---
 
 import Val from "@components/Val.astro";
-import casual from './stripe/stripe-casual.gif'
-import competitive from './stripe/stripe-competitive.gif'
+import { LinkButton } from "@astrojs/starlight/components";
 
-You can accept payments in Val Town with Stripe. This guide teaches you the simplest method: [Stripe Payment Links](https://stripe.com/payments/payment-links). Here's how it works:
+Stripe allows you to accept credit card payments online.
 
-1. When users click to pay on your site, you redirect them to your Stripe Payment Link.
-2. They pay with Stripe.
-3. Stripe redirects them back to your site, where you can now store their payment information in a database, and thank them for their payment.
+There are a two parts to a payment flow:
 
-## Try it out
-:::note
-The val below uses Stripe's [test mode](https://docs.stripe.com/testing#use-test-cards), so you can make payments using a test credit card. Click [here](https://www.val.town/v/vawogbemi/StripeDemo) to try it out!
-:::
+1. **Link to Stripe** – User clicks on a link in your site that takes them to a Stripe checkout page.
 
-<img src={casual.src} width={casual.width} />
+2. **Handle Fufillment** – You can have a **webhook** that listens for succssful payment events from Stripe. You can use this webhook to update your database to authorize the user to view premium content or send a confirmation email to the user.
 
-<Val url="https://www.val.town/embed/vawogbemi/StripeDemo"/>
+## 1. Link to Stripe
 
-## 1. Create a Payment Link
-Head over to [Payment Links](https://dashboard.stripe.com/payment-links) in the Stripe dashboard and click the "create payment link" button.
+This guide covers the two simplest ways to link your users to Stripe:
 
-## 2. Configure your Payment Link
-On the `Payment page` tab, we'll need to create a new product for our 1.00 tip.
+- [Stripe Payment Link](#stripe-payment-link) – the simplest way to link to Stripe
+- [Stripe Checkout](#stripe-checkout) – a more customizable way to link to Stripe
 
-![stripe-config1.png](./stripe/stripe-config1.png)
+### Stripe Payment Link
 
-On the `After payment` tab, we need to select `Don't show confirmation page` and fill out the input with our val's `/success` endpoint so we can redirect users there after a successful transaction.
+Stripe Payment Links are the simplest way to link to Stripe.
 
-![stripe-config2.png](./stripe/stripe-config2.png)
+<LinkButton
+  href="https://docs.stripe.com/payments/no-code"
+  variant="secondary"
+  icon="external"
+  iconPlacement="start"
+>
+  Docs: Stripe Payment Links
+</LinkButton>
 
-## 3. Repeat for each tip amount
+<LinkButton
+  href="https://dashboard.stripe.com/payment-links/create"
+  variant="secondary"
+  icon="external"
+  iconPlacement="start"
+>
+  Create a Stripe Payment Link
+</LinkButton>
 
-Repeat steps 1 - 2 for each tip amount that will be used in the app. Here's how we handle all the payment links in the app:
+Stripe Payment links do not require a backend. Link to them from HTML:
 
-```ts title="Handle Payment Links" val
-const [tipAmount, setTipAmount] = useState(5);
-  const paymentLinks = {
-    1: "https://buy.stripe.com/test_eVa5nA3FhblYg1y3cc",
-    5: "https://buy.stripe.com/test_6oE3fs7Vx0Hk4iQcMN",
-    10: "https://buy.stripe.com/test_aEU3fs4Jl89M7v26oq",
-    20: "https://buy.stripe.com/test_bIY4jwcbN61E2aI4gj",
-  };
-
-  const handleTip = () => {
-    window.location.href = paymentLinks[tipAmount];
-  };
+```html
+<a href="https://buy.stripe.com/test_fZe6rigkxdR9aze289">Buy</a>
 ```
 
-## 4. Handling successful transactions
-After configuring and creating your Payment Links, we need to give our val the ability to handle successful transactions. Here's the code used in the example val above:
+When your users click on the link, they will be taken to a Stripe checkout page where they can enter their credit card information.
 
-```ts title="Client code" val
-function Success() {
-  useEffect(() => {
-    confetti({
-      particleCount: 100,
-      spread: 70,
-      origin: { y: 0.6 },
-    });
-  }, []);
+### Stripe Checkout
 
-  return (
-    <div className="container mx-auto max-w-md p-6 bg-white rounded-lg shadow-lg text-center">
-      <h1 className="text-2xl font-bold mb-4">Thank You for Your Tip!</h1>
-      <p className="mb-4">Your generosity is greatly appreciated.</p>
-      <a href="/" className="text-indigo-600 hover:underline">Back to Home</a>
-    </div>
-  );
-}
+Stripe Checkout is a more customizable way to link to Stripe. You first create a Checkout Session on your server, then redirect the user to that session's URL.
 
-function client() {
-  const root = document.getElementById("root");
-  if (root) {
-    const url = new URL(window.location.href);
-    if (url.pathname === "/success") {
-      createRoot(root).render(<Success />);
-    }
-    ...
-  }
-  ...
-}
-```
-:::note
-In order to allow additional actions in the server, we need to update the redirect to include `{CHECKOUT_SESSION_ID}` so we can use Stripe to fetch checkout details server side. An example updated redirect url looks like this: `https://vawogbemi-stripedemo.web.val.run/success?session_id={CHECKOUT_SESSION_ID}`, the [Take it further section](#take-it-further) goes into more detail about using Stripe server side.
-:::
+<LinkButton
+  href="https://stripe.com/docs/payments/checkout"
+  variant="secondary"
+  icon="external"
+  iconPlacement="start"
+>
+  Docs: Stripe Checkout
+</LinkButton>
 
-```ts title="Server code" val
-export default async function server(request: Request): Promise<Response> {
-  const url = new URL(request.url);
+We ported [Stripe Checkout Quickstart](https://docs.stripe.com/checkout/quickstart) to Val Town: https://val.town/v/std/stripeCheckoutQuickstart
 
-if (url.pathname === "/success") {
+```ts
+// @ts-ignore
+import { Stripe } from "npm:stripe";
+
+const stripe = new Stripe(Deno.env.get("STRIPE_TEST_API_KEY"));
+
+export default async function (req: Request): Promise<Response> {
+  const url = new URL(req.url);
+  if (url.pathname === "/") {
     return new Response(
-      `
-      <html>
-        <head>
-          <title>Tip Successful</title>
-          <script src="https://cdn.tailwindcss.com"></script>
-        </head>
-        <body class="bg-gray-100 flex items-center justify-center min-h-screen">
-          <div id="root"></div>
-          <script src="https://esm.town/v/std/catch"></script>
-          <script type="module" src="${import.meta.url}"></script>
-        </body>
-      </html>
-    `,
-      {
-        headers: {
-          "content-type": "text/html",
-        },
-      },
+      `<h1>Stripe Checkout Demo</h1>
+      <form action="/create-checkout-session" method="POST">
+      <input name="name" placeholder="t shirt">
+      <input type="number" name="price" placeholder="$5">
+      <button type="submit">Buy</button>
+      </form>`,
+      { headers: { "content-type": "text/html" } }
     );
   }
-
-  ...
-
-}
-```
-
-## Take it further
-Congratulations 🥳! You can now use Stripe in Val Town with Payment Links! 
-
-<img src={competitive.src} width={competitive.width} />
-<Val url="https://www.val.town/embed/vawogbemi/StripeCheckoutDemo"/>
-
-What if we wanted to allow users to tip custom amounts though? In order to give users the ability to tip custom amounts, we must use the more customizable [Stripe Checkout](https://docs.stripe.com/payments/checkout).
-
-### Obtain credentials from the Stripe dashboard
-Head over to the [Stripe dashboard](https://dashboard.stripe.com/dashboard) and get your secret key.
-
-![stripe-keys.png](./stripe/stripe-keys.png)
-
-### Add Stripe to your Val Town environment variables
-Go to your [Val Town environment varibales](https://www.val.town/settings/environment-variables) and add your secret key to Val Town.
-
-![stripe-env.png](./stripe/stripe-env.png)
-
-### Use Stripe in the server
-
-```ts title="Create checkout session endpoint" val
-...
-
-if (url.pathname === "/create-checkout-session" && req.method === "POST") {
-    const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY"), {
-      apiVersion: "2022-11-15",
-    });
-
-    const data = await req.json();
-    const { amount, name, comment } = data;
-
+  if (url.pathname === "/create-checkout-session" && req.method === "POST") {
+    const form = await req.formData();
+    const name = form.get("name");
+    const price = form.get("price");
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
       line_items: [
         {
           price_data: {
             currency: "usd",
             product_data: {
-              name: "Tip",
+              name,
             },
-            unit_amount: Math.round(amount * 100),
+            unit_amount: Number(price) * 100,
           },
           quantity: 1,
         },
       ],
       mode: "payment",
-      success_url: `${url.origin}/success?session_id={CHECKOUT_SESSION_ID}&amount=${amount}&name=${
-        encodeURIComponent(name)
-      }&comment=${encodeURIComponent(comment)}`,
-      cancel_url: `${url.origin}`,
+      success_url: `https://${url.host}/confirmation`,
+      cancel_url: `https://${url.host}`,
+      automatic_tax: { enabled: true },
     });
-
-    return new Response(JSON.stringify({ url: session.url }), {
-      headers: { "Content-Type": "application/json" },
+    return new Response(null, {
+      status: 303,
+      headers: {
+        Location: session.url,
+      },
     });
   }
 
-  ...
+  if (url.pathname === "/confirmation") {
+    return new Response(`<h1>You paid!</h1>`, {
+      headers: { "content-type": "text/html" },
+    });
+  }
+}
 ```
 
-```ts title="Success endpoint" val
-...
+## 2. Handle Fufillment
 
-if (url.pathname === "/success") {
-    const sessionId = url.searchParams.get("session_id");
-    const amount = url.searchParams.get("amount");
-    const name = url.searchParams.get("name");
-    const comment = url.searchParams.get("comment");
+After a user pays, you may need to fufill their order:
 
-    const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY"), {
-      apiVersion: "2022-11-15",
-    });
+- If you are selling a digital product, this might mean sending them a download link.
+- If you are selling a physical product, this might mean shipping the product to them.
+- If you are selling a subscription, this might mean updating your database to authorize the user to view premium content.
 
-    const session = await stripe.checkout.sessions.retrieve(sessionId);
-    const paymentIntent = await stripe.paymentIntents.retrieve(session.payment_intent as string);
+You can listen for events from Stripe to know when a payment has been successful. You can do this by setting up a **webhook**. A webhook is a URL on your server that Stripe will send events to.
 
-    if (paymentIntent.status === "succeeded") {
-      const sanitizedName = name.replace(/'/g, "");
-      const sanitizedComment = comment.replace(/'/g, "");
-      await sqlite.execute(
-        `INSERT INTO ${KEY}_payments_${SCHEMA_VERSION} (name, amount, comment) VALUES (?, ?, ?)`,
-        [sanitizedName, amount, sanitizedComment],
-      );
-    }
+<LinkButton
+  href="https://stripe.com/docs/webhooks"
+  variant="secondary"
+  icon="external"
+  iconPlacement="start"
+>
+  Docs: Stripe Webhooks
+</LinkButton>
 
-    const paymentsJson = JSON.stringify([{ name, amount, comment }]);
+Val Town makes it very easy to create a webhook on an HTTP val. Take a look at the example below to get started.
 
-    ...
+### Example Val Town Stripe Webhook
+
+This webhook listens for new subscribers to Val Town Pro, and sends the Val Town team a Discord notifcation. The val itself (link below) explains how to set it up.
+
+https://www.val.town/v/stevekrouse/newStripeSubscriber
+
+```ts
+import { discordWebhook } from "https://esm.town/v/stevekrouse/discordWebhook";
+import Stripe from "npm:stripe";
+
+const stripe = new Stripe(
+  Deno.env.get("stripe_sk_customer_readonly") as string,
+  {
+    apiVersion: "2020-08-27",
+  }
+);
+
+function getStripeCustomer(customerId: string) {
+  return stripe.customers.retrieve(customerId);
 }
 
-...
+export let newStripeEvent = async (req: Request) => {
+  const url = new URL(req.url);
+  if (req.method !== "POST") {
+    return new Response("Method not allowed", { status: 405 });
+  }
+
+  const signature = req.headers.get("Stripe-Signature");
+  const body = await req.text();
+  const webhookSecret = Deno.env.get("STRIPE_WEBHOOK_SECRET");
+  let event;
+  try {
+    event = await stripe.webhooks.constructEventAsync(
+      body,
+      signature,
+      webhookSecret
+    );
+  } catch (err: any) {
+    return new Response(`Webhook Error: ${err.message}`, { status: 400 });
+  }
+
+  console.log(event);
+
+  const newSubscription =
+    event.data.previous_attributes.status === "incomplete" &&
+    event.data.object.status === "active";
+
+  if (!newSubscription) {
+    console.log("Not a new subscription");
+    console.log(
+      event.data.previous_attributes.status,
+      event.data.object.status
+    );
+    return Response.json("ok");
+  }
+
+  const customer = await getStripeCustomer(event.data.object.customer);
+  const customerEmail = customer.email;
+
+  console.log("New subscription", customerEmail);
+  discordWebhook({
+    url: Deno.env.get("discordUserEvents"),
+    content: `New Subscription 🥳 ${customerEmail}`,
+  });
+
+  return Response.json("ok");
+};
 ```
