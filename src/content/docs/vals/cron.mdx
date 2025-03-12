@@ -4,18 +4,21 @@ sidebar:
   order: 1
 description: Schedules let code on Val Town run every day, every hour, or
   whenever you'd like
-lastUpdated: 2024-05-09
 # cspell:ignore crongpt
 ---
 
 import Val from "@components/Val.astro";
 
-You can schedule code to run repeatedly on Val Town. Want to check an RSS
-feed every hour, or send a reminder email every day? This is how to do it:
-just create a scheduled function and specify when it should run.
+Cron jobs let you schedule code to run repeatedly on a schedule. 
 
-- Cron functions can be configured with [cron syntax](https://en.wikipedia.org/wiki/Cron), or simple intervals like "once an hour"
-- Functions can run up to once every 15 minutes, or [once a minute, with the Pro plan](https://www.val.town/pricing).
+Some common examples include:
+- Checking an RSS feed every hour
+- Getting notified when a website updates
+- Sending a reminder email every morning
+
+Cron functions can be configured with [cron syntax](https://en.wikipedia.org/wiki/Cron), or simple intervals like "once an hour"
+
+Functions can run up to once every 15 minutes, or [once a minute, with the Pro plan](https://www.val.town/pricing).
 
 ## Type Signature
 
@@ -49,7 +52,7 @@ For example the following cron runs every two hours, on the first day of the mon
 
 :::note[Crons run in UTC]
 
-Cron expressions are evaluated in the [UTC timezone](https://en.wikipedia.org/wiki/Coordinated_Universal_Time),
+Cron expressions are always evaluated in the [UTC timezone](https://en.wikipedia.org/wiki/Coordinated_Universal_Time),
 so if you want to specify a certain hour in your local timezone, you may need to adjust
 the cron expression.
 
@@ -57,6 +60,6 @@ the cron expression.
 
 ## Example
 
-This example polls an RSS feed for new items since the last run.
+This example polls an RSS feed for new items since the last run. This val runs every 1 hour.
 
 <Val url="https://www.val.town/embed/stevekrouse/rssNotifyExample" />

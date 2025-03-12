@@ -1,7 +1,6 @@
 ---
 title: Basic examples
 generated: 1701279907946
-lastUpdated: 2023-12-15
 sidebar:
   order: 1
 ---
@@ -14,19 +13,19 @@ An HTTP val that works with the Web API takes a Request object as input and retu
 
 The most basic example can ignore the request and just return a response, even using a shorthand method like [Response.json, which is part of the web standard](https://developer.mozilla.org/en-US/docs/Web/API/Response/json_static).
 
-<Val url="https://www.val.town/embed/tmcw/jsonOkExample" />
+<Val url="https://www.val.town/embed/tmcw/jsonOkExample" height="160px"/>
 
 A slightly more built-out val can return HTML along with the correct Content-Type header:
 
-<Val url="https://www.val.town/embed/tmcw/htmlExample" />
+<Val url="https://www.val.town/embed/tmcw/htmlExample" height="230px"/>
 
 Now let's work with the request: this echoes request headers back in the response:
 
-<Val url="https://www.val.town/embed/tmcw/headersExample" />
+<Val url="https://www.val.town/embed/tmcw/headersExample" height="180px"/>
 
 We can grab query parameters using the web standard [URLSearchParams](https://developer.mozilla.org/en-US/docs/Web/API/URL/searchParams) class:
 
-<Val url="https://www.val.town/embed/neverstew/queryParams" />
+<Val url="https://www.val.town/embed/neverstew/queryParams" height="180px"/>
 
 You can also get the body of POST requests using the Request object,
 for example if you had an endpoint that received JSON:

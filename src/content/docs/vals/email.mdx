@@ -3,13 +3,16 @@ title: Email
 description: A kind of val that is able to receive emails sent to it.
 sidebar:
   order: 4
-lastUpdated: 2024-05-09
 ---
 
 import Val from "@components/Val.astro";
 
 Email vals get their own email address that you can send email to. When Val Town
 receives that email, it triggers the val with the email as its first argument.
+
+Some common examples include:
+- Automatically forwarding emails
+- Posting support team emails to Discord / Slack
 
 :::tip
 Vals can send email, too! Using the [email function in the standard library](/std/email)

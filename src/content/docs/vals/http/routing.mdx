@@ -1,7 +1,6 @@
 ---
 title: Routing
 generated: 1701279907950
-lastUpdated: 2024-01-16
 sidebar:
   order: 3
 ---
@@ -17,25 +16,25 @@ or path will be routed to the val.
 
 Here's an example with [Hono](https://hono.dev/):
 
-<Val url="https://www.val.town/embed/maxm/honoExample" />
+<Val url="https://www.val.town/embed/maxm/honoExample" height="240px" />
 
 ### Peko
 
 And one with [Peko](https://peko.deno.dev/):
 
-<Val url="https://www.val.town/embed/maxm/pekoExample" />
+<Val url="https://www.val.town/embed/maxm/pekoExample" height="300px" />
 
 ### nhttp
 
 And [nhttp](https://github.com/nhttp/nhttp):
 
-<Val url="https://www.val.town/embed/maxm/nhttpExample" />
+<Val url="https://www.val.town/embed/maxm/nhttpExample" height="350px" />
 
 ### itty-router
 
 A super tiny example with [itty-router](https://itty.dev/itty-router):
 
-<Val url="https://www.val.town/embed/maxm/ittyExample" />
+<Val url="https://www.val.town/embed/maxm/ittyExample" height="250px" />
 
 ### feTS
 
@@ -45,7 +44,7 @@ A simple example of using [feTS server](https://the-guild.dev/openapi/fets/serve
 
 Notice, that it exports the `router`, which allows to use the [feTS client](https://the-guild.dev/openapi/fets/client/quick-start) to make routes type safe:
 
-```ts title="@user/fetsClient" val
+```tsx val
 import { type router } from "https://esm.town/v/user/fetsServer";
 import { createClient } from "npm:fets";
 
