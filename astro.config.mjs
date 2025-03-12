@@ -37,6 +37,7 @@ export default defineConfig({
         github: "https://github.com/val-town/val-town-docs",
         twitter: "https://twitter.com/valdottown",
         youtube: "https://www.youtube.com/@valDotTown",
+        discord: "https://discord.val.town",
       },
       logo: {
         light: "./src/assets/logo.svg",
