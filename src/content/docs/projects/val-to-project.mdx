@@ -1,0 +1,145 @@
+---
+title: Convert a Val to a Project
+description: Convert a long Val into a Val Town Project
+sidebar:
+  order: 4
+---
+[Val Town Projects](https://blog.val.town/blog/projects/) help you organize code and collaborate more effectively. This guide walks you through migrating single-file vals into a Project.
+
+Projects offer key advantages over single-file vals:
+- **Better Organization**: Group related vals together with relative imports
+- **Collaboration**: Branches, forks, pull requests and version control
+- **Serve static files**: Serve HTML, CSS, Markdown, JSON and more.
+
+:::note
+Looking to **start** a new project? Remix one of our [**Templates**](https://www.val.town/explore/use-cases#:~:text=Hacker%20News%20mentions-,Project%20Starters,-Projects%20are%20groups) instead.
+:::
+
+There are many ways to structure a Project. Here's one example, which this guide follows:
+```
+my-project/
+├── frontend/
+│   ├── index.html
+│   └── styles.css
+│   └── index.tsx
+├── backend/
+│   └── index.ts
+│   └── database/
+```
+
+## 1. Create a New Project
+Go to the [Val Town Dashboard](https://www.val.town/dashboard) and create a **New Project**.
+
+## 2. Copy Vals to Project
+Copy and paste each val you want to migrate into the Project, with the correct val type.
+
+## 3. Redirect Original Vals
+After migrating, update the old vals to redirect users.
+
+- **Option 1: Add a note in `README.md`** 
+
+    `This val has moved to https://www.val.town/v/username/project-name`
+
+- **Option 2: Redirect the val**
+
+```js
+export default async function(req: Request): Promise<Response> {
+    return Response.redirect("https://www.val.town/x/username/project-name", 302);
+}
+```
+
+## 4. Rename Vals
+1. Remove prefixes that match your project name
+    - Example: `myblog_homepage` → `homepage`  
+2. Rename the main HTTP endpoint to `index` (this becomes the entry point)
+
+## 5. Update Imports
+Replace absolute imports with relative imports:
+
+**Before:**
+```js
+// Absolute imports
+import { myVal } from "https://esm.town/v/username/myVal"
+```
+
+**After:**
+```js
+// Relative imports
+import { myVal } from "./myVal.ts"
+```
+
+## 6. Move Static Content to Files
+### **HTML Example**
+
+Replace inline HTML strings with a `index.html` file:
+
+**Before:**
+```js
+  return new Response(`
+    <html>
+      <head>
+        <title>Hello, world!</title>
+        <style>${css}</style>
+      </head>
+    </html>,
+  `),
+```
+
+**After:**
+```js
+// 1. Create a file at `/frontend/index.html`
+// 2. Serve your files with:
+import { parseProject, serveFile } from "https://esm.town/v/std/utils/index.ts";
+
+// Example using Hono  
+app.get("/", async c => {
+  return serveFile("/frontend/index.html", import.meta.url);
+});
+
+```
+[**Example usage**](https://www.val.town/x/std/reactHonoStarter/code/backend/index.ts)
+
+
+### **CSS Example**
+
+Replace CSS-in-JS with a `styles.css` file:
+
+**Before:**
+```js
+const css = `
+    body {
+    color: red;
+    }
+`;
+```
+
+**After:**
+```js
+// 1. Create a file at `/frontend/styles.css`
+// 2. Reference in your HTML with <link> tag
+<link rel="stylesheet" href="/public/style.css">
+```
+[**Example usage**](https://www.val.town/x/stevekrouse/reactHonoExample/code/frontend/index.html)
+
+## 7. Separate Frontend and Backend
+
+- Store `/frontend` and `/backend` logic in separate directories.
+- You can use a `/public` directory for serving static assets ([Example](https://www.val.town/x/stevekrouse/reactHonoExample/code/backend/index.ts)) - though this is mostly just a [convention](https://www.val.town/x/stevekrouse/reactHonoExample/code/frontend/README.md).
+- By separating the frontend and backend, we largely eliminate the need for conditional or async import patterns common in single-file vals.
+
+[**Example usage**](https://www.val.town/x/stevekrouse/reactHonoExample)
+
+## 8. Handle Binary Assets
+**For images and other binary files:**
+- Upload them via the [Blob Admin Tool](https://www.val.town/x/stevekrouse/blob_admin/code/README.md) 
+- Use the returned URL in your code
+
+[**Example usage**](https://www.val.town/x/stevekrouse/stevekrouse_dot_com/code/posts/proposal.tsx)
+
+### References
+**Remix or reference these Project starters:**
+- [React + Hono Starter](https://www.val.town/x/std/reactHonoStarter)
+- [Markdown Blog Starter](https://www.val.town/x/stevekrouse/markdownBlogStarter)
+- [Fiberplane + Hono + Zod Starter](https://www.val.town/x/fiberplane/fiberplaneHonoZodStarter)
+
+**Need help?** Join us on [Discord](https://discord.gg/dHv45uN5RY).
