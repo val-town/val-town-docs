@@ -1,0 +1,139 @@
+---
+title: Convert a Val to a Project
+description: Convert a long Val into a Val Town Project
+sidebar:
+  order: 4
+---
+[Val Town Projects](../) offer a powerful way to organize your code with proper file-based imports and collaboration capabilities. 
+
+This guide walks you through migrating your individual Vals to a Project structure.
+
+:::note
+If you want to **start** a new project, you can find examples in the [**Templates**](https://www.val.town/explore/use-cases#:~:text=Hacker%20News%20mentions-,Project%20Starters,-Projects%20are%20groups) section.
+:::
+
+## Why Migrate to Projects?
+Projects provide several advantages over individual Vals:
+- **Organization**: Group related vals together with relative imports
+- **Collaboration**: Branches, forks, pull requests and version control for more robust development
+- **Serve static files**: Serve HTML, CSS, Markdown, etc
+
+## Migration Process
+
+#### Step 1: Create a new project
+
+- Make a **New Project** in the [Val Town home page](https://www.val.town/dashboard)
+- Choose a meaningful name for your project -- we ask you for names instead of autogenerating them now, thank us later!
+
+#### Step 2: Copy your vals to the project
+- Copy and paste each val you want to migrate into the Project, with the correct val type.
+
+#### Step 3: Update original vals
+After copying your vals to the project:
+
+- Update each original val's `README.md` with:
+
+    `This val has moved to https://www.val.town/v/username/project-name`
+
+- You can also replace the code with a redirect:
+
+    ```js
+    export default (req) => Response.redirect("https://www.val.town/v/username/project-name")
+    ```
+
+#### Step 4: Rename your vals in the project
+
+- Remove prefixes that match your project name
+    - Example: `myblog_homepage` → `homepage`
+- Rename your main HTTP endpoint to `index` (this becomes your entry point)
+
+#### Step 5: Update imports
+Change from absolute to relative imports:
+
+```js
+// Before: Absolute imports
+import { myVal } from "https://esm.town/v/username/myVal"
+```
+
+```js
+// After: Relative imports
+import { myVal } from "./myVal.js"
+```
+
+#### Step 6: Move static content to files
+**HTML content:**
+
+```js
+// Before: HTML strings in your code
+const html = '<div>content</div>'
+```
+
+```js
+// After: Proper file-based approach
+// 1. Create a file at `/public/index.html` or `/frontend/index.html`
+// 2. Serve with:
+import { parseProject, serveFile } from "https://esm.town/v/std/utils/index.ts";
+```
+
+**CSS content:**
+
+```js
+// Before: CSS strings in your code
+const css = 'body { color: red }'
+```
+
+```js
+// After:
+// 1. Create a file at `/public/styles.css`  or `/frontend/styles.css`
+// 2. Reference in your HTML with <link> tag
+<link rel="stylesheet" href="/public/style.css">
+```
+
+#### Step 7: Separate frontend and backend code
+
+- Move frontend imports (React, etc.) to dedicated frontend files
+- Keep backend code (SQLite, DB operations, etc.) in separate files
+- This separation eliminates the need for async imports of backend libraries
+
+#### Step 8: Handle binary assets
+**For images and other binary files:**
+- Upload via Blob Admin in the Val Town UI
+- Use the returned URL to reference your assets in code
+
+### Common Issues and Solutions
+
+- `import.meta.url` issue: This pattern breaks in private projects. Use the file-based approach instead.
+- Frontend-importing-backend pattern: This pattern is being deprecated. Separate your concerns with distinct files.
+- Path references: Ensure all path references are updated to match the new project structure.
+- Static assets: Use the public directory for all static assets that need to be served.
+
+### Testing Your Migration
+After completing the migration:
+
+- Test each endpoint individually
+- Verify all imports are working correctly
+- Confirm any database interactions function as expected
+- Test any authentication flows
+- Validate that redirects from original Vals work properly
+
+### Projects Example: A Simple Blog
+Here's how a blog might be structured in a Project:
+
+```
+my-blog/
+├── index.js           # Main HTTP endpoint
+├── postsDb.js         # Database interactions
+├── postController.js  # Business logic
+├── public/
+│   ├── index.html    # Main HTML template
+│   ├── styles.css    # CSS styling
+│   └── images/       # Static images
+```
+
+With this structure, you can use clean imports:
+
+```js
+import { getAllPosts } from "./postsDb.js";
+import { formatPost } from "./postController.js";
+```
+
