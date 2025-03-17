@@ -6,16 +6,72 @@ sidebar:
 ---
 [Val Town Projects](https://blog.val.town/blog/projects/) help you organize code and collaborate more effectively. This guide walks you through migrating single-file vals into a Project.
 
-Projects offer key advantages over single-file vals:
-- **Better Organization**: Group related vals together with relative imports
-- **Collaboration**: Branches, forks, pull requests and version control
-- **Serve static files**: Serve HTML, CSS, Markdown, JSON and more.
-
 :::note
 Looking to **start** a new project? Remix one of our [**Templates**](https://www.val.town/explore/use-cases#:~:text=Hacker%20News%20mentions-,Project%20Starters,-Projects%20are%20groups) instead.
 :::
 
-There are many ways to structure a Project. Here's one example, which this guide follows:
+## 1. Create a New Project
+Go to the [Val Town Dashboard](https://www.val.town/dashboard) and create a **New Project**.
+
+## 2. Copy Vals to Project
+This is where the bulk of migration happens and likely the most annoying step 😔. Luckily, everything else past this point is optional.
+
+First, copy and paste each val you want to migrate into the Project, with the correct val type.
+
+After all the vals are now saved in a new project, update the old vals to redirect users.
+  - **Option 1: Add a note in `README.md`** 
+
+    `This val has moved to https://www.val.town/x/username/project-name`
+
+  - **Option 2: Redirect the val**
+
+    ```js
+    export default async function(req: Request): Promise<Response> {
+      const url = new URL(req.url);
+      return fetch(new URL(url.pathname + url.search, "https://your_project_name--your_project_id.web.val.run/"), {
+        method: req.method,
+        headers: req.headers,
+        body: req.body,
+      });
+    }
+    ```
+
+Then, you need to replace absolute imports with relative imports to ensure your vals continue to work across branches and remixes.
+
+  **Before:**
+  ```js
+  // Absolute imports
+  import { myVal } from "https://esm.town/v/username/myVal"
+  ```
+
+  **After:**
+  ```js
+  // Relative imports
+  import { myVal } from "./myVal.ts"
+  ```
+
+## 3. Handle Binary Assets
+**For images and other binary files:**
+- Remix this [Blob Admin Tool](https://www.val.town/x/stevekrouse/blob_admin/code/README.md)
+- Sign in with with the email tied to your Val Town account
+- Upload your files to the Public folder and get the URL
+- Use the returned URL in your code
+
+[**Example usage**](https://www.val.town/x/stevekrouse/stevekrouse_dot_com/code/posts/proposal.tsx), search (ctrl/cmd+f) for usage of `blob_admin`.
+
+---
+## Optional Steps
+Once you have completed all the steps above, your vals should now be working in the new Project. However, here are additional steps you may find helpful to make your Project even more organized.
+
+### 1. Rename Vals
+1. Remove prefixes that match your project name, as all your vals are now inside the same project.
+    - Example: `myblog_homepage` → `homepage`  
+2. Rename the main HTTP endpoint to `index` (this becomes the entry point). This one is mostly just a convention.
+
+### 2. Separate Frontend and Backend
+Single-file vals have traditionally needed to include both client-side and server-side code in the same file. As your projects grow. this is difficult to manage and disjointed long files are also very difficult to use with LLMs.
+
+There are many ways to structure a Project. Here's one example:
 ```
 my-project/
 ├── frontend/
@@ -27,49 +83,18 @@ my-project/
 │   └── database/
 ```
 
-## 1. Create a New Project
-Go to the [Val Town Dashboard](https://www.val.town/dashboard) and create a **New Project**.
+By separating the frontend and backend, we largely eliminate the need for conditional or async import patterns common in single-file vals.
 
-## 2. Copy Vals to Project
-Copy and paste each val you want to migrate into the Project, with the correct val type.
+To do this, you can:
+- Store `/frontend` and `/backend` logic in separate directories.
+- You can use a `/public` directory for serving static assets ([Example](https://www.val.town/x/stevekrouse/reactHonoExample/code/backend/index.ts)) - though this is mostly just a [convention](https://www.val.town/x/stevekrouse/reactHonoExample/code/frontend/README.md).
 
-## 3. Redirect Original Vals
-After migrating, update the old vals to redirect users.
+Here is an [**example project**](https://www.val.town/x/stevekrouse/reactHonoExample) set up with the frontend and backend in separate folders.
 
-- **Option 1: Add a note in `README.md`** 
+### 3. Move Static Content to Files
+Once you separate out your frontend and backend, it will make sense to move static content (HTML, CSS, JSON, etc.) out accordingly.
 
-    `This val has moved to https://www.val.town/x/username/project-name`
-
-- **Option 2: Redirect the val**
-
-```js
-export default async function(req: Request): Promise<Response> {
-    return Response.redirect("https://www.val.town/x/username/project-name", 302);
-}
-```
-
-## 4. Rename Vals
-1. Remove prefixes that match your project name
-    - Example: `myblog_homepage` → `homepage`  
-2. Rename the main HTTP endpoint to `index` (this becomes the entry point)
-
-## 5. Update Imports
-Replace absolute imports with relative imports:
-
-**Before:**
-```js
-// Absolute imports
-import { myVal } from "https://esm.town/v/username/myVal"
-```
-
-**After:**
-```js
-// Relative imports
-import { myVal } from "./myVal.ts"
-```
-
-## 6. Move Static Content to Files
-### **HTML Example**
+#### **HTML Example**
 
 Replace inline HTML strings with a `index.html` file:
 
@@ -89,7 +114,7 @@ Replace inline HTML strings with a `index.html` file:
 ```js
 // 1. Create a file at `/frontend/index.html`
 // 2. Serve your files with:
-import { parseProject, serveFile } from "https://esm.town/v/std/utils/index.ts";
+import { serveFile } from "https://esm.town/v/std/utils@74-main/index.ts"; // [pin the latest version](https://docs.val.town/reference/version-control/#:~:text=If%20you%20include%20a%20version%20number%2C%20it%E2%80%99s%20a%20pinned%20import%2C%20and%20you%E2%80%99ll%20always%20get%20that%20version.) for stability, make sure you test it!
 
 // Example using Hono  
 app.get("/", async c => {
@@ -100,7 +125,7 @@ app.get("/", async c => {
 [**Example usage**](https://www.val.town/x/std/reactHonoStarter/code/backend/index.ts)
 
 
-### **CSS Example**
+#### **CSS Example**
 
 Replace CSS-in-JS with a `styles.css` file:
 
@@ -121,25 +146,13 @@ const css = `
 ```
 [**Example usage**](https://www.val.town/x/stevekrouse/reactHonoExample/code/frontend/index.html)
 
-## 7. Separate Frontend and Backend
-
-- Store `/frontend` and `/backend` logic in separate directories.
-- You can use a `/public` directory for serving static assets ([Example](https://www.val.town/x/stevekrouse/reactHonoExample/code/backend/index.ts)) - though this is mostly just a [convention](https://www.val.town/x/stevekrouse/reactHonoExample/code/frontend/README.md).
-- By separating the frontend and backend, we largely eliminate the need for conditional or async import patterns common in single-file vals.
-
-[**Example usage**](https://www.val.town/x/stevekrouse/reactHonoExample)
-
-## 8. Handle Binary Assets
-**For images and other binary files:**
-- Upload them via the [Blob Admin Tool](https://www.val.town/x/stevekrouse/blob_admin/code/README.md) 
-- Use the returned URL in your code
-
-[**Example usage**](https://www.val.town/x/stevekrouse/stevekrouse_dot_com/code/posts/proposal.tsx)
-
-### References
+## References
 **Remix or reference these Project starters:**
 - [React + Hono Starter](https://www.val.town/x/std/reactHonoStarter)
+- [React + Hono Example](https://www.val.town/x/stevekrouse/reactHonoExample)
 - [Markdown Blog Starter](https://www.val.town/x/stevekrouse/markdownBlogStarter)
 - [Fiberplane + Hono + Zod Starter](https://www.val.town/x/fiberplane/fiberplaneHonoZodStarter)
+- [Fiberplane HONC App Template](https://www.val.town/x/fiberplane/HONC)
+
 
 **Need help?** Join us on [Discord](https://discord.gg/dHv45uN5RY).
