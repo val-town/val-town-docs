@@ -1,0 +1,176 @@
+---
+title: Convert Val to a Project
+description: Convert a single-file Val into a Val Town Project
+---
+
+[Val Town Projects](https://blog.val.town/blog/projects/) help you organize code and collaborate more effectively. This guide walks you through migrating single-file vals into a Project.
+
+_You can also give our [**Project Migration Tool [Beta]**](https://charmaine-valtoproject.web.val.run/) a try. It should complete steps 1-2 below for you automatically._
+
+:::note
+Looking to **start** a new project? Remix one of our [**Templates**](https://www.val.town/explore/use-cases#:~:text=Hacker%20News%20mentions-,Project%20Starters,-Projects%20are%20groups) instead.
+:::
+
+## 1. Create a new Project
+Go to your [Val Town Dashboard](https://www.val.town/dashboard) and create a **New Project**. 
+
+We’ll use this new Project to hold all the vals you want to migrate.
+
+---
+
+## 2. Move your vals
+This step is the most work, but you only have to do it once. Fortunately, everything else past this point is optional.
+
+### Copy over your vals
+Copy and paste the existing vals you want to migrate into your new Project, with the correct val type. You can keep the val's original names and keep them all in the root of the project for now. You can reorganize them later.
+
+### Redirect your vals
+After all the vals are now saved in a new project, update the old vals to redirect future usage.
+
+#### **Option 1: Add a note in `README.md`**
+```
+This val has moved to https://www.val.town/x/username/project-name
+```
+
+#### **Option 2: Proxy requests to your new project**
+```js
+export default async function(req: Request): Promise<Response> {
+  const url = new URL(req.url);
+  return fetch(new URL(url.pathname + url.search, "https://your_project_name--your_project_id.web.val.run/"), {
+    method: req.method,
+    headers: req.headers,
+    body: req.body,
+  });
+}
+```
+
+### Replace absolute imports
+After you move your code, replace any absolute imports with relative imports. This ensures your new code points to the vals you just migrated, and remains functional across branches or remixes.
+
+**Before:**
+```js
+// Absolute imports
+import { myVal } from "https://esm.town/v/username/myVal"
+```
+
+**After:**
+```js
+// Relative imports
+import { myVal } from "./myVal.ts"
+```
+
+---
+
+## 3. Handle binary assets
+We don't yet store binary assets (like images, audio, or video) directly in a Project. Instead, you can upload them to storage and reference the resulting URL in your code.
+
+To do this in Val Town:
+- Fork this [Blob Admin Tool](https://www.val.town/v/stevekrouse/blob_admin)
+- Sign in with with the email tied to your Val Town account
+- Upload your files 
+- Move the uploaded files to the public folder via the ... menu and get the URL
+- Copy the public links in the ... menu
+- Use those public URLs in your code wherever you need to embed or fetch the binary asset
+
+For an example, take a look at [**this usage**](https://www.val.town/x/stevekrouse/stevekrouse_dot_com/code/posts/proposal.tsx). Search (ctrl/cmd+f) for `blob_admin` to see how the hosted assets are referenced in code.
+
+---
+
+## Optional improvements
+Once you have completed all the steps above, your vals should now be working in the new Project. 
+
+Here are additional steps you may find helpful to make your Project even more organized.
+
+### 1. Rename your vals
+Renaming can make your Project more readable:
+1. Remove any prefixes (like `myblog_`) if they duplicate your Project name.
+   - Example: `myblog_homepage` → `homepage`  
+2. If you have a primary HTTP endpoint, rename it to `index`. This is a common convention in setups like this.
+
+### 2. Separate your frontend and backend
+When you only had a single-file val, you probably had both client and server logic intertwined. Splitting your code into separate folders can keep things organized and help with scalability, especially if you’re using LLMs to write code.
+
+There are many ways to structure a Project. Here's one example:
+```
+my-project/
+├── frontend/
+│   ├── index.html
+│   └── styles.css
+│   └── index.tsx
+├── backend/
+│   └── index.ts
+│   └── database/
+```
+
+By separating the frontend and backend, we largely eliminate the need for conditional or async import patterns common in single-file vals.
+
+To do this:
+- Store `/frontend` and `/backend` logic in separate directories.
+- You can use a `/public` directory for serving static assets ([example](https://www.val.town/x/stevekrouse/reactHonoExample/code/backend/index.ts)) - though this is mostly just a [convention](https://www.val.town/x/stevekrouse/reactHonoExample/code/frontend/README.md).
+
+Here is an [**example project**](https://www.val.town/x/stevekrouse/reactHonoExample) set up with the frontend and backend in separate folders.
+
+### 3. Move static content to files
+Once you separate out your frontend and backend, it will make sense to move static content (HTML, CSS, JSON, etc.) out accordingly.
+
+#### **HTML Example**
+Replace inline HTML strings with an `index.html` file:
+
+**Before:**
+```js
+return new Response(`
+  <html>
+    <head>
+      <title>Hello, world!</title>
+      <style>${css}</style>
+    </head>
+  </html>,
+`),
+```
+
+**After:**
+```js
+// 1. Create a file at `/frontend/index.html`
+// 2. Serve your files with:
+import { serveFile } from "https://esm.town/v/std/utils@74-main/index.ts"; // pin the latest version for stability, make sure you test it!
+
+// Example using Hono  
+app.get("/", async c => {
+  return serveFile("/frontend/index.html", import.meta.url);
+});
+```
+[**Example usage**](https://www.val.town/x/std/reactHonoStarter/code/backend/index.ts)
+
+#### **CSS Example**
+Replace CSS-in-JS with a `styles.css` file:
+
+**Before:**
+```js
+const css = `
+    body {
+    color: red;
+    }
+`;
+```
+
+**After:**
+```js
+// 1. Create a file at `/frontend/styles.css`
+// 2. Reference in your HTML with <link> tag
+<link rel="stylesheet" href="/public/style.css">
+```
+[**Example usage**](https://www.val.town/x/stevekrouse/reactHonoExample/code/frontend/index.html)
+
+At this point, your code should be fully organized and running from the new Project!
+
+---
+
+## References
+**Remix or reference these Project starters:**
+- [React + Hono Starter](https://www.val.town/x/std/reactHonoStarter)
+- [React + Hono Example](https://www.val.town/x/stevekrouse/reactHonoExample)
+- [Markdown Blog Starter](https://www.val.town/x/stevekrouse/markdownBlogStarter)
+- [Fiberplane + Hono + Zod Starter](https://www.val.town/x/fiberplane/fiberplaneHonoZodStarter)
+- [Fiberplane HONC App Template](https://www.val.town/x/fiberplane/HONC)
+
+**Need help?** Join us on [Discord](https://discord.gg/dHv45uN5RY).
