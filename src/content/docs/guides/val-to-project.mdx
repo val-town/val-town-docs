@@ -24,8 +24,23 @@ This step is the most work, but you only have to do it once. Fortunately, everyt
 ### Copy over your vals
 Copy and paste the existing vals you want to migrate into your new Project, with the correct val type. You can keep the val's original names and keep them all in the root of the project for now. You can reorganize them later.
 
+### Replace absolute imports
+After you move your code, replace any absolute imports with relative imports. This ensures your new code points to the vals you just migrated, and remains functional across branches or remixes.
+
+**Before:**
+```js
+// Absolute imports
+import { myVal } from "https://esm.town/v/username/myVal"
+```
+
+**After:**
+```js
+// Relative imports
+import { myVal } from "./myVal.ts"
+```
+
 ### Redirect your vals
-After all the vals are now saved in a new project, update the old vals to redirect future usage.
+After all the vals are now saved and working in a new project, update the old vals to redirect future usage.
 
 #### **Option 1: Add a note in `README.md`**
 ```
@@ -42,21 +57,6 @@ export default async function(req: Request): Promise<Response> {
     body: req.body,
   });
 }
-```
-
-### Replace absolute imports
-After you move your code, replace any absolute imports with relative imports. This ensures your new code points to the vals you just migrated, and remains functional across branches or remixes.
-
-**Before:**
-```js
-// Absolute imports
-import { myVal } from "https://esm.town/v/username/myVal"
-```
-
-**After:**
-```js
-// Relative imports
-import { myVal } from "./myVal.ts"
 ```
 
 ---
