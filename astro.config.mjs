@@ -23,9 +23,6 @@ export default defineConfig({
         Footer: "./src/components/Footer.astro",
         Head: "./src/components/CopyPageButton.astro",
       },
-      head: [
-        // Other head elements can remain
-      ],
       editLink: {
         baseUrl: "https://github.com/val-town/val-town-docs/edit/main/",
       },
@@ -49,6 +46,7 @@ export default defineConfig({
         replacesTitle: true,
       },
       customCss: [
+        // Fontsource files for to regular and semi-bold font weights.
         "@fontsource/ibm-plex-sans/400.css",
         "@fontsource/ibm-plex-sans/600.css",
         "./src/styles/custom.css",
@@ -137,6 +135,36 @@ export default defineConfig({
           label: "Contact",
           autogenerate: { directory: "contact-us" },
           collapsed: true,
+        },
+      ],
+      head: [
+        {
+          tag: "meta",
+          attrs: {
+            property: "og:image",
+            content: "/share-image.jpg",
+          },
+        },
+        {
+          tag: "meta",
+          attrs: {
+            property: "twitter:image",
+            content: "/share-image.jpg",
+          },
+        },
+        {
+          tag: "script",
+          attrs: {
+            src: "https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.0/src/lite-yt-embed.min.js",
+            defer: true,
+          },
+        },
+        {
+          tag: "link",
+          attrs: {
+            href: "https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.0/src/lite-yt-embed.min.css",
+            rel: "stylesheet",
+          },
         },
       ],
       expressiveCode: {
