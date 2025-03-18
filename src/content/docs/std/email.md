@@ -1,5 +1,6 @@
 ---
 title: Email
+description: Send emails programmatically from your vals using Val Town's email API
 ---
 
 Send emails with [`std/email`](https://www.val.town/v/std/email). You can only send emails to yourself if you're on Val Town Free. If you're on [Val Town Pro](https://www.val.town/pricing), you can email anyone.

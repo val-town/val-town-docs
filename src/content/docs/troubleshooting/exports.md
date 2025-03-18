@@ -1,7 +1,6 @@
 ---
 title: Exports
-description: |
-  Vals with triggers (HTTP, Cron, Email) require at least one export.
+description: Vals with triggers (HTTP, Cron, Email) require at least one export.
 lastUpdated: 2024-05-09
 ---
 
