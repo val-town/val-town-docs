@@ -7,13 +7,14 @@ export const GET: APIRoute = async () => {
   return new Response(
     `# Val Town Full Documentation\n\n${docs
       .map((doc) => {
-        return `# ${doc.data.title}\n\n${doc.body}\n\n`;
+        return `## ${doc.data.title}\n\nURL: https://docs.val.town/${doc.slug}.md\n\n${doc.body}\n\n---\n\n`;
       })
       .join("")}`,
     { 
       headers: { 
         "Content-Type": "text/plain; charset=utf-8",
-        "X-Robots-Tag": "noindex, nofollow"
+        "X-Robots-Tag": "noindex, nofollow",
+        "Cache-Control": "public, max-age=3600"
       } 
     }
   );

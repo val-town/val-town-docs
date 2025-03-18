@@ -1,7 +1,7 @@
 import { getCollection } from "astro:content";
 import type { APIRoute } from "astro";
 
-// Tell Astro this is a dynamic endpoint, not a statically generated route
+// Dynamic endpoint, do not generate statically
 export const prerender = false;
 
 export const GET: APIRoute = async ({ params, request }) => {

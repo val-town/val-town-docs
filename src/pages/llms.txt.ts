@@ -1,59 +1,52 @@
 import { getCollection } from "astro:content";
 import type { APIRoute } from "astro";
 
-// Section order based on the sidebar
-// Not great because this requires some maintenance over time
-const SIDEBAR_SECTIONS = [
-  "quickstarts", "vals", "projects", "reference", 
-  "std", "api", "troubleshooting", "guides", "integrations", "contact-us"
-];
+// Section order and title formatting
+const SECTIONS = {
+  "quickstarts": "Quickstarts",
+  "vals": "Vals",
+  "projects": "Projects",
+  "reference": "Reference",
+  "std": "Standard Library",
+  "api": "REST API",
+  "troubleshooting": "Troubleshooting",
+  "guides": "Guides",
+  "integrations": "Integrations",
+  "contact-us": "Contact-us"
+};
 
 export const GET: APIRoute = async () => {
   try {
     // Get all documentation pages
     const docs = await getCollection("docs");
     
-    // Group docs by their top-level section
     const docsBySection = {};
-    docs.forEach((doc) => {
+    docs.forEach(doc => {
       const section = doc.slug.split('/')[0];
-      if (!docsBySection[section]) docsBySection[section] = [];
-      docsBySection[section].push(doc);
+      if (section !== "index" && SECTIONS[section]) {
+        if (!docsBySection[section]) docsBySection[section] = [];
+        docsBySection[section].push(doc);
+      }
     });
     
-    // Sort sections based on sidebar order only
-    const sortedSections = Object.keys(docsBySection).sort((a, b) => {
-      const indexA = SIDEBAR_SECTIONS.indexOf(a);
-      const indexB = SIDEBAR_SECTIONS.indexOf(b);
-      return (indexA === -1 ? 999 : indexA) - (indexB === -1 ? 999 : indexB) || a.localeCompare(b);
-    });
-    
-    // Filter out the "index" section
-    const filteredSections = sortedSections.filter(section => section !== "index");
-    
-    // Build the markdown content
+    // Starts with the title
     let content = "# Val Town Documentation\n\n";
     
-    filteredSections.forEach(section => {
-      // Format section title
-      const title = section === "api" ? "REST API" : 
-                    section === "std" ? "Standard Library" :
-                    section.charAt(0).toUpperCase() + section.slice(1);
-      
-      content += `## ${title}\n`;
-      
-      // Sort all docs in this section by title
-      docsBySection[section]
-        .sort((a, b) => (a.data.title || '').localeCompare(b.data.title || ''))
-        .forEach(doc => {
-          // No indentation, just a simple list item for every document
+    // Add each section with its documents
+    Object.keys(SECTIONS).forEach(section => {
+      if (docsBySection[section] && docsBySection[section].length > 0) {
+        content += `## ${SECTIONS[section]}\n`;
+        
+        // Grab .md version of each to help our LLM friends
+        docsBySection[section].forEach(doc => {
           content += `- [${doc.data.title}](https://docs.val.town/${doc.slug}.md): ${doc.data.description || ''}\n`;
         });
-      
-      content += '\n';
+        
+        content += '\n';
+      }
     });
     
-    // Optional contact information
+    // Add optional contact information
     content += `## Optional\n`;
     content += `- [Discord](https://discord.gg/dHv45uN5RY)\n`;
     content += `- [Email](mailto:docs-help@val.town)\n`;
@@ -62,6 +55,7 @@ export const GET: APIRoute = async () => {
     return new Response(content, {
       headers: {
         "Content-Type": "text/markdown; charset=utf-8",
+        // To not duplicate content and confused SEO
         "X-Robots-Tag": "noindex, nofollow",
         "Cache-Control": "public, max-age=3600"
       }
