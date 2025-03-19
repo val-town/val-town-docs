@@ -15,10 +15,5 @@ for (const doc of docs) {
 }
 
 // Return raw markdown response
-return new Response(content, {
-  headers: {
-    'Content-Type': 'text/markdown; charset=utf-8',
-    'X-Robots-Tag': 'noindex, nofollow'
-  }
-});
+return new Response(content);
 --- 

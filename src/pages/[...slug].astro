@@ -24,10 +24,5 @@ return new Response(`---
 ${frontmatter}
 ---
 
-${doc.body}`, {
-  headers: {
-    'Content-Type': 'text/markdown; charset=utf-8',
-    'X-Robots-Tag': 'noindex, nofollow'
-  }
-});
+${doc.body}`);
 ---
