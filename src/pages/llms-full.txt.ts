@@ -13,8 +13,7 @@ export const GET: APIRoute = async () => {
     { 
       headers: { 
         "Content-Type": "text/plain; charset=utf-8",
-        "X-Robots-Tag": "noindex, nofollow",
-        "Cache-Control": "public, max-age=3600"
+        "X-Robots-Tag": "noindex, nofollow"
       } 
     }
   );

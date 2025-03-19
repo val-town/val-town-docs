@@ -4,7 +4,7 @@ import type { APIRoute } from "astro";
 // Dynamic endpoint, do not generate statically
 export const prerender = false;
 
-export const GET: APIRoute = async ({ params, request }) => {
+export const GET: APIRoute = async ({ params }) => {
   // If no slug is provided, return 404
   if (!params.slug) {
     return new Response("Not Found", { status: 404 });
@@ -25,8 +25,7 @@ export const GET: APIRoute = async ({ params, request }) => {
     return new Response(doc.body, { 
       headers: { 
         "Content-Type": "text/markdown; charset=utf-8",
-        "X-Robots-Tag": "noindex, nofollow",
-        "Cache-Control": "public, max-age=3600"
+        "X-Robots-Tag": "noindex, nofollow"
       } 
     });
   } catch (error) {

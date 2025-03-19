@@ -21,7 +21,7 @@ export default defineConfig({
       defaultLocale: "root",
       components: {
         Footer: "./src/components/Footer.astro",
-        Head: "./src/components/CopyPageButton.astro",
+        PageTitle: "./src/components/PageTitle.astro",
       },
       editLink: {
         baseUrl: "https://github.com/val-town/val-town-docs/edit/main/",
