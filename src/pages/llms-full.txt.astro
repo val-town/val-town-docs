@@ -11,7 +11,7 @@ markdownParts.push("# Val Town Full Documentation\n\n");
 // Add each document
 for (const doc of docs) {
   markdownParts.push(`## ${doc.data.title}\n\n`);
-  markdownParts.push(`URL: https://docs.val.town/md/${doc.slug}\n\n`);
+  markdownParts.push(`URL: https://docs.val.town${doc.slug}.md\n\n`);
   markdownParts.push(`${doc.body}\n\n---\n\n`);
 }
 

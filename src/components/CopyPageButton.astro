@@ -235,7 +235,7 @@
   function getMarkdownUrl(path) {
     // Handle the home page special case
     if (path === "/" || path === "") {
-      return "/md/index";
+      return "/index.md";
     }
     
     // Remove trailing slash if present
@@ -243,7 +243,7 @@
       path = path.slice(0, -1);
     }
     
-    // Add /md/ prefix to the path
-    return `/md${path}`;
+    // Add .md suffix to the path
+    return `${path}.md`;
   }
 </script>

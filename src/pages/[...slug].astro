@@ -3,10 +3,10 @@ import { type CollectionEntry, getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
   const docs = await getCollection('docs');
-  return docs.map((doc) => ({
-    params: { slug: doc.slug },
+    return docs.map((doc) => ({
+    params: { slug: `${doc.slug}.md` },
     props: doc,
-  }));
+    }));
 }
 
 type Props = CollectionEntry<'docs'>;

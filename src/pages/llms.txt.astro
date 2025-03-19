@@ -50,7 +50,7 @@ for (const section of sections) {
   
   for (const doc of sectionDocs) {
     const description = doc.data.description ? `: ${doc.data.description}` : '';
-    content += `- [${doc.data.title}](https://docs.val.town/md/${doc.slug})${description}\n`;
+    content += `- [${doc.data.title}](https://docs.val.town${doc.slug}.md)${description}\n`;
   }
   
   content += '\n';
