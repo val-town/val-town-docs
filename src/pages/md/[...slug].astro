@@ -1,0 +1,30 @@
+---
+import { CollectionEntry, getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const docs = await getCollection('docs');
+  return docs.map((doc) => ({
+    params: { slug: doc.slug },
+    props: doc,
+  }));
+}
+
+type Props = CollectionEntry<'docs'>;
+
+const doc = Astro.props;
+
+Astro.response.headers.set('Content-Type', 'text/markdown; charset=utf-8');
+Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+
+// Frontmatter - only title and description
+const frontmatterFields = Object.entries(doc.data)
+  .filter(([key]) => key === 'title' || key === 'description')
+  .map(([key, value]) => `${key}: ${typeof value === 'string' ? value : JSON.stringify(value)}`)
+  .join('\n');
+---
+
+---
+{frontmatterFields}
+---
+
+{doc.body}

@@ -16,7 +16,7 @@
         <div class="option-description">Copy this page as Markdown for LLMs</div>
       </div>
     </button>
-    <a class="dropdown-option" href="{markdownUrl}" target="_blank">
+    <a class="dropdown-option markdown-link" href="#" target="_blank">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
       <div>
         <div class="with-external-icon">
@@ -166,20 +166,22 @@
       const dropdown = this.querySelector('.dropdown');
       const chatgptLink = this.querySelector('.chatgpt-link');
       const buttonGroup = this.querySelector('.button-group');
+      const markdownLink = this.querySelector('.markdown-link');
 
-      // URL construction with explicit home page fix
-      const origin = location.origin;
-      const pathname = location.pathname;
-      const basePath = pathname === '/' ? '' : pathname.replace(/\/$/, '');
-      const mdUrl = `${basePath === '' ? '/index' : basePath}.md`;
-
+      // URL construction
+      const path = window.location.pathname;
+      
+      // Generate markdown URL
+      const markdownUrl = getMarkdownUrl(path);
+      
+      // Set the markdown link URL
+      if (markdownLink) markdownLink.href = markdownUrl;
+      
       // ChatGPT deep link with encoded URL
-      const chatGptPrompt = `Read ${origin}${mdUrl} so I can ask questions about it`;
+      const chatGptPrompt = `Read ${window.location.origin}${markdownUrl} so I can ask questions about it`;
       const chatGptUrl = `https://chatgpt.com/?hints=search&q=${encodeURIComponent(chatGptPrompt)}`;
-
-      // Set URLs
-      const markdownLink = this.querySelector('a[href="{markdownUrl}"]');
-      if (markdownLink) markdownLink.href = `${origin}${mdUrl}`;
+      
+      // Set ChatGPT link
       if (chatgptLink) chatgptLink.href = chatGptUrl;
 
       // Icons
@@ -195,7 +197,7 @@
       // Copy functionality
       const copyContent = async () => {
         try {
-          const response = await fetch(`${origin}${mdUrl}`);
+          const response = await fetch(`${window.location.origin}${markdownUrl}`);
           if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
           const text = await response.text();
           await navigator.clipboard.writeText(text);
@@ -229,4 +231,19 @@
     }
   }
   customElements.define('copy-page-button', CopyPageButton);
+
+  function getMarkdownUrl(path) {
+    // Handle the home page special case
+    if (path === "/" || path === "") {
+      return "/md/index";
+    }
+    
+    // Remove trailing slash if present
+    if (path.endsWith("/")) {
+      path = path.slice(0, -1);
+    }
+    
+    // Add /md/ prefix to the path
+    return `/md${path}`;
+  }
 </script>
