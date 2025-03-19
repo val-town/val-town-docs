@@ -1,0 +1,28 @@
+---
+import type { Props } from '@astrojs/starlight/props';
+import Default from '@astrojs/starlight/components/PageTitle.astro';
+import CopyPageButton from './CopyPageButton.astro';
+---
+
+<div class="title-with-button">
+  <Default {...Astro.props}><slot /></Default>
+  <div class="button-wrapper">
+    <CopyPageButton />
+  </div>
+</div>
+
+<style>
+  .title-with-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .button-wrapper {
+    margin-top: 0.5rem; /* Adjusting so it looks aligned vertically */
+    display: flex;
+    align-items: center;
+  }
+</style> 

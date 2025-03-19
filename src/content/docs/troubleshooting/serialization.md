@@ -1,9 +1,7 @@
 ---
 title: Serialization
 lastUpdated: 2023-12-01
-description: |
-  Val Town tries to serialize and deserialize as many types as it can, but
-  doing that for all JavaScript is unfortunately very hard
+description: Val Town tries to serialize and deserialize as many types as it can, but doing that for all JavaScript is unfortunately very hard
 ---
 
 Val Town is a server-side platform, primarily: when you run code, it runs

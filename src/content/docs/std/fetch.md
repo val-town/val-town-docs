@@ -1,6 +1,7 @@
 ---
 title: Proxied fetch
 lastUpdated: 2024-05-09
+description: Make HTTP requests to external services using Val Town's proxied fetch
 ---
 
 The Javascript [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) is directly available within a Val. However sometimes fetch calls are blocked by the receiving server for using particular IP addresses. Additionally, network blips or unreliable web services may lead to failures if not handled properly.
