@@ -3,28 +3,31 @@ import { type CollectionEntry, getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
   const docs = await getCollection('docs');
-    return docs.map((doc) => ({
+  return docs.map(doc => ({
     params: { slug: `${doc.slug}.md` },
     props: doc,
-    }));
+  }));
 }
 
 type Props = CollectionEntry<'docs'>;
-
 const doc = Astro.props;
 
-Astro.response.headers.set('Content-Type', 'text/markdown; charset=utf-8');
-Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+// Extract only title and description from frontmatter
+const { title, description } = doc.data;
+const frontmatter = [
+  title && `title: ${typeof title === 'string' ? title : JSON.stringify(title)}`,
+  description && `description: ${typeof description === 'string' ? description : JSON.stringify(description)}`
+].filter(Boolean).join('\n');
 
-// Frontmatter - only title and description
-const frontmatterFields = Object.entries(doc.data)
-  .filter(([key]) => key === 'title' || key === 'description')
-  .map(([key, value]) => `${key}: ${typeof value === 'string' ? value : JSON.stringify(value)}`)
-  .join('\n');
+// Return raw markdown content, prevent Astro from wrapping it in HTML
+return new Response(`---
+${frontmatter}
 ---
 
+${doc.body}`, {
+  headers: {
+    'Content-Type': 'text/markdown; charset=utf-8',
+    'X-Robots-Tag': 'noindex, nofollow'
+  }
+});
 ---
-{frontmatterFields}
----
-
-{doc.body}

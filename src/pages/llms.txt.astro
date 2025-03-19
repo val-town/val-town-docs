@@ -35,9 +35,6 @@ docs.forEach(doc => {
   }
 });
 
-Astro.response.headers.set("Content-Type", "text/markdown; charset=utf-8");
-Astro.response.headers.set("X-Robots-Tag", "noindex, nofollow");
-
 // Generate markdown content
 let content = "# Val Town Documentation\n\n";
 
@@ -61,6 +58,12 @@ content += `## Optional\n`;
 content += `- [Discord](https://discord.gg/dHv45uN5RY)\n`;
 content += `- [Email](mailto:docs-help@val.town)\n`;
 content += `- [Blog](https://blog.val.town/)\n`;
----
 
-{content} 
+// Return raw markdown response
+return new Response(content, {
+  headers: {
+    'Content-Type': 'text/markdown; charset=utf-8',
+    'X-Robots-Tag': 'noindex, nofollow'
+  }
+});
+--- 

@@ -3,23 +3,22 @@ import { getCollection } from "astro:content";
 
 // Get all documentation
 const docs = await getCollection("docs");
-const markdownParts = [];
 
 // Title
-markdownParts.push("# Val Town Full Documentation\n\n");
+let content = "# Val Town Full Documentation\n\n";
 
-// Add each document
+// Add each document's full content
 for (const doc of docs) {
-  markdownParts.push(`## ${doc.data.title}\n\n`);
-  markdownParts.push(`URL: https://docs.val.town${doc.slug}.md\n\n`);
-  markdownParts.push(`${doc.body}\n\n---\n\n`);
+  content += `# ${doc.data.title}\n\n`;
+  content += `URL: https://docs.val.town/${doc.slug}.md\n\n`;
+  content += `${doc.body}\n\n---\n\n`;
 }
 
-// Add the markdown parts together
-const fullContent = markdownParts.join("");
-
-Astro.response.headers.set("Content-Type", "text/markdown; charset=utf-8");
-Astro.response.headers.set("X-Robots-Tag", "noindex, nofollow");
----
-
-{fullContent} 
+// Return raw markdown response
+return new Response(content, {
+  headers: {
+    'Content-Type': 'text/markdown; charset=utf-8',
+    'X-Robots-Tag': 'noindex, nofollow'
+  }
+});
+--- 
