@@ -3,9 +3,9 @@ import { getCollection } from "astro:content";
 import type { APIRoute } from "astro";
 
 export async function getStaticPaths() {
-	const docs = await getCollection("docs");
+	const docs = await getCollection('docs');
 	return docs.map((doc) => ({
-		params: { slug: doc.slug },
+		params: { slug: `${doc.slug}.md` },
 		props: doc,
 	}));
 }
