@@ -21,7 +21,7 @@ export const GET: APIRoute = async ({ params }) => {
       return new Response("Document not found", { status: 404 });
     }
     
-    // Return the raw document content (including frontmatter)
+    // Return the raw document content 
     return new Response(doc.body, { 
       headers: { 
         "Content-Type": "text/markdown; charset=utf-8",
