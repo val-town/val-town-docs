@@ -1,11 +1,10 @@
----
 import { getCollection } from "astro:content";
 import type { APIRoute } from "astro";
 
 export async function getStaticPaths() {
-	const docs = await getCollection('docs');
+	const docs = await getCollection("docs");
 	return docs.map((doc) => ({
-		params: { slug: `${doc.slug}.md` },
+		params: { slug: doc.slug },
 		props: doc,
 	}));
 }
@@ -27,9 +26,16 @@ export const GET: APIRoute = async ({ params }) => {
 			return new Response("Document not found", { status: 404 });
 		}
 
-		// Return the raw document content (including frontmatter)
-		return new Response(doc.body);
-    
+		// Reconstruct the markdown with frontmatter
+		const content = `---
+title: ${doc.data.title}
+description: ${doc.data.description}
+---
+
+${doc.body}`;
+
+		// Return the markdown content with frontmatter
+		return new Response(content);
 	} catch (error) {
 		console.error(`Error fetching markdown for slug "${params.slug}":`, error);
 		return new Response("Internal Server Error", { status: 500 });
