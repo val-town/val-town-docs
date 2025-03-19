@@ -1,28 +1,37 @@
 ---
-import { type CollectionEntry, getCollection } from 'astro:content';
+import { getCollection } from "astro:content";
+import type { APIRoute } from "astro";
 
 export async function getStaticPaths() {
-  const docs = await getCollection('docs');
-  return docs.map(doc => ({
-    params: { slug: `${doc.slug}.md` },
-    props: doc,
-  }));
+	const docs = await getCollection("docs");
+	return docs.map((doc) => ({
+		params: { slug: doc.slug },
+		props: doc,
+	}));
 }
 
-type Props = CollectionEntry<'docs'>;
-const doc = Astro.props;
+export const GET: APIRoute = async ({ params }) => {
+	// If no slug is provided, return 404
+	if (!params.slug) {
+		return new Response("Not Found", { status: 404 });
+	}
 
-// Extract only title and description from frontmatter
-const { title, description } = doc.data;
-const frontmatter = [
-  title && `title: ${typeof title === 'string' ? title : JSON.stringify(title)}`,
-  description && `description: ${typeof description === 'string' ? description : JSON.stringify(description)}`
-].filter(Boolean).join('\n');
+	try {
+		// Fetch all documentation
+		const docs = await getCollection("docs");
 
-// Return raw markdown content, prevent Astro from wrapping it in HTML
-return new Response(`---
-${frontmatter}
----
+		// Find the matching document
+		const doc = docs.find((d) => d.slug === params.slug);
 
-${doc.body}`);
----
+		if (!doc) {
+			return new Response("Document not found", { status: 404 });
+		}
+
+		// Return the raw document content (including frontmatter)
+		return new Response(doc.body);
+    
+	} catch (error) {
+		console.error(`Error fetching markdown for slug "${params.slug}":`, error);
+		return new Response("Internal Server Error", { status: 500 });
+	}
+};
