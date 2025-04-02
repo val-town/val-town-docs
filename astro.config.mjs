@@ -57,8 +57,21 @@ export default defineConfig({
           link: "/",
         },
         {
-          label: "Quickstarts",
-          autogenerate: { directory: "quickstarts" },
+          label: "Getting Started",
+          items: [
+            {
+              label: "Your first website val",
+              link: "quickstarts/first-website",
+            },
+            {
+              label: "Your first cron val",
+              link: "quickstarts/first-cron",
+            },
+            {
+              label: "LLM prompting",
+              link: "quickstarts/prompting",
+            },
+          ],
         },
         {
           label: "Vals",
