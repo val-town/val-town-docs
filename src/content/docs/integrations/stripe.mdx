@@ -12,7 +12,7 @@ There are a two parts to a payment flow:
 
 1. **Link to Stripe** – User clicks on a link in your site that takes them to a Stripe checkout page.
 
-2. **Handle Fufillment** – You can have a **webhook** that listens for succssful payment events from Stripe. You can use this webhook to update your database to authorize the user to view premium content or send a confirmation email to the user.
+2. **Handle Fulfillment** – You can have a **webhook** that listens for successful payment events from Stripe. You can use this webhook to update your database to authorize the user to view premium content or send a confirmation email to the user.
 
 ## 1. Link to Stripe
 
@@ -123,9 +123,9 @@ export default async function (req: Request): Promise<Response> {
 }
 ```
 
-## 2. Handle Fufillment
+## 2. Handle Fulfillment
 
-After a user pays, you may need to fufill their order:
+After a user pays, you may need to fulfill their order:
 
 - If you are selling a digital product, this might mean sending them a download link.
 - If you are selling a physical product, this might mean shipping the product to them.
@@ -146,7 +146,7 @@ Val Town makes it very easy to create a webhook on an HTTP val. Take a look at t
 
 ### Example Val Town Stripe Webhook
 
-This webhook listens for new subscribers to Val Town Pro, and sends the Val Town team a Discord notifcation. The val itself (link below) explains how to set it up.
+This webhook listens for new subscribers to Val Town Pro, and sends the Val Town team a Discord notification. The val itself (link below) explains how to set it up.
 
 https://www.val.town/v/stevekrouse/newStripeSubscriber
 

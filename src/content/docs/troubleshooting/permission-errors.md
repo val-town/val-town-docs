@@ -23,7 +23,7 @@ files from disk, and more. This unrestricted access is the root cause of many
 security issues for Node.js.
 
 We have expanded our permissions to support as many things as possible while
-still maintinaing good isolation. If you come across a package that you think
+still maintaining good isolation. If you come across a package that you think
 should be supported please let us know.
 
 ## Allowed permissions
