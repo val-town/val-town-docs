@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Val Town API",
-    "description": "Val Town’s public API\n\nOpenAPI JSON endpoint:\n\nhttp://localhost:3001/openapi.json",
+    "description": "Val Town’s public API\n\nOpenAPI JSON endpoint:\n\nhttps://api.val.town/openapi.json",
     "termsOfService": "https://www.val.town/termsofuse",
     "version": "1"
   },
@@ -2983,7 +2983,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3001",
+      "url": "https://api.val.town",
       "description": "Production"
     }
   ],
@@ -3022,7 +3022,7 @@
     }
   ],
   "externalDocs": {
-    "url": "http://localhost:3001/documentation",
+    "url": "https://api.val.town/documentation",
     "description": "Find more info here"
   }
 }
