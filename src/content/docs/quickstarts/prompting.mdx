@@ -26,20 +26,11 @@ You can also access Townie by clicking `Edit in Townie` in any val.
 
 ### Edit Projects with your Favorite IDE
 
-#### Step 1: Setup 
-Use Val Town with your preferred IDE by first cloning your project locally with our [Val Town CLI](https://github.com/val-town/vt):
+Use Val Town with your preferred IDE you can use [`vt`, the Val Town CLI](https://jsr.io/@valtown/vt).
 
-``` bash
-# Install CLI
-deno install -gAfr jsr:@valtown/vt
+To get started, install `vt` with `deno install -grAf jsr:@valtown/vt`, and then clone the project with `vt clone my-project`.
 
-# Set API token
-export VAL_TOWN_API_KEY=vtwn_replaceThis
-
-# Clone project locally
-vt clone my-project
-
-```
+Then, you can `cd my-project` to enter into the folder, and use `vt watch` to keep the folder synced with Val Town when changes are made locally.
 
 #### Step 2: Add Val Town System Prompt
 For each IDE, add our [system prompt](https://www.val.town/x/stevekrouse/OpenTownie/code/prompts/system_prompt.txt) as follows:
