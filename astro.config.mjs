@@ -53,8 +53,31 @@ export default defineConfig({
       ],
       sidebar: [
         {
-          label: "Val Town Docs",
-          link: "/",
+          label: "Vals",
+          items: [
+            {
+              label: "Overview",
+              link: "vals/",
+            },
+            {
+              label: "HTTP",
+              autogenerate: { directory: "vals/http" },
+              collapsed: true,
+            },
+            {
+              label: "Cron",
+              link: "vals/cron",
+            },
+            {
+              label: "Email",
+              link: "vals/email",
+            },
+          ],
+        },
+        {
+          label: "Legacy Vals",
+          badge: "DEPRECATED",
+          link: "legacy-vals/",
         },
         {
           label: "Getting Started",
@@ -72,38 +95,6 @@ export default defineConfig({
               link: "quickstarts/prompting",
             },
           ],
-        },
-        {
-          label: "Vals",
-          items: [
-            {
-              label: "Overview",
-              link: "vals/",
-            },
-            {
-              label: "Script",
-              link: "vals/script",
-            },
-            {
-              label: "HTTP",
-              autogenerate: { directory: "vals/http" },
-              collapsed: true,
-              // TODO - get this to not be bold
-            },
-            {
-              label: "Cron",
-              link: "vals/cron",
-            },
-            {
-              label: "Email",
-              link: "vals/email",
-            },
-          ],
-        },
-        {
-          label: "Projects",
-          badge: "Beta",
-          autogenerate: { directory: "projects" },
         },
         {
           label: "Reference",

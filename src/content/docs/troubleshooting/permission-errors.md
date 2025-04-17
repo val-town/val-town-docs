@@ -1,6 +1,6 @@
 ---
 title: Permission errors
-description: Vals run in a sandbox that doesn’t permit access to the filesystem, or to execute arbitrary scripts.
+description: Vals run in a sandbox that doesn't permit access to the filesystem, or to execute arbitrary scripts.
 lastUpdated: 2024-01-19
 ---
 
