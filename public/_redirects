@@ -33,3 +33,4 @@
 /guides/hosted-puppeteer-browserless/ /integrations/browserless/
 /guides/hosted-puppeteer-browserless /integrations/browserless/
 /types/* /vals/:splat
+/openapi.json https://api.val.town/openapi.json
