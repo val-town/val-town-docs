@@ -3189,7 +3189,6 @@
             "description": "Maximum items to return in each paginated response"
           }
         ],
-        "deprecated": true,
         "security": [
           {
             "bearerAuth": []
