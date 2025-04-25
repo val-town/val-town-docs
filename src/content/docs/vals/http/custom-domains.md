@@ -11,7 +11,7 @@ sidebar:
 Custom domains are available only to [Pro subscribers](https://www.val.town/pricing).
 :::
 
-Custom domains allow you to use your own domain names to access the HTTP vals you created. This feature enables a branded and professional experience for users visiting your vals.
+Custom domains allow you to use your own domain names to access the HTTP endpoints within your vals. This feature enables a branded and professional experience for users visiting your vals.
 
 ## Buy a domain
 

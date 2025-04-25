@@ -53,41 +53,18 @@ export default defineConfig({
       ],
       sidebar: [
         {
-          label: "Vals",
-          items: [
-            {
-              label: "Overview",
-              link: "vals/",
-            },
-            {
-              label: "HTTP",
-              autogenerate: { directory: "vals/http" },
-              collapsed: true,
-            },
-            {
-              label: "Cron",
-              link: "vals/cron",
-            },
-            {
-              label: "Email",
-              link: "vals/email",
-            },
-          ],
-        },
-        {
-          label: "Legacy Vals",
-          badge: "DEPRECATED",
-          link: "legacy-vals/",
+          label: "Val Town Docs",
+          link: "/",
         },
         {
           label: "Getting Started",
           items: [
             {
-              label: "Your first website val",
+              label: "Your first website",
               link: "quickstarts/first-website",
             },
             {
-              label: "Your first cron val",
+              label: "Your first scheduled cron",
               link: "quickstarts/first-cron",
             },
             {
@@ -95,6 +72,50 @@ export default defineConfig({
               link: "quickstarts/prompting",
             },
           ],
+        },
+        {
+          label: "Vals",
+          items: [
+            {
+              label: "Overview",
+              link: "vals/",
+            },
+            {
+              label: "Triggers",
+              items: [
+                {
+                  label: "HTTP",
+                  autogenerate: { directory: "vals/http" },
+                  collapsed: true,
+                },
+                {
+                  label: "Cron",
+                  link: "vals/cron",
+                },
+                {
+                  label: "Email",
+                  link: "vals/email",
+                },
+              ]
+            },
+            {
+              label: "Branches",
+              link: "vals/branches",
+            },
+            {
+              label: "Remixes",
+              link: "vals/remixes",
+            },
+            {
+              label: "Pull Requests",
+              link: "vals/pull-requests",
+            },
+          ],
+        },
+        {
+          label: "Legacy Vals",
+          badge: "DEPRECATED",
+          link: "legacy-vals/",
         },
         {
           label: "Reference",
