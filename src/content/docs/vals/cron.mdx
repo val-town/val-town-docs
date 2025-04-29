@@ -9,20 +9,20 @@ description: Schedules let code on Val Town run every day, every hour, or
 
 import Val from "@components/Val.astro";
 
-Cron jobs let you schedule code to run repeatedly on a schedule. 
+Cron triggers let you schedule code to run repeatedly on a schedule. 
 
 Some common examples include:
 - Checking an RSS feed every hour
 - Getting notified when a website updates
 - Sending a reminder email every morning
 
-Cron functions can be configured with [cron syntax](https://en.wikipedia.org/wiki/Cron), or simple intervals like "once an hour"
+Crons can be configured with [cron syntax](https://en.wikipedia.org/wiki/Cron), or simple intervals like "once an hour"
 
 Functions can run up to once every 15 minutes, or [once a minute, with the Pro plan](https://www.val.town/pricing).
 
 ## Type Signature
 
-Cron functions should take an `Interval` object as a parameter, and can return anything as a result. The return value is ignored.
+Crons take an `Interval` object as a parameter, and can return anything as a result. The return value is ignored.
 
 ```tsx title="Example" val
 export function cronValHandler(interval: Interval) {
