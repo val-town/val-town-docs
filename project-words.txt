@@ -32,3 +32,11 @@ valname
 turso
 autoincrement
 charset
+lockfile
+llm
+valtoproject
+fastly
+cpu
+Outerbase
+Semrush
+screenshotting
