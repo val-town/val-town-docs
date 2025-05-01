@@ -654,6 +654,17 @@
               "username"
             ]
           },
+          "imageUrl": {
+            "anyOf": [
+              {
+                "description": "The URL of this val's image",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "description": {
             "anyOf": [
               {
@@ -690,6 +701,7 @@
           "createdAt",
           "privacy",
           "author",
+          "imageUrl",
           "description",
           "links"
         ]
