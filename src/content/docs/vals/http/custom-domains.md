@@ -76,8 +76,8 @@ Use this [DNS Debugger](https://stevekrouse-dns_record_debugger.web.val.run/) to
 
 :::
 
-Unfortunately, custom domains can take minutes or hours to propogagte, 
-which is quite fustrating, because you don't know if you just need to wait
+Unfortunately, custom domains can take minutes or hours to propagate, 
+which is quite frustrating because you don't know if you just need to wait
 or if your settings are incorrect.
 
 Even worse, the domain settings can be cached in multiple places, 

@@ -43,7 +43,7 @@ Vals have the following permissions:
    ```
    These values are not particularly useful, but are sometimes relied upon by
    certain libraries.
-4. Read access to some files, including the NPM registy cache and the current
+4. Read access to some files, including the NPM registry cache and the current
    working directory. This allows you to read the
    [lockfile](/reference/version-control/#lockfiles) contents
    (`console.log(Deno.readTextFileSync("deno.lock"));`) and read files imported
