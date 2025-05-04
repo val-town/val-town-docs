@@ -27,7 +27,7 @@ There are three parts relating to blob storage:
 
 The way this val is rendered (Hono JSX) and the the HTML page talks to the server (form submissions) is arbitrary and can be replaced with any other front-end framework or server-side rendering. For example, you could have a NextJS or Remix app that makes a call to Val Town to get the data. Or you a client side VueJS app that makes a call to Val Town to get the data from the browser.
 
-This is a fork of the above app that uses client-side React to make the API calls:
+This is a remix of the above app that uses client-side React to make the API calls:
 
 <Val url="https://www.val.town/embed/stevekrouse/blobCommentsReact" />
 
@@ -43,6 +43,6 @@ This is the same Hono demo but using SQLite on the backend. We will leave it as 
 
 <Val url="https://www.val.town/embed/stevekrouse/sqliteCommentDemo" />
 
-Note: we left the `CREATE TABLE` statement in the code, so that this val will immediately work if you fork it. However, you may want to comment out that line after the first run to speed up this val.
+Note: we left the `CREATE TABLE` statement in the code, so that this val will immediately work if you remix it. However, you may want to comment out that line after the first run to speed up this val.
 
 You can learn more about SQLite here: [Val Town SQLite](/std/sqlite).

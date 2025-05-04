@@ -2,41 +2,74 @@
 title: Overview
 description: Learn about the basics of Vals
 sidebar:
-  order: 1
+  order: 0
 ---
 
 import { LinkCard, CardGrid } from "@astrojs/starlight/components";
 
-##### What is a val?
+Vals are collaborative folders of deployed code that run instantly with no setup. 
 
-- Vals are hosted JavaScript functions
-- Vals run on the Val Town serverless platform
-- Vals can import other vals, NPM, and more [↗](/reference/import)
-- Vals can be public, unlisted, or private [↗](/reference/permissions)
-- Vals are run via the Deno runtime [↗](/reference/runtime)
-- Vals support JavaScript, TypeScript, JSX, and TSX
+You can combine multiple file types and execution triggers for anything from simple scripts to complex applications. 
 
-There are **4 types of vals**, each with different _triggers_:
+Triggers are like inputs or connections to the outside world that cause a val to run. A trigger could be [HTTP](/vals/http), which makes the val serve a website, or [Cron](/vals/cron), which runs the val periodically, or [Email](/vals/email), which lets the val receive incoming emails.
 
+## Val features
+
+- **Runnable Files:** Any JavaScript/TypeScript file is hosted and runnable.
+- **Multiple Triggers:** Add [HTTP](/vals/http), [Cron](/vals/cron), and [Email](/vals/email) triggers to any file in a val.
+- **Import:** Import other vals, NPM, and more [↗](../reference/import/).
+- **Visibility:** Set vals as public, unlisted, or private [↗](../reference/permissions/).
+- **Versioned Workspace:** Automatic version tracking for files, folders, and READMEs.
+- **Relative Imports:** Use standard relative paths (e.g., `../bar/foo`).
+- **Static Files:** Include HTML, CSS, Markdown, etc.
+- **Environment Variables:** Scoped [environment variables](../reference/environment-variables) support.
+
+## Triggers
+There are **3 types of triggers** that files within a val can have:
 <CardGrid>
-  <LinkCard
-    title="Script"
-    description="Triggered manually"
-    href="/types/script"
-  />
   <LinkCard
     title="HTTP"
     description="Triggered by https requests. You can make APIs or websites"
-    href="/types/http"
+    href="/vals/http"
   />
   <LinkCard
     title="Cron"
     description="Triggered by a timer or cron expression"
-    href="/types/cron"
+    href="/vals/cron"
   />
   <LinkCard
     title="Email"
     description="Triggered by an incoming email"
-    href="/types/email"
+    href="/vals/email"
   />
 </CardGrid>
+
+
+## Collaboration
+
+<CardGrid>
+  <LinkCard
+    title="Branches"
+    description="Create branches for feature development, testing, and sharing"
+    href="./branches"
+  />
+  <LinkCard
+    title="Remixes"
+    description="Remix another user's val to make changes and send a pull request"
+    href="./remixes"
+  />
+  <LinkCard
+    title="Pull Requests"
+    description="Merge changes from a branch or remix back into the parent val"
+    href="./pull-requests"
+  />
+</CardGrid>
+
+## Limitations
+
+- Maximum files per val: 1000
+- Maximum branches per val: 100
+- Binary files are not supported. We recommend [Blob Storage](/std/blob).
+- Free tier users are limited to 5 private or unlisted vals. Pro users can have unlimited private vals. All users can have unlimited public vals.
+
+Please contact us if you need more resources or have any questions.

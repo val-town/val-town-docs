@@ -60,11 +60,11 @@ export default defineConfig({
           label: "Getting Started",
           items: [
             {
-              label: "Your first website val",
+              label: "Your first website",
               link: "quickstarts/first-website",
             },
             {
-              label: "Your first cron val",
+              label: "Your first scheduled cron",
               link: "quickstarts/first-cron",
             },
             {
@@ -81,29 +81,41 @@ export default defineConfig({
               link: "vals/",
             },
             {
-              label: "Script",
-              link: "vals/script",
+              label: "Triggers",
+              items: [
+                {
+                  label: "HTTP",
+                  autogenerate: { directory: "vals/http" },
+                  collapsed: true,
+                },
+                {
+                  label: "Cron",
+                  link: "vals/cron",
+                },
+                {
+                  label: "Email",
+                  link: "vals/email",
+                },
+              ]
             },
             {
-              label: "HTTP",
-              autogenerate: { directory: "vals/http" },
-              collapsed: true,
-              // TODO - get this to not be bold
+              label: "Branches",
+              link: "vals/branches",
             },
             {
-              label: "Cron",
-              link: "vals/cron",
+              label: "Remixes",
+              link: "vals/remixes",
             },
             {
-              label: "Email",
-              link: "vals/email",
+              label: "Pull Requests",
+              link: "vals/pull-requests",
             },
           ],
         },
         {
-          label: "Projects",
-          badge: "Beta",
-          autogenerate: { directory: "projects" },
+          label: "Legacy Vals",
+          badge: "DEPRECATED",
+          link: "legacy-vals/",
         },
         {
           label: "Reference",

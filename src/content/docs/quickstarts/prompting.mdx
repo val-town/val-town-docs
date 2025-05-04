@@ -7,27 +7,19 @@ import Val from "@components/Val.astro";
 import { LinkButton, Tabs, TabItem} from "@astrojs/starlight/components";
 
 Val Town provides multiple ways to leverage LLMs in your coding workflow:
-- [**Townie**](#edit-single-vals-with-townie) for working with individual vals
-- [**OpenTownie**](#edit-projects-with-opentownie) for working with multi-file projects 
-- [**Your favorite IDE**](#edit-projects-with-your-favorite-ide) (ie. Cursor, Windsurf, Zed, GitHub Copilot) for working with projects locally
-- [**Your favorite LLM**](#general-llm-use) with `llms.txt` for any external AI assistant
+- [**OpenTownie**](#edit-vals-with-opentownie) for AI-assisted val editing
+- [**Your favorite IDE**](#edit-vals-with-your-favorite-ide) for working with vals locally
+- [**General LLM use**](#general-llm-use) with `llms.txt` for any external AI assistant
 
-### Edit Single Vals with Townie
-**[Townie ↗](https://val.town/townie)** is a great AI assistant for creating and editing individual vals. 
-
-You can also access Townie by clicking `Edit in Townie` in any val.
-- [Documentation](../../reference/townie)
-- [View Townie's system prompt](https://gist.githubusercontent.com/stevekrouse/21cba8759c09f906be424dc1bb949869/raw/81caae98f1ce9b191374188d0f73efacbccba9a1/townie.md)
-
-### Edit Projects with OpenTownie
-**[OpenTownie (Beta) ↗](https://www.val.town/x/stevekrouse/OpenTownie)** is designed for editing multi-file [Val Town Projects](../../projects/).
+### Edit Vals with OpenTownie
+**[OpenTownie (Beta) ↗](https://www.val.town/x/stevekrouse/OpenTownie)** is designed for editing multi-file vals.
 - [Documentation](https://www.val.town/x/stevekrouse/OpenTownie/code/README.md)
 - [View OpenTownie's system prompt](https://www.val.town/x/stevekrouse/OpenTownie/code/prompts/system_prompt.txt)
 
-### Edit Projects with your Favorite IDE
+### Edit Vals with your Favorite IDE
 
 #### Step 1: Setup 
-Use Val Town with your preferred IDE by first cloning your project locally with our [Val Town CLI](https://github.com/val-town/vt):
+Use Val Town with your preferred IDE by first cloning your val locally with our [Val Town CLI](https://github.com/val-town/vt):
 
 ``` bash
 # Install CLI
@@ -36,17 +28,17 @@ deno install -gAfr jsr:@valtown/vt
 # Set API token
 export VAL_TOWN_API_KEY=vtwn_replaceThis
 
-# Clone project locally
-vt clone my-project
+# Clone val locally
+vt clone my-val-name
 
 ```
 
 #### Step 2: Add Val Town System Prompt
 For each IDE, add our [system prompt](https://www.val.town/x/stevekrouse/OpenTownie/code/prompts/system_prompt.txt) as follows:
-- **Cursor**: Add to [Project Rules](https://docs.cursor.com/context/rules-for-ai)
+- **Cursor**: Add to [Workspace Rules](https://docs.cursor.com/context/rules-for-ai) (or equivalent)
 - **Windsurf**: Use [`@-mention` command](https://docs.windsurf.com/chat/overview#%40-mentions) 
 - **Zed**: Use [`/file` command](https://zed.dev/docs/assistant/commands) 
-- **GitHub Copilot**: Create [`.github/copilot-instructions.md`](https://docs.github.com/en/copilot/customizing-copilot/adding-repository-custom-instructions-for-github-copilot) at the project root
+- **GitHub Copilot**: Create [`.github/copilot-instructions.md`](https://docs.github.com/en/copilot/customizing-copilot/adding-repository-custom-instructions-for-github-copilot) at the root of your cloned val directory.
 
 ### Your favorite LLM
 Use our [llms.txt](../../llms.txt) and [llms-full.txt](../../llms-full.txt) with any LLM.  The [llms.txt standard](https://llmstxt.org/) provide structured information to help LLMs understand Val Town.
@@ -55,8 +47,8 @@ You can also click `Copy page [in markdown]` or `Open in ChatGPT` on the top rig
 
 ### Troubleshooting
 If things go wrong:
-- **Broken code?** Visit the "Versions" tab of your val or "History" of your project to revert
-- **Complex changes?** Use [branches](../../projects/branches) and [merge](../../projects/pull-requests/) when stable
-- **Code doesn't work?** Ask AI to debug the specific errors by copy and pasting, or screenshotting error messages
+- **Broken code?** Visit the "Versions" tab or "History" of your val to revert.
+- **Complex changes?** Use [branches](../../vals/branches) and [merge](../../vals/pull-requests/) when stable.
+- **Code doesn't work?** Ask AI to debug the specific errors by copy and pasting, or screenshotting error messages.
 
 Not working? Get help on our [Discord](https://discord.val.town).

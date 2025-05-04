@@ -1,10 +1,10 @@
 ---
-title: Your first cron val
-description: Make your first cron val - a weather notifier
+title: Your first scheduled cron
+description: Make your first cron job - a weather notifier
 # cspell:ignore crongpt
 ---
 
-This is a step-by-step guide to a cron val that sends you a weather email every morning.
+This is a step-by-step guide to creating a cron job that sends you a weather email every morning.
 
 If you get stuck, please ask for help in the [Val Town Discord](https://discord.gg/dHv45uN5RY). We're friendly!
 
@@ -16,20 +16,19 @@ If you get stuck, please ask for help in the [Val Town Discord](https://discord.
 The email you sign up with will be the one that receives the weather emails.
 :::
 
-### Step 2: Create a Cron val
+### Step 2: Set up a Cron Trigger
 
-In the top-right corner of Val Town, click **+** > **Val** > **Cron**. Give it a name. 
+Create a new val or use an existing one. Add a new TypeScript file (e.g., `weatherNotifier.ts`) to your val. In the file editor, set its trigger type to **Cron** via the UI.
 
-This will create and schedule a new empty val in your account that looks like this:
+This will create a scheduled trigger associated with this file. The default code will look like this:
 
-```ts title="Step 2" val
+```ts title="weatherNotifier.ts"
 export default async function (interval: Interval) {
   // your code…
 }
 ```
 
 This function will be run on a schedule. By default, this runs every hour. You can change the frequency by clicking the clock icon in the top right corner.
-
 ### Step 3: Get the weather
 
 In the following example code, we are using `getWeather` from [stevekrouse/getWeather](https://val.town/v/stevekrouse/getWeather). It uses the free [wttr.in](https://wttr.in/:help) service to get weather data.
@@ -48,7 +47,7 @@ export default async function (interval: Interval) {
 4. View the output in the val's logs
 
 :::tip
-You'll notice that we're using a val in another val. This is a common pattern in Val Town. If you type `@` in the val editor, you'll be able to search and import other vals inline.
+You'll notice that we're importing code from another val into this file. This is a common pattern in Val Town. If you type `@` in the editor, you'll be able to search and import other files inline.
 :::
 
 ### Step 4: Send yourself an email
@@ -75,20 +74,20 @@ export default async function (interval: Interval) {
 
 You should have an email with a subject like "Weather now is Sunny and 67°F".
 
-### Step 5: Schedule the val
+### Step 5: Schedule the Job
 
 We want this to run every morning. For example, in NYC, you could use `0 9 * * *` to run at 5am ET every morning.
 
 We recommend [crongpt.com](https://crongpt.com) to help you write cron expressions. It also handles the timezone conversion from your timezone to Val Town's server timezone (UTC).
 
 1. Go to [crongpt.com](https://crongpt.com) and generate your cron expression
-2. Click the clock icon in the top right corner of the val editor
-3. Click **Cron**
-4. Paste in your cron expression
+2. Click the clock icon (or find the schedule settings) in the file editor for your `weatherNotifier.ts` file.
+3. Click **Cron** 
+4. Paste in your cron expression.
 
 ### Next steps
 
-🥳 Congratulations! You've created a val that sends you a weather notification every morning. You can customize it to your needs. There are a LOT of weather vals you can use or gain inspiration from:
+🥳 Congratulations! You've created a Cron job that sends you a weather notification every morning. You can customize it to your needs. There are a LOT of weather vals you can use or gain inspiration from:
 
 - [`Which_Jacket`](https://www.val.town/v/emilycoe/Which_Jacket) - email alerts about which jacket to wear
 - [`umbrellaReminder`](https://www.val.town/v/stevekrouse/umbrellaReminder) - email alerts when it's going to rain

@@ -1,6 +1,6 @@
 ---
 title: Early Return
-description: How to return a response early from an HTTP val
+description: How to return a response early from an HTTP trigger
 sidebar:
   order: 5
 ---
@@ -11,11 +11,11 @@ Sometimes you need to respond quickly to an incoming HTTP request, and then do o
 
 ### How to set up a queue
 
-In your early-returning HTTP val:
+In your early-returning HTTP file:
 
 ```ts title="early-returning.ts" val
 async function handle(request: Request) {
-  // Send off the relevant data a queue HTTP val.
+  // Send off the relevant data a queue HTTP file.
   // This `fetch` is not awaited.
   fetch("https://my-queue.web.val.run", {
     method: "POST",
@@ -27,7 +27,7 @@ async function handle(request: Request) {
 }
 ```
 
-Your queue is another HTTP val that listens for requests and processes them in their own time. Nobody is waiting for the response from the queue, so it can take as long as it needs to:
+Your queue is another HTTP file that listens for requests and processes them in their own time. Nobody is waiting for the response from the queue, so it can take as long as it needs to:
 
 ```ts title="queue.ts" val
 async function handle(request: Request) {
@@ -68,9 +68,9 @@ export async function handle() {
 }
 ```
 
-### HTTP Val Lifecycle
+### HTTP Lifecycle
 
-When your HTTP val receives a request, we spin up a process to serve it.
+When your HTTP file receives a request, we spin up a process to serve it.
 We keep this process alive for some amount of time after the response is sent
 to be ready for any other requests that might come its way. After some time of
-inactivity, your HTTP process is terminated. This means that if you fire off Promises without awaiting them, they may or may not finish before the val times out, depending on how long they take and whether the val is being kept alive to serve other traffic. The safest path is to await all `Promise`s or make yourself a queue.
+inactivity, your HTTP process is terminated. This means that if you fire off Promises without awaiting them, they may or may not finish before the file times out, depending on how long they take and whether the process serving the HTTP endpoint is being kept alive to serve other traffic. The safest path is to await all `Promise`s or make yourself a queue.

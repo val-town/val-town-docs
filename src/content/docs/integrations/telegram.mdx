@@ -35,9 +35,9 @@ Be sure to note down the `token` that @BotFather gives you. You will need it in 
 
 ### 2. Create a webhook handler to receive messages
 
-Fork this Val Town Project to set up your webhook handler: [@std/telegramBotStarter](https://www.val.town/x/std/telegramBotStarter)
+Remix this val to set up your webhook handler: [@std/telegramBotStarter](https://www.val.town/x/std/telegramBotStarter)
 
-Go to [your Project's environment variables](https://www.val.town/x/me/telegramBotStarter). Add the token from the previous step as `TELEGRAM_TOKEN`.
+Go to your val's environment variables. Add the token from the previous step as `TELEGRAM_TOKEN`.
 
 This is the code you will see in the starter:
 
@@ -87,7 +87,6 @@ export default async (req: Request): Promise<Response> => {
   return new Response("TODO GET", { status: 200 });
 };
 ```
-
 ### 3. Register your webhook handler with Telegram
 
 You may notice in the code above that the webhook handler takes care of registering itself with Telegram. If everything worked properly, your webhook should be registered already and this step is already done 🎉
@@ -103,3 +102,4 @@ It should echo back the message like this:
 ![End result of messaging being echoed back in Telegram](./create-a-telegram-echo-bot/Result.png)
 
 Not working? Get help on [Val Town's Discord](https://discord.gg/dHv45uN5RY).
+
