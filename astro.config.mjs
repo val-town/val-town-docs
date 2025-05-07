@@ -86,7 +86,6 @@ export default defineConfig({
                 {
                   label: "HTTP",
                   autogenerate: { directory: "vals/http" },
-                  collapsed: true,
                 },
                 {
                   label: "Cron",
@@ -96,7 +95,7 @@ export default defineConfig({
                   label: "Email",
                   link: "vals/email",
                 },
-              ]
+              ],
             },
             {
               label: "Branches",
