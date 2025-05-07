@@ -7,25 +7,20 @@ sidebar:
 
 import { LinkCard, CardGrid } from "@astrojs/starlight/components";
 
-Vals are collaborative folders of deployed code that run instantly with no setup. 
+Vals are collaborative folders of deployed code.
 
-You can combine multiple file types and execution triggers for anything from simple scripts to complex applications. 
-
-Triggers are like inputs or connections to the outside world that cause a val to run. A trigger could be [HTTP](/vals/http), which makes the val serve a website, or [Cron](/vals/cron), which runs the val periodically, or [Email](/vals/email), which lets the val receive incoming emails.
-
-## Val features
-
-- **Runnable Files:** Any JavaScript/TypeScript file is hosted and runnable.
-- **Multiple Triggers:** Add [HTTP](/vals/http), [Cron](/vals/cron), and [Email](/vals/email) triggers to any file in a val.
-- **Import:** Import other vals, NPM, and more [↗](../reference/import/).
-- **Visibility:** Set vals as public, unlisted, or private [↗](../reference/permissions/).
-- **Versioned Workspace:** Automatic version tracking for files, folders, and READMEs.
-- **Relative Imports:** Use standard relative paths (e.g., `../bar/foo`).
-- **Static Files:** Include HTML, CSS, Markdown, etc.
-- **Environment Variables:** Scoped [environment variables](../reference/environment-variables) support.
+- **Runnable Files:** Any `.js`, `.ts`, or `.tsx` file is hosted and runnable
+- **Multiple Triggers:** Add [HTTP](/vals/http), [Cron](/vals/cron), and [Email](/vals/email) triggers to any file in a val
+- **Import:** Import from other vals, NPM, and more [↗](../reference/import/)
+- **Visibility:** Set val code as public, unlisted, or private [↗](../reference/permissions/)
+- **Versioned Workspace:** Automatic version tracking and [pull requests](./pull-requests).
+- **Static Files:** Include HTML, CSS, Markdown, etc (_binary file support coming soon_)
+- **[Environment variables](../reference/environment-variables):** Store secrets and configuration securely
 
 ## Triggers
+
 There are **3 types of triggers** that files within a val can have:
+
 <CardGrid>
   <LinkCard
     title="HTTP"
@@ -43,7 +38,6 @@ There are **3 types of triggers** that files within a val can have:
     href="/vals/email"
   />
 </CardGrid>
-
 
 ## Collaboration
 
