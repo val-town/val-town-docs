@@ -1,41 +1,57 @@
 ---
 title: Your first website
 description: Make your personal website
+tableOfContents: false
 ---
 
 import Val from "@components/Val.astro";
 
-This is a step-by-step guide to making a personal website on Val Town. We'll use static server-rendered HTML for this example.
+This is a guide to making a website on Val Town using React JSX, such as a link-in-bio page or a personal website.
 
-If you get stuck, please ask for help in the [Val Town Discord](https://discord.gg/dHv45uN5RY). We're friendly!
-
-### Step 1: Sign up to Val Town
+#### Step 1: Sign up to Val Town
 
 [Sign up to Val Town](https://www.val.town/auth/signup). It's free.
 
-### Step 2: Remix this template
-Click on [`main.tsx`](https://www.val.town/x/valdottown/linkInBioTemplate/code/main.tsx) > **Remix**, or copy and paste the code below into a val with the [HTTP trigger](../../vals/http/).
+#### Step 2: Remix this template
+
+The quickest way to get started in Val Town is to remix somone else's val. Remixing a val creates a copy of the val in your own account, which you can then edit.
+
+1. Go to https://www.val.town/x/valdottown/linkInBioTemplate
+2. Click on the **Remix** button in the top right corner.
+
+##### Source Code
 
 <Val
   url="https://www.val.town/embed/x/valdottown/linkInBioTemplate/main.tsx"
-  height="800px"
+  height="400px"
 />
 
-### Step 3: Customize your name, links, colors, etc
+##### Output
 
-1. Edit your name in `<title> </title>` in `h1`.
-2. Edit your self-description line.
-3. Customize your links.
-4. Customize the styles.
+<iframe
+  src="https://docs-linkinbiotemplate.val.run/"
+  width="100%"
+  frameborder="0"
+  style="border: 1px solid #ccc; border-radius: 4px; height: 300px;"
+></iframe>
 
-### Next steps
+#### Step 3: Customize it!
+
+1. Edit your name in `<title> </title>` in `h1`
+2. Edit your self-description line
+3. Customize your links
+4. Customize the styles
+5. Highlight a block of text and ask AI to rewrite it to suit your needs
+
+#### Next steps
 
 🥳 Congratulations! You now have a live website with a URL that you can share.
 
-You can add a custom domain to your website in [Custom Domains](https://www.val.town/settings/domains). The following website were made with Val Town:
+You can add a [custom subdomain](vals/http/custom-subdomains/) (ie `steve.val.run`) or [custom domain](/vals/http/custom-domains/). The following website were made with Val Town:
 
+- [jxnblk.com](https://jxnblk.com/)
 - [willkrouse.com](https://willkrouse.com)
 - [stevekrouse.com](https://stevekrouse.com)
-- [alex-we.in](https://alex-we.in/) 
-- [postpostscript-blog.web.val.run](https://postpostscript-blog.web.val.run/)
+- [alex-we.in](https://alex-we.in/)
+- [blog.val.town](https://blog.val.town)
 - ...add yours here! (via the edit button below)

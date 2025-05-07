@@ -6,19 +6,19 @@ tableOfContents: false
 
 import { LinkCard, CardGrid } from "@astrojs/starlight/components";
 
-Val Town is a collaborative website to create and scale JavaScript functions. Create APIs, crons, store data – all from the browser, and deployed in miliseconds.
+Val Town is a collaborative website to create and scale serverless JavaScript.
 
-<CardGrid>
-  <LinkCard
-    title="What is a val?"
-    description="Learn about Vals, Triggers (HTTP, Cron, Email), Branches, Remixes, and more."
-    href="/vals/"
-  />
-</CardGrid>
+Create APIs, crons, and store data – in your browser, deployed in miliseconds.
+
+<LinkCard
+  title="What is a val?"
+  description="A collaborative folder of deployed code"
+  href="/vals/"
+/>
 
 ##### Where to start
 
-If you're new to Val Town, we recommend our quickstarts.
+If you're new to Val Town, we recommend our quickstarts:
 
 <CardGrid>
   <LinkCard
@@ -27,15 +27,25 @@ If you're new to Val Town, we recommend our quickstarts.
     href="/quickstarts/first-website"
   />
   <LinkCard
-    title="Your first Cron job"
+    title="Your first cron val"
     description="Send yourself a daily weather email"
     href="/quickstarts/first-cron"
   />
 </CardGrid>
 
+##### Local development
+
+Edit your vals from your favorite IDE (VSCode, Cursor, vim, etc) via our CLI.
+
+<LinkCard
+  title="Val Town CLI"
+  description="Create and manage vals from your terminal"
+  href="https://github.com/val-town/vt"
+/>
+
 ##### Val Town Standard Library
 
-Our standard library provides free hosted services.
+Our standard library includes some hosted services for data storage, email, and AI.
 
 <CardGrid>
   <LinkCard
@@ -54,16 +64,22 @@ Our standard library provides free hosted services.
     href="/std/openai"
   />
   <LinkCard title="Email" description="Send emails" href="/std/email" />
-  <LinkCard
-    title="Proxied Fetch"
-    description="Make requests from anonymous IP addresses"
-    href="/std/fetch"
-  />
 </CardGrid>
 
 ##### API and SDK
 
-You can access Val Town programmatically via our [REST API](/api/) or [JavaScript SDK](/api/sdk).
+<CardGrid>
+  <LinkCard
+    title="REST API"
+    description="Access Val Town programmatically"
+    href="/api/"
+  />
+  <LinkCard
+    title="JavaScript SDK"
+    description="Interact with Val Town from JavaScript"
+    href="/api/sdk"
+  />
+</CardGrid>
 
 ##### Contact us
 

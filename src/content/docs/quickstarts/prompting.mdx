@@ -1,54 +1,39 @@
 ---
 title: LLM prompting
 description: A guide to LLM prompting and using AI inside Val Town
+tableOfContents: false
 ---
 
 import Val from "@components/Val.astro";
-import { LinkButton, Tabs, TabItem} from "@astrojs/starlight/components";
+import {
+  LinkButton,
+  Tabs,
+  TabItem,
+  LinkCard,
+  CardGrid,
+} from "@astrojs/starlight/components";
 
-Val Town provides multiple ways to leverage LLMs in your coding workflow:
-- [**OpenTownie**](#edit-vals-with-opentownie) for AI-assisted val editing
-- [**Your favorite IDE**](#edit-vals-with-your-favorite-ide) for working with vals locally
-- [**General LLM use**](#general-llm-use) with `llms.txt` for any external AI assistant
+Val Town provides multiple ways to (vibe) code with LLMs.
 
-### Edit Vals with OpenTownie
-**[OpenTownie (Beta) ↗](https://www.val.town/x/stevekrouse/OpenTownie)** is designed for editing multi-file vals.
-- [Documentation](https://www.val.town/x/stevekrouse/OpenTownie/code/README.md)
-- [View OpenTownie's system prompt](https://www.val.town/x/stevekrouse/OpenTownie/code/prompts/system_prompt.txt)
+### Townie
 
-### Edit Vals with your Favorite IDE
+[Townie](https://townie.val.run) is an web-based AI assistant that helps you code in Val Town from your browser.
 
-#### Step 1: Setup 
-Use Val Town with your preferred IDE by first cloning your val locally with our [Val Town CLI](https://github.com/val-town/vt):
+<LinkCard title="Start coding with Townie" href="https://townie.val.run" />
 
-``` bash
-# Install CLI
-deno install -gAfr jsr:@valtown/vt
+### Local development
 
-# Set API token
-export VAL_TOWN_API_KEY=vtwn_replaceThis
-
-# Clone val locally
-vt clone my-val-name
-
-```
-
-#### Step 2: Add Val Town System Prompt
-For each IDE, add our [system prompt](https://www.val.town/x/stevekrouse/OpenTownie/code/prompts/system_prompt.txt) as follows:
-- **Cursor**: Add to [Workspace Rules](https://docs.cursor.com/context/rules-for-ai) (or equivalent)
-- **Windsurf**: Use [`@-mention` command](https://docs.windsurf.com/chat/overview#%40-mentions) 
-- **Zed**: Use [`/file` command](https://zed.dev/docs/assistant/commands) 
-- **GitHub Copilot**: Create [`.github/copilot-instructions.md`](https://docs.github.com/en/copilot/customizing-copilot/adding-repository-custom-instructions-for-github-copilot) at the root of your cloned val directory.
-
-### Your favorite LLM
-Use our [llms.txt](../../llms.txt) and [llms-full.txt](../../llms-full.txt) with any LLM.  The [llms.txt standard](https://llmstxt.org/) provide structured information to help LLMs understand Val Town.
-
-You can also click `Copy page [in markdown]` or `Open in ChatGPT` on the top right of any docs page to chat about our docs with any LLM.
+1. Install [the Val Town CLI](https://github.com/val-town/vt)
+2. Add our [system prompt](https://www.val.town/x/valdottown/Townie/code/prompts/system_prompt.txt)
+   - **Cursor**: Add to [Workspace Rules](https://docs.cursor.com/context/rules-for-ai) (or equivalent)
+   - **Windsurf**: Use [`@-mention` command](https://docs.windsurf.com/chat/overview#%40-mentions)
+   - **Zed**: Use [`/file` command](https://zed.dev/docs/assistant/commands)
+   - **GitHub Copilot**: Add [`/.github/copilot-instructions.md`](https://docs.github.com/en/copilot/customizing-copilot/adding-repository-custom-instructions-for-github-copilot)
 
 ### Troubleshooting
+
 If things go wrong:
+
 - **Broken code?** Visit the "Versions" tab or "History" of your val to revert.
 - **Complex changes?** Use [branches](../../vals/branches) and [merge](../../vals/pull-requests/) when stable.
 - **Code doesn't work?** Ask AI to debug the specific errors by copy and pasting, or screenshotting error messages.
-
-Not working? Get help on our [Discord](https://discord.val.town).
