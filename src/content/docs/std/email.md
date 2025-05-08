@@ -98,3 +98,12 @@ console.log(
 ```
 
 This is also [documented in our REST API](https://docs.val.town/openapi#/tag/emails/POST/v1/email), and supported in the [SDK](https://docs.val.town/api/sdk/). 
+
+### Custom email addresses
+
+Email triggers support custom addresses in the same way that HTTP triggers
+support [custom subdomains](https://docs.val.town/vals/http/custom-subdomains/), and
+with the same rules for naming.
+
+To choose a custom email address, click **Run** on an Email Val and then click
+**Customize address**.
