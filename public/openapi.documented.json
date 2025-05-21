@@ -2181,18 +2181,41 @@
         "tags": [
           "vals"
         ],
-        "description": "Lists all public vals",
+        "description": "Lists all vals including all public vals and your unlisted and private vals",
         "parameters": [
           {
             "schema": {
-              "minimum": 0,
-              "default": 0,
-              "type": "integer"
+              "type": "string",
+              "enum": [
+                "public",
+                "unlisted",
+                "private"
+              ]
             },
             "in": "query",
-            "name": "offset",
-            "required": true,
-            "description": "Number of items to skip in order to deliver paginated results"
+            "name": "privacy",
+            "required": false,
+            "description": "This resource's privacy setting. Unlisted resources do not appear on profile pages or elsewhere, but you can link to them."
+          },
+          {
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "in": "query",
+            "name": "user_id",
+            "required": false,
+            "description": "User ID to filter by"
+          },
+          {
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "description": "Cursor to start the pagination from"
           },
           {
             "schema": {
@@ -2243,7 +2266,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: process.env['VAL_TOWN_API_KEY'], // This is the default and can be omitted\n});\n\nasync function main() {\n  // Automatically fetches more pages as needed.\n  for await (const val of client.vals.list({ limit: 1, offset: 0 })) {\n    console.log(val.id);\n  }\n}\n\nmain();"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: process.env['VAL_TOWN_API_KEY'], // This is the default and can be omitted\n});\n\nasync function main() {\n  const vals = await client.vals.list({ limit: 1 });\n\n  console.log(vals.data);\n}\n\nmain();"
           }
         ]
       },
