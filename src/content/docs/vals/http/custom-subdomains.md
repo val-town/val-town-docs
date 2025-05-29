@@ -3,7 +3,7 @@ title: Custom subdomains
 description: Choose custom subdomains of val.run for HTTP vals in projects
 ---
 
-[HTTP endpoints](/vals/http/) within [Projects](/projects/) can claim custom subdomains
+[HTTP endpoints](/vals/http/) within vals can claim custom subdomains
 under `val.run`. To choose a custom subdomain, click the edit button in the
 preview pane and choose a name.
 
