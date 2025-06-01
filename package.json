@@ -16,7 +16,7 @@
 		"astro": "^5.7.10",
 		"hast-util-select": "^6.0.3",
 		"hastscript": "^9.0.1",
-		"sharp": "^0.33.5",
+		"sharp": "^0.34.2",
 		"starlight-links-validator": "^0.14.3",
 		"typescript": "^5.8.2"
 	},
