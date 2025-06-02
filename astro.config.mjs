@@ -34,12 +34,24 @@ export default defineConfig({
           label: "English",
         },
       },
-      social: {
-        github: "https://github.com/val-town/val-town-docs",
-        twitter: "https://twitter.com/valdottown",
-        youtube: "https://www.youtube.com/@valDotTown",
-        discord: "https://discord.val.town",
-      },
+      social: [
+        {
+          label: "GitHub",
+          icon: "github",
+          href: "https://github.com/val-town/val-town-docs",
+        },
+        {
+          label: "Twitter",
+          icon: "twitter",
+          href: "https://twitter.com/valdottown",
+        },
+        {
+          label: "YouTube",
+          icon: "youtube",
+          href: "https://www.youtube.com/@valDotTown",
+        },
+        { label: "Discord", icon: "discord", href: "https://discord.val.town" },
+      ],
       logo: {
         light: "./src/assets/logo.svg",
         dark: "./src/assets/logo-dark.svg",
