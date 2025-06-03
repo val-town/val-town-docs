@@ -2096,6 +2096,210 @@
         ]
       }
     },
+    "/v1/telemetry/traces": {
+      "get": {
+        "operationId": "traceList",
+        "tags": [
+          "traces"
+        ],
+        "description": "Get OpenTelemetry traces for a given time window and filter by branch_id or file_id",
+        "parameters": [
+          {
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "in": "query",
+            "name": "file_id",
+            "required": false,
+            "description": "Include only traces from a given file identified by its ID"
+          },
+          {
+            "schema": {
+              "type": "array",
+              "items": {
+                "format": "uuid",
+                "type": "string"
+              }
+            },
+            "in": "query",
+            "name": "branch_ids",
+            "required": false,
+            "description": "Branch IDs to filter by"
+          },
+          {
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "in": "query",
+            "name": "start_timestamp",
+            "required": true,
+            "description": "Start date of the time window"
+          },
+          {
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "in": "query",
+            "name": "end_timestamp",
+            "required": true,
+            "description": "End date of the time window"
+          },
+          {
+            "schema": {
+              "minimum": 0,
+              "default": 0,
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "offset",
+            "required": true,
+            "description": "Number of items to skip in order to deliver paginated results"
+          },
+          {
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "limit",
+            "required": true,
+            "description": "Maximum items to return in each paginated response"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A paginated result set",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "A paginated result set",
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "traceId": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "startTimeUnixNano": {
+                            "type": "string"
+                          },
+                          "endTimeUnixNano": {
+                            "type": "string"
+                          },
+                          "attributes": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "key": {
+                                  "type": "string"
+                                },
+                                "value": {
+                                  "type": "object",
+                                  "properties": {
+                                    "stringValue": {
+                                      "type": "string"
+                                    },
+                                    "intValue": {
+                                      "type": "string"
+                                    },
+                                    "doubleValue": {
+                                      "type": "number"
+                                    },
+                                    "boolValue": {
+                                      "type": "boolean"
+                                    },
+                                    "arrayValue": {},
+                                    "kvlistValue": {},
+                                    "bytesValue": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              },
+                              "required": [
+                                "key",
+                                "value"
+                              ]
+                            }
+                          },
+                          "status": {
+                            "type": "object",
+                            "properties": {
+                              "message": {
+                                "type": "string"
+                              },
+                              "code": {
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "message",
+                              "code"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "traceId",
+                          "name",
+                          "startTimeUnixNano",
+                          "endTimeUnixNano",
+                          "attributes",
+                          "status"
+                        ]
+                      }
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginationLinks"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "links"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "description": "The time window specified is greater than the 60 minute max",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "JavaScript",
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nasync function main() {\n  // Automatically fetches more pages as needed.\n  for await (const telemetryListResponse of client.telemetry.list({\n    end_timestamp: '2019-12-27T18:11:19.117Z',\n    limit: 1,\n    offset: 0,\n    start_timestamp: '2019-12-27T18:11:19.117Z',\n  })) {\n    console.log(telemetryListResponse.attributes);\n  }\n}\n\nmain();"
+          }
+        ]
+      }
+    },
     "/v2/vals/{val_id}": {
       "get": {
         "operationId": "valsGet2",
