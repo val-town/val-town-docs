@@ -1011,7 +1011,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nasync function main() {\n  // Automatically fetches more pages as needed.\n  for await (const valListResponse of client.search.vals.list({ limit: 1, offset: 0, query: 'x' })) {\n    console.log(valListResponse.id);\n  }\n}\n\nmain();"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\n// Automatically fetches more pages as needed.\nfor await (const valListResponse of client.search.vals.list({ limit: 1, offset: 0, query: 'x' })) {\n  console.log(valListResponse.id);\n}"
           }
         ]
       }
@@ -1049,7 +1049,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nasync function main() {\n  const user = await client.alias.username.retrieve('username');\n\n  console.log(user.id);\n}\n\nmain();"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nconst user = await client.alias.username.retrieve('username');\n\nconsole.log(user.id);"
           }
         ]
       }
@@ -1173,7 +1173,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nasync function main() {\n  const profile = await client.me.profile.retrieve();\n\n  console.log(profile.id);\n}\n\nmain();"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nconst profile = await client.me.profile.retrieve();\n\nconsole.log(profile.id);"
           }
         ]
       }
@@ -1240,7 +1240,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nasync function main() {\n  const blobs = await client.blobs.list();\n\n  console.log(blobs);\n}\n\nmain();"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nconst blobs = await client.blobs.list();\n\nconsole.log(blobs);"
           }
         ]
       }
@@ -1281,7 +1281,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nasync function main() {\n  const blob = await client.blobs.get('x');\n\n  console.log(blob);\n\n  const content = await blob.blob();\n  console.log(content);\n}\n\nmain();"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nconst blob = await client.blobs.get('x');\n\nconsole.log(blob);\n\nconst content = await blob.blob();\nconsole.log(content);"
           }
         ]
       },
@@ -1329,7 +1329,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: process.env['VAL_TOWN_API_KEY'], // This is the default and can be omitted\n});\n\nasync function main() {\n  await client.blobs.store('x', fs.createReadStream('path/to/file'));\n}\n\nmain();"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: process.env['VAL_TOWN_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.blobs.store('x', fs.createReadStream('path/to/file'));"
           }
         ]
       },
@@ -1365,7 +1365,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: process.env['VAL_TOWN_API_KEY'], // This is the default and can be omitted\n});\n\nasync function main() {\n  await client.blobs.delete('x');\n}\n\nmain();"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: process.env['VAL_TOWN_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.blobs.delete('x');"
           }
         ]
       }
@@ -1404,7 +1404,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nasync function main() {\n  const user = await client.users.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');\n\n  console.log(user.id);\n}\n\nmain();"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nconst user = await client.users.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');\n\nconsole.log(user.id);"
           }
         ]
       }
@@ -1513,7 +1513,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: process.env['VAL_TOWN_API_KEY'], // This is the default and can be omitted\n});\n\nasync function main() {\n  const resultSet = await client.sqlite.execute({ statement: 'SELECT 1;' });\n\n  console.log(resultSet.lastInsertRowid);\n}\n\nmain();"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: process.env['VAL_TOWN_API_KEY'], // This is the default and can be omitted\n});\n\nconst resultSet = await client.sqlite.execute({ statement: 'SELECT 1;' });\n\nconsole.log(resultSet.lastInsertRowid);"
           }
         ]
       }
@@ -1643,7 +1643,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: process.env['VAL_TOWN_API_KEY'], // This is the default and can be omitted\n});\n\nasync function main() {\n  const resultSets = await client.sqlite.batch({ statements: ['SELECT 1;'], mode: 'read' });\n\n  console.log(resultSets);\n}\n\nmain();"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: process.env['VAL_TOWN_API_KEY'], // This is the default and can be omitted\n});\n\nconst resultSets = await client.sqlite.batch({ statements: ['SELECT 1;'], mode: 'read' });\n\nconsole.log(resultSets);"
           }
         ]
       }
@@ -2091,7 +2091,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: process.env['VAL_TOWN_API_KEY'], // This is the default and can be omitted\n});\n\nasync function main() {\n  const response = await client.emails.send({\n    html: 'Hello <strong>world</strong>',\n    subject: 'An important message',\n    text: 'Hello world',\n  });\n\n  console.log(response.message);\n}\n\nmain();"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: process.env['VAL_TOWN_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.emails.send({\n  html: 'Hello <strong>world</strong>',\n  subject: 'An important message',\n  text: 'Hello world',\n});\n\nconsole.log(response.message);"
           }
         ]
       }
@@ -2295,7 +2295,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nasync function main() {\n  // Automatically fetches more pages as needed.\n  for await (const telemetryListResponse of client.telemetry.list({\n    end_timestamp: '2019-12-27T18:11:19.117Z',\n    limit: 1,\n    offset: 0,\n    start_timestamp: '2019-12-27T18:11:19.117Z',\n  })) {\n    console.log(telemetryListResponse.attributes);\n  }\n}\n\nmain();"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\n// Automatically fetches more pages as needed.\nfor await (const telemetryListResponse of client.telemetry.list({\n  end_timestamp: '2019-12-27T18:11:19.117Z',\n  limit: 1,\n  offset: 0,\n  start_timestamp: '2019-12-27T18:11:19.117Z',\n})) {\n  console.log(telemetryListResponse.attributes);\n}"
           }
         ]
       }
@@ -2334,7 +2334,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nasync function main() {\n  const val = await client.vals.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');\n\n  console.log(val.id);\n}\n\nmain();"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nconst val = await client.vals.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');\n\nconsole.log(val.id);"
           }
         ]
       },
@@ -2374,7 +2374,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nasync function main() {\n  await client.vals.delete('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');\n}\n\nmain();"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nawait client.vals.delete('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');"
           }
         ]
       }
@@ -2470,7 +2470,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: process.env['VAL_TOWN_API_KEY'], // This is the default and can be omitted\n});\n\nasync function main() {\n  const vals = await client.vals.list({ limit: 1 });\n\n  console.log(vals.data);\n}\n\nmain();"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: process.env['VAL_TOWN_API_KEY'], // This is the default and can be omitted\n});\n\nconst vals = await client.vals.list({ limit: 1 });\n\nconsole.log(vals.data);"
           }
         ]
       },
@@ -2546,7 +2546,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nasync function main() {\n  const val = await client.vals.create({ name: 'myVal', privacy: 'public', description: 'My val' });\n\n  console.log(val.id);\n}\n\nmain();"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nconst val = await client.vals.create({ name: 'myVal', privacy: 'public', description: 'My val' });\n\nconsole.log(val.id);"
           }
         ]
       }
@@ -2595,7 +2595,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nasync function main() {\n  const branch = await client.vals.branches.retrieve(\n    '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',\n    '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',\n  );\n\n  console.log(branch.id);\n}\n\nmain();"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nconst branch = await client.vals.branches.retrieve(\n  '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',\n  '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',\n);\n\nconsole.log(branch.id);"
           }
         ]
       },
@@ -2645,7 +2645,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nasync function main() {\n  await client.vals.branches.delete(\n    '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',\n    '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',\n  );\n}\n\nmain();"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nawait client.vals.branches.delete(\n  '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',\n  '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',\n);"
           }
         ]
       }
@@ -2723,7 +2723,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nasync function main() {\n  // Automatically fetches more pages as needed.\n  for await (const branchListResponse of client.vals.branches.list('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {\n    limit: 1,\n    offset: 0,\n  })) {\n    console.log(branchListResponse.id);\n  }\n}\n\nmain();"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\n// Automatically fetches more pages as needed.\nfor await (const branchListResponse of client.vals.branches.list('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {\n  limit: 1,\n  offset: 0,\n})) {\n  console.log(branchListResponse.id);\n}"
           }
         ]
       },
@@ -2802,7 +2802,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nasync function main() {\n  const branch = await client.vals.branches.create('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {\n    name: 'my-branch',\n    branchId: '00000000-0000-0000-0000-000000000000',\n  });\n\n  console.log(branch.id);\n}\n\nmain();"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nconst branch = await client.vals.branches.create('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {\n  name: 'my-branch',\n  branchId: '00000000-0000-0000-0000-000000000000',\n});\n\nconsole.log(branch.id);"
           }
         ]
       }
@@ -2919,7 +2919,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nasync function main() {\n  // Automatically fetches more pages as needed.\n  for await (const fileRetrieveResponse of client.vals.files.retrieve(\n    '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',\n    { limit: 1, offset: 0, path: 'path', recursive: true },\n  )) {\n    console.log(fileRetrieveResponse.id);\n  }\n}\n\nmain();"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\n// Automatically fetches more pages as needed.\nfor await (const fileRetrieveResponse of client.vals.files.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {\n  limit: 1,\n  offset: 0,\n  path: 'path',\n  recursive: true,\n})) {\n  console.log(fileRetrieveResponse.id);\n}"
           }
         ]
       },
@@ -3046,7 +3046,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nasync function main() {\n  const file = await client.vals.files.create('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {\n    path: 'path',\n    type: 'directory',\n  });\n\n  console.log(file.id);\n}\n\nmain();"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nconst file = await client.vals.files.create('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {\n  path: 'path',\n  type: 'directory',\n});\n\nconsole.log(file.id);"
           }
         ]
       },
@@ -3115,7 +3115,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nasync function main() {\n  await client.vals.files.delete('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { path: 'path', recursive: true });\n}\n\nmain();"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nawait client.vals.files.delete('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { path: 'path', recursive: true });"
           }
         ]
       },
@@ -3225,7 +3225,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nasync function main() {\n  const file = await client.vals.files.update('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { path: 'path' });\n\n  console.log(file.id);\n}\n\nmain();"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nconst file = await client.vals.files.update('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { path: 'path' });\n\nconsole.log(file.id);"
           }
         ]
       }
@@ -3344,7 +3344,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nasync function main() {\n  const response = await client.vals.files.getContent('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {\n    path: 'path',\n  });\n\n  console.log(response);\n\n  const content = await response.blob();\n  console.log(content);\n}\n\nmain();"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nconst response = await client.vals.files.getContent('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { path: 'path' });\n\nconsole.log(response);\n\nconst content = await response.blob();\nconsole.log(content);"
           }
         ]
       }
@@ -3391,7 +3391,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nasync function main() {\n  const val = await client.alias.username.valName.retrieve('username', 'val_name');\n\n  console.log(val.id);\n}\n\nmain();"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nconst val = await client.alias.username.valName.retrieve('username', 'val_name');\n\nconsole.log(val.id);"
           }
         ]
       }
@@ -3464,7 +3464,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: process.env['VAL_TOWN_API_KEY'], // This is the default and can be omitted\n});\n\nasync function main() {\n  // Automatically fetches more pages as needed.\n  for await (const val of client.me.vals.list({ limit: 1, offset: 0 })) {\n    console.log(val.id);\n  }\n}\n\nmain();"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: process.env['VAL_TOWN_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const val of client.me.vals.list({ limit: 1, offset: 0 })) {\n  console.log(val.id);\n}"
           }
         ]
       }
