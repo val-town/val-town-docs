@@ -2737,7 +2737,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "description": "Branch information provided to create a new val",
+                "description": "Branch information provided to create a new project",
                 "type": "object",
                 "properties": {
                   "name": {
@@ -2763,7 +2763,7 @@
             }
           },
           "required": true,
-          "description": "Branch information provided to create a new val"
+          "description": "Branch information provided to create a new project"
         },
         "parameters": [
           {
