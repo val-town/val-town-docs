@@ -2100,9 +2100,9 @@
       "get": {
         "operationId": "traceList",
         "tags": [
-          "traces"
+          "telemetry"
         ],
-        "description": "Get OpenTelemetry traces for a given time window and filter by branch_id or file_id",
+        "description": "Get OpenTelemetry traces within a specified time window with flexible pagination options: Pass in only the end time to paginate backwards from there. Pass in a start time to paginate backwards from now until the start time. Pass in both to get resources within the time window. Filter additionally by branch_ids or file_id.",
         "parameters": [
           {
             "schema": {
@@ -2112,7 +2112,7 @@
             "in": "query",
             "name": "file_id",
             "required": false,
-            "description": "Include only traces from a given file identified by its ID"
+            "description": "Include only resources from a given file identified by its ID"
           },
           {
             "schema": {
@@ -2133,9 +2133,9 @@
               "type": "string"
             },
             "in": "query",
-            "name": "start_timestamp",
-            "required": true,
-            "description": "Start date of the time window"
+            "name": "start",
+            "required": false,
+            "description": "Start date of the time window (earliest time)"
           },
           {
             "schema": {
@@ -2143,20 +2143,9 @@
               "type": "string"
             },
             "in": "query",
-            "name": "end_timestamp",
-            "required": true,
-            "description": "End date of the time window"
-          },
-          {
-            "schema": {
-              "minimum": 0,
-              "default": 0,
-              "type": "integer"
-            },
-            "in": "query",
-            "name": "offset",
-            "required": true,
-            "description": "Number of items to skip in order to deliver paginated results"
+            "name": "end",
+            "required": false,
+            "description": "End date of the time window (latest time)"
           },
           {
             "schema": {
@@ -2271,6 +2260,195 @@
                 }
               }
             }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "JavaScript",
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nconst traces = await client.telemetry.traces.list({ limit: 1 });\n\nconsole.log(traces.data);"
+          }
+        ]
+      }
+    },
+    "/v1/telemetry/logs": {
+      "get": {
+        "operationId": "logList",
+        "tags": [
+          "telemetry"
+        ],
+        "description": "Get OpenTelemetry logs within a specified time window with flexible pagination options: Pass in only the end time to paginate backwards from there. Pass in a start time to paginate backwards from now until the start time. Pass in both to get resources within the time window. Filter additionally by branch_ids or file_id.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "array",
+              "items": {
+                "description": "Include only logs from a given trace ID",
+                "type": "string"
+              }
+            },
+            "in": "query",
+            "name": "trace_ids",
+            "required": true
+          },
+          {
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "in": "query",
+            "name": "file_id",
+            "required": false,
+            "description": "Include only resources from a given file identified by its ID"
+          },
+          {
+            "schema": {
+              "type": "array",
+              "items": {
+                "format": "uuid",
+                "type": "string"
+              }
+            },
+            "in": "query",
+            "name": "branch_ids",
+            "required": false,
+            "description": "Branch IDs to filter by"
+          },
+          {
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "description": "Start date of the time window (earliest time)"
+          },
+          {
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "in": "query",
+            "name": "end",
+            "required": false,
+            "description": "End date of the time window (latest time)"
+          },
+          {
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "limit",
+            "required": true,
+            "description": "Maximum items to return in each paginated response"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A paginated result set",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "A paginated result set",
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "timeUnixNano": {
+                            "type": "string"
+                          },
+                          "body": {
+                            "type": "object",
+                            "properties": {
+                              "stringValue": {
+                                "type": "string"
+                              },
+                              "intValue": {
+                                "type": "string"
+                              },
+                              "doubleValue": {
+                                "type": "number"
+                              },
+                              "boolValue": {
+                                "type": "boolean"
+                              },
+                              "arrayValue": {},
+                              "kvlistValue": {},
+                              "bytesValue": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "traceId": {
+                            "type": "string"
+                          },
+                          "attributes": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "key": {
+                                  "type": "string"
+                                },
+                                "value": {
+                                  "type": "object",
+                                  "properties": {
+                                    "stringValue": {
+                                      "type": "string"
+                                    },
+                                    "intValue": {
+                                      "type": "string"
+                                    },
+                                    "doubleValue": {
+                                      "type": "number"
+                                    },
+                                    "boolValue": {
+                                      "type": "boolean"
+                                    },
+                                    "arrayValue": {},
+                                    "kvlistValue": {},
+                                    "bytesValue": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              },
+                              "required": [
+                                "key",
+                                "value"
+                              ]
+                            }
+                          },
+                          "severityText": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "timeUnixNano",
+                          "body",
+                          "traceId",
+                          "attributes",
+                          "severityText"
+                        ]
+                      }
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginationLinks"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "links"
+                  ]
+                }
+              }
+            }
           },
           "400": {
             "description": "Default Response",
@@ -2295,7 +2473,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\n// Automatically fetches more pages as needed.\nfor await (const telemetryListResponse of client.telemetry.list({\n  end_timestamp: '2019-12-27T18:11:19.117Z',\n  limit: 1,\n  offset: 0,\n  start_timestamp: '2019-12-27T18:11:19.117Z',\n})) {\n  console.log(telemetryListResponse.attributes);\n}"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nconst logs = await client.telemetry.logs.list({ limit: 1, trace_ids: ['string'] });\n\nconsole.log(logs.data);"
           }
         ]
       }
