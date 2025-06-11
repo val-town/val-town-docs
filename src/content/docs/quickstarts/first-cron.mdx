@@ -16,7 +16,7 @@ The email you sign up with will be the one that receives the weather emails.
 
 ### Step 2: Set up a Cron Trigger
 
-Create a new val or use an existing one. Add a new TypeScript file to your val. In the file editor, set its trigger type to **Cron** via the UI.
+Create a new val. In a new file, set the trigger type to **Cron**.
 
 This will create a scheduled trigger associated with this file. The default code will look like this:
 
@@ -26,7 +26,7 @@ export default async function (interval: Interval) {
 }
 ```
 
-This function will be run on a schedule. By default, this runs every hour. You can change the frequency by clicking the clock icon in the top right corner.
+This function will be run on a schedule. By default, this runs every hour. You can change the frequency by clicking on the Cron in the top right corner of the file.
 
 ### Step 3: Get the weather
 
@@ -48,7 +48,7 @@ export default async function (interval: Interval) {
 4. View the output in the val's logs
 
 :::tip
-You'll notice that we're importing code from another val into this file. This is a common pattern in Val Town. If you type `@` in the editor, you'll be able to search and import other files inline.
+You'll notice that we're importing code from another val into this file. This is a common pattern in Val Town. Learn more about [importing here](/reference/import/).
 :::
 
 ### Step 4: Send yourself an email

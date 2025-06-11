@@ -35,9 +35,9 @@ const secret = process.env.someSdkSecret;
 export let sdk = new SomeSDK(secret);
 ```
 
-## Environment variables are private in public vals
+## Environment variables are private
 
-It is safe for a public val to reference your environment variables.
+It is safe to reference environment variables in public vals.
 Others can see that they're being used, but not their values.
 
 For example, in this public val, you can see that I'm using a Discord bot's environment variable, but you cannot run this code or get the value of the environment variable.
