@@ -1,26 +1,25 @@
 ---
 title: Overview
 description: Learn about the basics of Vals
-sidebar:
-  order: 0
 ---
 
 import { LinkCard, CardGrid } from "@astrojs/starlight/components";
 
-Vals are collaborative folders of deployed code.
+Vals are the building blocks of Val Town. They can be used to create APIs, crons, websites, and email handlers with JavaScript.
 
-- **Runnable Files:** Any `.js`, `.ts`, or `.tsx` file is hosted and runnable
-- **Logs and traces**: Debug with logs, grouped by execution trace
-- **Multiple Triggers:** Add [HTTP](/vals/http), [Cron](/vals/cron), and [Email](/vals/email) triggers to any file in a val
-- **Import:** Import from other vals, NPM, and more [↗](../reference/import/)
-- **Visibility:** Set val code as public, unlisted, or private [↗](../reference/permissions/)
-- **Versioned Workspace:** Automatic version tracking, [branching](./branches), and [pull requests](./pull-requests)
-- **Static Files:** Include HTML, CSS, Markdown, etc (_binary file support coming soon_)
-- **[Environment variables](../reference/environment-variables):** Store secrets and configuration securely
+A val is a collaborative, versioned folder of deployed code. It includes everything you need to run code in the cloud, including:
 
-## Triggers
+- [HTTP](/vals/http), [Cron](/vals/cron), and [Email](/vals/email) triggers
+- Environment variables [↗](../reference/environment-variables/)
+- Import from other NPM, JSR, and more [↗](../reference/import/)
+- Access controls [↗](../reference/permissions/)
+- Version control & collaboration: reversions, [branching](./branches), [remixes](./remixes), [pull requests](./pull-requests)
+- The Deno runtime [↗](../reference/runtime/)
+- Logs & traces
 
-There are **3 types of triggers** that files within a val can have:
+#### Triggers
+
+There are **3 types of triggers** that JavaScript files within a val can have:
 
 <CardGrid>
   <LinkCard
@@ -40,7 +39,9 @@ There are **3 types of triggers** that files within a val can have:
   />
 </CardGrid>
 
-## Collaboration
+#### Versioning & Collaboration
+
+Every file change is automatically versioned. Rollbacks are instantaneous. You can create branches and remixes for development and collaborating.
 
 <CardGrid>
   <LinkCard
@@ -59,12 +60,3 @@ There are **3 types of triggers** that files within a val can have:
     href="./pull-requests"
   />
 </CardGrid>
-
-## Limitations
-
-- Maximum files per val: 1000
-- Maximum branches per val: 100
-- Binary files are not supported. We recommend [Blob Storage](/std/blob).
-- Free tier users are limited to 5 private or unlisted vals. Pro users can have unlimited private vals. All users can have unlimited public vals.
-
-Please contact us if you need more resources or have any questions.

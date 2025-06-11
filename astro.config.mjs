@@ -121,12 +121,11 @@ export default defineConfig({
               label: "Pull Requests",
               link: "vals/pull-requests",
             },
+            {
+              label: "Limitations",
+              link: "vals/limitations",
+            },
           ],
-        },
-        {
-          label: "Legacy Vals",
-          badge: "DEPRECATED",
-          link: "legacy-vals/",
         },
         {
           label: "Reference",

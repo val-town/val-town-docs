@@ -15,27 +15,39 @@ or path will be routed to the file.
 
 ### Hono
 
-Here's an example with [Hono](https://hono.dev/):
+We typically recommend [Hono](https://hono.dev/):
 
-<Val url="https://www.val.town/embed/x/valdottown/HTTP_examples/Routing/honoExample" height="240px" />
+<Val
+  url="https://www.val.town/embed/x/valdottown/HTTP_examples/Routing/honoExample"
+  height="240px"
+/>
 
 ### Peko
 
 And one with [Peko](https://peko.deno.dev/):
 
-<Val url="https://www.val.town/embed/x/valdottown/HTTP_examples/Routing/pekoExample" height="300px" />
+<Val
+  url="https://www.val.town/embed/x/valdottown/HTTP_examples/Routing/pekoExample"
+  height="300px"
+/>
 
 ### nhttp
 
 And [nhttp](https://github.com/nhttp/nhttp):
 
-<Val url="https://www.val.town/embed/x/valdottown/HTTP_examples/Routing/nhttpExample" height="350px" />
+<Val
+  url="https://www.val.town/embed/x/valdottown/HTTP_examples/Routing/nhttpExample"
+  height="350px"
+/>
 
 ### itty-router
 
 A super tiny example with [itty-router](https://itty.dev/itty-router):
 
-<Val url="https://www.val.town/embed/x/valdottown/HTTP_examples/Routing/ittyExample" height="250px" />
+<Val
+  url="https://www.val.town/embed/x/valdottown/HTTP_examples/Routing/ittyExample"
+  height="250px"
+/>
 
 ### feTS
 
@@ -57,4 +69,4 @@ const client = createClient<typeof router>({
 const response = await client["/greetings"].get();
 const greetings = await response.json();
 console.log(greetings);
-``` 
+```

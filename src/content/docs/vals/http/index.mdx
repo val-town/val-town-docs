@@ -8,19 +8,18 @@ sidebar:
 import Val from "@components/Val.astro";
 import { LinkCard } from "@astrojs/starlight/components";
 
-HTTP triggers let you expose an API or website from your file.
+HTTP triggers let you serve a scalable API or website.
 
 They are built on the web-standard
 [Request](https://developer.mozilla.org/en-US/docs/Web/API/Request) and
 [Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) objects,
 so are compatible with a number of web frameworks like
-[Hono](https://hono.dev/) and [Peko](https://github.com/sejori/peko).
+[Hono](https://hono.dev/).
 
-These handlers need to export a function that takes a `Request` object
-as the first parameter and returns a `Response` object. The function
-can be asynchronous.
-
-<Val url="https://www.val.town/embed/x/valdottown/HTTP_examples/HTTP/exampleHTTP" height="180px" />
+<Val
+  url="https://www.val.town/embed/x/valdottown/HTTP_examples/HTTP/exampleHTTP"
+  height="180px"
+/>
 
 <LinkCard title="Basic examples" href="./basic-examples" />
 
@@ -29,4 +28,3 @@ can be asynchronous.
 <LinkCard title="Rendering HTML & JSX" href="./jsx" />
 
 <LinkCard title="Early-returning responses" href="./early-return" />
-

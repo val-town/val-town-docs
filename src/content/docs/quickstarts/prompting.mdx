@@ -13,27 +13,25 @@ import {
   CardGrid,
 } from "@astrojs/starlight/components";
 
-Val Town provides multiple ways to (vibe) code with LLMs.
+Val Town provides multiple ways to code with AI.
 
 ### Townie
 
-[Townie](https://townie.val.run) is an web-based AI assistant that helps you code in Val Town from your browser.
-
-<LinkCard title="Start coding with Townie" href="https://townie.val.run" />
+[Townie](https://townie.val.run) is our coding assistant that helps you code in Val Town from your browser.
 
 ### Local development
 
+You can code with AI in your favorite editor, like VS Code, Zed, Cursor, or Windsurf.
+
 1. Install [the Val Town CLI](https://github.com/val-town/vt)
-2. Add our [system prompt](https://www.val.town/x/valdottown/Townie/code/prompts/system_prompt.txt)
-   - **Cursor**: Add to [Workspace Rules](https://docs.cursor.com/context/rules-for-ai) (or equivalent)
-   - **Windsurf**: Use [`@-mention` command](https://docs.windsurf.com/chat/overview#%40-mentions)
-   - **Zed**: Use [`/file` command](https://zed.dev/docs/assistant/commands)
-   - **GitHub Copilot**: Add [`/.github/copilot-instructions.md`](https://docs.github.com/en/copilot/customizing-copilot/adding-repository-custom-instructions-for-github-copilot)
+2. Add our [system prompt](https://www.val.town/x/valdottown/Townie/code/prompts/system_prompt.txt) to...
+   - [Cursor](https://docs.cursor.com/context/rules-for-ai)
+   - [Windsurf](https://docs.windsurf.com/chat/overview#persistent-context)
+   - [Zed](https://zed.dev/docs/assistant/commands)
+   - [GitHub Copilot](https://docs.github.com/en/copilot/customizing-copilot/adding-repository-custom-instructions-for-github-copilot)
 
 ### Troubleshooting
 
-If things go wrong:
-
-- **Broken code?** Visit the "Versions" tab or "History" of your val to revert.
-- **Complex changes?** Use [branches](../../vals/branches) and [merge](../../vals/pull-requests/) when stable.
-- **Code doesn't work?** Ask AI to debug the specific errors by copy and pasting, or screenshotting error messages.
+- Broken code? Visit the `Versions` tab or `History` of your val to revert.
+- Large changes? Use feature [branches](../../vals/branches) and [merge](../../vals/pull-requests/) when stable.
+- Need help? Ask in the [Val Town Discord](https://discord.val.town/) in the `#local-dev` channel
