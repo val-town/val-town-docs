@@ -2288,7 +2288,7 @@
             },
             "in": "query",
             "name": "trace_ids",
-            "required": true
+            "required": false
           },
           {
             "schema": {
@@ -2449,31 +2449,12 @@
                 }
               }
             }
-          },
-          "400": {
-            "description": "Default Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "description": "The time window specified is greater than the 60 minute max",
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ]
-                }
-              }
-            }
           }
         },
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nconst logs = await client.telemetry.logs.list({ limit: 1, trace_ids: ['string'] });\n\nconsole.log(logs.data);"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nconst logs = await client.telemetry.logs.list({ limit: 1 });\n\nconsole.log(logs.data);"
           }
         ]
       }
