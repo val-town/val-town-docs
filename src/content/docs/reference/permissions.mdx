@@ -33,7 +33,7 @@ Since anyone can call your endpoints, if they interact with some data
 that should only be changed by yourself, you will need to make sure that those
 endpoints check for some kind of secret that only you know.
 
-Here's an example of an HTTP endpoint within a val, using the concepts described in the [HTTP Triggers documentation](../vals/http), secured with an environment variable that only I know:
+Here's an example of an HTTP endpoint within a val, using the concepts described in the [HTTP Triggers documentation](../../vals/http), secured with an environment variable that only I know:
 
 ```ts title="user/secretEndpoint" val
 export const secretEndpoint = (req: Request) => {
