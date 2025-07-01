@@ -40,3 +40,16 @@ cpu
 Outerbase
 Semrush
 screenshotting
+quickstarts
+newbot
+Charsets
+Browserbase
+lockfile
+cpu
+lockfiles
+cpus
+externalagent
+Lifecycles
+pomdtr
+jxnblk
+tmcw
