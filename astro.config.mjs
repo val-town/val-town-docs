@@ -80,6 +80,10 @@ export default defineConfig({
               link: "quickstarts/first-cron",
             },
             {
+              label: "Send messages to Slack",
+              link: "quickstarts/slack",
+            },
+            {
               label: "LLM prompting",
               link: "quickstarts/prompting",
             },
