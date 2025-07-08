@@ -1,117 +1,77 @@
 ---
-title: Slack bot
-generated: 1701279907711
-description: Create a Slack bot that replies to mentions
-lastUpdated: 2023-12-22
+title: Build a Slack bot
+description: Create interactive Slack bots that respond to mentions, slash commands, and user interactions
 ---
 
 import Val from "@components/Val.astro";
 
-You can build a Slack bot using vals.
+_Time to complete: 10 minutes_
 
-Vals can receive events from Slack's
-[Events API](https://api.slack.com/apis/connections/events-api) via the Express
-API. In this guide, you'll build a bot that replies whenever it's mentioned.
+This guide walks you through building a Slack bot that responds to mentions in channels.
 
-![Screenshot 2023-06-28 at 09.21.24.png](./a-slack-bot-that-replies-to-mentions/screenshot_2023-06-28_at_092124.png)
+If you just want to send simple Slack messages without interactivity, check out our [Slack webhook guide](/integrations/slack/send-messages-to-slack/).
 
-## 1. Create a Slack app
+## Step 1: Remix the bot template
 
-Visit
-[https://api.slack.com/apps?new_app=1](https://api.slack.com/apps?new_app=1),
-create a new app **From Scratch**, and choose your **App Name** and your
-workspace.
+1. [Remix this val](https://www.val.town/x/charmaine/slackBotExample/code/main.tsx) to get started:
 
-![Screenshot 2023-06-27 at 07.05.40.png](./send-messages-to-slack/screenshot_2023-06-27_at_070540.png)
+<Val url="https://www.val.town/embed/x/charmaine/slackBotExample/main.tsx" />
 
-## 2. Save your app's verification token
+2. Copy the HTTP endpoint URL (via the ... menu for `main.tsx`) - this is where Slack will send events to your Val Town bot.
 
-When your handler val receives requests, you can verify that they were sent by
-Slack by looking for the verification token.
+## Step 2: Create a Slack app
 
-To find your app's verification token, go to **Settings** → **Basic
-Information** in the side bar. Scroll down to **App Credentials**.
+1. Go to [Slack API](https://api.slack.com/apps?new_app=1) and create a new app **From Scratch**
+2. Name your app and select your workspace
 
-![Screenshot 2023-06-27 at 13.29.51.png](./a-slack-bot-that-replies-to-mentions/screenshot_2023-06-27_at_132951.png)
+![Create Slack app](./send-messages-to-slack/app.png)
 
-Save the **Verification Token** as a
-[Val Town environment variable](https://www.val.town/settings/environment-variables) as
-`slackVerificationToken`.
+## Step 3: Add environment variables
 
-## 3. Create a val that will respond to the challenge and reply when it's mentioned
+In your val's sidebar, add these **Environment Variables**:
 
-When you add a **Request URL**, Slack will immediately send a challenge to
-verify the endpoint is correct.
+- **slackVerificationToken**: From **Settings → Basic Information → Verification Token**
+- **slackToken**: Leave empty (you'll fill this after installing)
 
-Run this val that responds to the challenge, and replies to `app_mention`
-events.
+![Verification token](./a-slack-bot-that-replies-to-mentions/verification-token.png)
 
+## Step 4: Set up events
 
-<Val url="https://www.val.town/embed/maxm/slackBotExample" />
+1. Go to **Features → Event Subscriptions**
+2. Enable events and paste your val's HTTP endpoint in **Request URL**
+3. Subscribe to **app_mention** under **Subscribe to bot events**
 
+![Event subscriptions](./a-slack-bot-that-replies-to-mentions/request.png)
 
-## 4. Set up event subscriptions
+## Step 5: Set bot permissions
 
-On your remixed val, copy the Web endpoint via the menu at Endpoints > Copy web
-endpoint.
+In **OAuth & Permissions → Scopes**, add:
 
-Back on Slack, navigate to the **Event Subscription** page. It's under
-**Features** in the side bar.
+- `app_mentions:read` (should already be there)
+- `chat:write`
 
-Toggle on **Enable Events**, and paste your endpoint in the **Request URL**
-field.
+![Bot scopes](./a-slack-bot-that-replies-to-mentions/scope.png)
 
-![Screenshot 2023-06-28 at 11.15.06.png](./a-slack-bot-that-replies-to-mentions/screenshot_2023-06-28_at_111506.png)
+## Step 6: Install your app
 
-A few seconds later, you should see a verified message above the input box.
+Go to **Settings → Install App** and install to your workspace.
 
-## 4. Subscribe to the [app_mention](https://api.slack.com/events/app_mention) event
+![Install app](./a-slack-bot-that-replies-to-mentions/install.png)
 
-On the **Event Subscriptions** page, scroll down to the **Subscribe to bot
-events** section, and subscribe to the
-[app_mention](https://api.slack.com/events/app_mention) event. Make sure to
-**Save Changes**.
+## Step 7: Add OAuth token
 
-![Screenshot 2023-06-27 at 21.49.16.png](./a-slack-bot-that-replies-to-mentions/screenshot_2023-06-27_at_214916.png)
+1. Copy the **Bot User OAuth Token** from **OAuth & Permissions**
+2. Update your val's **slackToken** environment variable
 
-## 5. Add the necessary scopes to your app
+![OAuth token](./a-slack-bot-that-replies-to-mentions/bot-token.png)
 
-In **Features** → **OAuth & Permissions**, scroll down to **Scopes** and enable
-the scopes you need.
+## Step 8: Test your bot
 
-So the bot can reply when it's mentioned, add `app_mentions:read` and
-`chat:write`.
+1. Invite the bot to a channel
+   ![Invite bot](./a-slack-bot-that-replies-to-mentions/add.png)
+2. Mention the bot - it will reply!
+   ![Bot reply](./a-slack-bot-that-replies-to-mentions/message.png)
 
-![Screenshot 2023-06-27 at 21.51.05.png](./a-slack-bot-that-replies-to-mentions/screenshot_2023-06-27_at_215105.png)
+## What's next?
 
-## 6. Install your app to your workspace
-
-In **Settings** → **Install App**, install the app to your workspace.
-
-![Screenshot 2023-06-27 at 21.38.57.png](./a-slack-bot-that-replies-to-mentions/screenshot_2023-06-27_at_213857.png)
-
-## 7. Get your app's OAuth token
-
-In **Features** → **OAuth & Permissions**, copy the **Bot User OAuth Token**,
-and save it as a [Val Town environment variable](https://www.val.town/settings/environment-variables) as
-`slackToken`.
-
-![Screenshot 2023-06-27 at 22.08.15.png](./a-slack-bot-that-replies-to-mentions/screenshot_2023-06-27_at_220815.png)
-
-## 7. Add your bot to the relevant Slack channel
-
-The bot will receive an event when it's mentioned in a channel that it's been
-invited to.
-
-Invite the bot to your channel.
-
-![Screenshot 2023-06-27 at 21.43.49.png](./a-slack-bot-that-replies-to-mentions/screenshot_2023-06-27_at_214349.png)
-
-Mention the bot, and the val you remixed earlier
-([@vtdocs.slackReplyToMessage](https://www.val.town/v/vtdocs.slackReplyToMessage))
-will reply to the message!
-
-![Screenshot 2023-06-28 at 09.21.24.png](./a-slack-bot-that-replies-to-mentions/screenshot_2023-06-28_at_092124-1.png)
-
-Vals not behaving like you'd expect? Get help on the
-[Val Town Discord](https://discord.gg/dHv45uN5RY).
+You can find more Slack examples on our [Templates page](https://www.val.town/explore/use-cases).

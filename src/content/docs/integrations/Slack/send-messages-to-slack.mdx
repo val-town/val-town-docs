@@ -1,74 +1,61 @@
 ---
-title: Send messages to Slack
-generated: 1701279907862
-description: Create a bot that sends new messages into a Slack channel.
-lastUpdated: 2023-12-22
+title: Sending Slack messages
+description: Send notifications and alerts to Slack channels from Val Town
 ---
 
-You can send messages to Slack from vals.
+_Time to complete: 5 minutes_
 
-In this guide you'll create an incoming webhook for your Slack workspace, and
-send a request to it with a message payload.
+This guide walks you through sending your first Slack message from Val Town.
 
-![Screenshot 2023-06-27 at 07.09.52.png](./send-messages-to-slack/screenshot_2023-06-27_at_070952.png)
+This guide uses [Slack's incoming webhooks](https://api.slack.com/messaging/webhooks) to send messages to a Slack channel. For more complex interactions, like responding to user messages or handling buttons, check out our [Slack bot guide](/integrations/slack/bot/).
 
-## Create a Slack app
+## 1. Create a Slack app & webhook
 
-Visit
-[https://api.slack.com/apps?new_app=1](https://api.slack.com/apps?new_app=1),
-create a new app **From Scratch**, and choose your **App Name** and your
-workspace.
+1. [Click here to create a new Slack app](https://api.slack.com/apps?new_app=1)
+2. Click **From Scratch**
+3. Type an **App Name**
+4. Select your Slack workspace
 
-![Screenshot 2023-06-27 at 07.05.40.png](./send-messages-to-slack/screenshot_2023-06-27_at_070540.png)
+![Create Slack app](./send-messages-to-slack/app.png)
 
-## Go to the incoming webhooks page
+5. Click **Incoming Webhooks** in the left sidebar of your app (under **Features**)
+6. Toggle **Activate Incoming Webhooks** to **On**
 
-On the next page (or in the side bar), click **Incoming Webhooks**.
+![Enable incoming webhooks](./send-messages-to-slack/incoming-webhook.png)
 
-![Screenshot 2023-06-26 at 21.30.46.png](./send-messages-to-slack/screenshot_2023-06-26_at_213046.png)
+7. Click **Add New Webhook** at the bottom of the page
+8. Select your target channel
+9. Copy the **Webhook URL** from Slack
+10. (Bonus) Customize the **App icon** under **Basic Information** in the left sidebar ([Val Town icons](https://www.val.town/brand))
 
-## Create an incoming webhook
+## 2. Add the webhook URL to Val Town
 
-Click the **Activate Incoming Webhooks** toggle.
+1. Click **Environment Variables** in your val's left sidebar
+2. Add a new env variable with key: **SLACK_WEBHOOK_URL**
+3. Paste the webhook URL you copied from Slack as the value
 
-![Screenshot 2023-06-26 at 21.31.07.png](./send-messages-to-slack/screenshot_2023-06-26_at_213107.png)
+![Copy webhook URL](./send-messages-to-slack/env-var.png)
 
-Scroll down, and click **Add New Webhook to Workspace**.
+## 3. Send a message
 
-![Screenshot 2023-06-26 at 21.31.18.png](./send-messages-to-slack/screenshot_2023-06-26_at_213118.png)
-
-Select the channel which the webhook will send messages to.
-
-![Screenshot 2023-06-27 at 07.04.24.png](./send-messages-to-slack/screenshot_2023-06-27_at_070424.png)
-
-## Save the webhook address as a secret
-
-You'll be taken back to the **Incoming Webhooks** page (if not, you can find
-it via the side bar).
-
-![Screenshot 2023-06-26 at 21.33.04.png](./send-messages-to-slack/screenshot_2023-06-26_at_213304.png)
-
-Copy the **Webhook URL** for the webhook you just created and save it as a
-[Val Town environment variable](https://www.val.town/settings/environment-variables) as `slackWebhookURL`.
-
-## Use [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) to send a message
-
-Translate the sample cURL request to a [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) request.
-You can run the following val:
+Now you're ready to send your first message to Slack!
 
 ```ts title="Send message" val
-const res = await fetch(Deno.env.get("slackWebhookURL"), {
-  method: "POST",
-  body: JSON.stringify({
-    text: `Hello, ~World~ from Val Town!`,
-  }),
-});
-console.log(res.statusText);
+import { IncomingWebhook } from "npm:@slack/webhook";
+
+const slack = new IncomingWebhook(Deno.env.get("SLACK_WEBHOOK_URL"));
+const EDIT = `<${import.meta.url.replace("esm", "val")}|(edit val)>`;
+await slack.send(`🥳 Hi from Val Town! ${EDIT}`);
 ```
 
-If it worked, you will get a message in the channel you configured earlier!
+![Message sent](./send-messages-to-slack/sample-message.png)
 
-![Screenshot 2023-06-27 at 07.09.52.png](./send-messages-to-slack/screenshot_2023-06-27_at_070952-1.png)
+We recommend including this link to the edit val, so everyone on your team is one click away from making changes.
 
-Ran into a problem? Get help on the
-[Val Town Discord](https://discord.gg/dHv45uN5RY).
+## What's next?
+
+Learn how to [make your message fancy with advanced formatting](https://api.slack.com/messaging/webhooks#advanced_message_formatting).
+
+Take this a step further by responding to mentions, slash commands, buttons, and other user interactions with our full [Slack bot guide](/integrations/slack/bot/)!
+
+You can find more Slack examples on our [Templates page](https://www.val.town/explore/use-cases).
