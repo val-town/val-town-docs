@@ -61,15 +61,15 @@ export default defineConfig({
           items: [
             {
               label: "Your first website",
-              link: "quickstarts/first-website",
+              link: "integrations/first-website",
             },
             {
               label: "Your first scheduled cron",
               link: "quickstarts/first-cron",
             },
             {
-              label: "Send messages to Slack",
-              link: "quickstarts/slack",
+              label: "Sending Slack messages",
+              link: "integrations/slack/send-messages-to-slack/",
             },
             {
               label: "LLM prompting",
