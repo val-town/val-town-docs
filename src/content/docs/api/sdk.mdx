@@ -41,17 +41,13 @@ import ValTown from "npm:@valtown/sdk";
 
 const vt = new ValTown();
 
-// print your username
+// print your email
 const me = await vt.me.profile.retrieve();
 console.log(me.email);
 
 // list some of your vals
-const { data: vals } = await vt.users.vals.list(me.id, {});
+const vals = await vt.me.vals.list({});
 console.log(vals);
-
-// list vals you've liked
-const { data: likes } = await vt.me.likes.list({});
-console.log(likes);
 ```
 
 Authentication is set by the `VAL_TOWN_API_KEY` environment
