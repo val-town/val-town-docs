@@ -73,7 +73,7 @@ export default defineConfig({
           items: [
             {
               label: "Your first website",
-              link: "integrations/first-website",
+              link: "quickstarts/first-website",
             },
             {
               label: "Your first scheduled cron",
