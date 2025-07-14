@@ -1329,7 +1329,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: process.env['VAL_TOWN_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.blobs.store('x', fs.createReadStream('path/to/file'));"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: 'My Bearer Token',\n});\n\nawait client.blobs.store('x', fs.createReadStream('path/to/file'));"
           }
         ]
       },
@@ -1365,7 +1365,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: process.env['VAL_TOWN_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.blobs.delete('x');"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: 'My Bearer Token',\n});\n\nawait client.blobs.delete('x');"
           }
         ]
       }
@@ -1513,7 +1513,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: process.env['VAL_TOWN_API_KEY'], // This is the default and can be omitted\n});\n\nconst resultSet = await client.sqlite.execute({ statement: 'SELECT 1;' });\n\nconsole.log(resultSet.lastInsertRowid);"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: 'My Bearer Token',\n});\n\nconst resultSet = await client.sqlite.execute({ statement: 'SELECT 1;' });\n\nconsole.log(resultSet.lastInsertRowid);"
           }
         ]
       }
@@ -1643,7 +1643,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: process.env['VAL_TOWN_API_KEY'], // This is the default and can be omitted\n});\n\nconst resultSets = await client.sqlite.batch({ statements: ['SELECT 1;'], mode: 'read' });\n\nconsole.log(resultSets);"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: 'My Bearer Token',\n});\n\nconst resultSets = await client.sqlite.batch({ statements: ['SELECT 1;'], mode: 'read' });\n\nconsole.log(resultSets);"
           }
         ]
       }
@@ -2091,7 +2091,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: process.env['VAL_TOWN_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.emails.send({\n  html: 'Hello <strong>world</strong>',\n  subject: 'An important message',\n  text: 'Hello world',\n});\n\nconsole.log(response.message);"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: 'My Bearer Token',\n});\n\nconst response = await client.emails.send({\n  html: 'Hello <strong>world</strong>',\n  subject: 'An important message',\n  text: 'Hello world',\n});\n\nconsole.log(response.message);"
           }
         ]
       }
@@ -2629,7 +2629,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: process.env['VAL_TOWN_API_KEY'], // This is the default and can be omitted\n});\n\nconst vals = await client.vals.list({ limit: 1 });\n\nconsole.log(vals.data);"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: 'My Bearer Token',\n});\n\nconst vals = await client.vals.list({ limit: 1 });\n\nconsole.log(vals.data);"
           }
         ]
       },
@@ -3623,7 +3623,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: process.env['VAL_TOWN_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const val of client.me.vals.list({ limit: 1, offset: 0 })) {\n  console.log(val.id);\n}"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: 'My Bearer Token',\n});\n\n// Automatically fetches more pages as needed.\nfor await (const val of client.me.vals.list({ limit: 1, offset: 0 })) {\n  console.log(val.id);\n}"
           }
         ]
       }
