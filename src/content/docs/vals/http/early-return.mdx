@@ -7,49 +7,42 @@ sidebar:
 
 import Val from "@components/Val.astro";
 
-Sometimes you need to respond quickly to an incoming HTTP request, and then do other work _after_ sending the response. This makes for snappier UIs for users, and some webhook platforms require responses within a couple seconds. We recommend accomplishing this today by using a queue.
+Sometimes you need to respond quickly to an incoming HTTP request, and then do other work _after_ sending the response. Some webhooks, like from Slack, require responses within a couple seconds, but you may need more time than that, ie if you're building an LLM Slack bot. We recommend accomplishing this today by sending an unawaited HTTP request to a val which does the longer processing. 
 
-### How to set up a queue
-
-In your early-returning HTTP file:
+### How to return early, and process after
 
 ```ts title="early-returning.ts" val
-async function handle(request: Request) {
-  // Send off the relevant data a queue HTTP file.
-  // This `fetch` is not awaited.
-  fetch("https://my-queue.web.val.run", {
-    method: "POST",
-    body: req.body,
-  });
-
-  // Respond immediately, before the queued work is done
-  return Response.json("ok");
-}
-```
-
-Your queue is another HTTP file that listens for requests and processes them in their own time. Nobody is waiting for the response from the queue, so it can take as long as it needs to:
-
-```ts title="queue.ts" val
-async function handle(request: Request) {
-  // Do some work with the request body that takes a long time
-  await doSomeWork(request.body);
-
-  return Response.json("ok");
+async function handle(req: Request) {
+  const new = new URL(req.url)
+  if (url.path === '/') {
+    // Send off the relevant data to /process below.
+    // This `fetch` is not awaited.
+    fetch(`${req.origin}/process`, {
+      method: "POST",
+      body: req.body,
+    });
+   
+    // Respond immediately, before the processing is done
+    return Response.json("ok");
+  } else if (url.path === '/process) { 
+    // Do the long processing here.
+    // await it to catch any errors and ensure it completes.
+    // Nobody is waiting on this request, so we can take as long as we need to. 
+    await doSomeWork(request.body);
+    return Response.json("done");
+  } 
+  return new Response("not found", { status: 404 })
 }
 ```
 
 ### waitUntil
 
-This technique is a stopgap until full support for
-[waitUntil](https://developer.mozilla.org/en-US/docs/Web/API/ExtendableEvent/waitUntil) lands in Val Town, which will handle this case more explicitly.
+Other serverless platforms support
+[waitUntil](https://developer.mozilla.org/en-US/docs/Web/API/ExtendableEvent/waitUntil) to handle this case more explicitly. We are considering bringing this to Val Town. 
 
 ### Promises should otherwise be awaited
 
-While this is a useful technique, it's important to emphasize that,
-in general, you should otherwise `await` every Promise.
-If you don't remember to use `await` with Promises - besides this
-narrow use-case, errors that occur in promises won't be properly
-handled and functions may run out-of-order.
+While this is a useful technique, it's important to emphasize that, in general, you should otherwise `await` every Promise. If you don't remember to use `await` with Promises, errors that occur in promises won't be properly handled and functions may run out-of-order.
 
 For example, if you use `fetch` to request some resource,
 but forget to await it, then it won't throw errors when it fails,
@@ -70,7 +63,4 @@ export async function handle() {
 
 ### HTTP Lifecycle
 
-When your HTTP file receives a request, we spin up a process to serve it.
-We keep this process alive for some amount of time after the response is sent
-to be ready for any other requests that might come its way. After some time of
-inactivity, your HTTP process is terminated. This means that if you fire off Promises without awaiting them, they may or may not finish before the file times out, depending on how long they take and whether the process serving the HTTP endpoint is being kept alive to serve other traffic. The safest path is to await all `Promise`s or make yourself a queue.
+When your HTTP file receives a request, we spin up a process to serve it. We keep that process alive for some time after the response is sent to be ready for quick follow on requests. After some inactivity with no new requests, your HTTP process is terminated. This means that if you fire off Promises without awaiting them, they may or may not finish before the process is killed, depending on how long they take and whether the process serving the HTTP endpoint is being kept alive to serve other traffic. The safest path is to `await` all `Promise`s, or handle long-running tasks in a new request, as explained above, which keeps the HTTP process alive until it returns.
