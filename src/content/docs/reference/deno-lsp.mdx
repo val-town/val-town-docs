@@ -2,7 +2,7 @@
 title: Deno LSP
 description: Understanding the Val Town language server
 sidebar:
-  order: 1
+  order: 5
 ---
 
 ![Example of the LSP](./deno-lsp/example-of-lsp.png)
@@ -13,7 +13,7 @@ A "language server" is a program that most languages, including Typescript, prov
 
 At Val Town, we run Deno, which is a modern Typescript runtime with unique features like URL import support and the Deno global. You may have noticed this when querying environment variables with `Deno.env.get`. Deno unique enough from regular Typescript that it provides its own [language server](https://docs.deno.com/runtime/reference/lsp_integration/).
 
-When you load our editor, you will see a small colored dot in the bottom right. This is the language server status indicator. We run language servers on containers in the cloud, and each user gets their own LSP container. This dot indicates your connection state to your LSP container.
+When you load our editor, you will see a small colored dot in the bottom right. This is the language server status indicator. We run language servers on containers in the cloud, and each user gets their own LSP container. This dot indicates your connection state to your LSP container. You can click on it for a dropdown with more information.
 
 We attempt to pre-warm a server for you when you load Val Town so that the LSP is quickly ready when you get to our editor, but sometimes the LSP can take a while to boot (in rare cases, up to 15-20 seconds), typically after using it for the first time in a while. This is normal, and after it loads it will stay warm until a little while after you close the editor.
 
@@ -25,6 +25,10 @@ This dot has 5 ready states:
 - **Healthy**: The LSP has done a "handshake" with the editor and cached all of your Val's dependencies. It's ready to go!
 
 We reload the LSP when you load a different Val, or a different branch of the same Val. Currently we only let you run one instance of the LSP at a time. This means that if you are editing some val A, and you open a new tab and begin to edit some val B, tab A will change to "Disconnected" state. When you focus (click) in the editor in tab A again, we will automatically disconnect tab B and reconnect for tab A.
+
+Right now, the language server is only active for Vals that you own when you are interacting with a *non*-read-only editor. This may change in the future.
+
+Right now the LSP is a **beta experience**, and it is possible you may experience bugs. Please reach out if something isn't working as expected, or if you experience random crashes!
 
 #### Features
 
@@ -50,22 +54,24 @@ For all the format options, [visit this page of Deno's docs](https://docs.deno.c
 
 ####  Multi Tab Editing
 
-When editing the same Val, we support multi-tab editing. Just like your local editor would, we share the same LSP process across all files for the same Val, and if you have multiple tabs open, they all talk to the same instance of the deno LSP. If you, for example, make a change to the return type of a function in one tab, and you have a file open in another tab that imports and uses that function, that tab may see red squiggles pop up. One caveat of multi tab editing is that if you attempt to edit the same file in multiple tabs, you will see the same diagnostics across all tabs, even though the current content state of the same file across tabs may differ. We suggest you do not edit the same file in multiple tabs.
+When editing the same Val, we support multi-tab editing. Just like your local editor would, we share the same LSP process across all files for the same Val, and if you have multiple tabs open, they all talk to the same instance of the deno LSP. If you, for example, make a change to the return type of a function in one tab, and you have a file open in another tab that imports and uses that function, that tab may see red squiggles pop up.
+
+One caveat of multi tab editing is that if you attempt to edit the same file in multiple tabs, you will see the same diagnostics across all tabs, even though the current content state of the same file across tabs may differ. We suggest you do not edit the same file in multiple tabs.
 
 #### Restarting the Language Server
 
-Language servers are complicated and delicate. It is possible that the internal state of the language server falls out of sync, and it thinks that your files are slightly different than they actually are. In a situation like this, you may see confusing red squiggles all over the place, code actions that make no sense, or other unexpected behavior. If you run into a situation where you think the LSP is in a "bad state," you can restart it by clicking the tiny dot in the bottom right, and pressing "Restart." The restart button will kill and respawn the Deno LSP so that it has a clean slate.
+Language servers are complicated and delicate. It is possible that the internal state of the language server falls out of sync, and it thinks that your files are slightly different than they actually are. In a situation like this, you may see confusing red squiggles all over the place, code actions that make no sense, or other unexpected behavior.
 
-We also provide a "Hard Restart" button. This totally shuts down and reboots the entire container (server) that is running the LSP process. You should generally avoid using this unless the LSP is not responding and the Restart button is ineffective.
+If you run into a situation where you think the LSP is in a "bad state," you can restart it by clicking the tiny dot in the bottom right, and pressing "Restart." The restart button will kill and respawn the Deno LSP so that it has a clean slate.
 
-#### How does it work?
+We also provide a "Hard Restart" button. This totally shuts down and reboots the entire container (server) that is running the LSP process. You should generally avoid using this unless the LSP is not responding and the Restart button is ineffective. A Hard restart can take up to 15-20 seconds to complete. A regular restart should be very quick.
+
+#### How does this all work?
 
 The Deno language server is part of Deno. If you have `deno` installed on your computer, you can actually run `deno lsp` to start the LSP. You won't see anything though, since you have to send special messages to and from the process to "activate" it, which is something your editor (such as vscode, for example) usually does.
 
-To expose the Deno language server to the Val Town editore, we run instances of the Deno LSP on [cloudflare containers](https://developers.cloudflare.com/containers/). The LSP protocol is relatively simple and consists of JSON payloads sent to and from the LSP, like
+To expose the Deno language server to the Val Town editor, we run instances of the Deno LSP on [cloudflare containers](https://developers.cloudflare.com/containers/). The [LSP protocol](https://microsoft.github.io/language-server-protocol/) is relatively straightforward and consists of JSON payloads sent to and from the LSP, like
 
 `{"jsonrpc":"2.0","method":"textDocument/didOpen","params":{"textDocument":{"uri":"file:///path/to/file.ts","languageId":"typescript","version":1,"text":"console.log('hello world!')"}}}`
 
-We serialize and send messages to and from this container over a WebSocket connection to talk to the language server.
-
-Our editor is a Codemirror editor, and we are using a modified version of the [Marimo team's LSP extension](https://github.com/marimo-team/codemirror-languageserver) to get LSP tooltips, autocomplete, and widgets in our editor.
+We serialize and send messages to and from this container over a WebSocket connection to talk to the language server. If you're curious, you can open your browser's network tab and press the LSP "Restart" button, and you will see a Websocket connection be established to `lsp.val.town`, and you can watch the actual LSP messages go back and forth. These messages received from the LSP are transformed in to UI components in our editor, and various editing actions will cause messages to get sent to the LSP.
