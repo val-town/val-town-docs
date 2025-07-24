@@ -11,7 +11,7 @@ To provide the best possible editor experience, Val Town runs the real [deno lan
 
 A "language server" is a program that most languages, including TypeScript, provide to enrich your editing experience, providing things like code diagnostics (such as red squiggles for broken code), hover overs, and "go to definition" capabilities.
 
-At Val Town, we run Deno, which is a modern TypeScript runtime with unique features like URL import support and the Deno global. You may have noticed this when querying environment variables with `Deno.env.get`. Deno unique enough from regular TypeScript that it provides its own [language server](https://docs.deno.com/runtime/reference/lsp_integration/).
+At Val Town, we run `Deno`, which is a modern TypeScript runtime with unique features like URL import support and the `Deno` global. You may have noticed this when querying environment variables with `Deno.env.get`. `Deno` is unique enough from regular TypeScript that it provides its own [language server](https://docs.deno.com/runtime/reference/lsp_integration/).
 
 When you load our editor, you will see a small colored dot in the bottom right. This is the language server status indicator. We run language servers on containers in the cloud, and each user gets their own LSP container. This dot indicates your connection state to your LSP container. You can click on it for a dropdown with more information.
 
@@ -42,7 +42,7 @@ Language servers have a large amount of features. We support the following subse
 - Go to definition (when you command or control click on a symbol, or press F12 while focused on a symbol)
 - Signature reference (a box indicating the arguments a function takes that shows up when you are typing a function invocation)
 
-Deno supports a top level [`deno.json`](https://docs.deno.com/runtime/fundamentals/configuration/) file to configure Deno. This is like an all in one `package.json`, `tsconfig.json` and `.eslintrc.js`. If you have a `deno.json` present at the top level of your Val, we will attempt to give the LSP access to it. You may have to restart the LSP after changing it. We suggest you restrict editing of the `deno.json` to the `lint` and `compilerOptions` fields to configure how the LSP works, since we do not currently support running your code with a custom `deno.json`.
+`Deno` supports a top level [`deno.json`](https://docs.deno.com/runtime/fundamentals/configuration/) file to configure Deno. This is like an all in one `package.json`, `tsconfig.json` and `.eslintrc.js`. If you have a `deno.json` present at the top level of your Val, we will attempt to give the LSP access to it. You may have to restart the LSP after changing it. We suggest you restrict editing of the `deno.json` to the `lint` and `compilerOptions` fields to configure how the LSP works, since we do not currently support running your code with a custom `deno.json`.
 
 #### Formatting
 
@@ -50,7 +50,7 @@ In your editor settings, you can opt in to automatic formatting on save. When yo
 
 You can customize format settings by visiting your editor settings and changing your "Deno fmt" options. This is equivalent to the `"fmt":` field in the `deno.json`. These settings are scoped across your entire account. Currently we do not support the `fmt` field in a `deno.json` for a Val.
 
-For all the format options, [visit this page of Deno's docs](https://docs.deno.com/runtime/fundamentals/linting_and_formatting/).
+For all the format options, [visit this page of `Deno`'s docs](https://docs.deno.com/runtime/fundamentals/linting_and_formatting/).
 
 ####  Multi Tab Editing
 
@@ -68,7 +68,7 @@ We also provide a "Hard Restart" button. This totally shuts down and reboots the
 
 #### How does this all work?
 
-The Deno language server is part of Deno. If you have `deno` installed on your computer, you can actually run `deno lsp` to start the LSP. You won't see anything though, since you have to send special messages to and from the process to "activate" it, which is something your editor (such as vscode, for example) usually does.
+The Deno language server is part of `Deno`. If you have `deno` installed on your computer, you can actually run `deno lsp` to start the LSP. You won't see anything though, since you have to send special messages to and from the process to "activate" it, which is something your editor (such as vscode, for example) usually does.
 
 To expose the Deno language server to the Val Town editor, we run instances of the Deno LSP on [cloudflare containers](https://developers.cloudflare.com/containers/). The [LSP protocol](https://microsoft.github.io/language-server-protocol/) is relatively straightforward and consists of JSON payloads sent to and from the LSP, like
 
