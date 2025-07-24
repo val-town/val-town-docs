@@ -9,9 +9,9 @@ sidebar:
 
 To provide the best possible editor experience, Val Town runs the real [deno language server](https://docs.deno.com/runtime/reference/lsp_integration/) (LSP) in our code editor. 
 
-A "language server" is a program that most languages, including Typescript, provide to enrich your editing experience, providing things like code diagnostics (such as red squiggles for broken code), hover overs, and "go to definition" capabilities.
+A "language server" is a program that most languages, including TypeScript, provide to enrich your editing experience, providing things like code diagnostics (such as red squiggles for broken code), hover overs, and "go to definition" capabilities.
 
-At Val Town, we run Deno, which is a modern Typescript runtime with unique features like URL import support and the Deno global. You may have noticed this when querying environment variables with `Deno.env.get`. Deno unique enough from regular Typescript that it provides its own [language server](https://docs.deno.com/runtime/reference/lsp_integration/).
+At Val Town, we run Deno, which is a modern TypeScript runtime with unique features like URL import support and the Deno global. You may have noticed this when querying environment variables with `Deno.env.get`. Deno unique enough from regular TypeScript that it provides its own [language server](https://docs.deno.com/runtime/reference/lsp_integration/).
 
 When you load our editor, you will see a small colored dot in the bottom right. This is the language server status indicator. We run language servers on containers in the cloud, and each user gets their own LSP container. This dot indicates your connection state to your LSP container. You can click on it for a dropdown with more information.
 
