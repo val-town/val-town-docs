@@ -3508,6 +3508,38 @@
         ]
       }
     },
+    "/v2/files/{file_id}": {
+      "get": {
+        "operationId": "queryValFileById",
+        "tags": [
+          "files"
+        ],
+        "description": "Get file metadata by file ID",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "file_id",
+            "required": true,
+            "description": "ID of a file in a val"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A File or Directory's Metadata",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileRevisionMetadataV2"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v2/alias/vals/{username}/{val_name}": {
       "get": {
         "operationId": "aliasVal2",
