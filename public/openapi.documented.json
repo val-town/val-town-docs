@@ -2102,7 +2102,7 @@
         "tags": [
           "telemetry"
         ],
-        "description": "Get OpenTelemetry traces within a specified time window with flexible pagination options: Pass in only the end time to paginate backwards from there. Pass in a start time to paginate backwards from now until the start time. Pass in both to get resources within the time window. Filter additionally by branch_ids or file_id.",
+        "description": "Get OpenTelemetry traces within a specified time window with flexible pagination options: Pass in only the end time to paginate backwards from there. Pass in a start time to paginate backwards from now until the start time. Pass in both to get resources within the time window. Choose to return in end_time order instead to view traces that completed in a window or since a time. Filter additionally by branch_ids or file_id.",
         "parameters": [
           {
             "schema": {
@@ -2158,6 +2158,29 @@
             "name": "limit",
             "required": true,
             "description": "Maximum items to return in each paginated response"
+          },
+          {
+            "schema": {
+              "default": "start_time",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "start_time"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "end_time"
+                  ]
+                }
+              ]
+            },
+            "in": "query",
+            "name": "order_by",
+            "required": true,
+            "description": "When set to end_time, traces are sorted by their end time, and pending traces are omitted. When set to start_time, all traces are included, with pending traces given \"0\" for their end time."
           }
         ],
         "responses": {
@@ -2184,6 +2207,7 @@
                             "type": "string"
                           },
                           "endTimeUnixNano": {
+                            "description": "0 if trace is unfinished",
                             "type": "string"
                           },
                           "attributes": {
@@ -2265,7 +2289,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nconst traces = await client.telemetry.traces.list({ limit: 1 });\n\nconsole.log(traces.data);"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nconst traces = await client.telemetry.traces.list({ limit: 1, order_by: 'start_time' });\n\nconsole.log(traces.data);"
           }
         ]
       }
