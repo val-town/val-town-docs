@@ -3561,7 +3561,13 @@
               }
             }
           }
-        }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "JavaScript",
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nconst file = await client.files.retrieve('file_id');\n\nconsole.log(file.id);"
+          }
+        ]
       }
     },
     "/v2/alias/vals/{username}/{val_name}": {
