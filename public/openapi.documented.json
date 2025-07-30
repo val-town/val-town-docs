@@ -2179,7 +2179,7 @@
             },
             "in": "query",
             "name": "order_by",
-            "required": true,
+            "required": false,
             "description": "When set to end_time, traces are sorted by their end time, and pending traces are omitted. When set to start_time, all traces are included, with pending traces given \"0\" for their end time."
           }
         ],
@@ -2289,7 +2289,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nconst traces = await client.telemetry.traces.list({ limit: 1, order_by: 'start_time' });\n\nconsole.log(traces.data);"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nconst traces = await client.telemetry.traces.list({ limit: 1 });\n\nconsole.log(traces.data);"
           }
         ]
       }
