@@ -16,8 +16,6 @@
 /planetscale/ /integrations/databases/planetscale/
 /pricing https://www.val.town/pricing
 /pricing/ https://www.val.town/pricing
-/sdk /api/sdk
-/sdk/ /api/sdk
 /secrets /reference/environment-variables/
 /secrets/ /reference/environment-variables/
 /tips /
@@ -36,3 +34,7 @@
 /openapi.json https://api.val.town/openapi.json
 /reference/bot-rate-limiting /troubleshooting/bot-rate-limiting/
 /reference/bot-rate-limiting/ /troubleshooting/bot-rate-limiting/
+/sdk https://sdk.val.town
+/sdk/ https://sdk.val.town
+/api/sdk https://sdk.val.town
+/api/sdk/ https://sdk.val.town

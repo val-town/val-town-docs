@@ -151,7 +151,11 @@ export default defineConfig({
         },
         {
           label: "REST API",
-          autogenerate: { directory: "api" },
+          items: [
+            { label: "Overview", link: "api/" },
+            { label: "Authentication", link: "api/authentication" },
+            { label: "JavaScript SDK", link: "https://sdk.val.town" },
+          ],
           collapsed: true,
         },
         {
