@@ -2,12 +2,12 @@
 title: Deno LSP
 description: Understanding the Val Town language server
 sidebar:
-  order: 5
+  order: 6
 ---
 
 ![Example of the LSP](./deno-lsp/example-of-lsp.png)
 
-To provide the best possible editor experience, Val Town runs the real [deno language server](https://docs.deno.com/runtime/reference/lsp_integration/) (LSP) in our code editor. 
+To provide the best possible editor experience, Val Town runs the real [deno language server](https://docs.deno.com/runtime/reference/lsp_integration/) (LSP) in our code editor.
 
 A "language server" is a program that most languages, including TypeScript, provide to enrich your editing experience, providing things like code diagnostics (such as red squiggles for broken code), hover overs, and "go to definition" capabilities.
 
@@ -18,6 +18,7 @@ When you load our editor, you will see a small colored dot in the bottom right. 
 We attempt to pre-warm a server for you when you load Val Town so that the LSP is quickly ready when you get to our editor, but sometimes the LSP can take a while to boot (in rare cases, up to 15-20 seconds), typically after using it for the first time in a while. This is normal, and after it loads it will stay warm until a little while after you close the editor.
 
 This dot has 5 ready states:
+
 - **Disconnected**: The LSP is disconnected. If you are ever in this state, try restarting the LSP. Usually we will attempt to automatically do the restart for you if you ever each this state.
 - **Connecting**: You are attempting to establish a websocket connect to the LSP. The container may currently still be booting, so you could be stuck in this state for a while if you are using the LSP for the first time in a while.
 - **Restarting**: You triggered a restart, and the LSP is in the process of dying.
@@ -26,7 +27,7 @@ This dot has 5 ready states:
 
 We reload the LSP when you load a different Val, or a different branch of the same Val. Currently we only let you run one instance of the LSP at a time. This means that if you are editing some val A, and you open a new tab and begin to edit some val B, tab A will change to "Disconnected" state. When you focus (click) in the editor in tab A again, we will automatically disconnect tab B and reconnect for tab A.
 
-Right now, the language server is only active for Vals that you own when you are interacting with a *non*-read-only editor. This may change in the future.
+Right now, the language server is only active for Vals that you own when you are interacting with a _non_-read-only editor. This may change in the future.
 
 Right now the LSP is a **beta experience**, and it is possible you may experience bugs. Please reach out if something isn't working as expected, or if you experience random crashes!
 
@@ -35,6 +36,7 @@ Right now the LSP is a **beta experience**, and it is possible you may experienc
 The LSP experience you will find in our editor is very similar to that of using the Deno LSP locally, but we have added some platform specific additional functionality, like adding environment variable suggestions when you type "Deno.env...", or cautioning you about using jsx in a .ts file.
 
 Language servers have a large amount of features. We support the following subset of the LSP specification:
+
 - Diagnostics (red, yellow, and gray squiggles)
 - Completions (the list of suggestions that pop up as you type)
 - Code actions (buttons that show up when you hover on yellow squiggles)
@@ -52,7 +54,7 @@ You can customize format settings by visiting your editor settings and changing 
 
 For all the format options, [visit this page of `Deno`'s docs](https://docs.deno.com/runtime/fundamentals/linting_and_formatting/).
 
-####  Multi Tab Editing
+#### Multi Tab Editing
 
 When editing the same Val, we support multi-tab editing. Just like your local editor would, we share the same LSP process across all files for the same Val, and if you have multiple tabs open, they all talk to the same instance of the deno LSP. If you, for example, make a change to the return type of a function in one tab, and you have a file open in another tab that imports and uses that function, that tab may see red squiggles pop up.
 
