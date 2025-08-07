@@ -5,30 +5,7 @@ sidebar:
   order: 5
 ---
 
-There is no direct access to the filesystem in Val Town. This allows us to deploy and scale your code quickly and efficiently. If you need to read files from within a val, you can via [esm.town](./esm-town) or the [Val Town API](/api).
-
-## std/utils
-
-Val Town provides a standard library of utilities, including file I/O, at `https://esm.town/x/std/utils`, and it's fairly ergonomic for common tasks.
-
-### readFile
-
-```ts title="read-file.ts" val
-import { readFile } from "https://esm.town/v/std/utils/index.ts";
-
-const content = await readFile("/README.md", import.meta.url);
-console.log(content);
-```
-
-:::note[Transpilation]
-
-This `readFile` function transpiles and JSX, TS, and TSX files to JavaScript. If you want to read a file as raw text, use another method, such as the Val Town API.
-
-:::
-
-## Val Town API
-
-Val Town provides a REST API to read and write files in your val.
+There is no direct access to the filesystem in Val Town. This allows us to deploy and scale your code quickly and efficiently. If you need to read files from within a val, you can via the [Val Town API](/api).
 
 ### Read a file
 
@@ -50,7 +27,7 @@ console.log(content);
 [Docs](https://sdk.val.town/api/node/resources/vals/subresources/files/methods/create)
 
 ```ts title="create-file.ts" val
-import ValTown from "@valtown/sdk";
+import ValTown from "npm:@valtown/sdk";
 const vt = new ValTown();
 const val_id = "your-val-id-here";
 const file = await vt.vals.files.create(val_id, {
@@ -64,11 +41,27 @@ const file = await vt.vals.files.create(val_id, {
 [Docs](https://sdk.val.town/api/node/resources/vals/subresources/files/methods/update)
 
 ```ts title="update-file.ts" val
-import ValTown from "@valtown/sdk";
+import ValTown from "npm:@valtown/sdk";
 const vt = new ValTown();
 const val_id = "your-val-id-here";
 const file = await vt.vals.files.update(val_id, {
   path: "path/to/file.txt",
   content: "New file content",
 });
+```
+
+### List files
+
+[Docs](https://sdk.val.town/api/node/resources/vals/subresources/files/methods/retrieve)
+
+```ts title="list-files.ts" val
+import ValTown from "npm:@valtown/sdk";
+const vt = new ValTown();
+const val_id = "your-val-id-here";
+const files = await Array.fromAsync(
+  vt.vals.files.retrieve(id, {
+    path: "",
+    recursive: true,
+  })
+);
 ```
