@@ -14,7 +14,10 @@ Want to receive emails instead? [Create an email handler val](/types/email/)
 ```ts title="Example" val
 import { email } from "https://esm.town/v/std/email";
 
-await email({ subject: "New Ink & Switch Post!",  text: "https://www.inkandswitch.com/embark/" });
+await email({
+  subject: "Hello from Val Town",
+  text: "This is a test email sent from a Val Town val.",
+});
 ```
 
 ### `subject`
@@ -36,8 +39,11 @@ The `from` is limited to a few options:
 1. It defaults to `notifications@val.town` if you don't specify it.
 
 2. If you do specify it, it must be of the form:
-  - `{ email: "your_username.valname@valtown.email }"` or
-  - `{ email: "your_username.valname@valtown.email", name: "Sender Name" }`.
+
+- `{ email: "your_username.valname@valtown.email }"` or
+- `{ email: "your_username.valname@valtown.email", name: "Sender Name" }`.
+
+3. We will soon allow you to email from any val email address you own, but in the meantime you can get around these limitations by using the `replyTo` field.
 
 ### `replyTo`
 
@@ -50,8 +56,7 @@ import { email } from "https://esm.town/v/std/email";
 
 await email({
   to: "someone_else@example.com",
-  from: "your_username.valname@valtown.email",
-  replyTo: "your_email@example.com",
+  replyTo: "your_custom_email@valtown.email",
   text: "these pretzels are making me thirsty",
 });
 ```
@@ -78,14 +83,18 @@ export const stdEmailAttachmentExample = email({
 });
 ```
 
-Here's an example sending a [PDF](https://www.val.town/v/stevekrouse/sendPDF).
+#### Attachment examples
+
+- [Sending a PDF created in code](https://www.val.town/v/stevekrouse/sendPDF)
+- [Recieving an attachment and then sending it along](https://www.val.town/x/stevekrouse/replyEmailWithAttachment/code/main.ts).
+- [Recieving an attachment, sending it to OpenAI, and then emailing it](https://www.val.town/x/ValDotTownOrg/virtual-mail/code/main.ts).
 
 ### Headers
 
 You can set custom headers in emails that you send:
 
 ```ts title="Custom headers example" val
-import { email } from "https://esm.town/v/std/email?v=13"
+import { email } from "https://esm.town/v/std/email";
 
 console.log(
   await email({
@@ -93,17 +102,12 @@ console.log(
     headers: {
       "X-Custom-Header": "xxx",
     },
-  }),
-)
+  })
+);
 ```
 
-This is also [documented in our REST API](https://docs.val.town/openapi#/tag/emails/POST/v1/email), and supported in the [SDK](https://docs.val.town/api/sdk/). 
+This is also [documented in our REST API](https://docs.val.town/openapi#/tag/emails/POST/v1/email), and supported in the [SDK](https://sdk.val.town/api/node/resources/emails/methods/send).
 
-### Custom email addresses
+## Limitations
 
-Email triggers support custom addresses in the same way that HTTP triggers
-support [custom subdomains](https://docs.val.town/vals/http/custom-subdomains/), and
-with the same rules for naming.
-
-To choose a custom email address, click **Run** on an Email Val and then click
-**Customize address**.
+`std/email` is powered internally by Sendgrid.

@@ -11,6 +11,7 @@ Email triggers provide a unique email address for your val. When Val Town
 receives an email at that address, it triggers the corresponding file within the val with the email as its first argument.
 
 Some common examples include:
+
 - Automatically forwarding emails
 - Posting support team emails to Discord / Slack
 
@@ -26,10 +27,10 @@ Files triggered by Email receive an argument called `Email` that represents the 
 export async function emailValHandler(email: Email) {
   console.log("Email received!", email.from, email.subject, email.text);
   for (const file of email.attachments) {
-    console.log(`Filename: ${file.name}`)
-    console.log(`Content Type: ${file.type}`)
-    console.log(`Content: ${await file.text()}`)
-  };
+    console.log(`Filename: ${file.name}`);
+    console.log(`Content Type: ${file.type}`);
+    console.log(`Content: ${await file.text()}`);
+  }
 }
 ```
 
@@ -37,7 +38,7 @@ The `Email` type has this shape:
 
 ```ts
 interface Email {
-  from: string; 
+  from: string;
   to: string[];
   cc: string | string[] | undefined;
   bcc: string | string[] | undefined;
@@ -69,3 +70,5 @@ You can choose any available email address ending in `@valtown.email`.
 The total size of inbound emails, including attachments, must be less than 30MB.
 
 :::
+
+Email triggers are powered internally by [Sendgrid Inbound Parse](https://www.twilio.com/docs/sendgrid/ui/account-and-settings/inbound-parse).
