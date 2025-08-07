@@ -102,6 +102,7 @@ export default defineConfig({
                 {
                   label: "HTTP",
                   autogenerate: { directory: "vals/http" },
+                  collapsed: true,
                 },
                 {
                   label: "Cron",
