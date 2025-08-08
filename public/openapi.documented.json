@@ -24,6 +24,14 @@
             "description": "The ID of this user",
             "type": "string"
           },
+          "type": {
+            "type": "string",
+            "enum": [
+              "user",
+              "org"
+            ],
+            "description": "Whether this is a user or an organization"
+          },
           "bio": {
             "anyOf": [
               {
@@ -79,6 +87,7 @@
         },
         "required": [
           "id",
+          "type",
           "bio",
           "username",
           "profileImageUrl",
@@ -1075,6 +1084,14 @@
                       "description": "The ID of this user",
                       "type": "string"
                     },
+                    "type": {
+                      "type": "string",
+                      "enum": [
+                        "user",
+                        "org"
+                      ],
+                      "description": "Whether this is a user or an organization"
+                    },
                     "bio": {
                       "anyOf": [
                         {
@@ -1143,12 +1160,20 @@
                       ]
                     },
                     "email": {
-                      "description": "Your email address",
-                      "type": "string"
+                      "anyOf": [
+                        {
+                          "description": "Your email address",
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
                     }
                   },
                   "required": [
                     "id",
+                    "type",
                     "bio",
                     "username",
                     "profileImageUrl",
