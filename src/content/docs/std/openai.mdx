@@ -6,7 +6,13 @@ description: Integrate with OpenAI's APIs to add AI capabilities to your vals
 
 Use OpenAI's chat completion API with [`std/openai`](https://www.val.town/v/std/openai). This integration enables access to OpenAI's language models without needing to acquire API keys.
 
-For free Val Town users, [all calls are sent to `gpt-4o-mini`](https://www.val.town/v/std/openaiproxy?v=12#L85).
+Val Town free users can use any cheap model – where output is less than $1 per
+million tokens – such as `gpt-5-nano`, `gpt-4.1-nano`, and `gpt-4o-mini`. Val
+Town Pro users can make 10 expensive requests per rolling 24-hour window, and
+are then bumped down to `gpt-5-nano`.
+
+This SDK is powered by
+[our openapiproxy](https://www.val.town/x/std/openaiproxy).
 
 ## Basic Usage
 
@@ -19,8 +25,8 @@ const completion = await openai.chat.completions.create({
   messages: [
     { role: "user", content: "Say hello in a creative way" },
   ],
-  model: "gpt-4",
-  max_tokens: 30,
+  model: "gpt-5-nano",
+  max_tokens: 100,
 });
 
 console.log(completion.choices[0].message.content);
