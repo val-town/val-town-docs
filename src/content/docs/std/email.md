@@ -86,8 +86,8 @@ export const stdEmailAttachmentExample = email({
 #### Attachment examples
 
 - [Sending a PDF created in code](https://www.val.town/v/stevekrouse/sendPDF)
-- [Recieving an attachment and then sending it along](https://www.val.town/x/stevekrouse/replyEmailWithAttachment/code/main.ts).
-- [Recieving an attachment, sending it to OpenAI, and then emailing it](https://www.val.town/x/ValDotTownOrg/virtual-mail/code/main.ts).
+- [Receiving an attachment and then sending it along](https://www.val.town/x/stevekrouse/replyEmailWithAttachment/code/main.ts).
+- [Receiving an attachment, sending it to OpenAI, and then emailing it](https://www.val.town/x/ValDotTownOrg/virtual-mail/code/main.ts).
 
 ### Headers
 
