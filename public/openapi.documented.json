@@ -543,6 +543,22 @@
           "author": {
             "type": "object",
             "properties": {
+              "type": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "enum": [
+                      "user"
+                    ]
+                  },
+                  {
+                    "type": "string",
+                    "enum": [
+                      "org"
+                    ]
+                  }
+                ]
+              },
               "id": {
                 "format": "uuid",
                 "type": "string"
@@ -559,6 +575,7 @@
               }
             },
             "required": [
+              "type",
               "id",
               "username"
             ]
@@ -643,6 +660,22 @@
           "author": {
             "type": "object",
             "properties": {
+              "type": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "enum": [
+                      "user"
+                    ]
+                  },
+                  {
+                    "type": "string",
+                    "enum": [
+                      "org"
+                    ]
+                  }
+                ]
+              },
               "id": {
                 "format": "uuid",
                 "type": "string"
@@ -659,6 +692,7 @@
               }
             },
             "required": [
+              "type",
               "id",
               "username"
             ]
