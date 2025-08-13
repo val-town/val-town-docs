@@ -2727,6 +2727,11 @@
                       "unlisted",
                       "private"
                     ]
+                  },
+                  "orgId": {
+                    "format": "uuid",
+                    "description": "ID of the org to create the val in",
+                    "type": "string"
                   }
                 },
                 "required": [
