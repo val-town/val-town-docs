@@ -632,6 +632,24 @@
           "links"
         ]
       },
+      "Org": {
+        "description": "An Org",
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "description": "The id of the org",
+            "type": "string"
+          }
+        },
+        "required": [
+          "username",
+          "id"
+        ]
+      },
       "Val": {
         "description": "A Val",
         "type": "object",
@@ -3710,6 +3728,68 @@
             "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: 'My Bearer Token',\n});\n\n// Automatically fetches more pages as needed.\nfor await (const val of client.me.vals.list({ limit: 1, offset: 0 })) {\n  console.log(val.id);\n}"
           }
         ]
+      }
+    },
+    "/v2/orgs": {
+      "get": {
+        "operationId": "orgsList",
+        "tags": [
+          "orgs"
+        ],
+        "description": "Get all orgs you are a member of",
+        "parameters": [
+          {
+            "schema": {
+              "minimum": 0,
+              "default": 0,
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "offset",
+            "required": true,
+            "description": "Number of items to skip in order to deliver paginated results"
+          },
+          {
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "limit",
+            "required": true,
+            "description": "Maximum items to return in each paginated response"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A paginated result set",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "A paginated result set",
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Org"
+                      }
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginationLinks"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "links"
+                  ]
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
