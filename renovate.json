@@ -13,6 +13,19 @@
         "@astrojs/"
       ],
       "automerge": true
+    },
+    {
+      "matchPackageNames": [
+        "@biomejs/biome"
+      ],
+      "postUpgradeTasks": {
+        "commands": [
+          "npx biome migrate --write"
+        ],
+        "fileFilters": [
+          "**"
+        ]
+      }
     }
   ]
 }
