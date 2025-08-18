@@ -6,7 +6,7 @@
   "schedule": [
     "before 6am on monday"
   ],
-  "allowedCommands": ["npx biome migrate --write"],
+  "allowedCommands": ["^npx biome migrate --write$"],
   "packageRules": [
     {
       "matchPackagePatterns": [
