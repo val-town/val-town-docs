@@ -4,10 +4,14 @@ description: Choose custom subdomains of val.run for HTTP vals in projects
 ---
 
 [HTTP endpoints](/vals/http/) within vals can claim custom subdomains
-under `val.run`. To choose a custom subdomain, click the edit button in the
-preview pane and choose a name.
+under `val.run`. To choose a custom subdomain:
 
-![](./choosing-subdomain.png)
+- Click the green HTTP trigger dropdown
+- Select "Custom subdomain"
+- Enter your desired name and click "Save". Your endpoint will be available at
+  `https://<subdomain>.val.run`.
+
+![](./choosing-subdomains.png)
 
 ### Subdomain naming
 
