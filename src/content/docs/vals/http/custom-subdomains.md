@@ -11,7 +11,7 @@ under `val.run`. To choose a custom subdomain:
 - Enter your desired name and click "Save". Your endpoint will be available at
   `https://<subdomain>.val.run`.
 
-![](./choosing-subdomains.png)
+![](./choosing-subdomain.png)
 
 ### Subdomain naming
 
