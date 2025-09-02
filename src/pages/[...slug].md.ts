@@ -26,13 +26,13 @@ export const GET: APIRoute = async ({ params }) => {
 			return new Response("Document not found", { status: 404 });
 		}
 
-		// Reconstruct the markdown with frontmatter
-		const content = `---
-title: ${doc.data.title}
-description: ${doc.data.description}
----
+		// Reconstruct the markdown with frontmatter, safely quoting values
+		const frontmatter = [
+			`title: ${JSON.stringify(doc.data.title)}`,
+			...(doc.data.description ? [`description: ${JSON.stringify(doc.data.description)}`] : []),
+		].join("\n");
 
-${doc.body}`;
+		const content = `---\n${frontmatter}\n---\n\n${doc.body}`;
 
 		// Return the markdown content with frontmatter
 		return new Response(content);

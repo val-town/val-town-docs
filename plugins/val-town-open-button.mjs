@@ -6,9 +6,15 @@ import { select } from "hast-util-select";
  * https://developer.mozilla.org/en-US/docs/Glossary/Base64#the_unicode_problem
  */
 function stringToBase64(str) {
+  // Encode UTF-8 safely without spreading large arrays into the call stack
   const bytes = new TextEncoder().encode(str);
-  const binString = String.fromCodePoint(...bytes);
-  return btoa(binString);
+  let binary = "";
+  const chunkSize = 0x8000; // 32KB chunks to avoid call stack limits
+  for (let i = 0; i < bytes.length; i += chunkSize) {
+    const chunk = bytes.subarray(i, i + chunkSize);
+    binary += String.fromCharCode.apply(null, chunk);
+  }
+  return btoa(binary);
 }
 
 export function valTownOpenButton() {
