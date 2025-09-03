@@ -12,7 +12,7 @@ menu next to the val's name.
 
 ## Imports & pinning
 
-Vals are imported via esm.town URLs. If you leave off the version number, it's an unpinned import, and you'll always get the latest version. If you include a version number, it's a pinned import, and you'll always get that version.
+Vals are imported via esm.town URLs. If you leave off the version number, it's an unpinned import, and you'll get the latest version _at the time_, which our lockfile will freeze so that your code runs consistently even if newer versions of the imported file might include breaking changes. If you include a version number, it's a pinned import, and you'll always get that version.
 
 ```ts title="Unpinned val import"
 import { myVal } from "https://esm.town/v/username/valname";
