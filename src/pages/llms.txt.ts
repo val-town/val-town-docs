@@ -2,63 +2,62 @@ import { getCollection } from "astro:content";
 import type { APIRoute } from "astro";
 
 export function getStaticPaths() {
-	return [{ params: {} }];
+  return [{ params: {} }];
 }
 
 export const GET: APIRoute = async () => {
-	const docs = await getCollection("docs");
+  const docs = await getCollection("docs");
 
-	const SECTIONS = {
-		quickstarts: "Getting Started",
-		vals: "Vals",
-		projects: "Projects",
-		reference: "Reference",
-		std: "Standard Library",
-		api: "REST API",
-		troubleshooting: "Troubleshooting",
-		guides: "Guides",
-		integrations: "Integrations",
-	} as const;
+  const SECTIONS = {
+    quickstarts: "Getting Started",
+    vals: "Vals",
+    projects: "Projects",
+    reference: "Reference",
+    std: "Standard Library",
+    api: "REST API",
+    troubleshooting: "Troubleshooting",
+    guides: "Guides",
+    integrations: "Integrations",
+  } as const;
 
-	type SectionKey = keyof typeof SECTIONS;
-	const sections = Object.keys(SECTIONS) as SectionKey[];
-	const docsBySection: Record<SectionKey, (typeof docs)[number][]> =
-		{} as Record<SectionKey, (typeof docs)[number][]>;
+  type SectionKey = keyof typeof SECTIONS;
+  const sections = Object.keys(SECTIONS) as SectionKey[];
+  const docsBySection: Record<SectionKey, (typeof docs)[number][]> =
+    {} as Record<SectionKey, (typeof docs)[number][]>;
 
-	sections.forEach((key) => {
-		docsBySection[key] = [];
-	});
+  sections.forEach((key) => {
+    docsBySection[key] = [];
+  });
 
-	docs.forEach((doc) => {
-		const section = doc.slug.split("/")[0];
-		if (section !== "index" && section in SECTIONS) {
-			docsBySection[section as SectionKey].push(doc);
-		}
-	});
+  docs.forEach((doc) => {
+    const section = doc.slug.split("/")[0];
+    if (section !== "index" && section in SECTIONS) {
+      docsBySection[section as SectionKey].push(doc);
+    }
+  });
 
-	let content = "# Val Town Documentation\n\n";
+  let content = "# Val Town Documentation\n\n";
 
-	for (const section of sections) {
-		const sectionDocs = docsBySection[section];
-		if (sectionDocs.length === 0) continue;
+  for (const section of sections) {
+    const sectionDocs = docsBySection[section];
+    if (sectionDocs.length === 0) continue;
 
-		content += `## ${SECTIONS[section]}\n`;
+    content += `## ${SECTIONS[section]}\n`;
 
-		for (const doc of sectionDocs) {
-			const description = doc.data.description
-				? `: ${doc.data.description}`
-				: "";
-			content += `- [${doc.data.title}](https://docs.val.town/${doc.slug}.md)${description}\n`;
-		}
+    for (const doc of sectionDocs) {
+      const description = doc.data.description
+        ? `: ${doc.data.description}`
+        : "";
+      content += `- [${doc.data.title}](https://docs.val.town/${doc.slug}.md)${description}\n`;
+    }
 
-		content += "\n";
-	}
+    content += "\n";
+  }
 
-	content += `## Optional\n`;
-	content += `- [Discord](https://discord.gg/dHv45uN5RY)\n`;
-	content += `- [Email](mailto:docs-help@val.town)\n`;
-	content += `- [Blog](https://blog.val.town/)\n`;
+  content += `## Optional\n`;
+  content += `- [Discord](https://discord.gg/dHv45uN5RY)\n`;
+  content += `- [Email](mailto:docs-help@val.town)\n`;
+  content += `- [Blog](https://blog.val.town/)\n`;
 
-	return new Response(content);
+  return new Response(content);
 };
-

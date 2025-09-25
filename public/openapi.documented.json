@@ -26,10 +26,7 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "user",
-              "org"
-            ],
+            "enum": ["user", "org"],
             "description": "Whether this is a user or an organization"
           },
           "bio": {
@@ -80,9 +77,7 @@
                 "type": "string"
               }
             },
-            "required": [
-              "self"
-            ]
+            "required": ["self"]
           }
         },
         "required": [
@@ -151,12 +146,7 @@
             ]
           }
         },
-        "required": [
-          "columns",
-          "columnTypes",
-          "rows",
-          "rowsAffected"
-        ]
+        "required": ["columns", "columnTypes", "rows", "rowsAffected"]
       },
       "ExtendedVal": {
         "description": "A Legacy Val",
@@ -201,11 +191,7 @@
           },
           "privacy": {
             "type": "string",
-            "enum": [
-              "public",
-              "unlisted",
-              "private"
-            ],
+            "enum": ["public", "unlisted", "private"],
             "description": "This resource's privacy setting. Unlisted resources do not appear on profile pages or elsewhere, but you can link to them."
           },
           "type": {
@@ -250,11 +236,7 @@
                 "type": "string"
               }
             },
-            "required": [
-              "self",
-              "versions",
-              "module"
-            ]
+            "required": ["self", "versions", "module"]
           },
           "author": {
             "anyOf": [
@@ -277,10 +259,7 @@
                     ]
                   }
                 },
-                "required": [
-                  "id",
-                  "username"
-                ]
+                "required": ["id", "username"]
               },
               {
                 "type": "null"
@@ -374,11 +353,7 @@
           },
           "privacy": {
             "type": "string",
-            "enum": [
-              "public",
-              "unlisted",
-              "private"
-            ],
+            "enum": ["public", "unlisted", "private"],
             "description": "This resource's privacy setting. Unlisted resources do not appear on profile pages or elsewhere, but you can link to them."
           },
           "type": {
@@ -423,11 +398,7 @@
                 "type": "string"
               }
             },
-            "required": [
-              "self",
-              "versions",
-              "module"
-            ]
+            "required": ["self", "versions", "module"]
           },
           "author": {
             "anyOf": [
@@ -450,10 +421,7 @@
                     ]
                   }
                 },
-                "required": [
-                  "id",
-                  "username"
-                ]
+                "required": ["id", "username"]
               },
               {
                 "type": "null"
@@ -511,9 +479,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "self"
-        ]
+        "required": ["self"]
       },
       "Project": {
         "description": "A Project",
@@ -533,11 +499,7 @@
           },
           "privacy": {
             "type": "string",
-            "enum": [
-              "public",
-              "unlisted",
-              "private"
-            ],
+            "enum": ["public", "unlisted", "private"],
             "description": "This resource's privacy setting. Unlisted resources do not appear on profile pages or elsewhere, but you can link to them."
           },
           "author": {
@@ -547,15 +509,11 @@
                 "anyOf": [
                   {
                     "type": "string",
-                    "enum": [
-                      "user"
-                    ]
+                    "enum": ["user"]
                   },
                   {
                     "type": "string",
-                    "enum": [
-                      "org"
-                    ]
+                    "enum": ["org"]
                   }
                 ]
               },
@@ -574,11 +532,7 @@
                 ]
               }
             },
-            "required": [
-              "type",
-              "id",
-              "username"
-            ]
+            "required": ["type", "id", "username"]
           },
           "description": {
             "anyOf": [
@@ -615,10 +569,7 @@
                 "type": "string"
               }
             },
-            "required": [
-              "self",
-              "html"
-            ]
+            "required": ["self", "html"]
           }
         },
         "required": [
@@ -645,10 +596,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "username",
-          "id"
-        ]
+        "required": ["username", "id"]
       },
       "Val": {
         "description": "A Val",
@@ -668,11 +616,7 @@
           },
           "privacy": {
             "type": "string",
-            "enum": [
-              "public",
-              "unlisted",
-              "private"
-            ],
+            "enum": ["public", "unlisted", "private"],
             "description": "This resource's privacy setting. Unlisted resources do not appear on profile pages or elsewhere, but you can link to them."
           },
           "author": {
@@ -682,15 +626,11 @@
                 "anyOf": [
                   {
                     "type": "string",
-                    "enum": [
-                      "user"
-                    ]
+                    "enum": ["user"]
                   },
                   {
                     "type": "string",
-                    "enum": [
-                      "org"
-                    ]
+                    "enum": ["org"]
                   }
                 ]
               },
@@ -709,11 +649,7 @@
                 ]
               }
             },
-            "required": [
-              "type",
-              "id",
-              "username"
-            ]
+            "required": ["type", "id", "username"]
           },
           "imageUrl": {
             "anyOf": [
@@ -750,10 +686,7 @@
                 "type": "string"
               }
             },
-            "required": [
-              "self",
-              "html"
-            ]
+            "required": ["self", "html"]
           }
         },
         "required": [
@@ -816,10 +749,7 @@
                 "type": "string"
               }
             },
-            "required": [
-              "self",
-              "html"
-            ]
+            "required": ["self", "html"]
           }
         },
         "required": [
@@ -869,14 +799,7 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "directory",
-              "file",
-              "interval",
-              "http",
-              "email",
-              "script"
-            ]
+            "enum": ["directory", "file", "interval", "http", "email", "script"]
           },
           "links": {
             "type": "object",
@@ -902,11 +825,7 @@
                 "type": "string"
               }
             },
-            "required": [
-              "self",
-              "html",
-              "module"
-            ]
+            "required": ["self", "html", "module"]
           }
         },
         "required": [
@@ -945,14 +864,7 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "directory",
-              "file",
-              "interval",
-              "http",
-              "email",
-              "script"
-            ]
+            "enum": ["directory", "file", "interval", "http", "email", "script"]
           },
           "links": {
             "type": "object",
@@ -978,11 +890,7 @@
                 "type": "string"
               }
             },
-            "required": [
-              "self",
-              "html",
-              "module"
-            ]
+            "required": ["self", "html", "module"]
           }
         },
         "required": [
@@ -1001,9 +909,7 @@
     "/v1/search/vals": {
       "get": {
         "operationId": "searchVals",
-        "tags": [
-          "search"
-        ],
+        "tags": ["search"],
         "description": "Search for vals across the platform",
         "parameters": [
           {
@@ -1060,10 +966,7 @@
                       "$ref": "#/components/schemas/PaginationLinks"
                     }
                   },
-                  "required": [
-                    "data",
-                    "links"
-                  ]
+                  "required": ["data", "links"]
                 }
               }
             }
@@ -1080,9 +983,7 @@
     "/v1/alias/{username}": {
       "get": {
         "operationId": "aliasUsername",
-        "tags": [
-          "alias"
-        ],
+        "tags": ["alias"],
         "description": "Get basic details about a user, given their username",
         "parameters": [
           {
@@ -1118,9 +1019,7 @@
     "/v1/me": {
       "get": {
         "operationId": "meGet",
-        "tags": [
-          "me"
-        ],
+        "tags": ["me"],
         "description": "Get profile information for the current user",
         "responses": {
           "200": {
@@ -1138,10 +1037,7 @@
                     },
                     "type": {
                       "type": "string",
-                      "enum": [
-                        "user",
-                        "org"
-                      ],
+                      "enum": ["user", "org"],
                       "description": "Whether this is a user or an organization"
                     },
                     "bio": {
@@ -1192,18 +1088,13 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "self"
-                      ]
+                      "required": ["self"]
                     },
                     "tier": {
                       "anyOf": [
                         {
                           "type": "string",
-                          "enum": [
-                            "free",
-                            "pro"
-                          ],
+                          "enum": ["free", "pro"],
                           "description": "Your account tier"
                         },
                         {
@@ -1258,9 +1149,7 @@
     "/v1/blob": {
       "get": {
         "operationId": "blobsList",
-        "tags": [
-          "blobs"
-        ],
+        "tags": ["blobs"],
         "description": "List blobs in your account",
         "parameters": [
           {
@@ -1298,9 +1187,7 @@
                         "type": "string"
                       }
                     },
-                    "required": [
-                      "key"
-                    ]
+                    "required": ["key"]
                   }
                 },
                 "example": [
@@ -1325,9 +1212,7 @@
     "/v1/blob/{key}": {
       "get": {
         "operationId": "blobsGet",
-        "tags": [
-          "blobs"
-        ],
+        "tags": ["blobs"],
         "description": "Get a blob’s contents.",
         "parameters": [
           {
@@ -1364,9 +1249,7 @@
       },
       "post": {
         "operationId": "blobsStore",
-        "tags": [
-          "blobs"
-        ],
+        "tags": ["blobs"],
         "description": "Store data in blob storage",
         "requestBody": {
           "content": {
@@ -1412,9 +1295,7 @@
       },
       "delete": {
         "operationId": "blobsDelete",
-        "tags": [
-          "blobs"
-        ],
+        "tags": ["blobs"],
         "description": "Delete a blob",
         "parameters": [
           {
@@ -1450,9 +1331,7 @@
     "/v1/users/{user_id}": {
       "get": {
         "operationId": "usersGet",
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "description": "Get basic information about a user",
         "parameters": [
           {
@@ -1489,9 +1368,7 @@
     "/v1/sqlite/execute": {
       "post": {
         "operationId": "sqliteExecute",
-        "tags": [
-          "sqlite"
-        ],
+        "tags": ["sqlite"],
         "description": "Execute a single SQLite statement and return results",
         "requestBody": {
           "content": {
@@ -1536,17 +1413,12 @@
                             ]
                           }
                         },
-                        "required": [
-                          "sql",
-                          "args"
-                        ]
+                        "required": ["sql", "args"]
                       }
                     ]
                   }
                 },
-                "required": [
-                  "statement"
-                ]
+                "required": ["statement"]
               },
               "examples": {
                 "example1": {
@@ -1558,9 +1430,7 @@
                   "value": {
                     "statement": {
                       "sql": "SELECT * FROM table WHERE column = ?;",
-                      "args": [
-                        1
-                      ]
+                      "args": [1]
                     }
                   }
                 }
@@ -1598,9 +1468,7 @@
     "/v1/sqlite/batch": {
       "post": {
         "operationId": "sqliteBatch",
-        "tags": [
-          "sqlite"
-        ],
+        "tags": ["sqlite"],
         "description": "Execute a batch of SQLite statements and return results for all of them",
         "requestBody": {
           "content": {
@@ -1647,31 +1515,20 @@
                               ]
                             }
                           },
-                          "required": [
-                            "sql",
-                            "args"
-                          ]
+                          "required": ["sql", "args"]
                         }
                       ]
                     }
                   },
                   "mode": {
                     "type": "string",
-                    "enum": [
-                      "write",
-                      "read",
-                      "deferred"
-                    ]
+                    "enum": ["write", "read", "deferred"]
                   }
                 },
-                "required": [
-                  "statements"
-                ]
+                "required": ["statements"]
               },
               "example": {
-                "statements": [
-                  "SELECT 1;"
-                ],
+                "statements": ["SELECT 1;"],
                 "mode": "read"
               }
             }
@@ -1698,17 +1555,9 @@
                 },
                 "example": [
                   {
-                    "columns": [
-                      "id"
-                    ],
-                    "columnTypes": [
-                      "number"
-                    ],
-                    "rows": [
-                      [
-                        1
-                      ]
-                    ],
+                    "columns": ["id"],
+                    "columnTypes": ["number"],
+                    "rows": [[1]],
                     "rowsAffected": 0,
                     "lastInsertRowid": null
                   }
@@ -1728,9 +1577,7 @@
     "/v1/email": {
       "post": {
         "operationId": "emailsSend",
-        "tags": [
-          "emails"
-        ],
+        "tags": ["emails"],
         "description": "Send emails",
         "requestBody": {
           "content": {
@@ -1761,9 +1608,7 @@
                             "type": "string"
                           }
                         },
-                        "required": [
-                          "email"
-                        ]
+                        "required": ["email"]
                       }
                     ]
                   },
@@ -1796,9 +1641,7 @@
                                 "type": "string"
                               }
                             },
-                            "required": [
-                              "email"
-                            ]
+                            "required": ["email"]
                           }
                         ]
                       },
@@ -1823,9 +1666,7 @@
                                   "type": "string"
                                 }
                               },
-                              "required": [
-                                "email"
-                              ]
+                              "required": ["email"]
                             }
                           ]
                         }
@@ -1854,9 +1695,7 @@
                                 "type": "string"
                               }
                             },
-                            "required": [
-                              "email"
-                            ]
+                            "required": ["email"]
                           }
                         ]
                       },
@@ -1881,9 +1720,7 @@
                                   "type": "string"
                                 }
                               },
-                              "required": [
-                                "email"
-                              ]
+                              "required": ["email"]
                             }
                           ]
                         }
@@ -1912,9 +1749,7 @@
                                 "type": "string"
                               }
                             },
-                            "required": [
-                              "email"
-                            ]
+                            "required": ["email"]
                           }
                         ]
                       },
@@ -1939,9 +1774,7 @@
                                   "type": "string"
                                 }
                               },
-                              "required": [
-                                "email"
-                              ]
+                              "required": ["email"]
                             }
                           ]
                         }
@@ -1979,10 +1812,7 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "content",
-                        "filename"
-                      ]
+                      "required": ["content", "filename"]
                     }
                   },
                   "replyToList": {
@@ -2001,9 +1831,7 @@
                             "type": "string"
                           }
                         },
-                        "required": [
-                          "email"
-                        ]
+                        "required": ["email"]
                       },
                       {
                         "title": "EmailList",
@@ -2020,9 +1848,7 @@
                               "type": "string"
                             }
                           },
-                          "required": [
-                            "email"
-                          ]
+                          "required": ["email"]
                         }
                       }
                     ]
@@ -2056,9 +1882,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "message"
-                  ]
+                  "required": ["message"]
                 }
               }
             }
@@ -2074,9 +1898,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "error"
-                  ]
+                  "required": ["error"]
                 }
               }
             }
@@ -2093,9 +1915,7 @@
     "/v1/telemetry/traces": {
       "get": {
         "operationId": "traceList",
-        "tags": [
-          "telemetry"
-        ],
+        "tags": ["telemetry"],
         "description": "Get OpenTelemetry traces within a specified time window with flexible pagination options: Pass in only the end time to paginate backwards from there. Pass in a start time to paginate backwards from now until the start time. Pass in both to get resources within the time window. Choose to return in end_time order instead to view traces that completed in a window or since a time. Filter additionally by branch_ids or file_id.",
         "parameters": [
           {
@@ -2127,15 +1947,11 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "enum": [
-                    "asc"
-                  ]
+                  "enum": ["asc"]
                 },
                 {
                   "type": "string",
-                  "enum": [
-                    "desc"
-                  ]
+                  "enum": ["desc"]
                 }
               ]
             },
@@ -2182,15 +1998,11 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "enum": [
-                    "start_time"
-                  ]
+                  "enum": ["start_time"]
                 },
                 {
                   "type": "string",
-                  "enum": [
-                    "end_time"
-                  ]
+                  "enum": ["end_time"]
                 }
               ]
             },
@@ -2258,10 +2070,7 @@
                                   }
                                 }
                               },
-                              "required": [
-                                "key",
-                                "value"
-                              ]
+                              "required": ["key", "value"]
                             }
                           },
                           "status": {
@@ -2274,10 +2083,7 @@
                                 "type": "number"
                               }
                             },
-                            "required": [
-                              "message",
-                              "code"
-                            ]
+                            "required": ["message", "code"]
                           }
                         },
                         "required": [
@@ -2294,10 +2100,7 @@
                       "$ref": "#/components/schemas/PaginationLinks"
                     }
                   },
-                  "required": [
-                    "data",
-                    "links"
-                  ]
+                  "required": ["data", "links"]
                 }
               }
             }
@@ -2314,9 +2117,7 @@
     "/v1/telemetry/logs": {
       "get": {
         "operationId": "logList",
-        "tags": [
-          "telemetry"
-        ],
+        "tags": ["telemetry"],
         "description": "Get OpenTelemetry logs within a specified time window with flexible pagination options: Pass in only the end time to paginate backwards from there. Pass in a start time to paginate backwards from now until the start time. Pass in both to get resources within the time window. Filter additionally by branch_ids or file_id.",
         "parameters": [
           {
@@ -2360,15 +2161,11 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "enum": [
-                    "asc"
-                  ]
+                  "enum": ["asc"]
                 },
                 {
                   "type": "string",
-                  "enum": [
-                    "desc"
-                  ]
+                  "enum": ["desc"]
                 }
               ]
             },
@@ -2483,10 +2280,7 @@
                                   }
                                 }
                               },
-                              "required": [
-                                "key",
-                                "value"
-                              ]
+                              "required": ["key", "value"]
                             }
                           },
                           "severityText": {
@@ -2506,10 +2300,7 @@
                       "$ref": "#/components/schemas/PaginationLinks"
                     }
                   },
-                  "required": [
-                    "data",
-                    "links"
-                  ]
+                  "required": ["data", "links"]
                 }
               }
             }
@@ -2526,9 +2317,7 @@
     "/v2/vals/{val_id}": {
       "get": {
         "operationId": "valsGet2",
-        "tags": [
-          "vals"
-        ],
+        "tags": ["vals"],
         "description": "Get a val by id",
         "parameters": [
           {
@@ -2563,9 +2352,7 @@
       },
       "delete": {
         "operationId": "projectsDelete2",
-        "tags": [
-          "vals"
-        ],
+        "tags": ["vals"],
         "description": "Delete a project",
         "parameters": [
           {
@@ -2605,19 +2392,13 @@
     "/v2/vals": {
       "get": {
         "operationId": "valsList2",
-        "tags": [
-          "vals"
-        ],
+        "tags": ["vals"],
         "description": "Lists all vals including all public vals and your unlisted and private vals",
         "parameters": [
           {
             "schema": {
               "type": "string",
-              "enum": [
-                "public",
-                "unlisted",
-                "private"
-              ]
+              "enum": ["public", "unlisted", "private"]
             },
             "in": "query",
             "name": "privacy",
@@ -2681,10 +2462,7 @@
                       "$ref": "#/components/schemas/PaginationLinks"
                     }
                   },
-                  "required": [
-                    "data",
-                    "links"
-                  ]
+                  "required": ["data", "links"]
                 }
               }
             }
@@ -2699,9 +2477,7 @@
       },
       "post": {
         "operationId": "valsCreate2",
-        "tags": [
-          "vals"
-        ],
+        "tags": ["vals"],
         "description": "Create a new val",
         "requestBody": {
           "content": {
@@ -2722,11 +2498,7 @@
                   },
                   "privacy": {
                     "type": "string",
-                    "enum": [
-                      "public",
-                      "unlisted",
-                      "private"
-                    ]
+                    "enum": ["public", "unlisted", "private"]
                   },
                   "orgId": {
                     "format": "uuid",
@@ -2734,10 +2506,7 @@
                     "type": "string"
                   }
                 },
-                "required": [
-                  "name",
-                  "privacy"
-                ]
+                "required": ["name", "privacy"]
               },
               "example": {
                 "name": "myVal",
@@ -2782,9 +2551,7 @@
     "/v2/vals/{val_id}/branches/{branch_id}": {
       "get": {
         "operationId": "branchesGet2",
-        "tags": [
-          "vals"
-        ],
+        "tags": ["vals"],
         "description": "Get a branch by id",
         "parameters": [
           {
@@ -2829,9 +2596,7 @@
       },
       "delete": {
         "operationId": "branchesDelete2",
-        "tags": [
-          "vals"
-        ],
+        "tags": ["vals"],
         "description": "Delete a branch",
         "parameters": [
           {
@@ -2881,9 +2646,7 @@
     "/v2/vals/{val_id}/branches": {
       "get": {
         "operationId": "branchesList2",
-        "tags": [
-          "vals"
-        ],
+        "tags": ["vals"],
         "description": "List all branches for a val",
         "parameters": [
           {
@@ -2939,10 +2702,7 @@
                       "$ref": "#/components/schemas/PaginationLinks"
                     }
                   },
-                  "required": [
-                    "data",
-                    "links"
-                  ]
+                  "required": ["data", "links"]
                 }
               }
             }
@@ -2957,9 +2717,7 @@
       },
       "post": {
         "operationId": "branchesCreate2",
-        "tags": [
-          "vals"
-        ],
+        "tags": ["vals"],
         "description": "Create a new branch",
         "requestBody": {
           "content": {
@@ -2980,9 +2738,7 @@
                     "type": "string"
                   }
                 },
-                "required": [
-                  "name"
-                ]
+                "required": ["name"]
               },
               "example": {
                 "name": "my-branch",
@@ -3038,9 +2794,7 @@
     "/v2/vals/{val_id}/files": {
       "get": {
         "operationId": "valFilesGet2",
-        "tags": [
-          "vals"
-        ],
+        "tags": ["vals"],
         "description": "Get metadata for files and directories in a val. If path is an empty string, returns files at the root directory.",
         "parameters": [
           {
@@ -3135,10 +2889,7 @@
                       "$ref": "#/components/schemas/PaginationLinks"
                     }
                   },
-                  "required": [
-                    "data",
-                    "links"
-                  ]
+                  "required": ["data", "links"]
                 }
               }
             }
@@ -3153,9 +2904,7 @@
       },
       "post": {
         "operationId": "filesCreate2",
-        "tags": [
-          "vals"
-        ],
+        "tags": ["vals"],
         "description": "Create a new file, project val or directory",
         "requestBody": {
           "content": {
@@ -3167,17 +2916,13 @@
                     "properties": {
                       "type": {
                         "type": "string",
-                        "enum": [
-                          "directory"
-                        ]
+                        "enum": ["directory"]
                       },
                       "content": {
                         "type": "null"
                       }
                     },
-                    "required": [
-                      "type"
-                    ]
+                    "required": ["type"]
                   },
                   {
                     "type": "object",
@@ -3190,19 +2935,10 @@
                       },
                       "type": {
                         "type": "string",
-                        "enum": [
-                          "file",
-                          "interval",
-                          "http",
-                          "email",
-                          "script"
-                        ]
+                        "enum": ["file", "interval", "http", "email", "script"]
                       }
                     },
-                    "required": [
-                      "content",
-                      "type"
-                    ]
+                    "required": ["content", "type"]
                   }
                 ]
               }
@@ -3263,9 +2999,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "message"
-                  ]
+                  "required": ["message"]
                 }
               }
             }
@@ -3280,9 +3014,7 @@
       },
       "delete": {
         "operationId": "filesDelete2",
-        "tags": [
-          "vals"
-        ],
+        "tags": ["vals"],
         "description": "Deletes a file or a directory. To delete a directory and all of its children, use the recursive flag. To delete all files, pass in an empty path and the recursive flag.",
         "parameters": [
           {
@@ -3349,9 +3081,7 @@
       },
       "put": {
         "operationId": "fileContentUpdate2",
-        "tags": [
-          "vals"
-        ],
+        "tags": ["vals"],
         "description": "Update a file's content",
         "requestBody": {
           "content": {
@@ -3367,13 +3097,7 @@
                   },
                   "type": {
                     "type": "string",
-                    "enum": [
-                      "file",
-                      "interval",
-                      "http",
-                      "email",
-                      "script"
-                    ]
+                    "enum": ["file", "interval", "http", "email", "script"]
                   },
                   "parent_path": {
                     "anyOf": [
@@ -3461,9 +3185,7 @@
     "/v2/vals/{val_id}/files/content": {
       "get": {
         "operationId": "filesContentGet2",
-        "tags": [
-          "vals"
-        ],
+        "tags": ["vals"],
         "description": "Download file content",
         "parameters": [
           {
@@ -3580,9 +3302,7 @@
     "/v2/files/{file_id}": {
       "get": {
         "operationId": "queryValFileById",
-        "tags": [
-          "files"
-        ],
+        "tags": ["files"],
         "description": "Get file metadata by file ID",
         "parameters": [
           {
@@ -3618,9 +3338,7 @@
     "/v2/alias/vals/{username}/{val_name}": {
       "get": {
         "operationId": "aliasVal2",
-        "tags": [
-          "alias"
-        ],
+        "tags": ["alias"],
         "description": "Get a val",
         "parameters": [
           {
@@ -3665,9 +3383,7 @@
     "/v2/me/vals": {
       "get": {
         "operationId": "meVals2",
-        "tags": [
-          "me"
-        ],
+        "tags": ["me"],
         "description": "[BETA] List all of a user's vals for authenticated users",
         "parameters": [
           {
@@ -3718,10 +3434,7 @@
                       "$ref": "#/components/schemas/PaginationLinks"
                     }
                   },
-                  "required": [
-                    "data",
-                    "links"
-                  ]
+                  "required": ["data", "links"]
                 }
               }
             }
@@ -3738,9 +3451,7 @@
     "/v2/orgs": {
       "get": {
         "operationId": "orgsList",
-        "tags": [
-          "orgs"
-        ],
+        "tags": ["orgs"],
         "description": "Get all orgs you are a member of",
         "parameters": [
           {
@@ -3786,10 +3497,7 @@
                       "$ref": "#/components/schemas/PaginationLinks"
                     }
                   },
-                  "required": [
-                    "data",
-                    "links"
-                  ]
+                  "required": ["data", "links"]
                 }
               }
             }

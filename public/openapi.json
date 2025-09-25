@@ -66,12 +66,7 @@
             ]
           }
         },
-        "required": [
-          "id",
-          "bio",
-          "username",
-          "profileImageUrl"
-        ]
+        "required": ["id", "bio", "username", "profileImageUrl"]
       },
       "ResultSet": {
         "title": "ResultSet",
@@ -121,12 +116,7 @@
             ]
           }
         },
-        "required": [
-          "columns",
-          "columnTypes",
-          "rows",
-          "rowsAffected"
-        ]
+        "required": ["columns", "columnTypes", "rows", "rowsAffected"]
       },
       "ExtendedVal": {
         "description": "A Val",
@@ -167,23 +157,12 @@
           },
           "privacy": {
             "type": "string",
-            "enum": [
-              "public",
-              "unlisted",
-              "private"
-            ],
+            "enum": ["public", "unlisted", "private"],
             "description": "This val’s privacy setting. Unlisted vals do not appear on profile pages or elsewhere, but you can link to them."
           },
           "type": {
             "type": "string",
-            "enum": [
-              "interval",
-              "http",
-              "express",
-              "email",
-              "script",
-              "rpc"
-            ]
+            "enum": ["interval", "http", "express", "email", "script", "rpc"]
           },
           "author": {
             "anyOf": [
@@ -206,10 +185,7 @@
                     ]
                   }
                 },
-                "required": [
-                  "id",
-                  "username"
-                ]
+                "required": ["id", "username"]
               },
               {
                 "type": "null"
@@ -305,23 +281,12 @@
           },
           "privacy": {
             "type": "string",
-            "enum": [
-              "public",
-              "unlisted",
-              "private"
-            ],
+            "enum": ["public", "unlisted", "private"],
             "description": "This val’s privacy setting. Unlisted vals do not appear on profile pages or elsewhere, but you can link to them."
           },
           "type": {
             "type": "string",
-            "enum": [
-              "interval",
-              "http",
-              "express",
-              "email",
-              "script",
-              "rpc"
-            ]
+            "enum": ["interval", "http", "express", "email", "script", "rpc"]
           },
           "author": {
             "anyOf": [
@@ -344,10 +309,7 @@
                     ]
                   }
                 },
-                "required": [
-                  "id",
-                  "username"
-                ]
+                "required": ["id", "username"]
               },
               {
                 "type": "null"
@@ -387,9 +349,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "self"
-        ]
+        "required": ["self"]
       }
     }
   },
@@ -397,9 +357,7 @@
     "/v1/search/vals": {
       "get": {
         "operationId": "searchVals",
-        "tags": [
-          "search"
-        ],
+        "tags": ["search"],
         "description": "Search for vals across the platform",
         "parameters": [
           {
@@ -441,15 +399,11 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "enum": [
-                    "exact"
-                  ]
+                  "enum": ["exact"]
                 },
                 {
                   "type": "string",
-                  "enum": [
-                    "semantic"
-                  ]
+                  "enum": ["semantic"]
                 }
               ]
             },
@@ -478,10 +432,7 @@
                       "$ref": "#/components/schemas/PaginationLinks"
                     }
                   },
-                  "required": [
-                    "data",
-                    "links"
-                  ]
+                  "required": ["data", "links"]
                 }
               }
             }
@@ -492,9 +443,7 @@
     "/v1/alias/{username}": {
       "get": {
         "operationId": "aliasUsername",
-        "tags": [
-          "alias"
-        ],
+        "tags": ["alias"],
         "description": "Get basic details about a user, given their username",
         "parameters": [
           {
@@ -524,9 +473,7 @@
     "/v1/alias/{username}/{val_name}": {
       "get": {
         "operationId": "aliasVal",
-        "tags": [
-          "alias"
-        ],
+        "tags": ["alias"],
         "description": "Get a val",
         "parameters": [
           {
@@ -592,11 +539,7 @@
                     },
                     "privacy": {
                       "type": "string",
-                      "enum": [
-                        "public",
-                        "unlisted",
-                        "private"
-                      ],
+                      "enum": ["public", "unlisted", "private"],
                       "description": "This val’s privacy setting. Unlisted vals do not appear on profile pages or elsewhere, but you can link to them."
                     },
                     "type": {
@@ -631,10 +574,7 @@
                               ]
                             }
                           },
-                          "required": [
-                            "id",
-                            "username"
-                          ]
+                          "required": ["id", "username"]
                         },
                         {
                           "type": "null"
@@ -684,9 +624,7 @@
     "/v1/me": {
       "get": {
         "operationId": "meGet",
-        "tags": [
-          "me"
-        ],
+        "tags": ["me"],
         "description": "Get profile information for the current user",
         "responses": {
           "200": {
@@ -739,10 +677,7 @@
                       "anyOf": [
                         {
                           "type": "string",
-                          "enum": [
-                            "free",
-                            "pro"
-                          ]
+                          "enum": ["free", "pro"]
                         },
                         {
                           "type": "null"
@@ -774,9 +709,7 @@
     "/v1/me/likes": {
       "get": {
         "operationId": "meLikes",
-        "tags": [
-          "me"
-        ],
+        "tags": ["me"],
         "description": "Get vals liked by the current user",
         "parameters": [
           {
@@ -822,10 +755,7 @@
                       "$ref": "#/components/schemas/PaginationLinks"
                     }
                   },
-                  "required": [
-                    "data",
-                    "links"
-                  ]
+                  "required": ["data", "links"]
                 }
               }
             }
@@ -836,9 +766,7 @@
     "/v1/me/comments": {
       "get": {
         "operationId": "meComments",
-        "tags": [
-          "me"
-        ],
+        "tags": ["me"],
         "description": "Get comments related to current user, either given or received",
         "parameters": [
           {
@@ -887,11 +815,7 @@
           {
             "schema": {
               "type": "string",
-              "enum": [
-                "any",
-                "received",
-                "given"
-              ],
+              "enum": ["any", "received", "given"],
               "default": "any"
             },
             "in": "query",
@@ -945,10 +869,7 @@
                                 ]
                               }
                             },
-                            "required": [
-                              "id",
-                              "username"
-                            ]
+                            "required": ["id", "username"]
                           },
                           "val": {
                             "type": "object",
@@ -967,11 +888,7 @@
                               },
                               "privacy": {
                                 "type": "string",
-                                "enum": [
-                                  "public",
-                                  "unlisted",
-                                  "private"
-                                ],
+                                "enum": ["public", "unlisted", "private"],
                                 "description": "This val’s privacy setting. Unlisted vals do not appear on profile pages or elsewhere, but you can link to them."
                               },
                               "author": {
@@ -995,10 +912,7 @@
                                         ]
                                       }
                                     },
-                                    "required": [
-                                      "id",
-                                      "username"
-                                    ]
+                                    "required": ["id", "username"]
                                   },
                                   {
                                     "type": "null"
@@ -1028,10 +942,7 @@
                       "$ref": "#/components/schemas/PaginationLinks"
                     }
                   },
-                  "required": [
-                    "data",
-                    "links"
-                  ]
+                  "required": ["data", "links"]
                 }
               }
             }
@@ -1042,9 +953,7 @@
     "/v1/me/references": {
       "get": {
         "operationId": "meReferences",
-        "tags": [
-          "me"
-        ],
+        "tags": ["me"],
         "description": "Get vals that depend on any of the user's vals",
         "parameters": [
           {
@@ -1137,12 +1046,7 @@
                                 "type": "string"
                               }
                             },
-                            "required": [
-                              "id",
-                              "username",
-                              "author_id",
-                              "name"
-                            ]
+                            "required": ["id", "username", "author_id", "name"]
                           },
                           "dependsOn": {
                             "type": "object",
@@ -1176,33 +1080,21 @@
                                 "type": "string"
                               }
                             },
-                            "required": [
-                              "id",
-                              "username",
-                              "author_id",
-                              "name"
-                            ]
+                            "required": ["id", "username", "author_id", "name"]
                           },
                           "referencedAt": {
                             "format": "date-time",
                             "type": "string"
                           }
                         },
-                        "required": [
-                          "reference",
-                          "dependsOn",
-                          "referencedAt"
-                        ]
+                        "required": ["reference", "dependsOn", "referencedAt"]
                       }
                     },
                     "links": {
                       "$ref": "#/components/schemas/PaginationLinks"
                     }
                   },
-                  "required": [
-                    "data",
-                    "links"
-                  ]
+                  "required": ["data", "links"]
                 }
               }
             }
@@ -1213,9 +1105,7 @@
     "/v1/blob": {
       "get": {
         "operationId": "blobsList",
-        "tags": [
-          "blobs"
-        ],
+        "tags": ["blobs"],
         "description": "List blobs in your account",
         "parameters": [
           {
@@ -1253,9 +1143,7 @@
                         "type": "string"
                       }
                     },
-                    "required": [
-                      "key"
-                    ]
+                    "required": ["key"]
                   }
                 },
                 "example": [
@@ -1274,9 +1162,7 @@
     "/v1/blob/{key}": {
       "get": {
         "operationId": "blobsGet",
-        "tags": [
-          "blobs"
-        ],
+        "tags": ["blobs"],
         "description": "Get a blob’s contents.",
         "parameters": [
           {
@@ -1307,9 +1193,7 @@
       },
       "post": {
         "operationId": "blobsStore",
-        "tags": [
-          "blobs"
-        ],
+        "tags": ["blobs"],
         "description": "Store data in blob storage",
         "requestBody": {
           "content": {
@@ -1349,9 +1233,7 @@
       },
       "delete": {
         "operationId": "blobsDelete",
-        "tags": [
-          "blobs"
-        ],
+        "tags": ["blobs"],
         "description": "Delete a blob",
         "parameters": [
           {
@@ -1381,9 +1263,7 @@
     "/v1/users/{user_id}": {
       "get": {
         "operationId": "usersGet",
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "description": "Get basic information about a user",
         "parameters": [
           {
@@ -1413,9 +1293,7 @@
     "/v1/users/{user_id}/vals": {
       "get": {
         "operationId": "usersVals",
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "description": "List a user's vals",
         "parameters": [
           {
@@ -1470,10 +1348,7 @@
                       "$ref": "#/components/schemas/PaginationLinks"
                     }
                   },
-                  "required": [
-                    "data",
-                    "links"
-                  ]
+                  "required": ["data", "links"]
                 }
               }
             }
@@ -1484,9 +1359,7 @@
     "/v1/sqlite/execute": {
       "post": {
         "operationId": "sqliteExecute",
-        "tags": [
-          "sqlite"
-        ],
+        "tags": ["sqlite"],
         "description": "Execute a single SQLite statement and return results",
         "requestBody": {
           "content": {
@@ -1550,17 +1423,12 @@
                             ]
                           }
                         },
-                        "required": [
-                          "sql",
-                          "args"
-                        ]
+                        "required": ["sql", "args"]
                       }
                     ]
                   }
                 },
-                "required": [
-                  "statement"
-                ]
+                "required": ["statement"]
               },
               "examples": {
                 "example1": {
@@ -1572,9 +1440,7 @@
                   "value": {
                     "statement": {
                       "sql": "SELECT * FROM table WHERE column = ?;",
-                      "args": [
-                        1
-                      ]
+                      "args": [1]
                     }
                   }
                 }
@@ -1606,9 +1472,7 @@
     "/v1/sqlite/batch": {
       "post": {
         "operationId": "sqliteBatch",
-        "tags": [
-          "sqlite"
-        ],
+        "tags": ["sqlite"],
         "description": "Execute a batch of SQLite statements and return results for all of them",
         "requestBody": {
           "content": {
@@ -1674,31 +1538,20 @@
                               ]
                             }
                           },
-                          "required": [
-                            "sql",
-                            "args"
-                          ]
+                          "required": ["sql", "args"]
                         }
                       ]
                     }
                   },
                   "mode": {
                     "type": "string",
-                    "enum": [
-                      "write",
-                      "read",
-                      "deferred"
-                    ]
+                    "enum": ["write", "read", "deferred"]
                   }
                 },
-                "required": [
-                  "statements"
-                ]
+                "required": ["statements"]
               },
               "example": {
-                "statements": [
-                  "SELECT 1;"
-                ],
+                "statements": ["SELECT 1;"],
                 "mode": "read"
               }
             }
@@ -1725,17 +1578,9 @@
                 },
                 "example": [
                   {
-                    "columns": [
-                      "id"
-                    ],
-                    "columnTypes": [
-                      "number"
-                    ],
-                    "rows": [
-                      [
-                        1
-                      ]
-                    ],
+                    "columns": ["id"],
+                    "columnTypes": ["number"],
+                    "rows": [[1]],
                     "rowsAffected": 0,
                     "lastInsertRowid": null
                   }
@@ -1749,9 +1594,7 @@
     "/v1/eval": {
       "post": {
         "operationId": "evalPost",
-        "tags": [
-          "vals"
-        ],
+        "tags": ["vals"],
         "description": "Run JavaScript or TypeScript without saving it permanently as a val",
         "requestBody": {
           "content": {
@@ -1770,9 +1613,7 @@
                     "items": {}
                   }
                 },
-                "required": [
-                  "code"
-                ]
+                "required": ["code"]
               },
               "example": {
                 "code": "console.log(1);"
@@ -1821,18 +1662,13 @@
                   "properties": {
                     "type": {
                       "type": "string",
-                      "enum": [
-                        "error"
-                      ]
+                      "enum": ["error"]
                     },
                     "error": {
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "type",
-                    "error"
-                  ]
+                  "required": ["type", "error"]
                 }
               }
             }
@@ -1843,9 +1679,7 @@
     "/v1/eval/{code}": {
       "get": {
         "operationId": "evalGet",
-        "tags": [
-          "vals"
-        ],
+        "tags": ["vals"],
         "description": "Run JavaScript or TypeScript without saving it permanently as a val",
         "parameters": [
           {
@@ -1908,18 +1742,13 @@
                   "properties": {
                     "type": {
                       "type": "string",
-                      "enum": [
-                        "error"
-                      ]
+                      "enum": ["error"]
                     },
                     "error": {
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "type",
-                    "error"
-                  ]
+                  "required": ["type", "error"]
                 }
               }
             }
@@ -1930,9 +1759,7 @@
     "/v1/run/{valname}": {
       "get": {
         "operationId": "runGet",
-        "tags": [
-          "vals"
-        ],
+        "tags": ["vals"],
         "description": "Run a val, specify any parameters in a querystring",
         "parameters": [
           {
@@ -1964,9 +1791,7 @@
       },
       "post": {
         "operationId": "runPost",
-        "tags": [
-          "vals"
-        ],
+        "tags": ["vals"],
         "description": "Run a val, with arguments in the request body",
         "requestBody": {
           "content": {
@@ -1982,9 +1807,7 @@
                 }
               },
               "example": {
-                "args": [
-                  1
-                ]
+                "args": [1]
               }
             }
           },
@@ -2013,9 +1836,7 @@
     "/v1/email": {
       "post": {
         "operationId": "emailsSend",
-        "tags": [
-          "emails"
-        ],
+        "tags": ["emails"],
         "description": "Send emails",
         "requestBody": {
           "content": {
@@ -2046,9 +1867,7 @@
                             "type": "string"
                           }
                         },
-                        "required": [
-                          "email"
-                        ]
+                        "required": ["email"]
                       }
                     ]
                   },
@@ -2073,9 +1892,7 @@
                                 "type": "string"
                               }
                             },
-                            "required": [
-                              "email"
-                            ]
+                            "required": ["email"]
                           }
                         ]
                       },
@@ -2100,9 +1917,7 @@
                                   "type": "string"
                                 }
                               },
-                              "required": [
-                                "email"
-                              ]
+                              "required": ["email"]
                             }
                           ]
                         }
@@ -2130,9 +1945,7 @@
                                 "type": "string"
                               }
                             },
-                            "required": [
-                              "email"
-                            ]
+                            "required": ["email"]
                           }
                         ]
                       },
@@ -2157,9 +1970,7 @@
                                   "type": "string"
                                 }
                               },
-                              "required": [
-                                "email"
-                              ]
+                              "required": ["email"]
                             }
                           ]
                         }
@@ -2187,9 +1998,7 @@
                                 "type": "string"
                               }
                             },
-                            "required": [
-                              "email"
-                            ]
+                            "required": ["email"]
                           }
                         ]
                       },
@@ -2214,9 +2023,7 @@
                                   "type": "string"
                                 }
                               },
-                              "required": [
-                                "email"
-                              ]
+                              "required": ["email"]
                             }
                           ]
                         }
@@ -2254,10 +2061,7 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "content",
-                        "filename"
-                      ]
+                      "required": ["content", "filename"]
                     }
                   },
                   "replyToList": {
@@ -2276,9 +2080,7 @@
                             "type": "string"
                           }
                         },
-                        "required": [
-                          "email"
-                        ]
+                        "required": ["email"]
                       },
                       {
                         "title": "EmailList",
@@ -2295,9 +2097,7 @@
                               "type": "string"
                             }
                           },
-                          "required": [
-                            "email"
-                          ]
+                          "required": ["email"]
                         }
                       }
                     ]
@@ -2331,9 +2131,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "message"
-                  ]
+                  "required": ["message"]
                 }
               }
             }
@@ -2349,9 +2147,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "error"
-                  ]
+                  "required": ["error"]
                 }
               }
             }
@@ -2362,9 +2158,7 @@
     "/v1/vals": {
       "post": {
         "operationId": "valsCreate",
-        "tags": [
-          "vals"
-        ],
+        "tags": ["vals"],
         "description": "Create a new val",
         "requestBody": {
           "content": {
@@ -2392,26 +2186,16 @@
                   },
                   "privacy": {
                     "type": "string",
-                    "enum": [
-                      "public",
-                      "unlisted",
-                      "private"
-                    ],
+                    "enum": ["public", "unlisted", "private"],
                     "description": "This val’s privacy setting. Unlisted vals do not appear on profile pages or elsewhere, but you can link to them."
                   },
                   "type": {
                     "type": "string",
-                    "enum": [
-                      "http",
-                      "script",
-                      "email"
-                    ],
+                    "enum": ["http", "script", "email"],
                     "default": "script"
                   }
                 },
-                "required": [
-                  "code"
-                ]
+                "required": ["code"]
               },
               "example": {
                 "code": "console.log(1);",
@@ -2445,9 +2229,7 @@
       },
       "put": {
         "operationId": "valsPut",
-        "tags": [
-          "vals"
-        ],
+        "tags": ["vals"],
         "description": "Run an existing val or create a new one",
         "requestBody": {
           "content": {
@@ -2469,10 +2251,7 @@
                     "type": "string"
                   }
                 },
-                "required": [
-                  "code",
-                  "name"
-                ]
+                "required": ["code", "name"]
               },
               "example": {
                 "code": "console.log(1);",
@@ -2498,9 +2277,7 @@
     "/v1/vals/{val_id}": {
       "get": {
         "operationId": "valsGet",
-        "tags": [
-          "vals"
-        ],
+        "tags": ["vals"],
         "description": "Get a val by id",
         "parameters": [
           {
@@ -2529,9 +2306,7 @@
       },
       "put": {
         "operationId": "valsUpdate",
-        "tags": [
-          "vals"
-        ],
+        "tags": ["vals"],
         "description": "Update an existing val",
         "requestBody": {
           "content": {
@@ -2553,11 +2328,7 @@
                   },
                   "privacy": {
                     "type": "string",
-                    "enum": [
-                      "public",
-                      "unlisted",
-                      "private"
-                    ],
+                    "enum": ["public", "unlisted", "private"],
                     "description": "This val’s privacy setting. Unlisted vals do not appear on profile pages or elsewhere, but you can link to them."
                   }
                 }
@@ -2595,9 +2366,7 @@
       },
       "delete": {
         "operationId": "valsDelete",
-        "tags": [
-          "vals"
-        ],
+        "tags": ["vals"],
         "description": "Delete a val",
         "parameters": [
           {
@@ -2629,9 +2398,7 @@
     "/v1/vals/{val_id}/versions": {
       "get": {
         "operationId": "valsList",
-        "tags": [
-          "vals"
-        ],
+        "tags": ["vals"],
         "description": "List versions of a val",
         "parameters": [
           {
@@ -2697,21 +2464,14 @@
                             "type": "string"
                           }
                         },
-                        "required": [
-                          "val_id",
-                          "version",
-                          "createdAt"
-                        ]
+                        "required": ["val_id", "version", "createdAt"]
                       }
                     },
                     "links": {
                       "$ref": "#/components/schemas/PaginationLinks"
                     }
                   },
-                  "required": [
-                    "data",
-                    "links"
-                  ]
+                  "required": ["data", "links"]
                 }
               }
             }
@@ -2720,9 +2480,7 @@
       },
       "post": {
         "operationId": "valsCreateVersion",
-        "tags": [
-          "vals"
-        ],
+        "tags": ["vals"],
         "description": "Create a new version of a val",
         "requestBody": {
           "content": {
@@ -2750,26 +2508,16 @@
                   },
                   "privacy": {
                     "type": "string",
-                    "enum": [
-                      "public",
-                      "unlisted",
-                      "private"
-                    ],
+                    "enum": ["public", "unlisted", "private"],
                     "description": "This val’s privacy setting. Unlisted vals do not appear on profile pages or elsewhere, but you can link to them."
                   },
                   "type": {
                     "type": "string",
-                    "enum": [
-                      "http",
-                      "script",
-                      "email"
-                    ],
+                    "enum": ["http", "script", "email"],
                     "default": "script"
                   }
                 },
-                "required": [
-                  "code"
-                ]
+                "required": ["code"]
               },
               "example": {
                 "code": "console.log(1);",
@@ -2817,9 +2565,7 @@
     "/v1/vals/{val_id}/versions/{version}": {
       "get": {
         "operationId": "valsGetVersion",
-        "tags": [
-          "vals"
-        ],
+        "tags": ["vals"],
         "description": "Get a specific version of a val",
         "parameters": [
           {
@@ -2881,9 +2627,7 @@
       },
       "delete": {
         "operationId": "valsDeleteVersion",
-        "tags": [
-          "vals"
-        ],
+        "tags": ["vals"],
         "description": "Delete a specific version of a val",
         "parameters": [
           {
@@ -2925,9 +2669,7 @@
     "/v1/vals/{evaluation_id}/cancel": {
       "post": {
         "operationId": "valsCancel",
-        "tags": [
-          "vals"
-        ],
+        "tags": ["vals"],
         "description": "Cancel a running val",
         "parameters": [
           {
@@ -2960,9 +2702,7 @@
                       "type": "boolean"
                     }
                   },
-                  "required": [
-                    "found"
-                  ]
+                  "required": ["found"]
                 }
               }
             }
