@@ -1,31 +1,18 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended"
-  ],
-  "schedule": [
-    "before 6am on monday"
-  ],
+  "extends": ["config:recommended"],
+  "schedule": ["before 6am on monday"],
   "allowedCommands": ["^npx biome migrate --write$"],
   "packageRules": [
     {
-      "matchPackagePatterns": [
-        "astro",
-        "@astrojs/"
-      ],
+      "matchPackagePatterns": ["astro", "@astrojs/"],
       "automerge": true
     },
     {
-      "matchPackageNames": [
-        "@biomejs/biome"
-      ],
+      "matchPackageNames": ["@biomejs/biome"],
       "postUpgradeTasks": {
-        "commands": [
-          "npx biome migrate --write"
-        ],
-        "fileFilters": [
-          "**"
-        ]
+        "commands": ["npx biome migrate --write"],
+        "fileFilters": ["**"]
       }
     }
   ]

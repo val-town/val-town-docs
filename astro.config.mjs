@@ -1,5 +1,5 @@
-import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
+import { defineConfig } from "astro/config";
 import starlightLinksValidator from "starlight-links-validator";
 import { valTownOpenButton } from "./plugins/val-town-open-button.mjs";
 
