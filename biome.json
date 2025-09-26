@@ -7,7 +7,14 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "includes": ["**", "!dist", "!.astro", "!node_modules"]
+    "includes": [
+      "**",
+      "!dist",
+      ".astro",
+      "!**/*.astro",
+      "!node_modules",
+      "!public/openapi*"
+    ]
   },
   "formatter": {
     "enabled": true,

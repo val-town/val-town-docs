@@ -199,15 +199,8 @@ export default defineConfig({
         {
           tag: "script",
           attrs: {
-            src: "https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.0/src/lite-yt-embed.min.js",
+            src: "/jobs.js",
             defer: true,
-          },
-        },
-        {
-          tag: "link",
-          attrs: {
-            href: "https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.0/src/lite-yt-embed.min.css",
-            rel: "stylesheet",
           },
         },
       ],
