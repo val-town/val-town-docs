@@ -1,6 +1,6 @@
 ---
-title: Images
-description: Adding images in vals
+title: Using images in vals
+description: Hosting images in Val Town and elsewhere
 ---
 
 At some point you might want to add an image to a val—in your README, HTML/JSX, or elsewhere. There are four ways to host images in Val Town:
@@ -20,13 +20,17 @@ You'll see a toast message while the image is uploading and when it completes. I
 ![supabase-valtown-webhook.png](https://imagedelivery.net/iHX6Ovru0O7AjmyT5yZRoA/fe4b1b4f-265a-4b53-1153-64fedb11d600/public)
 ```
 
-Once your image has been uploaded, you can use its storage URL to link to it elsewhere.
+Once your image has been uploaded, you can use its storage URL to link to it elsewhere (we just ask that you limit auto-uploads to reasonable use within Val Town and don't abuse it as a storage service).
 
 ## Blob storage
 
-Vals come with built-in [blob storage](/std/blob) through our standard library. Keeping images in blob storage can be handy because you'll have a centralized view of all your images (and JSON, text, binary, etc.) in Val Town settings.
+Vals come with built-in [blob storage](/std/blob) through our standard library. Keeping images in blob storage can be handy because you'll have a centralized view of all your images (and JSON, text, etc.) in Val Town settings.
 
 Check out this [blob_admin](https://www.val.town/x/stevekrouse/blob_admin) val for an example of both using and managing your images.
+
+:::note
+We don't currently support binary in vals, but we plan to at some point. Upvote and comment on [this GitHub discussion](https://github.com/val-town/val-town-product/discussions/21) if that's something you'd like to see soon!
+:::
 
 ## Host elsewhere
 
@@ -34,4 +38,6 @@ If you already use a service like Amazon S3 or Cloudflare R2 for image hosting, 
 
 ## SVGs
 
-SVGs can be stored as text files in your vals. You can of course include SVGs directly in your markup as HTML or JSX, too.
+SVGs can be stored as text files in your vals. You can import the [`serveFile`](https://www.val.town/x/std/utils#servefile) util from our standard library to serve your SVG file (like [this val](https://www.val.town/x/petermillspaugh/dotcom) does, for example).
+
+You can of course include SVGs directly in your markup as HTML or JSX, too.
