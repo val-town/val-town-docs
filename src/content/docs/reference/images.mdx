@@ -1,0 +1,43 @@
+---
+title: Using images in vals
+description: Hosting images in Val Town and elsewhere
+---
+
+At some point you might want to add an image to a val—in your README, HTML/JSX, or elsewhere. There are four ways to host images in Val Town:
+
+1. Drag and drop images into our markdown editor to auto-upload
+1. Store images in our [blob storage](/std/blob)
+1. Host images elsewhere and link from vals
+1. Store SVGs in vals as files
+
+:::note
+We don't currently support binary files in vals, but we plan to at some point. We recommend [blob storage](/std/blob) as a workaround for now. Upvote and comment on [this GitHub discussion](https://github.com/val-town/val-town-product/discussions/21) if that's something you'd like to see soon!
+:::
+
+## Drag and drop
+
+While editing markdown in a val, you can drag and drop image files in the editor.
+
+You'll see a toast message while the image is uploading and when it completes. It'll automatically insert the image with its storage URL, like so:
+
+```md
+![supabase-valtown-webhook.png](https://imagedelivery.net/iHX6Ovru0O7AjmyT5yZRoA/fe4b1b4f-265a-4b53-1153-64fedb11d600/public)
+```
+
+Once your image has been uploaded, you can use its storage URL to link to it elsewhere (we just ask that you limit auto-uploads to reasonable use within Val Town and don't abuse it as a storage service).
+
+## Blob storage
+
+Vals come with built-in [blob storage](/std/blob) through our standard library. Keeping images in blob storage can be handy because you'll have a centralized view of all your images (and JSON, text, binary, etc.) in Val Town settings.
+
+Check out this [blob_admin](https://www.val.town/x/stevekrouse/blob_admin) val for an example of both using and managing your images.
+
+## Host elsewhere
+
+If you already use a service like Amazon S3 or Cloudflare R2 for image hosting, no need to change course. Copy-paste your image's source URL in your val's markdown, HTML, JSX, or wherever you're using images.
+
+## SVGs
+
+SVGs can be stored as text files in your vals. You can import the [`serveFile`](https://www.val.town/x/std/utils#servefile) util from our standard library to serve your SVG file (like [this val](https://www.val.town/x/petermillspaugh/dotcom) does, for example).
+
+You can of course include SVGs directly in your markup as HTML or JSX, too.
