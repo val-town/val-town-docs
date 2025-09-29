@@ -13,10 +13,11 @@ For example, [the Val Town Blog](https://blog.val.town) is [hosted on Val Town](
 
 1. Set up your [Val Town Custom Domain](/vals/http/custom-domains) via Cloudflare's DNS management
 2. Ensure that proxying (the orange cloud) is enabled.
-3. Ensure the CDN configuration for that domain enables caching
-4. Add a Cache Rule to enable caching for all content on that endpoint, respecting the cache control headers set by your val. This is important because the default setting is to not cache anything.
-5. Add `Cache-Control` headers in your val ([learn more](#cache-control-headers))
-6. Debug your CDN configuration by checking the response headers your browser's devtools or via curl. If you see `cf-cache-status: HIT`, then your CDN is working correctly. If you see `cf-cache-status: DYNAMIC`, then the CDN doesn't think the content is cacheable and you may need to adjust your Cloudflare Cache Rule.
+3. Under SSL/TLS in Configure encryption mode set the SSL to Strict (SSL-Only Origin Pull).
+4. Ensure the CDN configuration for that domain enables caching
+5. Add a Cache Rule to enable caching for all content on that endpoint, respecting the cache control headers set by your val. This is important because the default setting is to not cache anything.
+6. Add `Cache-Control` headers in your val ([learn more](#cache-control-headers))
+7. Debug your CDN configuration by checking the response headers your browser's devtools or via curl. If you see `cf-cache-status: HIT`, then your CDN is working correctly. If you see `cf-cache-status: DYNAMIC`, then the CDN doesn't think the content is cacheable and you may need to adjust your Cloudflare Cache Rule.
 
 If you have any issues, we're happy to help via email: help@val.town.
 

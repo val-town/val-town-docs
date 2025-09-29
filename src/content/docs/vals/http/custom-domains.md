@@ -20,7 +20,8 @@ The custom domains feature works with domains that you already own, and connects
 Some domain registrars that you can use to buy a domain:
 
 - [Namecheap](https://www.namecheap.com/)
-- [Cloudflare Registrar](https://www.cloudflare.com/products/registrar/)
+- [Cloudflare Registrar](https://www.cloudflare.com/products/registrar/) 
+  - Make sure you setup the Cloudflare proxy correctly: [Setup Cloudflare CDN](https://docs.val.town/vals/http/cdns/#cloudflare-cdn)
 - [GoDaddy](https://www.godaddy.com/)
 
 ## Add your domain to Val Town
