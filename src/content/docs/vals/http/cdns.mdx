@@ -13,7 +13,14 @@ For example, [the Val Town Blog](https://blog.val.town) is [hosted on Val Town](
 
 1. Set up your [Val Town Custom Domain](/vals/http/custom-domains) via Cloudflare's DNS management
 2. Ensure that proxying (the orange cloud) is enabled.
-3. Under SSL/TLS in Configure encryption mode set the SSL to Strict (SSL-Only Origin Pull).
+3. Under SSL/TLS in Configure encryption mode set the SSL to Full (Strict). You could use other encryption modes but Flexible will cause issues.
+   
+   a. Login to your Cloudflare dashboard  
+   b. Go to SSL/TLS  
+   c. Choose an encryption mode
+   ![](./cloudflare-encryption.png)
+
+
 4. Ensure the CDN configuration for that domain enables caching
 5. Add a Cache Rule to enable caching for all content on that endpoint, respecting the cache control headers set by your val. This is important because the default setting is to not cache anything.
 6. Add `Cache-Control` headers in your val ([learn more](#cache-control-headers))
