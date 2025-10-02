@@ -1,0 +1,396 @@
+---
+title: Utils
+description: Utils for reading, serving, testing val files & more
+---
+
+import { LinkCard } from "@astrojs/starlight/components";
+
+The Val Town standard library comes with a suite of functions to handle files and metadata.
+
+<LinkCard
+  title="std/utils"
+  description="readFile, serveFile, parseVal, httpEndpoint, emailAddress, getContentType, ..."
+  href="https://www.val.town/x/std/utils"
+/>
+
+## File Operations
+
+Utilities for reading and managing files in vals.
+
+### `readFile`
+
+Reads the contents of a file from the current val.
+
+**Signature:**
+
+```ts
+readFile(path: string, metaImportUrl?: string): Promise<string>
+```
+
+**Parameters:**
+
+- `path` - The file path to read (with or without leading slash)
+- `metaImportUrl` - Optional. The `import.meta.url` to determine which val to read
+  from. Defaults to `Deno.env.get("VALTOWN_ENTRYPOINT")`
+
+**Example:**
+
+```ts
+import { readFile } from "https://esm.town/v/std/utils/index.ts";
+
+// Most common usage - reads from current val
+const content = await readFile("/README.md");
+console.log(content);
+
+// Explicit val specification
+const content2 = await readFile("/README.md", import.meta.url);
+console.log(content2);
+```
+
+### `listFiles`
+
+Lists all files in the current val with their metadata.
+
+**Signature:**
+
+```ts
+listFiles(metaImportUrl?: string): Promise<File[]>
+```
+
+**Parameters:**
+
+- `metaImportUrl` - Optional. The `import.meta.url` to determine which val to list
+  files from. Defaults to `Deno.env.get("VALTOWN_ENTRYPOINT")`
+
+**Example:**
+
+```ts
+import { listFiles } from "https://esm.town/v/std/utils/index.ts";
+
+// Most common usage - lists files from current val
+const files = await listFiles();
+files.forEach((file) => console.log(file.path));
+
+// Explicit val specification
+const files2 = await listFiles(import.meta.url);
+files2.forEach((file) => console.log(file.path));
+```
+
+### `listFilesByPath`
+
+Lists files in a specific directory path within the current val.
+
+**Signature:**
+
+```ts
+listFilesByPath(path: string, metaImportUrl?: string): Promise<File[]>
+```
+
+**Parameters:**
+
+- `path` - The directory path to list files from
+- `metaImportUrl` - Optional. The `import.meta.url` to determine which val to list
+  files from. Defaults to `Deno.env.get("VALTOWN_ENTRYPOINT")`
+
+**Example:**
+
+```ts
+import { listFilesByPath } from "https://esm.town/v/std/utils/index.ts";
+
+// List files in a specific directory
+const frontendFiles = await listFilesByPath("frontend/");
+frontendFiles.forEach((file) => console.log(file.path));
+```
+
+### `httpEndpoint`
+
+Gets the HTTP endpoint URL for a specific file in the val.
+
+**Signature:**
+
+```ts
+httpEndpoint(path: string, metaImportUrl?: string): Promise<string>
+```
+
+**Parameters:**
+
+- `path` - The file path to get the endpoint for
+- `metaImportUrl` - Optional. The `import.meta.url` to determine which val the
+  file belongs to. Defaults to `Deno.env.get("VALTOWN_ENTRYPOINT")`
+
+**Example:**
+
+```ts
+import { httpEndpoint } from "https://esm.town/v/std/utils/index.ts";
+
+// Get the HTTP endpoint for a specific file
+const endpoint = await httpEndpoint("/api/users.ts");
+console.log(endpoint); // Returns the full HTTP URL for the endpoint
+```
+
+### `emailAddress`
+
+Gets the email address for a file with an email trigger in the val.
+
+:::note
+This function only works for the uuid version and not vanity email addresses because that info isn't in our API yet. Open a [GitHub feature request](https://github.com/val-town/val-town-product/discussions/categories/feature-request) if you'd like us to prioritize this.
+:::
+
+**Signature:**
+
+```ts
+emailAddress(path: string, metaImportUrl?: string): Promise<string>
+```
+
+**Parameters:**
+
+- `path` - The file path to get the email address for
+- `metaImportUrl` - Optional. The `import.meta.url` to determine which val the
+  file belongs to. Defaults to `Deno.env.get("VALTOWN_ENTRYPOINT")`
+
+**Example:**
+
+```ts
+import { emailAddress } from "https://esm.town/v/std/utils/index.ts";
+
+// Get the email address for a file with email trigger
+const email = await emailAddress("/handlers/processEmail.ts");
+console.log(email); // Returns: username-fileid@valtown.email
+```
+
+**Notes:**
+
+- The file must have an email trigger configured
+- Returns email in format: `{username}-{fileIdWithoutDashes}@valtown.email`
+- Throws an error if the file doesn't exist or doesn't have an email trigger
+
+### `fetchTranspiledJavaScript`
+
+Fetches and transpiles TypeScript/JavaScript code from esm.town URLs.
+
+**Signature:**
+
+```ts
+fetchTranspiledJavaScript(url: string): Promise<string>
+```
+
+**Example:**
+
+```ts
+import { fetchTranspiledJavaScript } from "https://esm.town/v/std/utils/index.ts";
+
+const code = await fetchTranspiledJavaScript(
+  "https://esm.town/v/std/utils@85-main/index.ts"
+);
+console.log(code);
+```
+
+**Notes:**
+
+- Paths can be specified with or without leading slashes
+- TypeScript files are automatically transpiled to JavaScript
+- Most functions now have optional `metaImportUrl` parameters that default to
+  `Deno.env.get("VALTOWN_ENTRYPOINT")`, making them easier to use in most cases
+
+---
+
+## Parse Import Meta
+
+Extract metadata about the currently running Val.
+
+### `parseVal`
+
+Parses Val Town metadata from an `import.meta.url`.
+
+**Signature:**
+
+```ts
+parseVal(importMetaUrl: string): ValMetadata
+```
+
+**Example:**
+
+```ts
+import { parseVal } from "https://esm.town/v/std/utils/index.ts";
+
+const val = parseVal(import.meta.url);
+console.log(val);
+// Output: { owner: "username", name: "valname", ... }
+```
+
+**Prior Art:**
+
+- [@pomdtr/extractValInfo](https://www.val.town/v/pomdtr/extractValInfo)
+- [@easrng/whoami](https://www.val.town/v/easrng/whoami)
+
+## Serve File
+
+HTTP utilities for serving val files with proper content types.
+
+### `serveFile`
+
+Serves a file from the val as an HTTP Response with the correct Content-Type
+header.
+
+**Signature:**
+
+```ts
+serveFile(path: string, metaImportUrl?: string): Promise<Response>
+```
+
+**Parameters:**
+
+- `path` - The file path to serve
+- `metaImportUrl` - Optional. The `import.meta.url` to determine which val to
+  serve from. Defaults to `Deno.env.get("VALTOWN_ENTRYPOINT")`
+
+**Example:**
+
+```ts
+import { serveFile } from "https://esm.town/v/std/utils/index.ts";
+
+// In a Hono app - most common usage
+app.get("/assets/*", async (c) => {
+  return await serveFile(c.req.path);
+});
+
+// Explicit val specification
+app.get("/assets/*", async (c) => {
+  return await serveFile(c.req.path, import.meta.url);
+});
+```
+
+### `getContentType`
+
+Determines the appropriate MIME type for a file based on its extension.
+
+**Signature:**
+
+```ts
+getContentType(path: string): string
+```
+
+**Example:**
+
+```ts
+import { getContentType } from "https://esm.town/v/std/utils/index.ts";
+
+console.log(getContentType("index.html")); // "text/html; charset=utf-8"
+console.log(getContentType("script.ts")); // "text/javascript"
+console.log(getContentType("data.json")); // "application/json; charset=utf-8"
+```
+
+**Features:**
+
+- TypeScript/TSX/JSX files are served as `text/javascript`
+
+---
+
+## Static HTTP Server
+
+Create a complete static file server with minimal configuration.
+
+### `staticHTTPServer`
+
+Creates a Hono-based HTTP server that serves static files from your val. The
+server automatically serves `/index.html` for root requests and handles all
+other file paths.
+
+**Signature:**
+
+```ts
+staticHTTPServer(importMetaURL?: string): (request: Request) => Promise<Response>
+```
+
+**Parameters:**
+
+- `importMetaURL` - Optional. The `import.meta.url` to determine which val to
+  serve files from. Defaults to `Deno.env.get("VALTOWN_ENTRYPOINT")`
+
+**Example:**
+
+```ts
+import { staticHTTPServer } from "https://esm.town/v/std/utils/index.ts";
+
+// Most common usage - serves files from current val
+export default staticHTTPServer();
+
+// Explicit val specification
+export default staticHTTPServer(import.meta.url);
+```
+
+**Features:**
+
+- Automatically serves `/index.html` for root path requests (`/`)
+- Handles all file paths with proper content types
+- Built on Hono for reliable HTTP handling
+- Includes error unwrapping for better debugging
+- Returns a fetch-compatible handler function
+
+**Use Cases:**
+
+- Single-page applications (SPAs)
+- Static websites
+- Documentation sites
+- Asset serving for web applications
+
+**Notes:**
+
+- The server will attempt to serve `/index.html` for root requests
+- All other paths are served as-is from the val's file system
+- Non-existent files will throw "Failed to fetch file" errors
+- The returned function is compatible with Val Town's HTTP trigger system
+
+---
+
+## Entry Point Detection
+
+Utility for determining if the current file is the main entry point.
+
+### `isMain`
+
+Checks if the current file is the main entry point of the val. This is a
+replacement for `import.meta.main` which is not available in Val Town's
+environment.
+
+**Signature:**
+
+```ts
+isMain(importMetaURL: string): boolean
+```
+
+**Parameters:**
+
+- `importMetaURL` - The `import.meta.url` of the current file
+
+**Example:**
+
+```ts
+import { isMain } from "https://esm.town/v/std/utils/index.ts";
+
+if (isMain(import.meta.url)) {
+  console.log("This file is being run directly");
+  // Run main logic here
+} else {
+  console.log("This file is being imported");
+  // Export functions/classes for use by other files
+}
+```
+
+**Use Cases:**
+
+- Conditional execution of code only when file is run directly
+- Separating library code from executable code in the same file
+- Testing and development workflows
+- Creating dual-purpose files that can be both imported and executed
+
+**Notes:**
+
+- This function compares the provided `import.meta.url` with the
+  `VALTOWN_ENTRYPOINT` environment variable
+- In Val Town, the entry point is determined by which file is being executed
+  directly (e.g., via HTTP trigger, cron, or manual execution)
+- This is equivalent to Python's `if __name__ == "__main__":` pattern or
+  Node.js's `require.main === module`
+- Unlike Deno's `import.meta.main`, this works reliably in Val Town's serverless
+  environment
