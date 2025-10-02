@@ -22,7 +22,7 @@ Copy your API Key from
 [https://cloud.browserless.io/account/](https://cloud.browserless.io/account/)
 and save it as a Val Town environment variable as `browserless`.
 
-![Screenshot 2023-06-24 at 22.43.01.png](./hosted-puppeteer-browserless/screenshot_2023-06-24_at_224301.png)
+![Screenshot 2023-06-24 at 22.43.01.png](./hosted-puppeteer-browserless.png)
 
 ## Make an API call to the [/scrape API](https://www.browserless.io/docs/scrape)
 
@@ -77,7 +77,9 @@ const puppeteer = new PuppeteerDeno({
   productName: "chrome",
 });
 const browser = await puppeteer.connect({
-  browserWSEndpoint: `wss://chrome.browserless.io?token=${Deno.env.get("browserless")}`,
+  browserWSEndpoint: `wss://chrome.browserless.io?token=${Deno.env.get(
+    "browserless"
+  )}`,
 });
 const page = await browser.newPage();
 await page.goto("https://en.wikipedia.org/wiki/OpenAI");
