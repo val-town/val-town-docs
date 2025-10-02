@@ -7,7 +7,7 @@ lastUpdated: 2023-12-05
 
 import Val from "@components/Val.astro";
 
-You can submit forms to Val Town using an [HTTP trigger](../vals/http). You can
+You can submit forms to Val Town using an [HTTP trigger](/vals/http). You can
 place these forms on any page on the internet - or host the form directly on Val
 Town.
 
@@ -17,7 +17,7 @@ notification for each new signup.
 
 ## Add a form to your website
 
-### Create an [HTTP trigger](../vals/http)
+### Create an [HTTP trigger](/vals/http)
 
 Write a val function that accepts a
 [Request](https://developer.mozilla.org/en-US/docs/web/api/request) and returns
@@ -35,7 +35,7 @@ Below is a full HTML page example. If you are adding a form to an existing page
 just copy and paste the `<form></form>` block.
 
 ```html
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <title>Email Form</title>
@@ -67,7 +67,7 @@ function) gets sent a
 You can check the HTTP method using `req.method` and change how your val
 function responds.
 
-{/*TODO: When we fix the scroll-to-line issue on embedded vals add "#L5-27" back to the end of this link.*/}
+{/* TODO: When we fix the scroll-to-line issue on embedded vals add "#L5-27" back to the end of this link. */}
 
 <Val url="https://www.val.town/embed/maxm/saveFormDataExample?v=2" />
 

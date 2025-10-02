@@ -11,7 +11,7 @@ Val Town can both parse and generate [RSS](https://en.wikipedia.org/wiki/RSS) fe
 
 ## Polling RSS
 
-You would run this example in Val Town using a [Cron trigger](../vals/cron)
+You would run this example in Val Town using a [Cron trigger](/vals/cron)
 that ran on a regular interval, and it would check a blog's feed every 15 minutes.
 
 ```ts title="Polling example" val
@@ -32,7 +32,7 @@ export async function pollRSSFeeds({ lastRunAt }: Interval) {
           subject: `New from ${name} RSS`,
         });
       return { name, items };
-    }),
+    })
   );
 }
 ```
@@ -40,4 +40,3 @@ export async function pollRSSFeeds({ lastRunAt }: Interval) {
 ## Creating RSS
 
 <Val url="https://www.val.town/embed/maxm/rssFeedExample" />
-
