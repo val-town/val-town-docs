@@ -3794,7 +3794,13 @@
               }
             }
           }
-        }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "JavaScript",
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\n// Automatically fetches more pages as needed.\nfor await (const orgListResponse of client.orgs.list({ limit: 1, offset: 0 })) {\n  console.log(orgListResponse.id);\n}"
+          }
+        ]
       }
     }
   },
