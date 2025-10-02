@@ -9,7 +9,7 @@ import Val from "@components/Val.astro";
 
 There are many ways to save data from a web page, depending on your use-case, technologies, and other constraints. First, you'll want to pick a storage mechanism. Val Town has two built-in:
 
-[Blob storage](/std/blob) is a very simple key-value store for storing files, JSON, images, large blobs of data, while [SQLite](/std/sqlite) is a SQL database with ACID transactions, indexes, and more. You can also use external services like Firebase, Supabase, Neon, Upstash, etc.
+[Blob storage](/reference/std/blob) is a very simple key-value store for storing files, JSON, images, large blobs of data, while [SQLite](/reference/std/sqlite) is a SQL database with ACID transactions, indexes, and more. You can also use external services like Firebase, Supabase, Neon, Upstash, etc.
 
 Once you've picked a storage mechanism, you'll need to decide how to interact with it. You can either use form submissions or client-side JavaScript to make API calls to Val Town.
 
@@ -33,7 +33,7 @@ This is a remix of the above app that uses client-side React to make the API cal
 
 You could easily host the React part anywhere (Vercel, Netlify, etc) and have it make calls to Val Town (via your val's HTTP URL) to get and modify the data.
 
-You can learn more about blob storage here: [Val Town Blob](/std/blob).
+You can learn more about blob storage here: [Val Town Blob](/reference/std/blob).
 
 ## SQLite example
 
@@ -45,4 +45,4 @@ This is the same Hono demo but using SQLite on the backend. We will leave it as 
 
 Note: we left the `CREATE TABLE` statement in the code, so that this val will immediately work if you remix it. However, you may want to comment out that line after the first run to speed up this val.
 
-You can learn more about SQLite here: [Val Town SQLite](/std/sqlite).
+You can learn more about SQLite here: [Val Town SQLite](/reference/std/sqlite).

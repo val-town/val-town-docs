@@ -19,3 +19,7 @@
 .sl-markdown-content abbr {
   border-bottom: 1px dotted var(--sl-color-text-accent);
 }
+
+#starlight__sidebar .sidebar-content span {
+  font-size: var(--sl-text-base);
+}

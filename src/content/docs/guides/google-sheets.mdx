@@ -1,5 +1,5 @@
 ---
-title: Google Sheets
+title: Store data in a Google Sheet
 description: Using the Google Sheets API, you can add rows to a spreadsheet with Val Town.
 lastUpdated: 2024-02-23
 # cspell:ignore pipedreams mattx
@@ -73,7 +73,7 @@ async function fetchAccessToken() {
       headers: {
         Authorization: `Bearer ${Deno.env.get("pipedream_api_key")}`,
       },
-    },
+    }
   );
 
   if (!response.ok) {
@@ -104,13 +104,13 @@ async function makeSheetsRequest(url, method, body = null) {
 await makeSheetsRequest(
   `${baseURL}/A1:C1:append?valueInputOption=RAW`,
   "POST",
-  { values: [[Date(), Math.random(), 1]] },
+  { values: [[Date(), Math.random(), 1]] }
 );
 
 // Read data from a sheet
 const data = await makeSheetsRequest(
   `${baseURL}/A1:C1?majorDimension=ROWS`,
-  "GET",
+  "GET"
 );
 
 console.log(data.values[0]);
@@ -246,7 +246,7 @@ await gsheet_call(
   "1LDgOhO6Fxg2wt5rGFH29t6XYbmKe6fXI7fLSFaqZkDA",
   "POST",
   "values/A1:C1:append?valueInputOption=RAW",
-  { values: [[Date(), Math.random(), 1]] },
+  { values: [[Date(), Math.random(), 1]] }
 );
 
 // Reading from the top of the sheet
@@ -255,7 +255,7 @@ const data = await gsheet_call(
   "1LDgOhO6Fxg2wt5rGFH29t6XYbmKe6fXI7fLSFaqZkDA",
   "GET",
   "values/A1:C1?majorDimension=ROWS",
-  {},
+  {}
 );
 console.log(data["values"][0]);
 ```

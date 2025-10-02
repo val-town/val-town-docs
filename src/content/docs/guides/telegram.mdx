@@ -17,7 +17,7 @@ In order to make a Telegram Bot in Val Town, there are three steps:
 2. Create your webhook handler on Val Town to receive messages
 3. Register your webhook handler with Telegram
 
-This guide uses the [grammY Telegram Bot Framework](https://grammy.dev/) , because it has excellent TypeScript support. If you'd prefer to not use any framework, you can refer to [an older version of this guide](https://github.com/val-town/val-town-docs/blob/77fb871c4a9c87fe4a901552636c20c5af2328a4/src/content/docs/integrations/telegram.mdx), which makes the HTTP calls to telegram more directly with simpler helper function.
+This guide uses the [grammY Telegram Bot Framework](https://grammy.dev/) , because it has excellent TypeScript support. If you'd prefer to not use any framework, you can refer to [an older version of this guide](https://github.com/val-town/val-town-docs/blob/77fb871c4a9c87fe4a901552636c20c5af2328a4/src/content/docs/guides/telegram.mdx), which makes the HTTP calls to telegram more directly with simpler helper function.
 
 ### 1. Create your bot
 
@@ -87,6 +87,7 @@ export default async (req: Request): Promise<Response> => {
   return new Response("TODO GET", { status: 200 });
 };
 ```
+
 ### 3. Register your webhook handler with Telegram
 
 You may notice in the code above that the webhook handler takes care of registering itself with Telegram. If everything worked properly, your webhook should be registered already and this step is already done 🎉
@@ -102,4 +103,3 @@ It should echo back the message like this:
 ![End result of messaging being echoed back in Telegram](./create-a-telegram-echo-bot/Result.png)
 
 Not working? Get help on [Val Town's Discord](https://discord.gg/dHv45uN5RY).
-
