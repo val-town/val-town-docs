@@ -69,27 +69,6 @@ export default defineConfig({
           link: "/",
         },
         {
-          label: "Getting Started",
-          items: [
-            {
-              label: "Your first website",
-              link: "quickstarts/first-website",
-            },
-            {
-              label: "Your first scheduled cron",
-              link: "quickstarts/first-cron",
-            },
-            {
-              label: "Sending Slack messages",
-              link: "integrations/slack/send-messages-to-slack/",
-            },
-            {
-              label: "LLM prompting",
-              link: "quickstarts/prompting",
-            },
-          ],
-        },
-        {
           label: "Vals",
           items: [
             {
@@ -133,8 +112,14 @@ export default defineConfig({
           ],
         },
         {
+          label: "Guides",
+          autogenerate: { directory: "guides" },
+          collapsed: true,
+        },
+        {
           label: "Reference",
           autogenerate: { directory: "reference" },
+          collapsed: true,
         },
         {
           label: "Standard Library",
@@ -149,6 +134,7 @@ export default defineConfig({
             { label: "Proxied fetch", link: "std/fetch" },
             { label: "OpenAI", link: "std/openai" },
           ],
+          collapsed: true,
         },
         {
           label: "REST API",
@@ -164,17 +150,6 @@ export default defineConfig({
           autogenerate: { directory: "troubleshooting" },
           collapsed: true,
         },
-        {
-          label: "Guides",
-          autogenerate: { directory: "guides" },
-          collapsed: true,
-        },
-        {
-          label: "Integrations",
-          autogenerate: { directory: "integrations" },
-          collapsed: true,
-        },
-
         {
           label: "Contact",
           autogenerate: { directory: "contact-us" },

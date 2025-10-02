@@ -5,7 +5,7 @@ description: Handle Supabase webhooks in Val Town
 
 import Val from "@components/Val.astro";
 
-Handling Supabase webhooks in Val Town allows you to run arbitrary logic whenever an `INSERT`, `UPDATE`, or `DELETE` happens in your database. For example, for new user signups you could set up an [email](/std/email), [Slack](/integrations/slack/send-messages-to-slack), or [Discord](/integrations/discord/send-message) notification, or [enrich user data with Clay](https://www.val.town/x/charmaine/clay-proxy).
+Handling Supabase webhooks in Val Town allows you to run arbitrary logic whenever an `INSERT`, `UPDATE`, or `DELETE` happens in your database. For example, for new user signups you could set up an [email](/std/email), [Slack](/guides/slack/send-messages-to-slack), or [Discord](/guides/discord/send-message) notification, or [enrich user data with Clay](https://www.val.town/x/charmaine/clay-proxy).
 
 ## Create an HTTP trigger in Val Town
 
@@ -15,7 +15,7 @@ Create a new val using the webhook template, or remix this example val:
 
 ## Configure webhook(s) in Supabase
 
-Enable [Database > Webhooks](https://supabase.com/dashboard/project/_/integrations/webhooks/webhooks) in the Supabase dashboard, which will install as an Integration:
+Enable [Database > Webhooks](https://supabase.com/dashboard/project/_/guides/webhooks/webhooks) in the Supabase dashboard, which will install as an Integration:
 
 ![Supabase Dashboard > Integrations > Database Webhooks](./supabase-database-webhooks.png)
 
