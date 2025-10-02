@@ -15,8 +15,8 @@ export default defineConfig({
     "/api/run/": "/openapi.html#tag/vals/GET/v1/run/{valname}",
   },
   integrations: [
-    starlightLinksValidator(),
     starlight({
+      plugins: [starlightLinksValidator()],
       title: "Docs | Val Town",
       defaultLocale: "root",
       components: {
