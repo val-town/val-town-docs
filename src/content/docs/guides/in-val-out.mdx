@@ -1,0 +1,75 @@
+---
+title: In, Val, Out
+description: Manage input (like user signups) and automate output (e.g., Slack messages)
+lastUpdated: 2025-10-02
+sidebar:
+  order: 1
+---
+
+import { Steps } from "@astrojs/starlight/components";
+
+A common pattern in Val Town is what we call _In, Val, Out_, or Input/Val/Output (I/V/O). You have data coming in, and you want to do something with it then output something. For example:
+
+<Steps>
+
+1. Webhook received from Supabase when a user signs up
+
+2. Enrich the user data with Clay
+
+3. Send your team a Slack notification
+
+</Steps>
+
+There's a combinatorial explosion of possibilities, so we've listed some examples and ideas. Feel free to add new use cases, or [ask](https://discord.gg/dHv45uN5RY) [us](mailto:docs-help@val.town) to lend a hand—we're happy to help.
+
+## Input
+
+**Messages:**
+
+- [Email](/vals/email/)
+- [Gmail](/integrations/gmail/)
+- [Slack bot](/integrations/slack/bot/)
+- [Discord bot](/integrations/discord/how-to-make-a-discord-bot-hosted-24-7-for-free-in-/)
+- [Telegram bot](/integrations/telegram/)
+
+**Events:**
+
+- [GitHub webhook](/integrations/github/receiving-a-github-webhook/)
+- [Supabase webhook](/integrations/supabase/)
+- [Stripe webhook](/integrations/stripe/)
+- Clerk
+
+## Val
+
+**AI enrichment:**
+
+- [std/openai](/std/openai)
+- [Clay](https://www.val.town/x/charmaine/clay-proxy/)
+
+**Browser automation:**
+
+- [Browserbase](/integrations/browserbase/)
+- [Browserless](/integrations/browserless/)
+- [Kernel](/integrations/kernel/)
+- [Steel](/integrations/steel/)
+
+## Output
+
+**Notifications:**
+
+- [Email](/std/email)
+- [Slack](/integrations/slack/send-messages-to-slack/)
+- [Discord](/integrations/discord/send-message/)
+- [Telegram](/integrations/telegram/)
+
+**Persistence:**
+
+- [std/sqlite](/std/sqlite/)
+- [std/blob](/std/blob)
+- [Google Sheets](/integrations/google-sheets/)
+- [Airtable](/integrations/airtable/)
+- [Neon Postgres](/integrations/databases/neon-postgres/)
+- [PlanetScale](/integrations/databases/planetscale/)
+- [Supabase](/integrations/databases/supabase/)
+- [Upstash](/integrations/databases/upstash/)
+- [AWS S3](/integrations/s3/)
