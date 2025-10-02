@@ -50,9 +50,7 @@ structure. We also recommend
 import { fetchText } from "https://esm.town/v/stevekrouse/fetchText?v=6";
 import { load } from "npm:cheerio";
 
-const html = await fetchText(
-  "https://en.wikipedia.org/wiki/OpenAI",
-);
+const html = await fetchText("https://en.wikipedia.org/wiki/OpenAI");
 const $ = load(html);
 // Cheerio accepts a CSS selector, here we pick the second <p>
 const intro = $("p:nth-of-type(2)").first().text();
@@ -65,4 +63,4 @@ OpenAI is an American artificial intelligence (AI) research organization consist
 
 ## API call to external services
 
-See the [Hosted Puppeteer](/guides/hosted-puppeteer-browserless/) guide for using [Browserless](https://www.browserless.io/). Also check out [Browserbase](https://www.browserbase.com/) examples: [browserbase](https://www.val.town/v/stevekrouse/browserbase) and [browserbaseUtils](https://www.val.town/v/charlypoly/browserbaseUtils).
+See the [Hosted Puppeteer](/integrations/browserless/) guide for using [Browserless](https://www.browserless.io/). Also check out [Browserbase](https://www.browserbase.com/) examples: [browserbase](https://www.val.town/v/stevekrouse/browserbase) and [browserbaseUtils](https://www.val.town/v/charlypoly/browserbaseUtils).

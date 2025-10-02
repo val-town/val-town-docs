@@ -10,17 +10,20 @@ sidebar:
 There are three privacy settings for a Val:
 
 ### Public
+
 - Discoverable and visible to everyone on the Val Town website
 - Anyone can view the code and import it into their own vals
 - HTTP endpoints are accessible to anyone
 
 ### Unlisted
+
 - Only visible to people who have the direct link
 - Won't appear in search results or public listings
 - Anyone with the link can view the code and import it
 - HTTP endpoints are accessible to anyone who knows the URL
 
 ### Private
+
 - Only visible to you
 - Only your vals can import the code
 - HTTP endpoints are accessible to anyone who knows the URL
@@ -33,7 +36,7 @@ Since anyone can call your endpoints, if they interact with some data
 that should only be changed by yourself, you will need to make sure that those
 endpoints check for some kind of secret that only you know.
 
-Here's an example of an HTTP endpoint within a val, using the concepts described in the [HTTP Triggers documentation](../../vals/http), secured with an environment variable that only I know:
+Here's an example of an HTTP endpoint within a val, using the concepts described in the [HTTP Triggers documentation](/vals/http), secured with an environment variable that only I know:
 
 ```ts title="user/secretEndpoint" val
 export const secretEndpoint = (req: Request) => {
@@ -92,7 +95,6 @@ Response {
   url: "http://localhost:3001/v1/fetch?url=https%3A%2F%2Fuser-secretEndpoint.web.val.run"
 }
 ```
-
 
 ## Public code referencing private data
 
