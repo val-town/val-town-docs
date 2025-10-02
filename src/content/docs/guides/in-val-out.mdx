@@ -6,7 +6,7 @@ sidebar:
   order: 1
 ---
 
-import { Steps } from "@astrojs/starlight/components";
+import { CardGrid, LinkCard, Steps } from "@astrojs/starlight/components";
 
 A common pattern in Val Town is what we call _In, Val, Out_, or Input/Val/Output (I/V/O). You have data coming in, and you want to do something with it then output something. For example:
 
@@ -26,71 +26,177 @@ There's a combinatorial explosion of possibilities, so we've listed some example
 
 **Messages, email:**
 
-- [Email](/vals/email/)
-- [Gmail](/integrations/gmail/)
-- [Slack bot](/integrations/slack/bot/)
-- [Discord bot](/integrations/discord/how-to-make-a-discord-bot-hosted-24-7-for-free-in-/)
-- [Telegram bot](/integrations/telegram/)
-- Resend
-- Twilio
+<CardGrid>
+  <LinkCard
+    title="Email"
+    description="Handle received emails"
+    href="/vals/email/"
+  />
+  <LinkCard
+    title="Gmail"
+    description="Handle forwarded emails from Gmail"
+    href="/integrations/gmail/"
+  />
+  <LinkCard
+    title="Slack bot"
+    description="Handle incoming Slack messages"
+    href="/integrations/slack/bot/"
+  />
+  <LinkCard
+    title="Discord bot"
+    description="Handle incoming Discord messages"
+    href="/integrations/discord/how-to-make-a-discord-bot-hosted-24-7-for-free-in-/"
+  />
+  <LinkCard
+    title="Telegram bot"
+    description="Handle incoming Telegram messages"
+    href="/integrations/telegram/"
+  />
+</CardGrid>
 
 **Events:**
 
-- [GitHub webhooks](/integrations/github/receiving-a-github-webhook/)
-- [Supabase webhooks](/integrations/supabase/)
-- [Stripe webhooks](/integrations/stripe/)
-- Clerk
-- Vercel
-- Linear
-- Sentry
-- Cal.com
-- Shopify
-- PostHog
-- Cloudflare
+<CardGrid>
+  <LinkCard
+    title="GitHub webhooks"
+    description="Receive GitHub webhooks for issues, stars, PRs, etc."
+    href="/integrations/github/receiving-a-github-webhook/"
+  />
+  <LinkCard
+    title="Supabase webhooks"
+    description="Handle Supabase webhooks for inserts, updates, and deletes"
+    href="/integrations/supabase/"
+  />
+  <LinkCard
+    title="Stripe webhooks"
+    description="Handle Stripe webhooks, e.g., orders, refunds, etc."
+    href=""
+  />
+  <LinkCard
+    title="HTML forms"
+    description="Send HTML form data in a POST request"
+    href="/guides/save-html-form-data/"
+  />
+</CardGrid>
 
-**Forms:**
-
-- [HTML forms](/guides/save-html-form-data/)
-- Google Forms
-- Typeform
+You can hook up any tool in your stack as long as it can send data to your val's HTTP endpoint or email. That might be data from Clerk, Vercel, Linear, Sentry, Cal.com, Shopify, PostHog, Cloudflare, Google Forms, Typeform, or anywhere else—just send it to a val.
 
 ## Val
 
-**AI enrichment:**
+**AI enrichment, browser automation:**
 
-- [std/openai](/std/openai)
-- [Clay](https://www.val.town/x/charmaine/clay-proxy/)
-- Anthropic/Claude
+<CardGrid>
+  <LinkCard
+    title="std/openai"
+    description="Prompt an OpenAI model"
+    href="/std/openai"
+  />
+  <LinkCard
+    title="Clay"
+    description="Enrich user data with Clay"
+    href="https://blog.val.town/clay"
+  />
+  <LinkCard
+    title="Browserbase"
+    description="Search the web with Browserbase"
+    href="/integrations/browserbase/"
+  />
+  <LinkCard
+    title="Browserless"
+    description="Search the web with Browserless"
+    href="/integrations/browserless/"
+  />
+  <LinkCard
+    title="Kernel"
+    description="Search the web with Kernel"
+    href="/integrations/kernel/"
+  />
+  <LinkCard
+    title="Steel"
+    description="Search the web with Steel"
+    href="/integrations/steel/"
+  />
+</CardGrid>
 
-**Browser automation:**
-
-- [Browserbase](/integrations/browserbase/)
-- [Browserless](/integrations/browserless/)
-- [Kernel](/integrations/kernel/)
-- [Steel](/integrations/steel/)
+You can also call your LLM of choice, like Claude, or run arbitrary enrichment and analysis using other tools, like Exa.
 
 ## Output
 
 **Notifications:**
 
-- [Email](/std/email)
-- [Slack](/integrations/slack/send-messages-to-slack/)
-- [Discord](/integrations/discord/send-message/)
-- [Telegram](/integrations/telegram/)
-- Resend
-- Loops
-- Twilio
+<CardGrid>
+  <LinkCard
+    title="Email"
+    description="Send email directly from a val"
+    href="/std/email"
+  />
+  <LinkCard
+    title="Slack"
+    description="Send a Slack message to your team"
+    href="/integrations/slack/send-messages-to-slack/"
+  />
+  <LinkCard
+    title="Discord"
+    description="Ping yourself in a Discord server"
+    href="/integrations/discord/send-message/"
+  />
+  <LinkCard
+    title="Telegram"
+    description="Send a telegram message"
+    href="/integrations/telegram/"
+  />
+</CardGrid>
+
+Whether you use Resend, Loops, Twilio, or some other platform, as long as it has an API you can use it in Val Town.
 
 **Persistence:**
 
-- [std/sqlite](/std/sqlite/)
-- [std/blob](/std/blob)
-- [Google Sheets](/integrations/google-sheets/)
-- [Airtable](/integrations/airtable/)
-- [Neon Postgres](/integrations/databases/neon-postgres/)
-- [PlanetScale](/integrations/databases/planetscale/)
-- [Supabase](/integrations/databases/supabase/)
-- [Upstash](/integrations/databases/upstash/)
-- [AWS S3](/integrations/s3/)
-- Cloudflare R2
-- Notion
+<CardGrid>
+  <LinkCard
+    title="std/sqlite"
+    description="Store in Val Town's built-in SQLite"
+    href="/std/sqlite/"
+  />
+  <LinkCard
+    title="std/blob"
+    description="Persist to Val Town blob storage"
+    href="/std/blob"
+  />
+  <LinkCard
+    title="Google Sheets"
+    description="Write to a spreadsheet"
+    href="/integrations/google-sheets/"
+  />
+  <LinkCard
+    title="Airtable"
+    description="Update your Airtable with new data"
+    href="/integrations/airtable/"
+  />
+  <LinkCard
+    title="Neon"
+    description="Write to your Neon Postgres database"
+    href="/integrations/databases/neon-postgres/"
+  />
+  <LinkCard
+    title="PlanetScale"
+    description="Write to your PlanetScale db"
+    href="/integrations/databases/planetscale/"
+  />
+  <LinkCard
+    title="Supabase"
+    description="Write to your Supabase db"
+    href="/integrations/databases/supabase/"
+  />
+  <LinkCard
+    title="Upstash"
+    description="Write to your Upstash db"
+    href="/integrations/databases/upstash/"
+  />
+  <LinkCard
+    title="AWS S3"
+    description="Upload to an S3 bucket"
+    href="/integrations/s3/"
+  />
+</CardGrid>
+
+You can of course store your data in Cloudflare R2, Notion, or any other database or CRM. Let us know if you'd like help with your use case, and we'll continue to add examples to this docs page.
