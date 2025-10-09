@@ -1,0 +1,19 @@
+---
+title: Cursor
+description: Bring Val Town to Cursor with the vt CLI
+---
+
+## Instructions
+
+1. Install the [Val Town CLI](https://github.com/val-town/vt) and log in
+2. Open [Cursor](https://cursor.com)
+3. Copy-paste our [system prompt](https://www.val.town/x/valdottown/Townie/code/prompts/system_prompt.txt) into [`.cursor/rules`](https://docs.cursor.com/context/rules-for-ai)
+
+## Creating and editing vals
+
+The most reliable way to write vals in Cursor is with `vt watch`, which will automatically sync your changes to Val Town as you save files.
+
+1. `vt create`, `vt remix`, or `vt clone` a val
+2. `cd` into your val's directory
+3. `vt checkout -b <branch>` to isolate changes (optional)
+4. `vt watch` to sync with Val Town
