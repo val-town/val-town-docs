@@ -31,7 +31,7 @@ any [environment variables](/reference/environment-variables/)
 you've set in Val Town are set as environment variables in your
 local environment.
 
-**Private vals** can be run by setting [DENO_AUTH_TOKENS](https://docs.deno.com/runtime/manual/basics/modules/private). Create an [API token](https://docs.val.town/api/authentication/)
+**Private vals** can be run by setting [DENO_AUTH_TOKENS](https://docs.deno.com/runtime/manual/basics/modules/private). Create an [API token](/reference/api/authentication/)
 in Val Town, and then use it for the esm.town domain:
 
 ```sh

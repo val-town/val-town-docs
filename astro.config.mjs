@@ -65,29 +65,8 @@ export default defineConfig({
       ],
       sidebar: [
         {
-          label: "Val Town Docs",
+          label: "Getting started",
           link: "/",
-        },
-        {
-          label: "Getting Started",
-          items: [
-            {
-              label: "Your first website",
-              link: "quickstarts/first-website",
-            },
-            {
-              label: "Your first scheduled cron",
-              link: "quickstarts/first-cron",
-            },
-            {
-              label: "Sending Slack messages",
-              link: "integrations/slack/send-messages-to-slack/",
-            },
-            {
-              label: "LLM prompting",
-              link: "quickstarts/prompting",
-            },
-          ],
         },
         {
           label: "Vals",
@@ -133,29 +112,79 @@ export default defineConfig({
           ],
         },
         {
-          label: "Reference",
-          autogenerate: { directory: "reference" },
+          label: "Guides",
+          autogenerate: { directory: "guides" },
+          collapsed: true,
         },
         {
-          label: "Standard Library",
+          label: "Reference",
           items: [
-            { label: "Email", link: "std/email" },
             {
-              label: "SQLite",
-              autogenerate: { directory: "std/SQLite" },
+              label: "Standard Library",
+              items: [
+                { label: "Email", link: "reference/std/email" },
+                {
+                  label: "SQLite",
+                  autogenerate: { directory: "reference/std/SQLite" },
+                  collapsed: true,
+                },
+                { label: "Blob", link: "reference/std/blob" },
+                { label: "Proxied fetch", link: "reference/std/fetch" },
+                { label: "OpenAI", link: "reference/std/openai" },
+              ],
+            },
+            {
+              label: "REST API",
+              items: [
+                { label: "Overview", link: "reference/api/" },
+                {
+                  label: "Authentication",
+                  link: "reference/api/authentication",
+                },
+                { label: "JavaScript SDK", link: "https://sdk.val.town" },
+              ],
               collapsed: true,
             },
-            { label: "Blob", link: "std/blob" },
-            { label: "Proxied fetch", link: "std/fetch" },
-            { label: "OpenAI", link: "std/openai" },
-          ],
-        },
-        {
-          label: "REST API",
-          items: [
-            { label: "Overview", link: "api/" },
-            { label: "Authentication", link: "api/authentication" },
-            { label: "JavaScript SDK", link: "https://sdk.val.town" },
+            {
+              label: "Environment variables",
+              link: "/reference/environment-variables",
+            },
+            {
+              label: "Importing",
+              link: "reference/import/",
+            },
+            {
+              label: "Permissions",
+              link: "reference/permissions/",
+            },
+            {
+              label: "Runtime",
+              link: "reference/runtime/",
+            },
+            {
+              label: "File I/O",
+              link: "reference/file-io/",
+            },
+            {
+              label: "Deno LSP",
+              link: "reference/deno-lsp/",
+            },
+            {
+              label: "esm.town",
+              link: "reference/esm-town/",
+            },
+            {
+              label: "Using images in vals",
+              link: "reference/images/",
+            },
+            {
+              label: "Keyboard shortcuts",
+              link: "reference/shortcuts/",
+            },
+            {
+              label: "Version control",
+              link: "reference/version-control/",
+            },
           ],
           collapsed: true,
         },
@@ -164,17 +193,6 @@ export default defineConfig({
           autogenerate: { directory: "troubleshooting" },
           collapsed: true,
         },
-        {
-          label: "Guides",
-          autogenerate: { directory: "guides" },
-          collapsed: true,
-        },
-        {
-          label: "Integrations",
-          autogenerate: { directory: "integrations" },
-          collapsed: true,
-        },
-
         {
           label: "Contact",
           autogenerate: { directory: "contact-us" },

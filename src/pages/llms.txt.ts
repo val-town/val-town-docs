@@ -9,14 +9,10 @@ export const GET: APIRoute = async () => {
   const docs = await getCollection("docs");
 
   const SECTIONS = {
-    quickstarts: "Getting Started",
     vals: "Vals",
-    projects: "Projects",
-    reference: "Reference",
-    std: "Standard Library",
-    api: "REST API",
-    troubleshooting: "Troubleshooting",
     guides: "Guides",
+    reference: "Reference",
+    troubleshooting: "Troubleshooting",
     integrations: "Integrations",
   } as const;
 
