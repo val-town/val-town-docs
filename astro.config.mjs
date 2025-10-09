@@ -65,7 +65,7 @@ export default defineConfig({
       ],
       sidebar: [
         {
-          label: "Val Town Docs",
+          label: "Getting started",
           link: "/",
         },
         {
@@ -122,22 +122,25 @@ export default defineConfig({
             {
               label: "Standard Library",
               items: [
-                { label: "Email", link: "std/email" },
+                { label: "Email", link: "reference/std/email" },
                 {
                   label: "SQLite",
                   autogenerate: { directory: "reference/std/SQLite" },
                   collapsed: true,
                 },
-                { label: "Blob", link: "std/blob" },
-                { label: "Proxied fetch", link: "std/fetch" },
-                { label: "OpenAI", link: "std/openai" },
+                { label: "Blob", link: "reference/std/blob" },
+                { label: "Proxied fetch", link: "reference/std/fetch" },
+                { label: "OpenAI", link: "reference/std/openai" },
               ],
             },
             {
               label: "REST API",
               items: [
-                { label: "Overview", link: "api/" },
-                { label: "Authentication", link: "api/authentication" },
+                { label: "Overview", link: "reference/api/" },
+                {
+                  label: "Authentication",
+                  link: "reference/api/authentication",
+                },
                 { label: "JavaScript SDK", link: "https://sdk.val.town" },
               ],
               collapsed: true,
@@ -148,39 +151,39 @@ export default defineConfig({
             },
             {
               label: "Importing",
-              link: "https://docs.val.town/reference/import/",
+              link: "reference/import/",
             },
             {
               label: "Permissions",
-              link: "https://docs.val.town/reference/permissions/",
+              link: "reference/permissions/",
             },
             {
               label: "Runtime",
-              link: "https://docs.val.town/reference/runtime/",
+              link: "reference/runtime/",
             },
             {
               label: "File I/O",
-              link: "https://docs.val.town/reference/file-io/",
+              link: "reference/file-io/",
             },
             {
               label: "Deno LSP",
-              link: "https://docs.val.town/reference/deno-lsp/",
+              link: "reference/deno-lsp/",
             },
             {
               label: "esm.town",
-              link: "https://docs.val.town/reference/esm-town/",
+              link: "reference/esm-town/",
             },
             {
               label: "Using images in vals",
-              link: "https://docs.val.town/reference/images/",
+              link: "reference/images/",
             },
             {
               label: "Keyboard shortcuts",
-              link: "https://docs.val.town/reference/shortcuts/",
+              link: "reference/shortcuts/",
             },
             {
               label: "Version control",
-              link: "https://docs.val.town/reference/version-control/",
+              link: "reference/version-control/",
             },
           ],
           collapsed: true,

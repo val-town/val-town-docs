@@ -2,6 +2,8 @@
 # for a page we've removed. We add both versions of the removed url to ensure we
 # cover all requests.
 
+/api /reference/api/
+/api/ /reference/api/
 /api/authentication /reference/api/authentication/
 /api/authentication/ /reference/api/authentication/
 /api/esm-town /reference/esm-town

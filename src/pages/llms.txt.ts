@@ -10,12 +10,9 @@ export const GET: APIRoute = async () => {
 
   const SECTIONS = {
     vals: "Vals",
-    projects: "Projects",
-    reference: "Reference",
-    std: "Standard Library",
-    api: "REST API",
-    troubleshooting: "Troubleshooting",
     guides: "Guides",
+    reference: "Reference",
+    troubleshooting: "Troubleshooting",
     integrations: "Integrations",
   } as const;
 
