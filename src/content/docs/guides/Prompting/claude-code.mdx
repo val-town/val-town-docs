@@ -1,0 +1,26 @@
+---
+title: Claude Code
+description: Bring Val Town to Claude Code with the vt CLI
+---
+
+## Setup
+
+1. Install the [Val Town CLI](https://github.com/val-town/vt) and log in
+2. Install [Claude Code](https://docs.claude.com/en/docs/claude-code/quickstart) and log in
+3. Copy-paste our [system prompt](https://www.val.town/x/valdottown/Townie/code/prompts/system_prompt.txt) into [`CLAUDE.md`](https://docs.claude.com/en/docs/claude-code/memory) at the root of your local directory for vals
+
+## Creating and editing vals
+
+The most reliable way to let Claude write vals for you is with `vt watch`, which will automatically sync your changes to Val Town.
+
+1. `vt create`, `vt remix`, or `vt clone` a val\*
+2. `cd` into your val's directory
+3. `vt checkout -b <branch>` to isolate changes (optional)
+4. `vt watch` to sync with Val Town
+5. `claude` to start your Claude Coding session
+
+_\* Running `vt create|remix|clone` will ask you to add editor files including `AGENTS.md`, which Claude doesn't support as of this writing (use `CLAUDE.md` instead)._
+
+## Example
+
+We recorded a video [creating a customer support val](https://screen.studio/share/pYSiLKJU) in 4 minutes with `vt` and Claude code.
