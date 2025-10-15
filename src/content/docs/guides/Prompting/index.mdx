@@ -1,0 +1,67 @@
+---
+title: Overview
+description: A guide to using AI inside and outside Val Town
+---
+
+import Val from "@components/Val.astro";
+import { LinkCard, CardGrid } from "@astrojs/starlight/components";
+
+You can bring Val Town to your preferred AI environment, or code with AI on Val Town.
+
+## Townie
+
+[Townie](https://townie.val.run) is our open source coding assistant. Create vals with Townie's help, right in your browser.
+
+## Local development
+
+Code with AI in your favorite IDE or CLI, like Claude Code, Codex, or Cursor.
+
+<CardGrid>
+  <LinkCard
+    title="Claude Code"
+    description="Bring Val Town to Claude Code"
+    href="/guides/prompting/claude-code"
+  />
+  <LinkCard
+    title="OpenAI Codex"
+    description="Bring Val Town to OpenAI Codex"
+    href="/guides/prompting/openai-codex"
+  />
+  <LinkCard
+    title="Cursor"
+    description="Bring Val Town to Cursor"
+    href="/guides/prompting/cursor"
+  />
+  <LinkCard
+    title="Zed"
+    description="Bring Val Town to Zed"
+    href="/guides/prompting/zed"
+  />
+  <LinkCard
+    title="Warp"
+    description="Bring Val Town to Warp"
+    href="/guides/prompting/warp"
+  />
+  <LinkCard
+    title="GitHub Copilot"
+    description="Bring Val Town to GitHub Copilot"
+    href="/guides/prompting/github-copilot"
+  />
+  <LinkCard
+    title="Windsurf"
+    description="Bring Val Town to Windsurf"
+    href="/guides/prompting/windsurf"
+  />
+  <LinkCard
+    title="?"
+    description="Bring Val Town to ?"
+    href="#troubleshooting"
+  />
+</CardGrid>
+
+## Troubleshooting
+
+- Broken code? Visit the `Versions` tab or `History` of your val to revert
+- Large changes? Use feature [branches](/vals/branches) and [merge](/vals/pull-requests) when stable
+- Need help? Ask in the [Val Town Discord](https://discord.val.town/) in the `#local-dev` channel
+- Missing your favorite AI tool? Click "Edit page" to update these docs, or [ask](https://discord.val.town/) [us](mailto:docs-help@val.town) to help
