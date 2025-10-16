@@ -80,8 +80,7 @@
 /quickstarts/first-website/ /guides/first-website
 /secrets /reference/environment-variables/
 /secrets/ /reference/environment-variables/
-/std/sqlite/index /reference/std/sqlite/index/
-/std/sqlite/index/ /reference/std/sqlite/index/
+/std/sqlite/ /reference/std/sqlite/
 /std/sqlite/migrations /reference/std/sqlite/migrations/
 /std/sqlite/migrations/ /reference/std/sqlite/migrations/
 /std/sqlite/orms /reference/std/sqlite/orms/
