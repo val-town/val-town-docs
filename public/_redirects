@@ -1,5 +1,5 @@
-# The docs site will redirect /url-path to /url-path/ for a live page, but not
-# for a page we've removed. We add both versions of the removed url to ensure we
+# the docs site will redirect /url-path to /url-path/ for a live page, but not
+# for a page we've removed. we add both versions of the removed url to ensure we
 # cover all requests.
 
 /api /reference/api/
@@ -14,36 +14,36 @@
 /api/overview/ /api/
 /api/sdk /reference/api/sdk/
 /api/sdk/ /reference/api/sdk/
-/create-a-discord-welcome-bot /guides/Discord/bot
-/create-a-discord-welcome-bot/ /guides/Discord/bot
-/demo https://www.youtube.com/watch?v=V6qT5aA_UM4
-/demo/ https://www.youtube.com/watch?v=V6qT5aA_UM4
+/create-a-discord-welcome-bot /guides/discord/bot
+/create-a-discord-welcome-bot/ /guides/discord/bot
+/demo https://www.youtube.com/watch?v=v6qt5aa_um4
+/demo/ https://www.youtube.com/watch?v=v6qt5aa_um4
 /discord-bot-that-replies-to-slash-commands /guides/discord/how-to-make-a-discord-bot-hosted-24-7-for-free-in-/
 /discord-bot-that-replies-to-slash-commands/ /guides/discord/how-to-make-a-discord-bot-hosted-24-7-for-free-in-/
-/integrations/Databases/neon-postgres /guides/Databases/neon-postgres/
-/integrations/Databases/neon-postgres/ /guides/Databases/neon-postgres/
-/integrations/Databases/planetscale /guides/Databases/planetscale/
-/integrations/Databases/planetscale/ /guides/Databases/planetscale/
-/integrations/Databases/supabase /guides/Databases/supabase/
-/integrations/Databases/supabase/ /guides/Databases/supabase/
-/integrations/Databases/upstash /guides/Databases/upstash/
-/integrations/Databases/upstash/ /guides/Databases/upstash/
-/integrations/Discord/bot /guides/Discord/bot/
-/integrations/Discord/bot/ /guides/Discord/bot/
-/integrations/Discord/how-to-make-a-discord-bot-hosted-24-7-for-free-in- /guides/Discord/how-to-make-a-discord-bot-hosted-24-7-for-free-in-/
-/integrations/Discord/how-to-make-a-discord-bot-hosted-24-7-for-free-in-/ /guides/Discord/how-to-make-a-discord-bot-hosted-24-7-for-free-in-/
-/integrations/Discord/send-message /guides/Discord/send-message/
-/integrations/Discord/send-message/ /guides/Discord/send-message/
-/integrations/GitHub/get-a-github-user /guides/GitHub/get-a-github-user/
-/integrations/GitHub/get-a-github-user/ /guides/GitHub/get-a-github-user/
-/integrations/GitHub/github-users-stars-pagination /guides/GitHub/github-users-stars-pagination/
-/integrations/GitHub/github-users-stars-pagination/ /guides/GitHub/github-users-stars-pagination/
-/integrations/GitHub/receiving-a-github-webhook /guides/GitHub/receiving-a-github-webhook/
-/integrations/GitHub/receiving-a-github-webhook/ /guides/GitHub/receiving-a-github-webhook/
-/integrations/Slack/bot /guides/Slack/bot/
-/integrations/Slack/bot/ /guides/Slack/bot/
-/integrations/Slack/send-messages-to-slack /guides/Slack/send-messages-to-slack/
-/integrations/Slack/send-messages-to-slack/ /guides/Slack/send-messages-to-slack/
+/integrations/databases/neon-postgres /guides/databases/neon-postgres/
+/integrations/databases/neon-postgres/ /guides/databases/neon-postgres/
+/integrations/databases/planetscale /guides/databases/planetscale/
+/integrations/databases/planetscale/ /guides/databases/planetscale/
+/integrations/databases/supabase /guides/databases/supabase/
+/integrations/databases/supabase/ /guides/databases/supabase/
+/integrations/databases/upstash /guides/databases/upstash/
+/integrations/databases/upstash/ /guides/databases/upstash/
+/integrations/discord/bot /guides/discord/bot/
+/integrations/discord/bot/ /guides/discord/bot/
+/integrations/discord/how-to-make-a-discord-bot-hosted-24-7-for-free-in- /guides/discord/how-to-make-a-discord-bot-hosted-24-7-for-free-in-/
+/integrations/discord/how-to-make-a-discord-bot-hosted-24-7-for-free-in-/ /guides/discord/how-to-make-a-discord-bot-hosted-24-7-for-free-in-/
+/integrations/discord/send-message /guides/discord/send-message/
+/integrations/discord/send-message/ /guides/discord/send-message/
+/integrations/github/get-a-github-user /guides/github/get-a-github-user/
+/integrations/github/get-a-github-user/ /guides/github/get-a-github-user/
+/integrations/github/github-users-stars-pagination /guides/github/github-users-stars-pagination/
+/integrations/github/github-users-stars-pagination/ /guides/github/github-users-stars-pagination/
+/integrations/github/receiving-a-github-webhook /guides/github/receiving-a-github-webhook/
+/integrations/github/receiving-a-github-webhook/ /guides/github/receiving-a-github-webhook/
+/integrations/slack/bot /guides/slack/bot/
+/integrations/slack/bot/ /guides/slack/bot/
+/integrations/slack/send-messages-to-slack /guides/slack/send-messages-to-slack/
+/integrations/slack/send-messages-to-slack/ /guides/slack/send-messages-to-slack/
 /integrations/airtable /guides/airtable/
 /integrations/airtable/ /guides/airtable/
 /integrations/browserbase /guides/browser-automation/browserbase/
@@ -80,14 +80,14 @@
 /quickstarts/first-website/ /guides/first-website
 /secrets /reference/environment-variables/
 /secrets/ /reference/environment-variables/
-/std/SQLite/index /reference/std/SQLite/index/
-/std/SQLite/index/ /reference/std/SQLite/index/
-/std/SQLite/migrations /reference/std/SQLite/migrations/
-/std/SQLite/migrations/ /reference/std/SQLite/migrations/
-/std/SQLite/orms /reference/std/SQLite/orms/
-/std/SQLite/orms/ /reference/std/SQLite/orms/
-/std/SQLite/usage /reference/std/SQLite/usage/
-/std/SQLite/usage/ /reference/std/SQLite/usage/
+/std/sqlite/index /reference/std/sqlite/index/
+/std/sqlite/index/ /reference/std/sqlite/index/
+/std/sqlite/migrations /reference/std/sqlite/migrations/
+/std/sqlite/migrations/ /reference/std/sqlite/migrations/
+/std/sqlite/orms /reference/std/sqlite/orms/
+/std/sqlite/orms/ /reference/std/sqlite/orms/
+/std/sqlite/usage /reference/std/sqlite/usage/
+/std/sqlite/usage/ /reference/std/sqlite/usage/
 /std/blob /reference/std/blob/
 /std/blob/ /reference/std/blob/
 /std/email /reference/std/email/
