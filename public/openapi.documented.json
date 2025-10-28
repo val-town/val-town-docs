@@ -158,7 +158,7 @@
           "rowsAffected"
         ]
       },
-      "ExtendedVal": {
+      "ExtendedLegacyVal": {
         "description": "A Legacy Val",
         "type": "object",
         "properties": {
@@ -331,7 +331,7 @@
           "readme"
         ]
       },
-      "BasicVal": {
+      "BasicLegacyVal": {
         "description": "A Val",
         "type": "object",
         "properties": {
@@ -1053,7 +1053,7 @@
                     "data": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/BasicVal"
+                        "$ref": "#/components/schemas/BasicLegacyVal"
                       }
                     },
                     "links": {
@@ -1072,7 +1072,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\n// Automatically fetches more pages as needed.\nfor await (const valListResponse of client.search.vals.list({ limit: 1, offset: 0, query: 'x' })) {\n  console.log(valListResponse.id);\n}"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\n// Automatically fetches more pages as needed.\nfor await (const basicVal of client.search.vals.list({ limit: 1, offset: 0, query: 'x' })) {\n  console.log(basicVal.id);\n}"
           }
         ]
       }
