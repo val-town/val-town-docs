@@ -2693,7 +2693,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: 'My Bearer Token',\n});\n\nconst vals = await client.vals.list({ limit: 1 });\n\nconsole.log(vals.data);"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: 'My Bearer Token',\n});\n\n// Automatically fetches more pages as needed.\nfor await (const val of client.vals.list({ limit: 1 })) {\n  console.log(val.id);\n}"
           }
         ]
       },
