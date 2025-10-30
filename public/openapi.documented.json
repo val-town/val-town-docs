@@ -1000,12 +1000,15 @@
         "type": "object",
         "properties": {
           "key": {
+            "maxLength": 8192,
+            "pattern": "^[A-Za-z_][A-Z0-9a-z_]*$",
             "description": "Name or key of the environment variable, accessible via Deno.env or process.env",
             "type": "string"
           },
           "description": {
             "anyOf": [
               {
+                "maxLength": 1024,
                 "description": "Optional description of the environment variable",
                 "type": "string"
               },
@@ -3585,13 +3588,17 @@
                 "properties": {
                   "value": {
                     "description": "Value of the environment variable.",
+                    "maxLength": 8192,
                     "type": "string"
                   },
                   "description": {
                     "description": "Optional description of the environment variable",
+                    "maxLength": 1024,
                     "type": "string"
                   },
                   "key": {
+                    "maxLength": 8192,
+                    "pattern": "^[A-Za-z_][A-Z0-9a-z_]*$",
                     "description": "Name or key of the environment variable, accessible via Deno.env or process.env",
                     "type": "string"
                   }
@@ -3628,12 +3635,15 @@
                   "type": "object",
                   "properties": {
                     "key": {
+                      "maxLength": 8192,
+                      "pattern": "^[A-Za-z_][A-Z0-9a-z_]*$",
                       "description": "Name or key of the environment variable, accessible via Deno.env or process.env",
                       "type": "string"
                     },
                     "description": {
                       "anyOf": [
                         {
+                          "maxLength": 1024,
                           "description": "Optional description of the environment variable",
                           "type": "string"
                         },
@@ -3696,10 +3706,12 @@
                 "properties": {
                   "value": {
                     "description": "Value of the environment variable.",
+                    "maxLength": 8192,
                     "type": "string"
                   },
                   "description": {
                     "description": "Optional description of the environment variable",
+                    "maxLength": 1024,
                     "type": "string"
                   }
                 },
@@ -3742,12 +3754,15 @@
                   "type": "object",
                   "properties": {
                     "key": {
+                      "maxLength": 8192,
+                      "pattern": "^[A-Za-z_][A-Z0-9a-z_]*$",
                       "description": "Name or key of the environment variable, accessible via Deno.env or process.env",
                       "type": "string"
                     },
                     "description": {
                       "anyOf": [
                         {
+                          "maxLength": 1024,
                           "description": "Optional description of the environment variable",
                           "type": "string"
                         },
