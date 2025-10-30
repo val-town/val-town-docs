@@ -3569,6 +3569,267 @@
             "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\n// Automatically fetches more pages as needed.\nfor await (const environmentVariableListResponse of client.vals.environmentVariables.list(\n  '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',\n  { limit: 1, offset: 0 },\n)) {\n  console.log(environmentVariableListResponse.createdAt);\n}"
           }
         ]
+      },
+      "post": {
+        "operationId": "valEnvironmentVariablesCreate",
+        "tags": [
+          "vals"
+        ],
+        "description": "Create a new environment variable scoped to this project.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "Inputs for an environment variable",
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "description": "Value of the environment variable.",
+                    "type": "string"
+                  },
+                  "description": {
+                    "description": "Optional description of the environment variable",
+                    "type": "string"
+                  },
+                  "key": {
+                    "description": "Name or key of the environment variable, accessible via Deno.env or process.env",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "value",
+                  "key"
+                ]
+              }
+            }
+          },
+          "required": true,
+          "description": "Inputs for an environment variable"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "in": "path",
+            "name": "val_id",
+            "required": true,
+            "description": "Id of a val"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "An environment variable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "An environment variable",
+                  "type": "object",
+                  "properties": {
+                    "key": {
+                      "description": "Name or key of the environment variable, accessible via Deno.env or process.env",
+                      "type": "string"
+                    },
+                    "description": {
+                      "anyOf": [
+                        {
+                          "description": "Optional description of the environment variable",
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "updatedAt": {
+                      "format": "date-time",
+                      "type": "string"
+                    },
+                    "createdAt": {
+                      "format": "date-time",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "key",
+                    "description",
+                    "updatedAt",
+                    "createdAt"
+                  ]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Key already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Key already exists"
+                }
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "JavaScript",
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nconst environmentVariable = await client.vals.environmentVariables.create(\n  '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',\n  { key: 'key', value: 'value' },\n);\n\nconsole.log(environmentVariable.createdAt);"
+          }
+        ]
+      }
+    },
+    "/v2/vals/{val_id}/environment_variables/{key}": {
+      "put": {
+        "operationId": "valEnvironmentVariablesCreate",
+        "tags": [
+          "vals"
+        ],
+        "description": "Update a environment variable scoped to this project.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "Inputs to update a environment variable",
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "description": "Value of the environment variable.",
+                    "type": "string"
+                  },
+                  "description": {
+                    "description": "Optional description of the environment variable",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "value"
+                ]
+              }
+            }
+          },
+          "required": true,
+          "description": "Inputs to update a environment variable"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "in": "path",
+            "name": "val_id",
+            "required": true,
+            "description": "Id of a val"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "key",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "An environment variable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "An environment variable",
+                  "type": "object",
+                  "properties": {
+                    "key": {
+                      "description": "Name or key of the environment variable, accessible via Deno.env or process.env",
+                      "type": "string"
+                    },
+                    "description": {
+                      "anyOf": [
+                        {
+                          "description": "Optional description of the environment variable",
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "updatedAt": {
+                      "format": "date-time",
+                      "type": "string"
+                    },
+                    "createdAt": {
+                      "format": "date-time",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "key",
+                    "description",
+                    "updatedAt",
+                    "createdAt"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "JavaScript",
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nconst environmentVariable = await client.vals.environmentVariables.update(\n  '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',\n  'key',\n  { value: 'value' },\n);\n\nconsole.log(environmentVariable.createdAt);"
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "valEnvironmentVariablesDelete",
+        "tags": [
+          "vals"
+        ],
+        "description": "Delete a environment variable scoped to this project.",
+        "parameters": [
+          {
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "in": "path",
+            "name": "val_id",
+            "required": true,
+            "description": "Id of a val"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "key",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Default Response"
+          },
+          "404": {
+            "description": "Environment variable or project not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Environment variable or project not found"
+                }
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "JavaScript",
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nawait client.vals.environmentVariables.delete('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', 'key');"
+          }
+        ]
       }
     },
     "/v2/vals/{val_id}/files/content": {
