@@ -994,6 +994,41 @@
           "type",
           "links"
         ]
+      },
+      "TEnvironmentVariable": {
+        "description": "An environment variable",
+        "type": "object",
+        "properties": {
+          "key": {
+            "description": "Name or key of the environment variable, accessible via Deno.env or process.env",
+            "type": "string"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "description": "Optional description of the environment variable",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "key",
+          "description",
+          "updatedAt",
+          "createdAt"
+        ]
       }
     }
   },
@@ -3454,6 +3489,84 @@
           {
             "lang": "JavaScript",
             "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nconst file = await client.vals.files.update('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { path: 'path' });\n\nconsole.log(file.id);"
+          }
+        ]
+      }
+    },
+    "/v2/vals/{val_id}/environment_variables": {
+      "get": {
+        "operationId": "valEnvironmentVariablesList",
+        "tags": [
+          "vals"
+        ],
+        "description": "List environment variables defined in this project. This only includes names, not values.",
+        "parameters": [
+          {
+            "schema": {
+              "minimum": 0,
+              "default": 0,
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "offset",
+            "required": true,
+            "description": "Number of items to skip in order to deliver paginated results"
+          },
+          {
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "limit",
+            "required": true,
+            "description": "Maximum items to return in each paginated response"
+          },
+          {
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "in": "path",
+            "name": "val_id",
+            "required": true,
+            "description": "Id of a val"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A paginated result set",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "A paginated result set",
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/TEnvironmentVariable"
+                      }
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginationLinks"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "links"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "JavaScript",
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\n// Automatically fetches more pages as needed.\nfor await (const environmentVariableListResponse of client.vals.environmentVariables.list(\n  '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',\n  { limit: 1, offset: 0 },\n)) {\n  console.log(environmentVariableListResponse.createdAt);\n}"
           }
         ]
       }
