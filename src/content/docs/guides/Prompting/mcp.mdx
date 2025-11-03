@@ -5,7 +5,7 @@ sidebar:
   order: 2
 ---
 
-import { Steps } from "@astrojs/starlight/components";
+import { Steps, CardGrid, LinkCard } from "@astrojs/starlight/components";
 
 Use the Val Town MCP server to work with Val Town in your preferred AI tool, e.g. with [Claude Code](/guides/prompting/claude-code#mcp).
 
@@ -24,6 +24,39 @@ Use the Val Town MCP server to work with Val Town in your preferred AI tool, e.g
 > claude mcp add --transport http val-town https://api.val.town/v3/mcp
 > /mcp
 ```
+
+## Popular tools
+
+<CardGrid>
+  <LinkCard
+    title="Claude Code"
+    description="Val Town MCP + Claude Code"
+    href="/guides/prompting/claude-code#mcp"
+  />
+  <LinkCard
+    title="Claude Web/Desktop"
+    description="Val Town MCP + Claude Web/Desktop"
+    href="/guides/prompting/claude#mcp"
+  />
+  <LinkCard
+    title="ChatGPT Web/Desktop"
+    description="Val Town MCP + ChatGPT"
+    href="/guides/prompting/chatgpt#mcp"
+  />
+  <LinkCard title="[Your LLM of choice]" description="Val Town MCP + ?" />
+</CardGrid>
+
+:::note
+Are we missing your favorite LLM? Click "Edit page" to update these docs, or [ask](https://discord.val.town/) [us](mailto:docs-help@val.town) to help.
+:::
+
+## Tips, Troubleshooting
+
+- Ask your LLM to list or examine your vals or read sqlite data, logs, etc.
+- Ask your LLM to edit vals and even agentically iterate
+- Broken code? Visit the `Versions` tab or `History` of your val to revert
+- Large changes? Use feature [branches](/vals/branches) and [merge](/vals/pull-requests) when stable
+- Need help? Ask in the [Val Town Discord](https://discord.val.town/) in the `#local-dev` channel
 
 :::caution
 As always, review your LLM's code for risks like prompt injection. The more permissions you grant your LLM, the more it can do with your Val Town data (SQLite, blob storage, etc.).
