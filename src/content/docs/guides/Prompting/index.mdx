@@ -1,20 +1,34 @@
 ---
 title: Overview
 description: A guide to using AI inside and outside Val Town
+sidebar:
+  order: 1
 ---
 
 import Val from "@components/Val.astro";
 import { LinkCard, CardGrid } from "@astrojs/starlight/components";
 
-You can bring Val Town to your preferred AI environment, or code with AI on Val Town.
+Bring Val Town to your preferred AI tool, or code on Val Town with Townie.
 
-## Townie
+<CardGrid>
+  <LinkCard
+    title="Val Town MCP"
+    description="Bring Val Town to your LLM of choice with our MCP server"
+    href="/guides/prompting/mcp"
+  />
+  <LinkCard
+    title="Val Town CLI"
+    description="Bring Val Town to your IDE/terminal with the CLI"
+    href="/guides/prompting/cli"
+  />
+  <LinkCard
+    title="Townie"
+    description="Code with AI directly on Val Town with Townie"
+    href="/guides/prompting/townie"
+  />
+</CardGrid>
 
-[Townie](https://townie.val.run) is our open source coding assistant. Create vals with Townie's help, right in your browser.
-
-## Local development
-
-Code with AI in your favorite IDE or CLI, like Claude Code, Codex, or Cursor.
+## Popular tools
 
 <CardGrid>
   <LinkCard
@@ -23,7 +37,17 @@ Code with AI in your favorite IDE or CLI, like Claude Code, Codex, or Cursor.
     href="/guides/prompting/claude-code"
   />
   <LinkCard
-    title="OpenAI Codex"
+    title="Claude"
+    description="Bring Val Town to Claude Web/Desktop"
+    href="/guides/prompting/claude"
+  />
+  <LinkCard
+    title="ChatGPT"
+    description="Bring Val Town to ChatGPT"
+    href="/guides/prompting/chatgpt"
+  />
+  <LinkCard
+    title="Codex"
     description="Bring Val Town to OpenAI Codex"
     href="/guides/prompting/openai-codex"
   />
@@ -33,9 +57,9 @@ Code with AI in your favorite IDE or CLI, like Claude Code, Codex, or Cursor.
     href="/guides/prompting/cursor"
   />
   <LinkCard
-    title="Zed"
-    description="Bring Val Town to Zed"
-    href="/guides/prompting/zed"
+    title="GitHub Copilot"
+    description="Bring Val Town to GitHub Copilot"
+    href="/guides/prompting/github-copilot"
   />
   <LinkCard
     title="Warp"
@@ -43,9 +67,9 @@ Code with AI in your favorite IDE or CLI, like Claude Code, Codex, or Cursor.
     href="/guides/prompting/warp"
   />
   <LinkCard
-    title="GitHub Copilot"
-    description="Bring Val Town to GitHub Copilot"
-    href="/guides/prompting/github-copilot"
+    title="Zed"
+    description="Bring Val Town to Zed"
+    href="/guides/prompting/zed"
   />
   <LinkCard
     title="Windsurf"
@@ -55,13 +79,19 @@ Code with AI in your favorite IDE or CLI, like Claude Code, Codex, or Cursor.
   <LinkCard
     title="?"
     description="Bring Val Town to ?"
-    href="#troubleshooting"
+    href="#tips-troubleshooting"
   />
 </CardGrid>
 
-## Troubleshooting
+## Tips, Troubleshooting
 
+- Ask to list or examine your vals or read sqlite data, logs, etc.
+- Ask your LLM to edit vals and even agentically iterate
 - Broken code? Visit the `Versions` tab or `History` of your val to revert
 - Large changes? Use feature [branches](/vals/branches) and [merge](/vals/pull-requests) when stable
 - Need help? Ask in the [Val Town Discord](https://discord.val.town/) in the `#local-dev` channel
 - Missing your favorite AI tool? Click "Edit page" to update these docs, or [ask](https://discord.val.town/) [us](mailto:docs-help@val.town) to help
+
+:::caution
+As always, review your LLM's code for risks like prompt injection. The more permissions you grant your LLM, the more it can do with your Val Town data (SQLite, blob storage, etc.).
+:::

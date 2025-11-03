@@ -1,0 +1,32 @@
+---
+title: CLI
+description: A guide to using the Val Town CLI with your favorite AI tool
+sidebar:
+  order: 3
+---
+
+import { Steps } from "@astrojs/starlight/components";
+
+Use the Val Town CLI to work with Val Town in your favorite IDE, e.g. with [Cursor](/guides/prompting/cursor).
+
+## Setup
+
+<Steps>
+
+1. Install the [Val Town CLI](https://github.com/val-town/vt): `deno install -grAf jsr:@valtown/vt`
+
+2. `vt create`, `vt remix`, or `vt clone` a val. Select “Yes” to add editor files\*
+
+3. `cd` into your val's directory
+
+4. (Optional) `vt checkout -b <branch>` to isolate changes
+
+5. `vt watch` to sync your changes to Val Town as you save files
+
+</Steps>
+
+_\* This will include `AGENTS.md`, which LLMs should respect (with some exceptions, like `CLAUDE.md`)._
+
+:::caution
+As always, review your LLM's code for risks like prompt injection. The more permissions you grant your LLM, the more it can do with your Val Town data (SQLite, blob storage, etc.).
+:::
