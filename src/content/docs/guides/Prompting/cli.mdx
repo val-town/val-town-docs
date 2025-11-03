@@ -5,9 +5,11 @@ sidebar:
   order: 3
 ---
 
-import { Steps } from "@astrojs/starlight/components";
+import { Steps, CardGrid, LinkCard } from "@astrojs/starlight/components";
 
-Use the Val Town CLI to work with Val Town in your favorite IDE, e.g. with [Cursor](/guides/prompting/cursor).
+Use the `vt` CLI to work with Val Town in your favorite IDE, e.g. with [Cursor](/guides/prompting/cursor).
+
+`vt` is built with the Deno TypeScript runtime. To use vt, you need to make sure you [have Deno installed](https://docs.deno.com/runtime/getting_started/installation/).
 
 ## Setup
 
@@ -15,17 +17,72 @@ Use the Val Town CLI to work with Val Town in your favorite IDE, e.g. with [Curs
 
 1. Install the [Val Town CLI](https://github.com/val-town/vt): `deno install -grAf jsr:@valtown/vt`
 
-2. `vt create`, `vt remix`, or `vt clone` a val. Select “Yes” to add editor files\*
+2. Run `vt` to login to Val Town
 
-3. `cd` into your val's directory
+3. `vt create`, `vt remix`, or `vt clone` a val. Select “Yes” to add editor files\*
 
-4. (Optional) `vt checkout -b <branch>` to isolate changes
+4. `cd` into your val's directory
 
-5. `vt watch` to sync your changes to Val Town as you save files
+5. (Optional) `vt checkout -b <branch>` to isolate changes
+
+6. `vt watch` to sync your changes to Val Town as you save files
 
 </Steps>
 
 _\* This will include `AGENTS.md`, which LLMs should respect (with some exceptions, like `CLAUDE.md`)._
+
+## Popular tools
+
+<CardGrid>
+  <LinkCard
+    title="Claude Code"
+    description="Val Town CLI + Claude Code"
+    href="/guides/prompting/claude-code"
+  />
+  <LinkCard
+    title="Codex"
+    description="Val Town CLI + OpenAI Codex"
+    href="/guides/prompting/openai-codex"
+  />
+  <LinkCard
+    title="Cursor"
+    description="Val Town CLI + Cursor"
+    href="/guides/prompting/cursor"
+  />
+  <LinkCard
+    title="GitHub Copilot"
+    description="Val Town CLI + GitHub Copilot"
+    href="/guides/prompting/github-copilot"
+  />
+  <LinkCard
+    title="Warp"
+    description="Val Town CLI + Warp"
+    href="/guides/prompting/warp"
+  />
+  <LinkCard
+    title="Zed"
+    description="Val Town CLI + Zed"
+    href="/guides/prompting/zed"
+  />
+  <LinkCard
+    title="Windsurf"
+    description="Val Town CLI + Windsurf"
+    href="/guides/prompting/windsurf"
+  />
+  <LinkCard title="[Your LLM of choice]" description="Val Town CLI + ?" />
+</CardGrid>
+
+:::note
+Are we missing your favorite AI tool? Click "Edit page" to update these docs, or [ask](https://discord.val.town/) [us](mailto:docs-help@val.town) to help.
+:::
+
+## Tips, Troubleshooting
+
+- Ask to list or examine your vals or read sqlite data, logs, etc.
+- Ask your LLM to edit vals and even agentically iterate
+- Broken code? Visit the `Versions` tab or `History` of your val to revert
+- Large changes? Use feature [branches](/vals/branches) and [merge](/vals/pull-requests) when stable
+- Need help? Ask in the [Val Town Discord](https://discord.val.town/) in the `#local-dev` channel
 
 :::caution
 As always, review your LLM's code for risks like prompt injection. The more permissions you grant your LLM, the more it can do with your Val Town data (SQLite, blob storage, etc.).
