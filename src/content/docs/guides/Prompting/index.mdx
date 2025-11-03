@@ -1,12 +1,14 @@
 ---
 title: Overview
 description: A guide to using AI inside and outside Val Town
+sidebar:
+  order: 1
 ---
 
 import Val from "@components/Val.astro";
 import { LinkCard, CardGrid } from "@astrojs/starlight/components";
 
-You can bring Val Town to your preferred AI tool with our [MCP](#mcp) server or [CLI](#cli). Or code with AI directly on Val Town with [Townie](#townie).
+You can bring Val Town to your preferred AI tool with our [MCP](/guides/prompting/mcp) server or [CLI](/guides/prompting/cli). Or code with AI directly on Val Town with [Townie](/guides/prompting/townie).
 
 ## Popular tools
 
@@ -63,37 +65,6 @@ You can bring Val Town to your preferred AI tool with our [MCP](#mcp) server or 
   />
 </CardGrid>
 
-## MCP
-
-1. Connect the Val Town MCP server to your LLM
-
-```
-# E.g. for Claude Code
-> claude mcp add --transport http val-town https://api.val.town/v3/mcp
-> /mcp
-```
-
-2. Authenticate to Val Town MCP by following the OAuth flow
-
-## CLI
-
-1. Install the [Val Town CLI](https://github.com/val-town/vt)
-
-```
-deno install -grAf jsr:@valtown/vt
-```
-
-2. `vt create`, `vt remix`, or `vt clone` a val. Select “Yes” to add editor files\*
-3. `cd` into your val's directory
-4. (Optional) `vt checkout -b <branch>` to isolate changes
-5. `vt watch` to sync your changes to Val Town as you save files
-
-_\* This will include `AGENTS.md`, which LLMs should respect (with some exceptions, like `CLAUDE.md`)._
-
-## Townie
-
-[Townie](https://townie.val.run) is our open source coding assistant. Create vals with Townie's help, right in your browser.
-
 ## Tips, Troubleshooting
 
 - Ask to list or examine your vals or read sqlite data, logs, etc.
@@ -102,3 +73,7 @@ _\* This will include `AGENTS.md`, which LLMs should respect (with some exceptio
 - Large changes? Use feature [branches](/vals/branches) and [merge](/vals/pull-requests) when stable
 - Need help? Ask in the [Val Town Discord](https://discord.val.town/) in the `#local-dev` channel
 - Missing your favorite AI tool? Click "Edit page" to update these docs, or [ask](https://discord.val.town/) [us](mailto:docs-help@val.town) to help
+
+:::caution
+As always, review your LLM's code for risks like prompt injection. The more permissions you grant your LLM, the more it can do with your Val Town data (SQLite, blob storage, etc.).
+:::

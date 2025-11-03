@@ -21,13 +21,14 @@ claude mcp add --transport http val-town https://api.val.town/v3/mcp
 4. Run `/mcp` to view available MCP servers
 5. Select `val-town`
 6. Authenticate to Val Town by following the OAuth flow
-7. (Optional) Use the [Playwright MCP server](https://til.simonwillison.net/claude-code/playwright-mcp-claude-code) to allow the agent to code for you in a loop
 
 :::tip
 If you're feeling lucky, you can run `claude --dangerously-skip-permissions`
 :::
 
-As an example, check out the [Login with Val Town](https://www.val.town/x/std/oauth) OAuth Middleware. The Playwright MCP server and a [`TESTING.md`](https://www.val.town/x/std/oauth/code/TESTING.md) file allowed Claude to test out the OAuth flow end-to-end while agentically building and testing this OAuth flow.
+:::tip
+Use the [Playwright MCP server](https://til.simonwillison.net/claude-code/playwright-mcp-claude-code) to allow Claude Code to act as an agent, coding for you in a loop.
+:::
 
 ## CLI
 
