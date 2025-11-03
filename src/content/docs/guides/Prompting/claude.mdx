@@ -1,0 +1,20 @@
+---
+title: Claude
+description: Bring Val Town to Claude
+---
+
+You can work with Val Town in Claude (Web, Desktop) using our [MCP](#mcp) server. You can ask Claude to:
+
+- List or examine your vals and read your sqlite data, logs, and almost any of your Val Town data
+- Edit your vals, and even agentically iterate, viewing the output and logs until it's done
+
+## MCP
+
+1. Open Claude
+2. Go to [Connectors](https://claude.ai/settings/connectors), click Configure on the Val Town MCP
+3. For Tool Permissions, select Always Allow
+4. Go to [Capabilities](https://claude.ai/settings/capabilities) and add `*.val.run` as an allowed domain
+
+:::note
+MCP servers ("Connectors") in Claude are [only available](https://support.claude.com/en/articles/11724452-browsing-and-connecting-to-tools-from-the-directory) for users with paid plans (Pro, Max, Team, or Enterprise).
+:::
