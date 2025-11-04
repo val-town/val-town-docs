@@ -1992,6 +1992,7 @@
                   },
                   "html": {
                     "description": "HTML content of the email. Can be specified alongside text",
+                    "minLength": 1,
                     "type": "string"
                   },
                   "attachments": {
