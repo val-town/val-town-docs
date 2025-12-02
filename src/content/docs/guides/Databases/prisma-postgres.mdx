@@ -1,0 +1,139 @@
+---
+title: Prisma Postgres
+description: How to connect Val Town to Prisma Postgres, a serverless Postgres database with instant provisioning and zero setup.
+lastUpdated: 2025-11-26
+---
+
+[Prisma Postgres](https://prisma.io/postgres) provides a serverless PostgreSQL database
+with a generous [free tier](https://www.prisma.io/pricing). It offers instant provisioning,
+automatic scaling, and built-in connection pooling, perfect for serverless environments like Val Town.
+
+## 1. Create an instant database
+
+The fastest way to get a Prisma Postgres database is via the CLI. Run this command in your terminal:
+
+```bash
+npx create-db --json
+```
+
+You'll get a response like this:
+
+```json
+{
+  "connectionString": "postgresql://...@db.prisma.io:5432/postgres?sslmode=require",
+  "claimUrl": "https://create-db.prisma.io/claim?projectID=...",
+  "deletionDate": "2025-11-27T11:03:38.153Z",
+  "region": "ap-southeast-1",
+  "name": "2025-11-26T11:03:34.105Z",
+  "projectId": "proj_..."
+}
+```
+
+Copy the `connectionString` value. You'll need this to connect from Val Town.
+
+:::tip
+Visit the `claimUrl` to claim your database and prevent it from being automatically deleted.
+You can also create databases through the [Prisma Console](https://console.prisma.io/).
+:::
+
+## 2. Save your connection string
+
+Go to [val.town](https://val.town) and click **Env Variables** in the left sidebar.
+
+Click **New env variable**, then set the key to `PRISMA_POSTGRES_URL` and paste
+your connection string as the value.
+
+## 3. Create your first table
+
+Copy and paste this val to create a table:
+
+```ts title="Table creation" val
+import { Client } from "jsr:@db/postgres";
+
+const client = new Client(Deno.env.get("PRISMA_POSTGRES_URL"));
+await client.connect();
+
+await client.queryObject`
+  CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  )
+`;
+
+console.log("Table created!");
+await client.end();
+```
+
+## 4. Insert some data
+
+Use template strings to safely insert data (this prevents SQL injection):
+
+```ts title="Data insertion" val
+import { Client } from "jsr:@db/postgres";
+
+const client = new Client(Deno.env.get("PRISMA_POSTGRES_URL"));
+await client.connect();
+
+await client.queryObject`
+  INSERT INTO users (name, email) 
+  VALUES ('Alice', 'alice@example.com')
+`;
+
+await client.queryObject`
+  INSERT INTO users (name, email) 
+  VALUES ('Bob', 'bob@example.com')
+`;
+
+console.log("Data inserted!");
+await client.end();
+```
+
+## 5. Query your data
+
+Get back the data you just inserted:
+
+```ts title="Data query" val
+import { Client } from "jsr:@db/postgres";
+
+const client = new Client(Deno.env.get("PRISMA_POSTGRES_URL"));
+await client.connect();
+
+const result = await client.queryObject`
+  SELECT id, name, email, created_at 
+  FROM users 
+  ORDER BY id
+`;
+
+console.log(result.rows);
+await client.end();
+```
+
+## 6. Query with parameters
+
+For dynamic queries, use prepared statements to prevent SQL injection:
+
+```ts title="Parameterized query" val
+import { Client } from "jsr:@db/postgres";
+
+const client = new Client(Deno.env.get("PRISMA_POSTGRES_URL"));
+await client.connect();
+
+const name = "Alice";
+const result = await client.queryObject`
+  SELECT id, name, email 
+  FROM users 
+  WHERE name = ${name}
+`;
+
+console.log(result.rows);
+await client.end();
+```
+
+## 7. More resources
+
+- [Prisma Postgres documentation](https://www.prisma.io/docs/orm/overview/databases/prisma-postgres)
+- [deno-postgres documentation](https://deno-postgres.com/)
+- Get help on [Val Town's Discord](https://discord.gg/dHv45uN5RY)
+
