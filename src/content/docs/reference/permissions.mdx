@@ -1,10 +1,8 @@
 ---
 title: Permissions
 description: Vals can be private, unlisted, or public
-lastUpdated: 2024-02-10
 sidebar:
   order: 3
-# cspell:ignore birdsarentreal supersecrettoken
 ---
 
 There are three privacy settings for a Val:
@@ -42,7 +40,7 @@ Here's an example of an HTTP endpoint within a val, using the concepts described
 export const secretEndpoint = (req: Request) => {
   const secretHeader = req.headers.get("Authorization");
 
-  if (secretHeader !== Deno.env.get("supersecrettoken")) {
+  if (secretHeader !== Deno.env.get("SECRET")) {
     return new Response("Unauthorized", { status: 401 });
   }
 
@@ -53,8 +51,6 @@ export const secretEndpoint = (req: Request) => {
 If I called it without supplying the environment variable, I'd be denied access:
 
 ```ts title="Without authentication" val
-import { fetch } from "https://esm.town/v/std/fetch";
-
 const response = await fetch("https://user-secretEndpoint.web.val.run");
 console.log(response);
 ```
@@ -75,10 +71,8 @@ Response {
 By supplying the environment variable in a header, I'm allowed access:
 
 ```ts title="With authentication" val
-import { fetch } from "https://esm.town/v/std/fetch";
-
 const response = await fetch("https://user-secretEndpoint.web.val.run", {
-  headers: { Authorization: "birdsarentreal" },
+  headers: { Authorization: "SECRET_123" },
 });
 console.log(response);
 ```
@@ -95,101 +89,4 @@ Response {
   url: "http://localhost:3001/v1/fetch?url=https%3A%2F%2Fuser-secretEndpoint.web.val.run"
 }
 ```
-
-## Public code referencing private data
-
-It is safe for a a public val to reference one of your private vals or one of
-your environment variables. Private vals are like environment variables in this
-way — others can see that they're being used, but not their values.
-
-For example, I created a private val, `example3`. You won't be able to see or
-reference `example3` but I can use it in `example4` which is public.
-
-```ts title="@user/example4"
-import { example3 } from "https://esm.town/v/user/example3";
-console.log("Hi,", example3);
-```
-
-```txt title="Logs"
-Hi, User
-```
-
-You can _infer_ that the value of `example3` is `"User"` because of
-how it's used here. This is why you have to be careful about publishing vals
-that reference private data. Typically you will reference private data in a way
-that makes it impossible for others to infer what it is, like you would with an
-environment variable credentials. Below I am passing my environment variables to an Upstash
-Redis store. You can see that I'm using these environment variables and the output of this
-computation, but you can't get those values, nor can you rerun this script with
-my environment variables.
-
-```ts title="Example" val
-import { Redis } from "npm:@upstash/redis";
-const redis = new Redis({
-  url: Deno.env.get("upstashURL"),
-  token: Deno.env.get("upstashToken"),
-});
-await redis.set("json-ex-1", { a: { b: "nested json" } });
-const get = await redis.get("json-ex-1");
-console.log(get);
-```
-
-```ts title="Output"
-nested json
-```
-
-## Using another's vals as a library
-
-You can [import](/reference/import) any Public or Unlisted vals and use
-them in your own code. In this way
-it is safe to pass other's code your private data and environment variables.
-
-```ts title="Example" val
-import { gpt3 } from "https://esm.town/v/patrickjm/gpt3?v=4";
-
-export let librarySecret = gpt3({
-  prompt: "what is the meaning of life?",
-  openAiKey: Deno.env.get("openai"),
-});
-```
-
-:::danger[Import security]
-
-If you're importing someone else's code, read the code first to make
-sure it's trustworthy, and we recommend version-pinning any dependencies
-against other people's code, like `?v=4` in the example above.
-
-:::
-
-## Custom Authentication
-
-You can roll arbitrary authentication schemes in user space. For example, I find
-it useful to simply supply a custom `auth` header from my Clerk webhooks that I
-check like a password against a value I store in my environment variables:
-
-```ts title="Clerk example" val
-import { discordWebhook } from "https://esm.town/v/stevekrouse/discordWebhook";
-
-// # New Val Town User (on Clerk) -> Val Town Discord notification
-// Translates one kind of webhook (Clerk) into another (Discord)
-export async function handleDiscordNewUser(req: express.Request, res) {
-  // check custom auth secret sent from clerk
-  if (req.get("auth") !== process.env.clerkNonSensitive)
-    return res.end("Unauthorized");
-  await discordWebhook({
-    url: Deno.env.get("discordUserEvents"),
-    content:
-      req.body.data.email_addresses[0].email_address +
-      " " +
-      req.body.data.profile_image_url,
-  });
-  res.end("Success");
-}
-```
-
-I call this value `clerkNonSensitive` because this value doesn't protect any
-data. It merely makes it impossible for anyone to trigger this public API
-endpoint without the password. The worst that could happen if this password
-leaks is that our team temporarily gets spam discord messages. Then I could just
-change the password to a new value. For more sensitive use-cases, you'll want to
 sign & possibly encrypt the conveyed data using standard authentication methods.
