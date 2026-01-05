@@ -4240,6 +4240,13 @@
                     "access_token": {
                       "description": "A valid Google access token",
                       "type": "string"
+                    },
+                    "granted_scopes": {
+                      "description": "The scopes granted by the user during OAuth (may be a subset of requested scopes)",
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
                     }
                   },
                   "required": [
