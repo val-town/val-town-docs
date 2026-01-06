@@ -10,10 +10,11 @@ import { LinkCard } from "@astrojs/starlight/components";
 Val Town code runs on the [Deno](https://deno.com/) runtime.
 
 - TypeScript and TSX are available for all vals, and at the time of this
-  writing we support TypeScript 5.6.2.
-- There is no filesystem access permitted.
+  writing we support TypeScript 5.9.2.
+- There is no filesystem access permitted - but you _can_ store file-like objects
+  using [Blob storage](/reference/std/blob).
 - `--allow-net` is enabled, so they can make HTTP requests.
-- Vals have access to [environment variables](/reference/environment-variables)
+- Vals have access to [environment variables](/reference/environment-variables).
 - The experimental [Temporal API](https://tc39.es/proposal-temporal/docs/) is
   enabled.
 
@@ -34,9 +35,9 @@ We run the same version of Deno, V8, and TypeScript for all vals.
 
 At the time of this writing (likely out of date), we run:
 
-- Deno 2.1.6
-- V8 13.7.152.6-rusty
-- TypeScript 5.8.3
+- Deno 2.5.5
+- V8 14.0.365.5-rusty
+- TypeScript 5.9.2
 
 <LinkCard
   title="Versions"
