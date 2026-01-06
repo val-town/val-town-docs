@@ -2734,7 +2734,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nconst val = await client.vals.create({\n  name: 'myVal',\n  privacy: 'public',\n  description: 'My val',\n});\n\nconsole.log(val.id);"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nconst val = await client.vals.create({ name: 'myVal', privacy: 'public', description: 'My val' });\n\nconsole.log(val.id);"
           }
         ]
       }
@@ -2911,7 +2911,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\n// Automatically fetches more pages as needed.\nfor await (const branchListResponse of client.vals.branches.list(\n  '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',\n  { limit: 1, offset: 0 },\n)) {\n  console.log(branchListResponse.id);\n}"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\n// Automatically fetches more pages as needed.\nfor await (const branchListResponse of client.vals.branches.list('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {\n  limit: 1,\n  offset: 0,\n})) {\n  console.log(branchListResponse.id);\n}"
           }
         ]
       },
@@ -3107,7 +3107,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\n// Automatically fetches more pages as needed.\nfor await (const fileRetrieveResponse of client.vals.files.retrieve(\n  '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',\n  {\n    limit: 1,\n    offset: 0,\n    path: 'path',\n    recursive: true,\n  },\n)) {\n  console.log(fileRetrieveResponse.id);\n}"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\n// Automatically fetches more pages as needed.\nfor await (const fileRetrieveResponse of client.vals.files.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {\n  limit: 1,\n  offset: 0,\n  path: 'path',\n  recursive: true,\n})) {\n  console.log(fileRetrieveResponse.id);\n}"
           }
         ]
       },
@@ -3303,7 +3303,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nawait client.vals.files.delete('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {\n  path: 'path',\n  recursive: true,\n});"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nawait client.vals.files.delete('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { path: 'path', recursive: true });"
           }
         ]
       },
@@ -3413,7 +3413,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nconst file = await client.vals.files.update('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {\n  path: 'path',\n});\n\nconsole.log(file.id);"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nconst file = await client.vals.files.update('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { path: 'path' });\n\nconsole.log(file.id);"
           }
         ]
       }
@@ -3764,7 +3764,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nawait client.vals.environmentVariables.delete('key', {\n  val_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',\n});"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nawait client.vals.environmentVariables.delete('key', { val_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' });"
           }
         ]
       }
@@ -3883,7 +3883,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nconst response = await client.vals.files.getContent('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {\n  path: 'path',\n});\n\nconsole.log(response);\n\nconst content = await response.blob();\nconsole.log(content);"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nconst response = await client.vals.files.getContent('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { path: 'path' });\n\nconsole.log(response);\n\nconst content = await response.blob();\nconsole.log(content);"
           }
         ]
       }
