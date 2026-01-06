@@ -150,6 +150,10 @@ export default defineConfig({
               link: "/reference/environment-variables",
             },
             {
+              label: "Environment groups",
+              link: "/reference/environment-groups",
+            },
+            {
               label: "Importing",
               link: "reference/import/",
             },
