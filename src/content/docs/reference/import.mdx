@@ -19,6 +19,10 @@ Imports in Val Town work the same as in Deno, so you can [learn more from their 
 
 Within vals, you can import files and folders relative to the val root (e.g., `./home`), which means you don't have to update your imports when you branch, remix, or rename a val.
 
+Between different vals, you can still import code freely. In the **⋮**
+menu in the top-right of the val code editor, go to **Copy → Copy module URL**
+to copy the module URL. Then you can import from that URL from another val.
+
 Val source code hosted on [esm.town](/reference/esm-town),
 and are available for import on Val Town, Deno, Node, the browser, and anywhere else https-imports are supported.
 In this way, Val Town builds upon the new http-style imports, to make a lightweight package registry,
