@@ -1360,6 +1360,32 @@
         "responses": {
           "201": {
             "description": "Successfully stored as blob"
+          },
+          "400": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "enum": [
+                        "Bad Request"
+                      ]
+                    },
+                    "message": {
+                      "description": "Error message",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "message"
+                  ]
+                }
+              }
+            }
           }
         },
         "x-codeSamples": [
@@ -2004,12 +2030,12 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Successfully sent email",
+          "202": {
+            "description": "Email accepted to be sent",
             "content": {
               "application/json": {
                 "schema": {
-                  "description": "Successfully sent email",
+                  "description": "Email accepted to be sent",
                   "type": "object",
                   "properties": {
                     "message": {
@@ -3878,6 +3904,17 @@
                 }
               }
             }
+          },
+          "412": {
+            "description": "Precondition failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Precondition failed",
+                  "type": "string"
+                }
+              }
+            }
           }
         },
         "x-codeSamples": [
@@ -4194,6 +4231,24 @@
                 }
               }
             }
+          },
+          "500": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
           }
         },
         "x-codeSamples": [
@@ -4275,6 +4330,24 @@
             }
           },
           "404": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
             "description": "Default Response",
             "content": {
               "application/json": {
