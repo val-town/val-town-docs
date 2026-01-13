@@ -18,6 +18,15 @@
       "User": {
         "description": "User object",
         "type": "object",
+        "required": [
+          "id",
+          "type",
+          "bio",
+          "username",
+          "profileImageUrl",
+          "url",
+          "links"
+        ],
         "properties": {
           "id": {
             "format": "uuid",
@@ -73,27 +82,18 @@
           },
           "links": {
             "type": "object",
+            "required": [
+              "self"
+            ],
             "properties": {
               "self": {
                 "format": "uri",
                 "description": "URL of this user on this API",
                 "type": "string"
               }
-            },
-            "required": [
-              "self"
-            ]
+            }
           }
         },
-        "required": [
-          "id",
-          "type",
-          "bio",
-          "username",
-          "profileImageUrl",
-          "url",
-          "links"
-        ],
         "example": {
           "id": "00000000-0000-0000-0000-000000000000",
           "bio": "Hello world",
@@ -106,6 +106,12 @@
         "title": "ResultSet",
         "description": "Result of executing an SQL statement.",
         "type": "object",
+        "required": [
+          "columns",
+          "columnTypes",
+          "rows",
+          "rowsAffected"
+        ],
         "properties": {
           "columns": {
             "description": "Names of columns.\n\nNames of columns can be defined using the `AS` keyword in SQL:\n\n```sql\nSELECT author AS author, COUNT(*) AS count FROM books GROUP BY author\n```",
@@ -150,17 +156,28 @@
               }
             ]
           }
-        },
-        "required": [
-          "columns",
-          "columnTypes",
-          "rows",
-          "rowsAffected"
-        ]
+        }
       },
       "ExtendedLegacyVal": {
         "description": "A Legacy Val",
         "type": "object",
+        "required": [
+          "name",
+          "id",
+          "version",
+          "code",
+          "public",
+          "createdAt",
+          "updatedAt",
+          "privacy",
+          "type",
+          "url",
+          "links",
+          "author",
+          "likeCount",
+          "referenceCount",
+          "readme"
+        ],
         "properties": {
           "name": {
             "description": "The name of this val",
@@ -228,6 +245,11 @@
           },
           "links": {
             "type": "object",
+            "required": [
+              "self",
+              "versions",
+              "module"
+            ],
             "properties": {
               "self": {
                 "format": "uri",
@@ -249,18 +271,17 @@
                 "description": "This val's web endpoint, where it serves a website or API",
                 "type": "string"
               }
-            },
-            "required": [
-              "self",
-              "versions",
-              "module"
-            ]
+            }
           },
           "author": {
             "anyOf": [
               {
                 "description": "The user who created this val",
                 "type": "object",
+                "required": [
+                  "id",
+                  "username"
+                ],
                 "properties": {
                   "id": {
                     "format": "uuid",
@@ -276,11 +297,7 @@
                       }
                     ]
                   }
-                },
-                "required": [
-                  "id",
-                  "username"
-                ]
+                }
               },
               {
                 "type": "null"
@@ -312,7 +329,11 @@
               }
             ]
           }
-        },
+        }
+      },
+      "BasicLegacyVal": {
+        "description": "A Val",
+        "type": "object",
         "required": [
           "name",
           "id",
@@ -325,15 +346,8 @@
           "type",
           "url",
           "links",
-          "author",
-          "likeCount",
-          "referenceCount",
-          "readme"
-        ]
-      },
-      "BasicLegacyVal": {
-        "description": "A Val",
-        "type": "object",
+          "author"
+        ],
         "properties": {
           "name": {
             "description": "The name of this val",
@@ -401,6 +415,11 @@
           },
           "links": {
             "type": "object",
+            "required": [
+              "self",
+              "versions",
+              "module"
+            ],
             "properties": {
               "self": {
                 "format": "uri",
@@ -422,18 +441,17 @@
                 "description": "This val's web endpoint, where it serves a website or API",
                 "type": "string"
               }
-            },
-            "required": [
-              "self",
-              "versions",
-              "module"
-            ]
+            }
           },
           "author": {
             "anyOf": [
               {
                 "description": "The user who created this val",
                 "type": "object",
+                "required": [
+                  "id",
+                  "username"
+                ],
                 "properties": {
                   "id": {
                     "format": "uuid",
@@ -449,11 +467,7 @@
                       }
                     ]
                   }
-                },
-                "required": [
-                  "id",
-                  "username"
-                ]
+                }
               },
               {
                 "type": "null"
@@ -461,20 +475,6 @@
             ]
           }
         },
-        "required": [
-          "name",
-          "id",
-          "version",
-          "code",
-          "public",
-          "createdAt",
-          "updatedAt",
-          "privacy",
-          "type",
-          "url",
-          "links",
-          "author"
-        ],
         "example": {
           "version": 0,
           "name": "counter",
@@ -494,6 +494,9 @@
       "PaginationLinks": {
         "description": "Links to use for pagination",
         "type": "object",
+        "required": [
+          "self"
+        ],
         "properties": {
           "self": {
             "format": "uri",
@@ -510,14 +513,21 @@
             "description": "URL of the next page, if any",
             "type": "string"
           }
-        },
-        "required": [
-          "self"
-        ]
+        }
       },
       "Project": {
         "description": "A Project",
         "type": "object",
+        "required": [
+          "name",
+          "id",
+          "createdAt",
+          "privacy",
+          "author",
+          "description",
+          "imageUrl",
+          "links"
+        ],
         "properties": {
           "name": {
             "type": "string"
@@ -542,6 +552,11 @@
           },
           "author": {
             "type": "object",
+            "required": [
+              "type",
+              "id",
+              "username"
+            ],
             "properties": {
               "type": {
                 "anyOf": [
@@ -573,12 +588,7 @@
                   }
                 ]
               }
-            },
-            "required": [
-              "type",
-              "id",
-              "username"
-            ]
+            }
           },
           "description": {
             "anyOf": [
@@ -603,6 +613,10 @@
           },
           "links": {
             "type": "object",
+            "required": [
+              "self",
+              "html"
+            ],
             "properties": {
               "self": {
                 "format": "uri",
@@ -614,27 +628,17 @@
                 "description": "The URL of this resource on Val Town",
                 "type": "string"
               }
-            },
-            "required": [
-              "self",
-              "html"
-            ]
+            }
           }
-        },
-        "required": [
-          "name",
-          "id",
-          "createdAt",
-          "privacy",
-          "author",
-          "description",
-          "imageUrl",
-          "links"
-        ]
+        }
       },
       "Org": {
         "description": "An Org",
         "type": "object",
+        "required": [
+          "username",
+          "id"
+        ],
         "properties": {
           "username": {
             "type": "string"
@@ -644,15 +648,21 @@
             "description": "The id of the org",
             "type": "string"
           }
-        },
-        "required": [
-          "username",
-          "id"
-        ]
+        }
       },
       "Val": {
         "description": "A Val",
         "type": "object",
+        "required": [
+          "name",
+          "id",
+          "createdAt",
+          "privacy",
+          "author",
+          "imageUrl",
+          "description",
+          "links"
+        ],
         "properties": {
           "name": {
             "type": "string"
@@ -677,6 +687,11 @@
           },
           "author": {
             "type": "object",
+            "required": [
+              "type",
+              "id",
+              "username"
+            ],
             "properties": {
               "type": {
                 "anyOf": [
@@ -708,12 +723,7 @@
                   }
                 ]
               }
-            },
-            "required": [
-              "type",
-              "id",
-              "username"
-            ]
+            }
           },
           "imageUrl": {
             "anyOf": [
@@ -738,6 +748,10 @@
           },
           "links": {
             "type": "object",
+            "required": [
+              "self",
+              "html"
+            ],
             "properties": {
               "self": {
                 "format": "uri",
@@ -749,27 +763,22 @@
                 "description": "The URL of this resource on Val Town",
                 "type": "string"
               }
-            },
-            "required": [
-              "self",
-              "html"
-            ]
+            }
           }
-        },
-        "required": [
-          "name",
-          "id",
-          "createdAt",
-          "privacy",
-          "author",
-          "imageUrl",
-          "description",
-          "links"
-        ]
+        }
       },
       "Branch": {
         "description": "A Branch",
         "type": "object",
+        "required": [
+          "name",
+          "id",
+          "version",
+          "createdAt",
+          "updatedAt",
+          "forkedBranchId",
+          "links"
+        ],
         "properties": {
           "name": {
             "type": "string"
@@ -804,6 +813,10 @@
           },
           "links": {
             "type": "object",
+            "required": [
+              "self",
+              "html"
+            ],
             "properties": {
               "self": {
                 "format": "uri",
@@ -815,26 +828,23 @@
                 "description": "The URL of this resource on Val Town",
                 "type": "string"
               }
-            },
-            "required": [
-              "self",
-              "html"
-            ]
+            }
           }
-        },
-        "required": [
-          "name",
-          "id",
-          "version",
-          "createdAt",
-          "updatedAt",
-          "forkedBranchId",
-          "links"
-        ]
+        }
       },
       "FileRevisionMetadataV1": {
         "description": "A File or Directory's Metadata",
         "type": "object",
+        "required": [
+          "name",
+          "id",
+          "parentId",
+          "path",
+          "version",
+          "updatedAt",
+          "type",
+          "links"
+        ],
         "properties": {
           "name": {
             "type": "string"
@@ -880,6 +890,11 @@
           },
           "links": {
             "type": "object",
+            "required": [
+              "self",
+              "html",
+              "module"
+            ],
             "properties": {
               "self": {
                 "format": "uri",
@@ -901,28 +916,22 @@
                 "description": "This resource's web endpoint, where it serves a website or API",
                 "type": "string"
               }
-            },
-            "required": [
-              "self",
-              "html",
-              "module"
-            ]
+            }
           }
-        },
+        }
+      },
+      "FileRevisionMetadataV2": {
+        "description": "A File or Directory's Metadata",
+        "type": "object",
         "required": [
           "name",
           "id",
-          "parentId",
           "path",
           "version",
           "updatedAt",
           "type",
           "links"
-        ]
-      },
-      "FileRevisionMetadataV2": {
-        "description": "A File or Directory's Metadata",
-        "type": "object",
+        ],
         "properties": {
           "name": {
             "type": "string"
@@ -956,6 +965,11 @@
           },
           "links": {
             "type": "object",
+            "required": [
+              "self",
+              "html",
+              "module"
+            ],
             "properties": {
               "self": {
                 "format": "uri",
@@ -977,27 +991,19 @@
                 "description": "This resource's web endpoint, where it serves a website or API",
                 "type": "string"
               }
-            },
-            "required": [
-              "self",
-              "html",
-              "module"
-            ]
+            }
           }
-        },
-        "required": [
-          "name",
-          "id",
-          "path",
-          "version",
-          "updatedAt",
-          "type",
-          "links"
-        ]
+        }
       },
       "TEnvironmentVariable": {
         "description": "An environment variable",
         "type": "object",
+        "required": [
+          "key",
+          "description",
+          "updatedAt",
+          "createdAt"
+        ],
         "properties": {
           "key": {
             "maxLength": 8192,
@@ -1025,13 +1031,7 @@
             "format": "date-time",
             "type": "string"
           }
-        },
-        "required": [
-          "key",
-          "description",
-          "updatedAt",
-          "createdAt"
-        ]
+        }
       }
     }
   },
@@ -1089,6 +1089,17 @@
                 "schema": {
                   "description": "Your user information, with tier and email included",
                   "type": "object",
+                  "required": [
+                    "id",
+                    "type",
+                    "bio",
+                    "username",
+                    "profileImageUrl",
+                    "url",
+                    "links",
+                    "tier",
+                    "email"
+                  ],
                   "properties": {
                     "id": {
                       "format": "uuid",
@@ -1144,16 +1155,16 @@
                     },
                     "links": {
                       "type": "object",
+                      "required": [
+                        "self"
+                      ],
                       "properties": {
                         "self": {
                           "format": "uri",
                           "description": "URL of this user on this API",
                           "type": "string"
                         }
-                      },
-                      "required": [
-                        "self"
-                      ]
+                      }
                     },
                     "tier": {
                       "anyOf": [
@@ -1181,18 +1192,7 @@
                         }
                       ]
                     }
-                  },
-                  "required": [
-                    "id",
-                    "type",
-                    "bio",
-                    "username",
-                    "profileImageUrl",
-                    "url",
-                    "links",
-                    "tier",
-                    "email"
-                  ]
+                  }
                 },
                 "example": {
                   "id": "00000000-0000-0000-0000-000000000000",
@@ -1243,6 +1243,9 @@
                   "items": {
                     "title": "BlobListingItem",
                     "type": "object",
+                    "required": [
+                      "key"
+                    ],
                     "properties": {
                       "key": {
                         "type": "string"
@@ -1256,10 +1259,7 @@
                         "format": "date-time",
                         "type": "string"
                       }
-                    },
-                    "required": [
-                      "key"
-                    ]
+                    }
                   }
                 },
                 "example": [
@@ -1367,6 +1367,10 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "error",
+                    "message"
+                  ],
                   "properties": {
                     "error": {
                       "type": "string",
@@ -1378,11 +1382,7 @@
                       "description": "Error message",
                       "type": "string"
                     }
-                  },
-                  "required": [
-                    "error",
-                    "message"
-                  ]
+                  }
                 }
               }
             }
@@ -1484,6 +1484,9 @@
               "schema": {
                 "description": "A single statement to run",
                 "type": "object",
+                "required": [
+                  "statement"
+                ],
                 "properties": {
                   "statement": {
                     "anyOf": [
@@ -1495,6 +1498,10 @@
                         "title": "ParameterizedQuery",
                         "description": "A parameterized SQL query. See https://docs.turso.tech/sdk/ts/reference#batch-transactions for reference",
                         "type": "object",
+                        "required": [
+                          "sql",
+                          "args"
+                        ],
                         "properties": {
                           "sql": {
                             "description": "SQL statement, with ? placeholders for arguments",
@@ -1520,18 +1527,11 @@
                               }
                             ]
                           }
-                        },
-                        "required": [
-                          "sql",
-                          "args"
-                        ]
+                        }
                       }
                     ]
                   }
-                },
-                "required": [
-                  "statement"
-                ]
+                }
               },
               "examples": {
                 "example1": {
@@ -1593,6 +1593,9 @@
               "schema": {
                 "description": "A set of statements to be run in a single batch",
                 "type": "object",
+                "required": [
+                  "statements"
+                ],
                 "properties": {
                   "statements": {
                     "type": "array",
@@ -1606,6 +1609,10 @@
                           "title": "ParameterizedQuery",
                           "description": "A parameterized SQL query. See https://docs.turso.tech/sdk/ts/reference#batch-transactions for reference",
                           "type": "object",
+                          "required": [
+                            "sql",
+                            "args"
+                          ],
                           "properties": {
                             "sql": {
                               "description": "SQL statement, with ? placeholders for arguments",
@@ -1631,11 +1638,7 @@
                                 }
                               ]
                             }
-                          },
-                          "required": [
-                            "sql",
-                            "args"
-                          ]
+                          }
                         }
                       ]
                     }
@@ -1648,10 +1651,7 @@
                       "deferred"
                     ]
                   }
-                },
-                "required": [
-                  "statements"
-                ]
+                }
               },
               "example": {
                 "statements": [
@@ -1738,6 +1738,9 @@
                         "title": "EmailNameAndAddress",
                         "description": "An email address and name",
                         "type": "object",
+                        "required": [
+                          "email"
+                        ],
                         "properties": {
                           "name": {
                             "type": "string"
@@ -1745,10 +1748,7 @@
                           "email": {
                             "type": "string"
                           }
-                        },
-                        "required": [
-                          "email"
-                        ]
+                        }
                       }
                     ]
                   },
@@ -1773,6 +1773,9 @@
                             "title": "EmailNameAndAddress",
                             "description": "An email address and name",
                             "type": "object",
+                            "required": [
+                              "email"
+                            ],
                             "properties": {
                               "name": {
                                 "type": "string"
@@ -1780,10 +1783,7 @@
                               "email": {
                                 "type": "string"
                               }
-                            },
-                            "required": [
-                              "email"
-                            ]
+                            }
                           }
                         ]
                       },
@@ -1800,6 +1800,9 @@
                               "title": "EmailNameAndAddress",
                               "description": "An email address and name",
                               "type": "object",
+                              "required": [
+                                "email"
+                              ],
                               "properties": {
                                 "name": {
                                   "type": "string"
@@ -1807,10 +1810,7 @@
                                 "email": {
                                   "type": "string"
                                 }
-                              },
-                              "required": [
-                                "email"
-                              ]
+                              }
                             }
                           ]
                         }
@@ -1831,6 +1831,9 @@
                             "title": "EmailNameAndAddress",
                             "description": "An email address and name",
                             "type": "object",
+                            "required": [
+                              "email"
+                            ],
                             "properties": {
                               "name": {
                                 "type": "string"
@@ -1838,10 +1841,7 @@
                               "email": {
                                 "type": "string"
                               }
-                            },
-                            "required": [
-                              "email"
-                            ]
+                            }
                           }
                         ]
                       },
@@ -1858,6 +1858,9 @@
                               "title": "EmailNameAndAddress",
                               "description": "An email address and name",
                               "type": "object",
+                              "required": [
+                                "email"
+                              ],
                               "properties": {
                                 "name": {
                                   "type": "string"
@@ -1865,10 +1868,7 @@
                                 "email": {
                                   "type": "string"
                                 }
-                              },
-                              "required": [
-                                "email"
-                              ]
+                              }
                             }
                           ]
                         }
@@ -1889,6 +1889,9 @@
                             "title": "EmailNameAndAddress",
                             "description": "An email address and name",
                             "type": "object",
+                            "required": [
+                              "email"
+                            ],
                             "properties": {
                               "name": {
                                 "type": "string"
@@ -1896,10 +1899,7 @@
                               "email": {
                                 "type": "string"
                               }
-                            },
-                            "required": [
-                              "email"
-                            ]
+                            }
                           }
                         ]
                       },
@@ -1916,6 +1916,9 @@
                               "title": "EmailNameAndAddress",
                               "description": "An email address and name",
                               "type": "object",
+                              "required": [
+                                "email"
+                              ],
                               "properties": {
                                 "name": {
                                   "type": "string"
@@ -1923,10 +1926,7 @@
                                 "email": {
                                   "type": "string"
                                 }
-                              },
-                              "required": [
-                                "email"
-                              ]
+                              }
                             }
                           ]
                         }
@@ -1948,6 +1948,10 @@
                     "items": {
                       "title": "AttachmentObject",
                       "type": "object",
+                      "required": [
+                        "content",
+                        "filename"
+                      ],
                       "properties": {
                         "content": {
                           "type": "string"
@@ -1964,11 +1968,7 @@
                         "contentId": {
                           "type": "string"
                         }
-                      },
-                      "required": [
-                        "content",
-                        "filename"
-                      ]
+                      }
                     }
                   },
                   "replyToList": {
@@ -1979,6 +1979,9 @@
                         "title": "EmailNameAndAddress",
                         "description": "An email address and name",
                         "type": "object",
+                        "required": [
+                          "email"
+                        ],
                         "properties": {
                           "name": {
                             "type": "string"
@@ -1986,10 +1989,7 @@
                           "email": {
                             "type": "string"
                           }
-                        },
-                        "required": [
-                          "email"
-                        ]
+                        }
                       },
                       {
                         "title": "EmailList",
@@ -1998,6 +1998,9 @@
                           "title": "EmailNameAndAddress",
                           "description": "An email address and name",
                           "type": "object",
+                          "required": [
+                            "email"
+                          ],
                           "properties": {
                             "name": {
                               "type": "string"
@@ -2005,10 +2008,7 @@
                             "email": {
                               "type": "string"
                             }
-                          },
-                          "required": [
-                            "email"
-                          ]
+                          }
                         }
                       }
                     ]
@@ -2037,14 +2037,14 @@
                 "schema": {
                   "description": "Email accepted to be sent",
                   "type": "object",
+                  "required": [
+                    "message"
+                  ],
                   "properties": {
                     "message": {
                       "type": "string"
                     }
-                  },
-                  "required": [
-                    "message"
-                  ]
+                  }
                 }
               }
             }
@@ -2055,14 +2055,14 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "error"
+                  ],
                   "properties": {
                     "error": {
                       "type": "string"
                     }
-                  },
-                  "required": [
-                    "error"
-                  ]
+                  }
                 }
               }
             }
@@ -2194,11 +2194,23 @@
                 "schema": {
                   "description": "A paginated result set",
                   "type": "object",
+                  "required": [
+                    "data",
+                    "links"
+                  ],
                   "properties": {
                     "data": {
                       "type": "array",
                       "items": {
                         "type": "object",
+                        "required": [
+                          "traceId",
+                          "name",
+                          "startTimeUnixNano",
+                          "endTimeUnixNano",
+                          "attributes",
+                          "status"
+                        ],
                         "properties": {
                           "traceId": {
                             "type": "string"
@@ -2217,6 +2229,10 @@
                             "type": "array",
                             "items": {
                               "type": "object",
+                              "required": [
+                                "key",
+                                "value"
+                              ],
                               "properties": {
                                 "key": {
                                   "type": "string"
@@ -2243,15 +2259,15 @@
                                     }
                                   }
                                 }
-                              },
-                              "required": [
-                                "key",
-                                "value"
-                              ]
+                              }
                             }
                           },
                           "status": {
                             "type": "object",
+                            "required": [
+                              "message",
+                              "code"
+                            ],
                             "properties": {
                               "message": {
                                 "type": "string"
@@ -2259,31 +2275,15 @@
                               "code": {
                                 "type": "number"
                               }
-                            },
-                            "required": [
-                              "message",
-                              "code"
-                            ]
+                            }
                           }
-                        },
-                        "required": [
-                          "traceId",
-                          "name",
-                          "startTimeUnixNano",
-                          "endTimeUnixNano",
-                          "attributes",
-                          "status"
-                        ]
+                        }
                       }
                     },
                     "links": {
                       "$ref": "#/components/schemas/PaginationLinks"
                     }
-                  },
-                  "required": [
-                    "data",
-                    "links"
-                  ]
+                  }
                 }
               }
             }
@@ -2404,11 +2404,22 @@
                 "schema": {
                   "description": "A paginated result set",
                   "type": "object",
+                  "required": [
+                    "data",
+                    "links"
+                  ],
                   "properties": {
                     "data": {
                       "type": "array",
                       "items": {
                         "type": "object",
+                        "required": [
+                          "timeUnixNano",
+                          "body",
+                          "traceId",
+                          "attributes",
+                          "severityText"
+                        ],
                         "properties": {
                           "timeUnixNano": {
                             "type": "string"
@@ -2442,6 +2453,10 @@
                             "type": "array",
                             "items": {
                               "type": "object",
+                              "required": [
+                                "key",
+                                "value"
+                              ],
                               "properties": {
                                 "key": {
                                   "type": "string"
@@ -2468,34 +2483,19 @@
                                     }
                                   }
                                 }
-                              },
-                              "required": [
-                                "key",
-                                "value"
-                              ]
+                              }
                             }
                           },
                           "severityText": {
                             "type": "string"
                           }
-                        },
-                        "required": [
-                          "timeUnixNano",
-                          "body",
-                          "traceId",
-                          "attributes",
-                          "severityText"
-                        ]
+                        }
                       }
                     },
                     "links": {
                       "$ref": "#/components/schemas/PaginationLinks"
                     }
-                  },
-                  "required": [
-                    "data",
-                    "links"
-                  ]
+                  }
                 }
               }
             }
@@ -2656,6 +2656,10 @@
                 "schema": {
                   "description": "A paginated result set",
                   "type": "object",
+                  "required": [
+                    "data",
+                    "links"
+                  ],
                   "properties": {
                     "data": {
                       "type": "array",
@@ -2666,11 +2670,7 @@
                     "links": {
                       "$ref": "#/components/schemas/PaginationLinks"
                     }
-                  },
-                  "required": [
-                    "data",
-                    "links"
-                  ]
+                  }
                 }
               }
             }
@@ -2695,6 +2695,10 @@
               "schema": {
                 "description": "Val information provided to create a new val",
                 "type": "object",
+                "required": [
+                  "name",
+                  "privacy"
+                ],
                 "properties": {
                   "name": {
                     "minLength": 1,
@@ -2719,11 +2723,7 @@
                     "description": "ID of the org to create the val in",
                     "type": "string"
                   }
-                },
-                "required": [
-                  "name",
-                  "privacy"
-                ]
+                }
               },
               "example": {
                 "name": "myVal",
@@ -2914,6 +2914,10 @@
                 "schema": {
                   "description": "A paginated result set",
                   "type": "object",
+                  "required": [
+                    "data",
+                    "links"
+                  ],
                   "properties": {
                     "data": {
                       "type": "array",
@@ -2924,11 +2928,7 @@
                     "links": {
                       "$ref": "#/components/schemas/PaginationLinks"
                     }
-                  },
-                  "required": [
-                    "data",
-                    "links"
-                  ]
+                  }
                 }
               }
             }
@@ -2953,6 +2953,9 @@
               "schema": {
                 "description": "Branch information provided to create a new project",
                 "type": "object",
+                "required": [
+                  "name"
+                ],
                 "properties": {
                   "name": {
                     "minLength": 1,
@@ -2965,10 +2968,7 @@
                     "description": "The branch ID to fork from. If this is not specified, the new branch will be forked from main.",
                     "type": "string"
                   }
-                },
-                "required": [
-                  "name"
-                ]
+                }
               },
               "example": {
                 "name": "my-branch",
@@ -3110,6 +3110,10 @@
                 "schema": {
                   "description": "A paginated result set",
                   "type": "object",
+                  "required": [
+                    "data",
+                    "links"
+                  ],
                   "properties": {
                     "data": {
                       "type": "array",
@@ -3120,11 +3124,7 @@
                     "links": {
                       "$ref": "#/components/schemas/PaginationLinks"
                     }
-                  },
-                  "required": [
-                    "data",
-                    "links"
-                  ]
+                  }
                 }
               }
             }
@@ -3150,6 +3150,9 @@
                 "anyOf": [
                   {
                     "type": "object",
+                    "required": [
+                      "type"
+                    ],
                     "properties": {
                       "type": {
                         "type": "string",
@@ -3160,13 +3163,14 @@
                       "content": {
                         "type": "null"
                       }
-                    },
-                    "required": [
-                      "type"
-                    ]
+                    }
                   },
                   {
                     "type": "object",
+                    "required": [
+                      "content",
+                      "type"
+                    ],
                     "properties": {
                       "content": {
                         "minLength": 0,
@@ -3184,11 +3188,7 @@
                           "script"
                         ]
                       }
-                    },
-                    "required": [
-                      "content",
-                      "type"
-                    ]
+                    }
                   }
                 ]
               }
@@ -3243,15 +3243,15 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "message"
+                  ],
                   "properties": {
                     "message": {
                       "description": "File or directory already exists at this path",
                       "type": "string"
                     }
-                  },
-                  "required": [
-                    "message"
-                  ]
+                  }
                 }
               }
             }
@@ -3494,6 +3494,10 @@
                 "schema": {
                   "description": "A paginated result set",
                   "type": "object",
+                  "required": [
+                    "data",
+                    "links"
+                  ],
                   "properties": {
                     "data": {
                       "type": "array",
@@ -3504,11 +3508,7 @@
                     "links": {
                       "$ref": "#/components/schemas/PaginationLinks"
                     }
-                  },
-                  "required": [
-                    "data",
-                    "links"
-                  ]
+                  }
                 }
               }
             }
@@ -3533,6 +3533,10 @@
               "schema": {
                 "description": "Inputs for an environment variable",
                 "type": "object",
+                "required": [
+                  "value",
+                  "key"
+                ],
                 "properties": {
                   "value": {
                     "description": "Value of the environment variable.",
@@ -3550,11 +3554,7 @@
                     "description": "Name or key of the environment variable, accessible via Deno.env or process.env",
                     "type": "string"
                   }
-                },
-                "required": [
-                  "value",
-                  "key"
-                ]
+                }
               }
             }
           },
@@ -3581,6 +3581,12 @@
                 "schema": {
                   "description": "An environment variable",
                   "type": "object",
+                  "required": [
+                    "key",
+                    "description",
+                    "updatedAt",
+                    "createdAt"
+                  ],
                   "properties": {
                     "key": {
                       "maxLength": 8192,
@@ -3608,13 +3614,7 @@
                       "format": "date-time",
                       "type": "string"
                     }
-                  },
-                  "required": [
-                    "key",
-                    "description",
-                    "updatedAt",
-                    "createdAt"
-                  ]
+                  }
                 }
               }
             }
@@ -3651,6 +3651,9 @@
               "schema": {
                 "description": "Inputs to update a environment variable",
                 "type": "object",
+                "required": [
+                  "value"
+                ],
                 "properties": {
                   "value": {
                     "description": "Value of the environment variable.",
@@ -3662,10 +3665,7 @@
                     "maxLength": 1024,
                     "type": "string"
                   }
-                },
-                "required": [
-                  "value"
-                ]
+                }
               }
             }
           },
@@ -3700,6 +3700,12 @@
                 "schema": {
                   "description": "An environment variable",
                   "type": "object",
+                  "required": [
+                    "key",
+                    "description",
+                    "updatedAt",
+                    "createdAt"
+                  ],
                   "properties": {
                     "key": {
                       "maxLength": 8192,
@@ -3727,13 +3733,7 @@
                       "format": "date-time",
                       "type": "string"
                     }
-                  },
-                  "required": [
-                    "key",
-                    "description",
-                    "updatedAt",
-                    "createdAt"
-                  ]
+                  }
                 }
               }
             }
@@ -4055,6 +4055,10 @@
                 "schema": {
                   "description": "A paginated result set",
                   "type": "object",
+                  "required": [
+                    "data",
+                    "links"
+                  ],
                   "properties": {
                     "data": {
                       "type": "array",
@@ -4065,11 +4069,7 @@
                     "links": {
                       "$ref": "#/components/schemas/PaginationLinks"
                     }
-                  },
-                  "required": [
-                    "data",
-                    "links"
-                  ]
+                  }
                 }
               }
             }
@@ -4123,6 +4123,10 @@
                 "schema": {
                   "description": "A paginated result set",
                   "type": "object",
+                  "required": [
+                    "data",
+                    "links"
+                  ],
                   "properties": {
                     "data": {
                       "type": "array",
@@ -4133,11 +4137,7 @@
                     "links": {
                       "$ref": "#/components/schemas/PaginationLinks"
                     }
-                  },
-                  "required": [
-                    "data",
-                    "links"
-                  ]
+                  }
                 }
               }
             }
@@ -4162,15 +4162,15 @@
             "application/json": {
               "schema": {
                 "type": "object",
+                "required": [
+                  "team_id"
+                ],
                 "properties": {
                   "team_id": {
                     "description": "The Slack team/workspace ID (e.g., 'T9TK3CUKW')",
                     "type": "string"
                   }
-                },
-                "required": [
-                  "team_id"
-                ]
+                }
               }
             }
           },
@@ -4183,15 +4183,15 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "access_token"
+                  ],
                   "properties": {
                     "access_token": {
                       "description": "A valid Slack access token",
                       "type": "string"
                     }
-                  },
-                  "required": [
-                    "access_token"
-                  ]
+                  }
                 }
               }
             }
@@ -4202,14 +4202,14 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "error"
+                  ],
                   "properties": {
                     "error": {
                       "type": "string"
                     }
-                  },
-                  "required": [
-                    "error"
-                  ]
+                  }
                 }
               }
             }
@@ -4220,14 +4220,14 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "error"
+                  ],
                   "properties": {
                     "error": {
                       "type": "string"
                     }
-                  },
-                  "required": [
-                    "error"
-                  ]
+                  }
                 }
               }
             }
@@ -4238,14 +4238,14 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "error"
+                  ],
                   "properties": {
                     "error": {
                       "type": "string"
                     }
-                  },
-                  "required": [
-                    "error"
-                  ]
+                  }
                 }
               }
             }
@@ -4270,15 +4270,15 @@
             "application/json": {
               "schema": {
                 "type": "object",
+                "required": [
+                  "email"
+                ],
                 "properties": {
                   "email": {
                     "description": "The Google account email",
                     "type": "string"
                   }
-                },
-                "required": [
-                  "email"
-                ]
+                }
               }
             }
           },
@@ -4291,6 +4291,9 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "access_token"
+                  ],
                   "properties": {
                     "access_token": {
                       "description": "A valid Google access token",
@@ -4303,10 +4306,7 @@
                         "type": "string"
                       }
                     }
-                  },
-                  "required": [
-                    "access_token"
-                  ]
+                  }
                 }
               }
             }
@@ -4317,14 +4317,14 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "error"
+                  ],
                   "properties": {
                     "error": {
                       "type": "string"
                     }
-                  },
-                  "required": [
-                    "error"
-                  ]
+                  }
                 }
               }
             }
@@ -4335,14 +4335,14 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "error"
+                  ],
                   "properties": {
                     "error": {
                       "type": "string"
                     }
-                  },
-                  "required": [
-                    "error"
-                  ]
+                  }
                 }
               }
             }
@@ -4353,14 +4353,14 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "error"
+                  ],
                   "properties": {
                     "error": {
                       "type": "string"
                     }
-                  },
-                  "required": [
-                    "error"
-                  ]
+                  }
                 }
               }
             }
