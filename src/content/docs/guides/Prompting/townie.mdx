@@ -1,20 +1,34 @@
 ---
 title: Townie
-description: Townie, the Val Town coding assistant
+description: Townie, the Val Town coding agent
 sidebar:
   order: 3
 ---
 
-[Townie](https://townie.val.run) is our open source Val Town coding assistant.
+Townie is Val Town's coding agent that can read, edit, and run your vals alongside you in the Val Town editor.
 
-Create vals with Townie's help, right in your browser. Townie itself is built as a val, so you can view its [source code](https://www.val.town/x/valdottown/Townie) and even remix it to your liking.
+Powered by the Claude 4.5 family and our [MCP server](/guides/prompting/mcp). Available on Val Town Teams and Pro plans. Click the little robot in the bottom right corner on [val.town](https://val.town) to get started.
 
 ![Townie](./townie.png)
 
 ## Features
 
-- 100% open source and built on Val Town
-- Agentic AI reads & edits vals using Claude 4 Sonnet
-- Support for multiple files, folders, & branches
-- Instant deployments, auto-scaling, logs, free custom subdomains
-- Works on mobile – prompt, build, and edit when you’re on the go
+- **Safe code changes:** approve/deny edits, isolate via [branching](/vals/branches), inspect/rollback with version history
+- **Tight feedback loops:** see and test code changes immediately with 100ms deploys and realtime logs
+- **Val Town knowledge base:** leverage Val Town features like sqlite, blob, crons, email, etc.
+- **History:** view your chat history and continue old chats
+- **Modes:** choose between Normal, Plan, or Allow All (aka YOLO)
+- **Models:** choose between Claude 4.5 Opus, Sonnet, or Haiku
+
+## Pricing
+
+Townie is available on Val Town [Teams](https://www.val.town/teams) and [Pro](https://www.val.town/pricing) plans with $100 and $5 monthly usage included, respectively.
+
+| 🟩 Teams    | 🟨 Pro    | 🟥 Free       |
+| ----------- | --------- | ------------- |
+| $100/mo cap | $5/mo cap | Not available |
+
+## Learn more
+
+- The Townie [system prompt](https://val.town/townie/system-prompt) is public if you are curious to peak under the hood
+- Townie is currently on v5. We wrote up learnings from prior versions on our blog: [What we learned copying all the best code assistants](https://blog.val.town/blog/fast-follow)
