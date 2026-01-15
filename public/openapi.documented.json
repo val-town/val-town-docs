@@ -650,6 +650,62 @@
           }
         }
       },
+      "Membership": {
+        "description": "A Membership",
+        "type": "object",
+        "required": [
+          "id",
+          "role",
+          "user"
+        ],
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "description": "The id of the membership",
+            "type": "string"
+          },
+          "role": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "owner",
+                  "member"
+                ],
+                "description": "The role of the member"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "user": {
+            "type": "object",
+            "required": [
+              "id",
+              "username"
+            ],
+            "properties": {
+              "id": {
+                "format": "uuid",
+                "description": "The id of the user",
+                "type": "string"
+              },
+              "username": {
+                "anyOf": [
+                  {
+                    "description": "The username of the user",
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
       "Val": {
         "description": "A Val",
         "type": "object",
@@ -4149,6 +4205,42 @@
             "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\n// Automatically fetches more pages as needed.\nfor await (const orgListResponse of client.orgs.list({ limit: 1, offset: 0 })) {\n  console.log(orgListResponse.id);\n}"
           }
         ]
+      }
+    },
+    "/v2/orgs/{org_id}/memberships": {
+      "get": {
+        "operationId": "orgsMembershipsList",
+        "tags": [
+          "orgs"
+        ],
+        "description": "List all memberships of an org",
+        "parameters": [
+          {
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "description": "Id of an org"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Membership"
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/v3/connections/slack/token": {
