@@ -4240,7 +4240,13 @@
               }
             }
           }
-        }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "JavaScript",
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nconst memberships = await client.orgs.memberships.list('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');\n\nconsole.log(memberships);"
+          }
+        ]
       }
     },
     "/v3/connections/slack/token": {
