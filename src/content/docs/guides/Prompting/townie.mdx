@@ -5,20 +5,58 @@ sidebar:
   order: 3
 ---
 
-Townie is Val Town's coding agent that can read, edit, and run your vals alongside you in the Val Town editor.
+[Townie](https://val.town/townie) is Val Town's coding agent that can read, edit, and run your vals alongside you in the Val Town editor.
 
-Powered by the Claude 4.5 family and our [MCP server](/guides/prompting/mcp). Available on Val Town Teams and Pro plans. Click the little robot in the bottom right corner on [val.town](https://val.town) to get started.
+Powered by the Claude 4.5 family and our [MCP server](/guides/prompting/mcp). Available on Val Town Pro and Teams plans. Click the little robot in the bottom right corner on [val.town](https://val.town) to get started.
 
 ![Townie](./townie.png)
 
 ## Features
 
-- **Safe code changes:** approve/deny edits, isolate via [branching](/vals/branches), inspect/rollback with version history
-- **Tight feedback loops:** see and test code changes immediately with 100ms deploys and realtime logs
-- **Val Town knowledge base:** leverage Val Town features like sqlite, blob, crons, email, etc.
-- **History:** view your chat history and continue old chats
-- **Modes:** choose between Normal, Plan, or Allow All (aka YOLO)
-- **Models:** choose between Claude 4.5 Opus, Sonnet, or Haiku
+### Models
+
+We're using the latest Anthropic models in the [Claude 4.5 family](https://platform.claude.com/docs/en/about-claude/models/overview).
+
+1. **Opus 4.5**
+2. **Sonnet 4.5 (default)**
+3. **Haiku 4.5**
+
+### Modes
+
+1. **Normal**: Townie asks you to approve before writes
+2. **Plan**: Townie as your read-only thinking partner
+3. **Allow all edits**: Townie YOLOs changes to your vals
+
+### Tools
+
+Townie has full access to our [MCP server](/guides/prompting/mcp), so it can do almost anything you as a user can do.
+
+- List, search, & create vals
+- Read, write, & run files
+- View history, create & switch branches, revert versions
+- Query your SQLite databases & Blob storage
+- Read & write environment variables
+- Read logs
+- Read & configure cron jobs
+
+### System prompt
+
+Our [system prompt](https://val.town/townie/system-prompt) is public. It provides Townie full context on how to use the Val Town platform—e.g. available [tools](#tools), the Val Town [runtime](/reference/runtime/), our standard library, different types of vals, etc.
+
+### Keyboard shortcuts & slash commands
+
+You can open Townie with `⌘J`. The following slash commands are available:
+
+- `/cost` Show estimated cost and usage
+- `/context` Show context window usage
+- `/compact` Summarize older messages to save context
+- `/clear` Start a new chat
+
+### History & version control
+
+You can view your Townie [chat history in settings](https://www.val.town/settings/chat-history) to read and continue old chats.
+
+As when coding without AI, you can use Val Town's [versioning and collaboration](https://docs.val.town/vals/#versioning--collaboration) tools like branching, remixing, PRs, and version history to safely work with Townie.
 
 ## Pricing
 
@@ -30,5 +68,4 @@ Townie is available on Val Town [Teams](https://www.val.town/teams) and [Pro](ht
 
 ## Learn more
 
-- The Townie [system prompt](https://val.town/townie/system-prompt) is public if you are curious to peak under the hood
-- Townie is currently on v5. We wrote up learnings from prior versions on our blog: [What we learned copying all the best code assistants](https://blog.val.town/blog/fast-follow)
+Townie is currently on v5. We wrote about [why we built v5](https://blog.val.town/townie-v5) on our blog, and before that we documented learnings from prior versions: [What we learned copying all the best code assistants](https://blog.val.town/blog/fast-follow)
