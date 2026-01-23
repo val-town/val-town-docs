@@ -129,7 +129,6 @@ export default defineConfig({
                   collapsed: true,
                 },
                 { label: "Blob", link: "reference/std/blob" },
-                { label: "Proxied fetch", link: "reference/std/fetch" },
                 { label: "OpenAI", link: "reference/std/openai" },
               ],
             },
