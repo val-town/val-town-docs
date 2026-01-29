@@ -5,12 +5,13 @@ description: Every time you save a val it creates a new immutable version in the
 lastUpdated: 2025-01-30
 ---
 
-Vals are immutable, but you can publish new versions of vals. Versions start at
-`0` and go up from there. When you reference a val, you always get the most
-recent version. You can toggle which version you're looking at via the dropdown
-menu next to the val's name.
+Vals are versioned, starting at `0`. A val's version auto-increments when you save files, add/remove files and folders, and take other actions. You can browse, revert, and diff versions in a val's `History` (navigate there via the val sidebar).
 
 ## Imports & pinning
+
+:::tip
+Pinning imports is often your safest option. Whether you're importing a val or an external module, pinning will ensure you get the same code every time.
+:::
 
 Vals are imported via esm.town URLs. If you leave off the version number, it's an unpinned import, and you'll get the latest version _at the time_, which our lockfile will freeze so that your code runs consistently even if newer versions of the imported file might include breaking changes. If you include a version number, it's a pinned import, and you'll always get that version.
 
@@ -56,7 +57,7 @@ lockfile. This pins all versions of your dependencies and also calculates hashes
 to verify that the content of a dependency does not change.
 
 When you save a Val, we regenerate the lockfile from scratch, re-pinning your
-unpinned dependencies to whatever their current versions are at that new time.
+unpinned dependencies to whatever their current versions are at that new time. You can force-regenerate a lockfile by clicking the triple-dot icon in a val file's menu (top right) and selecting `Advanced > Reset lockfile`.
 
 Additionally, when you save a val, we find all the vals in your account that
 depend on that val and mark their lockfiles for regeneration. That way you can
