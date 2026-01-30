@@ -14,10 +14,12 @@ Here's how to use the awesome [Drizzle ORM](https://orm.drizzle.team/)
 module with Val Town and SQLite. It's great because it allows you to write
 very expressive SQL. We even use Drizzle to build Val Town!
 
+Note that the Drizzle query _client_ works great, but migrations don't work yet: this example assumes you have that `kv` table already set up, possibly because you've followed the [usage documentation](/reference/std/sqlite/usage/).
+
 ```ts title="Example" val
-import { sqlite } from "https://esm.town/v/std/sqlite";
+import { sqlite } from "https://esm.town/v/std/sqlite/main.ts";
 import { sql } from "npm:drizzle-orm";
-import { drizzle } from "npm:drizzle-orm/libsql";
+import { drizzle } from "npm:drizzle-orm/libsql/web";
 import { integer, sqliteTable, text } from "npm:drizzle-orm/sqlite-core";
 
 const db = drizzle(sqlite as any);
