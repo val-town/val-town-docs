@@ -1,7 +1,6 @@
 ---
 title: SQLite
-description: Val Town SQLite is a lightweight, standard database. Every Val Town
-  account comes with its own private SQLite database that is accessible from any
+description: Val Town SQLite is a lightweight, standard database. Every Val comes with its own private SQLite database that is accessible from any
   of your vals.
 sidebar:
   order: 0
@@ -10,7 +9,9 @@ sidebar:
 
 import { LinkCard, CardGrid } from "@astrojs/starlight/components";
 
-[SQLite](https://www.sqlite.org/) is a lightweight, standard database. Every Val Town account comes with its own private SQLite database that is accessible from any of your vals via [`std/sqlite`](https://www.val.town/v/std/sqlite).
+[SQLite](https://www.sqlite.org/) is a lightweight, standard database. Every Val comes with its own private SQLite database that is accessible from any of your vals via [`std/sqlite`](https://www.val.town/v/std/sqlite).
+
+Every organization and user also has their own SQLite database: this is now a legacy system, but it will continue to work forever. "Scoped" SQLite databases which belong to vals are the recommended way to interact with SQLite for new vals.
 
 Val Town SQLite is powered by [Turso](https://turso.tech/).
 
@@ -26,18 +27,16 @@ Val Town SQLite is powered by [Turso](https://turso.tech/).
     href="/reference/std/sqlite/migrations"
   />
   <LinkCard
+    title="Interface"
+    description="Admin panel for sqlite"
+    href="/reference/std/sqlite/admin"
+  />
+  <LinkCard
     title="ORMs"
     description="How to use ORMs with Val Town SQLite"
     href="/reference/std/sqlite/orms"
   />
 </CardGrid>
-
-### SQLite Admin Panels
-
-We recommend these admin data viewers for managing your database – viewing or editing data or your database table schema:
-
-- [Outerbase Studio](https://libsqlstudio.com/) **(recommended)** - formerly LibSQL Studio – see [instructions](https://libsqlstudio.com/docs/connect-valtown)
-- [SQLite Explorer React](https://www.val.town/x/nbbaier/sqliteExplorerReact) - built in a val - access your database with Val Town oauth
 
 ### Limits
 
