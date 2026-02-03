@@ -9,9 +9,9 @@ sidebar:
 
 import { LinkCard, CardGrid } from "@astrojs/starlight/components";
 
-[SQLite](https://www.sqlite.org/) is a lightweight, standard database. Every Val comes with its own private SQLite database that is accessible from any of your vals via [`std/sqlite`](https://www.val.town/v/std/sqlite).
+[SQLite](https://www.sqlite.org/) is a lightweight, standard database. Every [val](/vals) comes with its own private SQLite database that is accessible from any of your vals via [`std/sqlite`](https://www.val.town/v/std/sqlite).
 
-Every organization and user also has their own SQLite database: this is now a legacy system, but it will continue to work forever. "Scoped" SQLite databases which belong to vals are the recommended way to interact with SQLite for new vals.
+In addition to "scoped" SQLite databases per val, every organization and user also has their own global SQLite database: this is now a legacy system, but it will continue to work forever. Val-scoped SQLite databases are the recommended way to interact with SQLite for new vals.
 
 Val Town SQLite is powered by [Turso](https://turso.tech/).
 
