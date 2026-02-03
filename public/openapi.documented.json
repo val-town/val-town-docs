@@ -971,6 +971,11 @@
                 "format": "uri",
                 "description": "This resource's web endpoint, where it serves a website or API",
                 "type": "string"
+              },
+              "email": {
+                "format": "email",
+                "description": "This resource's email address for receiving emails (for email-type vals)",
+                "type": "string"
               }
             }
           }
@@ -1045,6 +1050,11 @@
               "endpoint": {
                 "format": "uri",
                 "description": "This resource's web endpoint, where it serves a website or API",
+                "type": "string"
+              },
+              "email": {
+                "format": "email",
+                "description": "This resource's email address for receiving emails (for email-type vals)",
                 "type": "string"
               }
             }
