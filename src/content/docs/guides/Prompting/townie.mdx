@@ -66,6 +66,16 @@ Townie is available on Val Town [Teams](https://www.val.town/teams) and [Pro](ht
 | ----------- | --------- | ------------- |
 | $100/mo cap | $5/mo cap | Not available |
 
+## Prompting guide
+
+_Last updated January 28th, 2026._
+
+- **Sonnet versus Haiku versus Opus**: Haiku is surprisingly good (better than state of the art a year ago), super fast, and quite cheap. Sonnet is a good default, better than Haiku for coding and complex agent work, but 3x more expensive than Haiku and a bit slower. Opus is best for planning complex stuff, but it's slower and 5x more expensive than Haiku. .
+- **Normal versus Plan versus YOLO**: Normal mode is the default, good for adding on a discrete feature or fixing a single bug. In Normal mode Townie will research then ask you to approve code changes. Plan mode is good for larger changes, like starting a new project or thinking through a tricky bug, when you don't want code suggestions just yet. Allow all edits (aka YOLO mode) is best reserved for low stakes work where you "fully give in to the vibes" and "forget that the code even exists." Use YOLO mode for stuff like prototypes or internal dashboards that don't need to look perfect—anything you don't need to maintain or simple enough to redo from scratch.
+- **Branching**: Townie can create and switch branches so that you can approve changes safely without accidentally breaking prod (`main` branch on your val).
+- **Debugging**: Townie can see what file you have open in the val editor, so you can treat Townie as your co-worker over your shoulder pair programming with you. Townie can also read your val's logs, which is enormously helpful when trying to troubleshoot bugs and test fixes.
+- **Compaction**: when you run out of context, you can run `/compact` to have Townie summarize the chat to buy more context window. But compaction can be problematic. Try to keep convos short and to-the-point, and start new chat for discrete tasks. Just like you wouldn't want to code with 1000 open tabs, models don't like coding with lots in their context window. Run `/context` to check how much of the window you've used.
+
 ## Learn more
 
 Townie is currently on v5. We wrote about [why we built v5](https://blog.val.town/townie-v5) on our blog, and before that we documented learnings from prior versions: [What we learned copying all the best code assistants](https://blog.val.town/blog/fast-follow)
