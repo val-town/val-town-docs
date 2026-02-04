@@ -1,21 +1,49 @@
 ---
 title: OpenAI Codex
-description: Bring Val Town to OpenAI Codex with the vt CLI
+description: Bring Val Town to OpenAI Codex with the vt CLI or MCP
 ---
 
-## Setup
+Work with Val Town in Codex using our [CLI](#cli) or [MCP](#mcp) server. You can ask Codex to:
 
-1. Install the [Val Town CLI](https://github.com/val-town/vt) and log in
-2. Install [OpenAI Codex](https://developers.openai.com/codex/cli) and log in
+- List or examine your vals and read your sqlite data, logs, and almost any of your Val Town data
+- Edit your vals and even agentically iterate, viewing the output and logs until it's done
 
-## Creating and editing vals
+## CLI
 
-The most reliable way to let Codex write vals for you is with `vt watch`, which will automatically sync your changes to Val Town.
+1. Install [OpenAI Codex](https://developers.openai.com/codex/cli) and log in
+2. Install the [Val Town CLI](https://github.com/val-town/vt) and log in
 
-1. `vt create`, `vt remix`, or `vt clone` a val. Select "Yes" to add editor files\*
-2. `cd` into your val's directory
-3. `vt checkout -b <branch>` to isolate changes (optional)
-4. `vt watch` to sync with Val Town
-5. `codex` to start your Codex session
+```
+deno install -grAf jsr:@valtown/vt
+```
+
+3. `vt create`, `vt remix`, or `vt clone` a val. Select "Yes" to add editor files\*
+4. `cd` into your val's directory
+5. `vt checkout -b <branch>` to isolate changes (optional)
+6. `vt watch` to sync with Val Town
+7. `codex` to start your Codex session
 
 _\* Running `vt create|remix|clone` will prompt you to add editor files, including `AGENTS.md` with our [system prompt](https://www.val.town/x/valdottown/Townie/code/prompts/system_prompt.txt), which Codex should recognize._
+
+## MCP
+
+1. Install [OpenAI Codex](https://developers.openai.com/codex/cli) and log in
+2. [Connect Codex](https://developers.openai.com/codex/mcp/#connect-codex-to-an-mcp-server) to the Val Town MCP server
+
+```
+codex mcp add val-town --url https://api.val.town/v3/mcp
+```
+
+3. Set up a [Val Town API token](https://www.val.town/settings/api/new) in `~/.codex/config.toml` and export it (or persist in `~/.zshrc` or equivalent)
+
+```toml
+[mcp_servers.val-town]
+url = "https://api.val.town/v3/mcp"
+bearer_token_env_var = "VAL_TOWN_API_TOKEN"
+```
+
+```sh
+export VAL_TOWN_TOKEN="vtwn_..."
+```
+
+4. Run `codex`
