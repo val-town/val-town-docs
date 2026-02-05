@@ -3,7 +3,7 @@ title: Usage
 description: How to use Val Town SQLite, with examples.
 sidebar:
   order: 1
-lastUpdated: 2023-12-27
+lastUpdated: 2026-02-06
 # cspell:ignore specialkey specialvalue
 ---
 
@@ -49,14 +49,12 @@ console.log(result);
 // {
 //   columns: [ "key", "value" ],
 //   columnTypes: [ "TEXT", "TEXT" ],
-//   rows: [ [ "d65991f8-6f03-4275-bcf1-1fdb1164e153", "value1" ] ],
+//   rows: [ { key: "d65991f8-6f03-4275-bcf1-1fdb1164e153", value: "value1" } ],
 //   rowsAffected: 0,
 //   lastInsertRowid: null
 // }
 
-const rows: { key: string; value: string }[] = result.rows.map(row =>
-  Object.fromEntries(row.map((value, index) => [result.columns[index], value])) as any
-);
+const rows: { key: string; value: string }[] = result.rows as any;
 
 console.log(rows); // [ { key: "d65991f8-6f03-4275-bcf1-1fdb1164e153", value: "value1" } ]
 ```
