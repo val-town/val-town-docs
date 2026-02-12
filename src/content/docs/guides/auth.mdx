@@ -3,7 +3,7 @@ title: Auth
 description: Add authentication and users to your Val Town app
 ---
 
-There are several ways to add authentication to your Val Town app. Pick the approach that fits your needs, then use the provided prompt to have [Townie](/townie/) or your LLM implement it.
+There are several ways to add authentication to your Val Town app. Pick the approach that fits your needs, then use the provided prompt to have [Townie](/guides/prompting/townie/) or your LLM implement it.
 
 | Approach | Best for | Users need |
 |---|---|---|
@@ -165,7 +165,7 @@ function parseCookies(cookie: string): Record<string, string> {
 
 ## Magic Link Auth with Lucia
 
-For real multi-user auth where each user signs in with their email, remix the [Magic Link Starter](https://www.val.town/x/stevekrouse/luciaMagicLinkStarter) template. It uses [Lucia](https://lucia-auth.com/) for session management, [Val Town SQLite](/reference/std/SQLite/) for storing users and sessions, and [Val Town Email](/vals/email/) for sending magic links.
+For real multi-user auth where each user signs in with their email, remix the [Magic Link Starter](https://www.val.town/x/stevekrouse/luciaMagicLinkStarter) template. It uses [Lucia](https://lucia-auth.com/) for session management, [Val Town SQLite](/reference/std/sqlite/) for storing users and sessions, and [Val Town Email](/vals/email/) for sending magic links.
 
 The flow:
 
