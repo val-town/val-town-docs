@@ -1,0 +1,207 @@
+---
+title: Auth
+description: Add authentication and users to your Val Town app
+---
+
+There are several ways to add authentication to your Val Town app. Pick the approach that fits your needs, then use the provided prompt to have [Townie](/townie/) or your LLM implement it.
+
+| Approach | Best for | Users need |
+|---|---|---|
+| [Sign in with Val Town](#sign-in-with-val-town) | Apps for the Val Town community | A Val Town account |
+| [HTTP Basic Auth](#http-basic-auth) | Quick password protection | A shared password |
+| [Cookie-based login page](#cookie-based-auth-with-a-login-page) | Personal projects, admin dashboards | A shared password |
+| [Magic link auth](#magic-link-auth-with-lucia) | Multi-user apps with email login | An email address |
+| [Third-party providers](#other-auth-providers-and-libraries) | Production apps, social login, SSO | Depends on provider |
+
+## Sign in with Val Town
+
+The [`std/oauth`](https://www.val.town/x/std/oauth) middleware lets users sign in with their Val Town account. It handles the full OAuth 2.0 flow, stores sessions in encrypted cookies (no database needed), and gives you access to the user's Val Town profile.
+
+The middleware automatically handles `/auth/login`, `/auth/callback`, and `/auth/logout` routes. Sessions last 30 days.
+
+:::tip[Prompt for your LLM]
+Add "Sign in with Val Town" auth to my app using the `std/oauth` middleware. Import `oauthMiddleware` and `getOAuthUserData` from `https://esm.town/v/std/oauth/middleware.ts`. Wrap the Hono app's fetch handler with `oauthMiddleware(app.fetch)`. Use `getOAuthUserData(c.req.raw)` to check if a user is logged in and get their profile. Link to `/auth/login` to sign in and `/auth/logout` to sign out.
+:::
+
+Reference implementation:
+
+```ts
+import { Hono } from "npm:hono";
+import {
+  getOAuthUserData,
+  oauthMiddleware,
+} from "https://esm.town/v/std/oauth/middleware.ts";
+
+const app = new Hono();
+
+app.get("/", async (c) => {
+  const session = await getOAuthUserData(c.req.raw);
+  if (session?.user) {
+    return c.html(
+      `<p>Logged in as ${session.user.username}</p>
+       <a href="/auth/logout">Log out</a>`,
+    );
+  }
+  return c.html(`<a href="/auth/login">Log in with Val Town</a>`);
+});
+
+export default oauthMiddleware(app.fetch);
+```
+
+## HTTP Basic Auth
+
+The simplest way to password-protect your val. The browser shows a built-in login prompt — no UI to build.
+
+:::tip[Prompt for your LLM]
+Add HTTP Basic Auth to my val. Check the `Authorization` header against `BASIC_AUTH_USER` and `BASIC_AUTH_PASS` environment variables. Return a 401 with `WWW-Authenticate: Basic` header if not authenticated.
+:::
+
+Store your credentials in [environment variables](/reference/environment-variables/) (`BASIC_AUTH_USER` and `BASIC_AUTH_PASS`), then check the `Authorization` header:
+
+```ts
+export default async function (req: Request): Promise<Response> {
+  const auth = req.headers.get("Authorization");
+
+  if (auth) {
+    const [, encoded] = auth.split(" ");
+    const decoded = atob(encoded);
+    const [user, pass] = decoded.split(":");
+
+    if (
+      user === Deno.env.get("BASIC_AUTH_USER") &&
+      pass === Deno.env.get("BASIC_AUTH_PASS")
+    ) {
+      return new Response("Welcome! You're authenticated.");
+    }
+  }
+
+  return new Response("Unauthorized", {
+    status: 401,
+    headers: { "WWW-Authenticate": 'Basic realm="Protected"' },
+  });
+}
+```
+
+## Cookie-based Auth with a Login Page
+
+If you want a custom login form instead of the browser's basic auth popup, you can use a cookie to persist the session. Good for personal projects and admin dashboards.
+
+:::tip[Prompt for your LLM]
+Add password auth with a custom login page to my val. Store the password in an `APP_PASSWORD` environment variable. Show an HTML login form at `/login`. On correct password, set an HttpOnly session cookie and redirect to `/`. Add a `/logout` route that clears the cookie. Check the cookie on all other routes and redirect to `/login` if not authenticated.
+:::
+
+Store your password in an [environment variable](/reference/environment-variables/) (`APP_PASSWORD`). Reference implementation:
+
+```ts
+const PASSWORD = Deno.env.get("APP_PASSWORD");
+const COOKIE_NAME = "session";
+
+export default async function (req: Request): Promise<Response> {
+  const url = new URL(req.url);
+  const cookies = parseCookies(req.headers.get("Cookie") || "");
+
+  // Handle login form submission
+  if (url.pathname === "/login" && req.method === "POST") {
+    const form = await req.formData();
+    if (form.get("password") === PASSWORD) {
+      return new Response(null, {
+        status: 302,
+        headers: {
+          Location: "/",
+          "Set-Cookie": `${COOKIE_NAME}=${PASSWORD}; Path=/; HttpOnly; SameSite=Lax`,
+        },
+      });
+    }
+    return loginPage("Wrong password.");
+  }
+
+  // Handle logout
+  if (url.pathname === "/logout") {
+    return new Response(null, {
+      status: 302,
+      headers: {
+        Location: "/login",
+        "Set-Cookie": `${COOKIE_NAME}=; Path=/; Max-Age=0`,
+      },
+    });
+  }
+
+  // Show login page if not authenticated
+  if (cookies[COOKIE_NAME] !== PASSWORD) {
+    return loginPage();
+  }
+
+  // Authenticated — serve your app
+  return new Response(
+    "Welcome! You're logged in. <a href='/logout'>Log out</a>",
+    {
+      headers: { "Content-Type": "text/html" },
+    },
+  );
+}
+
+function loginPage(error?: string) {
+  return new Response(
+    `<form method="POST" action="/login">
+      ${error ? `<p style="color:red">${error}</p>` : ""}
+      <input type="password" name="password" placeholder="Password" />
+      <button type="submit">Log in</button>
+    </form>`,
+    { headers: { "Content-Type": "text/html" }, status: 401 },
+  );
+}
+
+function parseCookies(cookie: string): Record<string, string> {
+  return Object.fromEntries(
+    cookie.split(";").map((c) =>
+      c
+        .trim()
+        .split("=")
+        .map((s) => s.trim()),
+    ),
+  );
+}
+```
+
+## Magic Link Auth with Lucia
+
+For real multi-user auth where each user signs in with their email, remix the [Magic Link Starter](https://www.val.town/x/stevekrouse/luciaMagicLinkStarter) template. It uses [Lucia](https://lucia-auth.com/) for session management, [Val Town SQLite](/reference/std/SQLite/) for storing users and sessions, and [Val Town Email](/vals/email/) for sending magic links.
+
+The flow:
+
+1. User enters their email on the login page
+2. Your val generates a token and emails them a magic link
+3. User clicks the link, the token is verified, and a session cookie is set
+4. Sessions last 30 days with automatic token rotation
+
+:::tip[Prompt for your LLM]
+Remix [stevekrouse/luciaMagicLinkStarter](https://www.val.town/x/stevekrouse/luciaMagicLinkStarter) and customize it for my app. It uses Lucia for sessions, Val Town SQLite for the database, and Val Town Email for sending magic links.
+:::
+
+## Other Auth Providers and Libraries
+
+You can also use any third-party auth provider by connecting to their APIs from your val. Tell your LLM which provider you want to use and it can integrate it.
+
+### Open-source libraries
+
+- [Better Auth](https://www.better-auth.com/) — Comprehensive TypeScript auth framework with built-in support for email/password, OAuth, two-factor, and more
+- [Auth.js](https://authjs.dev/) — Framework-agnostic auth (evolved from NextAuth.js) with 80+ OAuth providers
+- [Lucia](https://lucia-auth.com/) — Lightweight, session-based auth library that works with any database
+- [Arctic](https://arcticjs.dev/) — Minimal OAuth 2.0 client library with built-in providers (Google, GitHub, Discord, etc.) — pairs well with Lucia
+- [Oslo](https://oslojs.dev/) — Low-level utilities for sessions, tokens, cookies, and crypto from the Lucia team
+
+### Hosted auth providers
+
+- [Clerk](https://clerk.com/) — Drop-in UI components and APIs for sign-up, sign-in, and user management
+- [Kinde](https://kinde.com/) — Auth, feature flags, and billing in one platform
+- [WorkOS](https://workos.com/) — Enterprise SSO and directory sync via API
+- [Supabase Auth](https://supabase.com/auth) — Auth bundled with Supabase's database, works via their JS client
+- [Auth0](https://auth0.com/) — Flexible identity platform with social and enterprise login
+- [Firebase Auth](https://firebase.google.com/products/auth) — Google's auth service with email, phone, and social sign-in
+
+### Legacy Val Town auth middleware
+
+These older Val Town community libraries still work but are no longer actively recommended. Use [std/oauth](#sign-in-with-val-town) or the [Magic Link Starter](#magic-link-auth-with-lucia) instead.
+
+- [`stevekrouse/lastlogin`](https://www.val.town/x/stevekrouse/lastlogin) — Auth via [LastLogin.io](https://lastlogin.io) (email, Google, GitHub) with no API keys. Not security-audited; best for demos and prototypes.
+- [`stevekrouse/lucia_middleware`](https://www.val.town/x/stevekrouse/lucia_middleware) — Username/password auth middleware using Lucia and Val Town SQLite. Includes built-in signup/login pages but limited customization.
