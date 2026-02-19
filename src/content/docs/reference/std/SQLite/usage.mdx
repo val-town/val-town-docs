@@ -48,14 +48,8 @@ await sqlite.execute(`create table if not exists kv(
 )`);
 
 const key = crypto.randomUUID();
-await sqlite.execute({
-  sql: `insert into kv(key, value) values(?, ?)`,
-  args: [key, "value1"],
-});
-const result = await sqlite.execute({
-  sql: `select * from kv where key = ?`,
-  args: [key],
-});
+await sqlite.execute({ sql: `insert into kv(key, value) values(?, ?)`, args: [key, "value1"] });
+const result = await sqlite.execute({ sql: `select * from kv where key = ?`, args: [key] });
 
 console.log(result);
 // {
