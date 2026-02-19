@@ -3,7 +3,7 @@ title: Usage
 description: How to use Val Town SQLite, with examples.
 sidebar:
   order: 1
-lastUpdated: 2026-02-06
+lastUpdated: 2026-02-18
 # cspell:ignore specialkey specialvalue
 ---
 
@@ -20,16 +20,22 @@ const data = await sqlite.execute("SELECT datetime();");
 console.log(data.rows[0]);
 ```
 
-## Accessing the account scoped database
+:::note
+Omitting `main.ts` in your import path (i.e. `"https://esm.town/v/std/sqlite"`) will import the [account-scoped](#account-scoped-database) `sqlite` object.
+:::
 
-Importing from `sqlite/main.ts` connects you to a database specific to that val. You can also connect with `sqlite/global.ts` to connect to your account scoped database:
+## Account-scoped database
 
-```ts title="Simple query" val
+Importing from `sqlite/main.ts` connects you to a database specific to that val. You can also connect with `sqlite/global.ts` to connect to your account-scoped database:
+
+```ts title="Global sqlite" val
 import { sqlite } from "https://esm.town/v/std/sqlite/global.ts";
 
 const data = await sqlite.execute("SELECT datetime();");
 console.log(data.rows[0]);
 ```
+
+See our [global](/reference/std/sqlite/global) sqlite docs for more information on account-scoped databases.
 
 ## Basic usage
 
