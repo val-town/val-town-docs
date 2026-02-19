@@ -5,6 +5,34 @@ description: Account-scoped SQLite databases
 
 Prior to “scoped” SQLite databases for each val, which landed in 2026, every Val Town user account has had its own global SQLite database (since 2023). In most cases, val-scoped databases make more sense, but account-scoped (global) databases will continue to work forever.
 
-## Migrating to val-scoped databases
+We typically refer to your user account database as either "account-scoped" or "global."
+
+## Importing global sqlite
+
+Either import statement below will import the account-scoped sqlite object.
+
+```ts title="Global SQLite" val
+import { sqlite } from "https://esm.town/v/std/sqlite/global.ts";
+import { sqlite } from "https://esm.town/v/std/sqlite"; // also works
+```
+
+## Querying global sqlite
+
+Note that the `rows` array returned from global sqlite is an array of arrays, whereas the `rows` object returned by scoped sqlite is an array of objects.
+
+```ts title="Querying" val
+import { sqlite as global } from "https://esm.town/v/std/sqlite/global.ts";
+import { sqlite as scoped } from "https://esm.town/v/std/sqlite/main.ts";
+
+// Returns an array of arrays
+const { rows } = await global.execute("SELECT * FROM users;");
+
+// Returns an array of objects
+const { rows } = await scoped.execute("SELECT * FROM users;");
+```
+
+See [usage](/reference/std/sqlite/usage) docs for more detail on querying.
+
+## Migrating to val-scoped sqlite
 
 There is currently no built-in way to migrate your existing global databases to val-scoped ones (should you want to), but you can do so in userspace relatively easily. E.g. this [copy-sqlite-table](https://www.val.town/x/petermillspaugh/copy-sqlite-table) val contains a generic script to migrate one table from your Val Town account-based (global) database to a val-scoped database.
