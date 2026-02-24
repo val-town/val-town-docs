@@ -1,0 +1,134 @@
+---
+title: Slack agent
+description: BYOA (Bring Your Own Agent) to Slack
+---
+
+import Val from "@components/Val.astro";
+import { FileTree } from "@astrojs/starlight/components";
+
+This guide takes you through building a Slack agent in Val Town, using the Vercel AI SDK. It is an updated version of Vercel's own Slackbot Agent Guide, adapted for Val Town.
+
+In ~10 minutes, you'll have an agent that can respond to DMs and mentions in Slack channels.
+
+## Slack setup
+
+First, create and configure a Slack app:
+
+1. Go to [api.slack.com/apps](https://api.slack.com/apps)
+1. Click "Create New App" and choose "From scratch"
+1. Under OAuth & Permissions, add the following bot token scopes:
+   - `app_mentions:read`
+   - `assistant:write`
+   - `channels:history`
+   - `chat:write`
+   - `im:history`
+   - `im:write`
+1. Install the app to your workspace (button under OAuth Tokens subsection)
+1. Under App Home > Show Tabs > Chat Tab, check "Allow users to send Slash commands and messages from the chat tab"
+
+## Val setup
+
+Now, remix this [Slack agent template val](https://www.val.town/x/petermillspaugh/duck).
+
+1. Go to this [val](https://www.val.town/x/petermillspaugh/duck) and click "Remix"
+1. Add your [environment variables](https://docs.val.town/reference/environment-variables/) in your val sidebar:
+   1. `SLACK_BOT_TOKEN` in your Slack app: OAuth & Permissions > OAuth Tokens > Bot User OAuth Token
+   1. `SLACK_SIGNING_SECRET` in your Slack app: from Basic Information > Signing Secret
+   1. `VAL_TOWN_API_TOKEN` from [Settings > API tokens](https://www.val.town/settings/api)
+   1. `ANTHROPIC_API_KEY` from the [Anthropic console](https://platform.claude.com/settings/keys)
+1. Copy your HTTP url in `events.ts` (note: you can [add a custom subdomain](/vals/http/custom-subdomains/)), then in your Slack app paste it under Event Subscriptions > Request URL
+1. In your Slack app under Events Subscription > Enable Events > Subscribe to bot events, add `app_mention`, `assistant_thread_started`, and `message.im`
+
+## Test it out
+
+At this point, you should already be able to chat with your agent in Slack via `@mention` in channels, or directly via the Slack app's chat interface. Next, we'll walk through how the code works so you can make it your own.
+
+## How it works
+
+### Files
+
+<FileTree>
+
+- lib
+  - generate-response.ts
+  - handle-app-mention.ts
+  - handle-message.ts
+  - handle-thread-started.ts
+  - slack-utils.ts
+- events.ts
+- prompt.md
+- README.md
+
+</FileTree>
+
+### Dependencies
+
+- Slack's Web API (v7.14.1)
+- Hono (v4.12.0)
+- Vercel's AI SDK (v6.0.92)
+
+### Webhook handler
+
+The `events.ts` file exposes an API from the val's HTTP URL using Hono. The `POST /events` route is where Slack webhooks come in and get routed based on their event type (@mention, thread started, or generic message).
+
+<Val url="https://www.val.town/embed/x/petermillspaugh/duck/events.ts" />
+
+The `POST` route verifies that webhooks are indeed coming from Slack then handles three types of events in its core try-catch loop:
+
+1. `app_mention` fires when you tag your @agent in a Slack channel or thread
+1. `assistant_thread_started` fires when you create a new chat directly with the agent app
+1. `message` fires when you send a message in an agent app chat
+
+:::note
+Slack [expects a response within 3 seconds](https://docs.slack.dev/apis/events-api/#failure) to confirm the request is being handled. It'll retry automatically if a response takes too long. Since LLM inference can take longer, we use a fire-and-forget pattern that responds to the HTTP request immediately then continues with the LLM call and sends it back to Slack when done.
+:::
+
+### App mentions
+
+When you mention your bot in a channel or channel thread, the `app_mention` event is triggered, which we handle in `handle-app-mention.ts`:
+
+<Val url="https://www.val.town/embed/x/petermillspaugh/duck/lib/handle-app-mention.ts" />
+
+1. Checks if the message is from a bot to avoid infinite response loops
+2. Creates a status updater to show the bot is "thinking"
+3. If the mention is in a thread, it retrieves the thread history
+4. Calls the LLM with the message content
+
+### Assistant thread messages
+
+When you start a thread with your assistant in its dedicated Slack app chat interface, the `assistant_thread_started` event is triggered, which we handle in `handle-thread-started.ts`:
+
+<Val url="https://www.val.town/embed/x/petermillspaugh/duck/lib/handle-thread-started.ts" />
+
+1. Your agent sends a welcome message to the thread
+2. Sets up suggested prompts to help users get started
+
+You should tailor these, of course,
+
+### DMs
+
+For direct messages to your bot in its dedicated Slack app chat interface, the `message` event is triggered, which we handle in `handle-message.ts`:
+
+<Val url="https://www.val.town/embed/x/petermillspaugh/duck/lib/handle-message.ts" />
+
+1. Ignore messages from the agent (bot) itself
+1. Update the status ahead of the LLM call
+1. Retrieve the conversation history
+1. Call the LLM with the conversation context
+1. Post the LLM's response to the thread
+
+### LLM calls
+
+The core AI parts of your agent live in `generate-response.ts`:
+
+<Val url="https://www.val.town/embed/x/petermillspaugh/duck/lib/generate-response.ts" />
+
+1. Loads your system prompt
+1. Initializes the [Val Town MCP server](/guides/prompting/mcp)
+1. Uses the Vercel AI SDK's `generateText` function with Anthropic's `claude-sonnet-4.6` model
+1. Passes tools to the LLM: Val Town MCP and web search
+1. Formats the response for Slack's markdown format
+
+:::note
+We've set this template up with Val Town MCP and web search as tools, but the goal is for you to make it your own!
+:::
