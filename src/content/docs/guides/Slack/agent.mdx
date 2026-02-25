@@ -8,40 +8,39 @@ import { FileTree } from "@astrojs/starlight/components";
 
 This guide takes you through building a Slack agent in Val Town, using the Vercel AI SDK. It is an updated version of Vercel's own Slackbot Agent Guide, adapted for Val Town.
 
-In ~10 minutes, you'll have an agent that can respond to DMs and mentions in Slack channels.
+In [5 or 10 minutes](https://screen.studio/share/3NFNHgtF), you'll have an agent that can respond to DMs and mentions in Slack channels.
 
-## Slack setup
+## Setup
 
-First, create and configure a Slack app:
-
-1. Go to [api.slack.com/apps](https://api.slack.com/apps)
-1. Click "Create New App" and choose "From scratch"
-1. Under OAuth & Permissions, add the following bot token scopes:
+1. Go to [api.slack.com/apps](https://api.slack.com/apps) to create a Slack app -- choose "From scratch"
+1. Under OAuth & Permissions > Scopes > Bot Token Scopes, add the following:
    - `app_mentions:read`
    - `assistant:write`
    - `channels:history`
    - `chat:write`
    - `im:history`
    - `im:write`
-1. Install the app to your workspace (button under OAuth Tokens subsection)
-1. Under App Home > Show Tabs > Chat Tab, check "Allow users to send Slash commands and messages from the chat tab"
+1. Under App Home > Show Tabs > Chat Tab, check "Allow users to send Slash
+   commands and messages from the chat tab"
+1. Under OAuth & Permissions > OAuth Tokens, install the app to your workspace
+1. Remix this [slack agent](https://www.val.town/x/petermillspaugh/duck) template val
+1. Add [environment variables](https://docs.val.town/reference/environment-variables/)
+   in your val sidebar:
+   1. `SLACK_BOT_TOKEN` in your Slack app: OAuth & Permissions > OAuth Tokens >
+      Bot User OAuth Token
+   1. `SLACK_SIGNING_SECRET` in your Slack app: Basic Information > Signing
+      Secret
+   1. `ANTHROPIC_API_KEY` from the
+      [Claude console](https://platform.claude.com/settings/keys)
+1. Copy your HTTP url in `events.ts` (note: you can
+   [add a custom subdomain](/vals/http/custom-subdomains/)), then in your Slack
+   app paste it under Event Subscriptions > Request URL
+1. In your Slack app under Events Subscription > Enable Events > Subscribe to
+   bot events, add `app_mention`, `assistant_thread_started`, and `message.im`
 
-## Val setup
+## Test it
 
-Now, remix this [Slack agent template val](https://www.val.town/x/petermillspaugh/duck).
-
-1. Go to this [val](https://www.val.town/x/petermillspaugh/duck) and click "Remix"
-1. Add your [environment variables](https://docs.val.town/reference/environment-variables/) in your val sidebar:
-   1. `SLACK_BOT_TOKEN` in your Slack app: OAuth & Permissions > OAuth Tokens > Bot User OAuth Token
-   1. `SLACK_SIGNING_SECRET` in your Slack app: from Basic Information > Signing Secret
-   1. `VAL_TOWN_API_TOKEN` from [Settings > API tokens](https://www.val.town/settings/api)
-   1. `ANTHROPIC_API_KEY` from the [Anthropic console](https://platform.claude.com/settings/keys)
-1. Copy your HTTP url in `events.ts` (note: you can [add a custom subdomain](/vals/http/custom-subdomains/)), then in your Slack app paste it under Event Subscriptions > Request URL
-1. In your Slack app under Events Subscription > Enable Events > Subscribe to bot events, add `app_mention`, `assistant_thread_started`, and `message.im`
-
-## Test it out
-
-At this point, you should already be able to chat with your agent in Slack via `@mention` in channels, or directly via the Slack app's chat interface. Next, we'll walk through how the code works so you can make it your own.
+At this point, you should already be able to chat with your agent in Slack via @mention in channels, or directly via the Slack app's chat interface. Next, we'll walk through how the code works so you can make it your own.
 
 ## How it works
 
@@ -75,7 +74,7 @@ The `events.ts` file exposes an API from the val's HTTP URL using Hono. The `POS
 
 The `POST` route verifies that webhooks are indeed coming from Slack then handles three types of events in its core try-catch loop:
 
-1. `app_mention` fires when you tag your @agent in a Slack channel or thread
+1. `app_mention` fires when you @mention your agent in a Slack channel or thread
 1. `assistant_thread_started` fires when you create a new chat directly with the agent app
 1. `message` fires when you send a message in an agent app chat
 
@@ -103,7 +102,7 @@ When you start a thread with your assistant in its dedicated Slack app chat inte
 1. Your agent sends a welcome message to the thread
 2. Sets up suggested prompts to help users get started
 
-You should tailor these, of course,
+You should tailor these, of course, based on your needs.
 
 ### DMs
 
@@ -124,11 +123,10 @@ The core AI parts of your agent live in `generate-response.ts`:
 <Val url="https://www.val.town/embed/x/petermillspaugh/duck/lib/generate-response.ts" />
 
 1. Loads your system prompt
-1. Initializes the [Val Town MCP server](/guides/prompting/mcp)
 1. Uses the Vercel AI SDK's `generateText` function with Anthropic's `claude-sonnet-4.6` model
-1. Passes tools to the LLM: Val Town MCP and web search
+1. Passes tools to the LLM: web search
 1. Formats the response for Slack's markdown format
 
-:::note
-We've set this template up with Val Town MCP and web search as tools, but the goal is for you to make it your own!
-:::
+## Make it your own
+
+We've set up this val template and guide with web search as its only tool, but the goal is for you to make it your own! You could connect to the Val Town MCP server, like we've done with this demo [townie](https://www.val.town/x/petermillspaugh/townie) val. Or you could create a customer support bot, like this [template for Pylon](https://www.val.town/x/templates/pylon-support-bot). Feel free to reach out in our [Discord server](https://discord.val.town/) for help or to share what you've made.
