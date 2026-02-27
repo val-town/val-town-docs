@@ -110,4 +110,5 @@ This is also [documented in our REST API](https://docs.val.town/openapi#/tag/ema
 
 ## Limitations
 
-`std/email` is powered internally by Sendgrid.
+- Email sending is currently rate-limited to 100/minute.
+- `std/email` is powered internally by Sendgrid.
