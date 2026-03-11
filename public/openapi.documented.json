@@ -16,7 +16,6 @@
     },
     "schemas": {
       "User": {
-        "description": "User object",
         "type": "object",
         "required": [
           "id",
@@ -29,9 +28,9 @@
         ],
         "properties": {
           "id": {
+            "type": "string",
             "format": "uuid",
-            "description": "The ID of this user",
-            "type": "string"
+            "description": "The ID of this user"
           },
           "type": {
             "type": "string",
@@ -44,8 +43,8 @@
           "bio": {
             "anyOf": [
               {
-                "description": "The user’s biography, if they have provided one",
-                "type": "string"
+                "type": "string",
+                "description": "The user’s biography, if they have provided one"
               },
               {
                 "type": "null"
@@ -55,8 +54,8 @@
           "username": {
             "anyOf": [
               {
-                "description": "The user’s handle that they chose for themselves. Does not include the @ symbol",
-                "type": "string"
+                "type": "string",
+                "description": "The user’s handle that they chose for themselves. Does not include the @ symbol"
               },
               {
                 "type": "null"
@@ -66,9 +65,9 @@
           "profileImageUrl": {
             "anyOf": [
               {
+                "type": "string",
                 "description": "URL that points to the user’s profile image, if one exists",
-                "format": "uri",
-                "type": "string"
+                "format": "uri"
               },
               {
                 "type": "null"
@@ -76,9 +75,9 @@
             ]
           },
           "url": {
+            "type": "string",
             "format": "uri",
-            "description": "URL of this user’s profile on Val Town’s website",
-            "type": "string"
+            "description": "URL of this user’s profile on Val Town’s website"
           },
           "links": {
             "type": "object",
@@ -87,13 +86,14 @@
             ],
             "properties": {
               "self": {
+                "type": "string",
                 "format": "uri",
-                "description": "URL of this user on this API",
-                "type": "string"
+                "description": "URL of this user on this API"
               }
             }
           }
         },
+        "description": "User object",
         "example": {
           "id": "00000000-0000-0000-0000-000000000000",
           "bio": "Hello world",
@@ -103,8 +103,6 @@
         }
       },
       "ResultSet": {
-        "title": "ResultSet",
-        "description": "Result of executing an SQL statement.",
         "type": "object",
         "required": [
           "columns",
@@ -114,36 +112,35 @@
         ],
         "properties": {
           "columns": {
-            "description": "Names of columns.\n\nNames of columns can be defined using the `AS` keyword in SQL:\n\n```sql\nSELECT author AS author, COUNT(*) AS count FROM books GROUP BY author\n```",
             "type": "array",
             "items": {
               "type": "string"
-            }
+            },
+            "description": "Names of columns.\n\nNames of columns can be defined using the `AS` keyword in SQL:\n\n```sql\nSELECT author AS author, COUNT(*) AS count FROM books GROUP BY author\n```"
           },
           "columnTypes": {
-            "description": "Types of columns.\n\nThe types are currently shown for types declared in a SQL table. For column types of function calls, for example, an empty string is returned.",
             "type": "array",
             "items": {
               "type": "string"
-            }
+            },
+            "description": "Types of columns.\n\nThe types are currently shown for types declared in a SQL table. For column types of function calls, for example, an empty string is returned."
           },
           "rows": {
-            "description": "Rows produced by the statement.",
             "type": "array",
             "items": {
-              "title": "TursoRow",
               "type": "array",
               "items": {
                 "description": "Columns can be accessed like an object by column names."
-              }
-            }
+              },
+              "title": "TursoRow"
+            },
+            "description": "Rows produced by the statement."
           },
           "rowsAffected": {
-            "description": "Number of rows that were affected by an UPDATE, INSERT or DELETE operation.\n\nThis value is not specified for other SQL statements.",
-            "type": "number"
+            "type": "number",
+            "description": "Number of rows that were affected by an UPDATE, INSERT or DELETE operation.\n\nThis value is not specified for other SQL statements."
           },
           "lastInsertRowid": {
-            "description": "ROWID of the last inserted row.\n\nThis value is not specified if the SQL statement was not an INSERT or if the table was not a ROWID table.",
             "anyOf": [
               {
                 "type": "string"
@@ -154,12 +151,14 @@
               {
                 "type": "null"
               }
-            ]
+            ],
+            "description": "ROWID of the last inserted row.\n\nThis value is not specified if the SQL statement was not an INSERT or if the table was not a ROWID table."
           }
-        }
+        },
+        "title": "ResultSet",
+        "description": "Result of executing an SQL statement."
       },
       "ExtendedLegacyVal": {
-        "description": "A Legacy Val",
         "type": "object",
         "required": [
           "name",
@@ -180,24 +179,24 @@
         ],
         "properties": {
           "name": {
-            "description": "The name of this val",
-            "type": "string"
+            "type": "string",
+            "description": "The name of this val"
           },
           "id": {
+            "type": "string",
             "format": "uuid",
-            "description": "This val's id",
-            "type": "string"
+            "description": "This val's id"
           },
           "version": {
+            "type": "integer",
             "minimum": 0,
-            "description": "The version of this val, starting at zero",
-            "type": "integer"
+            "description": "The version of this val, starting at zero"
           },
           "code": {
             "anyOf": [
               {
-                "description": "TypeScript code associated with this val",
-                "type": "string"
+                "type": "string",
+                "description": "TypeScript code associated with this val"
               },
               {
                 "type": "null"
@@ -205,16 +204,16 @@
             ]
           },
           "public": {
-            "description": "Whether this val is available publicly on Val Town",
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Whether this val is available publicly on Val Town"
           },
           "createdAt": {
-            "format": "date-time",
-            "type": "string"
+            "type": "string",
+            "format": "date-time"
           },
           "updatedAt": {
-            "format": "date-time",
-            "type": "string"
+            "type": "string",
+            "format": "date-time"
           },
           "privacy": {
             "type": "string",
@@ -239,9 +238,9 @@
             "description": "The type of a val. HTTP can receive web requests, Email can receive emails, Cron runs periodically, and Script can be used for libraries or one-off calculations"
           },
           "url": {
+            "type": "string",
             "format": "uri",
-            "description": "The URL of this resource on the Val Town website",
-            "type": "string"
+            "description": "The URL of this resource on the Val Town website"
           },
           "links": {
             "type": "object",
@@ -252,31 +251,30 @@
             ],
             "properties": {
               "self": {
+                "type": "string",
                 "format": "uri",
-                "description": "The URL of this val on this API",
-                "type": "string"
+                "description": "The URL of this val on this API"
               },
               "versions": {
+                "type": "string",
                 "format": "uri",
-                "description": "The endpoint to retrieve this val's versions",
-                "type": "string"
+                "description": "The endpoint to retrieve this val's versions"
               },
               "module": {
+                "type": "string",
                 "format": "uri",
-                "description": "The URL of this Val's source code as a module",
-                "type": "string"
+                "description": "The URL of this Val's source code as a module"
               },
               "endpoint": {
+                "type": "string",
                 "format": "uri",
-                "description": "This val's web endpoint, where it serves a website or API",
-                "type": "string"
+                "description": "This val's web endpoint, where it serves a website or API"
               }
             }
           },
           "author": {
             "anyOf": [
               {
-                "description": "The user who created this val",
                 "type": "object",
                 "required": [
                   "id",
@@ -284,8 +282,8 @@
                 ],
                 "properties": {
                   "id": {
-                    "format": "uuid",
-                    "type": "string"
+                    "type": "string",
+                    "format": "uuid"
                   },
                   "username": {
                     "anyOf": [
@@ -297,7 +295,8 @@
                       }
                     ]
                   }
-                }
+                },
+                "description": "The user who created this val"
               },
               {
                 "type": "null"
@@ -305,34 +304,34 @@
             ]
           },
           "versionCreatedAt": {
-            "format": "date-time",
-            "type": "string"
+            "type": "string",
+            "format": "date-time"
           },
           "likeCount": {
+            "type": "integer",
             "minimum": 0,
-            "description": "How many likes this val has received",
-            "type": "integer"
+            "description": "How many likes this val has received"
           },
           "referenceCount": {
+            "type": "integer",
             "minimum": 0,
-            "descriptions": "How many other public vals have imported this one",
-            "type": "integer"
+            "descriptions": "How many other public vals have imported this one"
           },
           "readme": {
             "anyOf": [
               {
-                "description": "This val's readme, as Markdown",
-                "type": "string"
+                "type": "string",
+                "description": "This val's readme, as Markdown"
               },
               {
                 "type": "null"
               }
             ]
           }
-        }
+        },
+        "description": "A Legacy Val"
       },
       "BasicLegacyVal": {
-        "description": "A Val",
         "type": "object",
         "required": [
           "name",
@@ -350,24 +349,24 @@
         ],
         "properties": {
           "name": {
-            "description": "The name of this val",
-            "type": "string"
+            "type": "string",
+            "description": "The name of this val"
           },
           "id": {
+            "type": "string",
             "format": "uuid",
-            "description": "This val's id",
-            "type": "string"
+            "description": "This val's id"
           },
           "version": {
+            "type": "integer",
             "minimum": 0,
-            "description": "The version of this val, starting at zero",
-            "type": "integer"
+            "description": "The version of this val, starting at zero"
           },
           "code": {
             "anyOf": [
               {
-                "description": "TypeScript code associated with this val",
-                "type": "string"
+                "type": "string",
+                "description": "TypeScript code associated with this val"
               },
               {
                 "type": "null"
@@ -375,16 +374,16 @@
             ]
           },
           "public": {
-            "description": "Whether this val is available publicly on Val Town",
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Whether this val is available publicly on Val Town"
           },
           "createdAt": {
-            "format": "date-time",
-            "type": "string"
+            "type": "string",
+            "format": "date-time"
           },
           "updatedAt": {
-            "format": "date-time",
-            "type": "string"
+            "type": "string",
+            "format": "date-time"
           },
           "privacy": {
             "type": "string",
@@ -409,9 +408,9 @@
             "description": "The type of a val. HTTP can receive web requests, Email can receive emails, Cron runs periodically, and Script can be used for libraries or one-off calculations"
           },
           "url": {
+            "type": "string",
             "format": "uri",
-            "description": "The URL of this resource on the Val Town website",
-            "type": "string"
+            "description": "The URL of this resource on the Val Town website"
           },
           "links": {
             "type": "object",
@@ -422,31 +421,30 @@
             ],
             "properties": {
               "self": {
+                "type": "string",
                 "format": "uri",
-                "description": "The URL of this val on this API",
-                "type": "string"
+                "description": "The URL of this val on this API"
               },
               "versions": {
+                "type": "string",
                 "format": "uri",
-                "description": "The endpoint to retrieve this val's versions",
-                "type": "string"
+                "description": "The endpoint to retrieve this val's versions"
               },
               "module": {
+                "type": "string",
                 "format": "uri",
-                "description": "The URL of this Val's source code as a module",
-                "type": "string"
+                "description": "The URL of this Val's source code as a module"
               },
               "endpoint": {
+                "type": "string",
                 "format": "uri",
-                "description": "This val's web endpoint, where it serves a website or API",
-                "type": "string"
+                "description": "This val's web endpoint, where it serves a website or API"
               }
             }
           },
           "author": {
             "anyOf": [
               {
-                "description": "The user who created this val",
                 "type": "object",
                 "required": [
                   "id",
@@ -454,8 +452,8 @@
                 ],
                 "properties": {
                   "id": {
-                    "format": "uuid",
-                    "type": "string"
+                    "type": "string",
+                    "format": "uuid"
                   },
                   "username": {
                     "anyOf": [
@@ -467,7 +465,8 @@
                       }
                     ]
                   }
-                }
+                },
+                "description": "The user who created this val"
               },
               {
                 "type": "null"
@@ -475,6 +474,7 @@
             ]
           }
         },
+        "description": "A Val",
         "example": {
           "version": 0,
           "name": "counter",
@@ -492,31 +492,30 @@
         }
       },
       "PaginationLinks": {
-        "description": "Links to use for pagination",
         "type": "object",
         "required": [
           "self"
         ],
         "properties": {
           "self": {
+            "type": "string",
             "format": "uri",
-            "description": "URL of this page",
-            "type": "string"
+            "description": "URL of this page"
           },
           "prev": {
+            "type": "string",
             "format": "uri",
-            "description": "URL of the previous page, if any",
-            "type": "string"
+            "description": "URL of the previous page, if any"
           },
           "next": {
+            "type": "string",
             "format": "uri",
-            "description": "URL of the next page, if any",
-            "type": "string"
+            "description": "URL of the next page, if any"
           }
-        }
+        },
+        "description": "Links to use for pagination"
       },
       "Project": {
-        "description": "A Project",
         "type": "object",
         "required": [
           "name",
@@ -533,13 +532,13 @@
             "type": "string"
           },
           "id": {
+            "type": "string",
             "format": "uuid",
-            "description": "The id of the project",
-            "type": "string"
+            "description": "The id of the project"
           },
           "createdAt": {
-            "format": "date-time",
-            "type": "string"
+            "type": "string",
+            "format": "date-time"
           },
           "privacy": {
             "type": "string",
@@ -575,8 +574,8 @@
                 ]
               },
               "id": {
-                "format": "uuid",
-                "type": "string"
+                "type": "string",
+                "format": "uuid"
               },
               "username": {
                 "anyOf": [
@@ -603,8 +602,8 @@
           "imageUrl": {
             "anyOf": [
               {
-                "description": "The URL of this project's image",
-                "type": "string"
+                "type": "string",
+                "description": "The URL of this project's image"
               },
               {
                 "type": "null"
@@ -619,21 +618,21 @@
             ],
             "properties": {
               "self": {
+                "type": "string",
                 "format": "uri",
-                "description": "The URL of this resource on this API",
-                "type": "string"
+                "description": "The URL of this resource on this API"
               },
               "html": {
+                "type": "string",
                 "format": "uri",
-                "description": "The URL of this resource on Val Town",
-                "type": "string"
+                "description": "The URL of this resource on Val Town"
               }
             }
           }
-        }
+        },
+        "description": "A Project"
       },
       "Org": {
-        "description": "An Org",
         "type": "object",
         "required": [
           "username",
@@ -644,14 +643,14 @@
             "type": "string"
           },
           "id": {
+            "type": "string",
             "format": "uuid",
-            "description": "The id of the org",
-            "type": "string"
+            "description": "The id of the org"
           }
-        }
+        },
+        "description": "An Org"
       },
       "Membership": {
-        "description": "A Membership",
         "type": "object",
         "required": [
           "id",
@@ -660,9 +659,9 @@
         ],
         "properties": {
           "id": {
+            "type": "string",
             "format": "uuid",
-            "description": "The id of the membership",
-            "type": "string"
+            "description": "The id of the membership"
           },
           "role": {
             "anyOf": [
@@ -687,15 +686,15 @@
             ],
             "properties": {
               "id": {
+                "type": "string",
                 "format": "uuid",
-                "description": "The id of the user",
-                "type": "string"
+                "description": "The id of the user"
               },
               "username": {
                 "anyOf": [
                   {
-                    "description": "The username of the user",
-                    "type": "string"
+                    "type": "string",
+                    "description": "The username of the user"
                   },
                   {
                     "type": "null"
@@ -704,10 +703,10 @@
               }
             }
           }
-        }
+        },
+        "description": "A Membership"
       },
       "Val": {
-        "description": "A Val",
         "type": "object",
         "required": [
           "name",
@@ -724,13 +723,13 @@
             "type": "string"
           },
           "id": {
+            "type": "string",
             "format": "uuid",
-            "description": "The id of the val",
-            "type": "string"
+            "description": "The id of the val"
           },
           "createdAt": {
-            "format": "date-time",
-            "type": "string"
+            "type": "string",
+            "format": "date-time"
           },
           "privacy": {
             "type": "string",
@@ -766,8 +765,8 @@
                 ]
               },
               "id": {
-                "format": "uuid",
-                "type": "string"
+                "type": "string",
+                "format": "uuid"
               },
               "username": {
                 "anyOf": [
@@ -784,8 +783,8 @@
           "imageUrl": {
             "anyOf": [
               {
-                "description": "The URL of this val's image",
-                "type": "string"
+                "type": "string",
+                "description": "The URL of this val's image"
               },
               {
                 "type": "null"
@@ -810,21 +809,21 @@
             ],
             "properties": {
               "self": {
+                "type": "string",
                 "format": "uri",
-                "description": "The URL of this resource on this API",
-                "type": "string"
+                "description": "The URL of this resource on this API"
               },
               "html": {
+                "type": "string",
                 "format": "uri",
-                "description": "The URL of this resource on Val Town",
-                "type": "string"
+                "description": "The URL of this resource on Val Town"
               }
             }
           }
-        }
+        },
+        "description": "A Val"
       },
       "Branch": {
-        "description": "A Branch",
         "type": "object",
         "required": [
           "name",
@@ -840,27 +839,27 @@
             "type": "string"
           },
           "id": {
+            "type": "string",
             "format": "uuid",
-            "description": "The id of the branch",
-            "type": "string"
+            "description": "The id of the branch"
           },
           "version": {
-            "minimum": 0,
-            "type": "integer"
+            "type": "integer",
+            "minimum": 0
           },
           "createdAt": {
-            "format": "date-time",
-            "type": "string"
+            "type": "string",
+            "format": "date-time"
           },
           "updatedAt": {
-            "format": "date-time",
-            "type": "string"
+            "type": "string",
+            "format": "date-time"
           },
           "forkedBranchId": {
             "anyOf": [
               {
-                "description": "The id of the branch this branch was forked from",
-                "type": "string"
+                "type": "string",
+                "description": "The id of the branch this branch was forked from"
               },
               {
                 "type": "null"
@@ -875,21 +874,21 @@
             ],
             "properties": {
               "self": {
+                "type": "string",
                 "format": "uri",
-                "description": "The URL of this resource on this API",
-                "type": "string"
+                "description": "The URL of this resource on this API"
               },
               "html": {
+                "type": "string",
                 "format": "uri",
-                "description": "The URL of this resource on Val Town",
-                "type": "string"
+                "description": "The URL of this resource on Val Town"
               }
             }
           }
-        }
+        },
+        "description": "A Branch"
       },
       "FileRevisionMetadataV1": {
-        "description": "A File or Directory's Metadata",
         "type": "object",
         "required": [
           "name",
@@ -906,16 +905,16 @@
             "type": "string"
           },
           "id": {
+            "type": "string",
             "format": "uuid",
-            "description": "The id of the resource",
-            "type": "string"
+            "description": "The id of the resource"
           },
           "parentId": {
             "anyOf": [
               {
+                "type": "string",
                 "format": "uuid",
-                "description": "The id of the parent resource",
-                "type": "string"
+                "description": "The id of the parent resource"
               },
               {
                 "type": "null"
@@ -926,12 +925,12 @@
             "type": "string"
           },
           "version": {
-            "minimum": 0,
-            "type": "integer"
+            "type": "integer",
+            "minimum": 0
           },
           "updatedAt": {
-            "format": "date-time",
-            "type": "string"
+            "type": "string",
+            "format": "date-time"
           },
           "type": {
             "type": "string",
@@ -953,36 +952,36 @@
             ],
             "properties": {
               "self": {
+                "type": "string",
                 "format": "uri",
-                "description": "The URL of this resource on this API",
-                "type": "string"
+                "description": "The URL of this resource on this API"
               },
               "html": {
+                "type": "string",
                 "format": "uri",
-                "description": "The URL of this resource on Val Town",
-                "type": "string"
+                "description": "The URL of this resource on Val Town"
               },
               "module": {
+                "type": "string",
                 "format": "uri",
-                "description": "The URL of this resource's source code as a module",
-                "type": "string"
+                "description": "The URL of this resource's source code as a module"
               },
               "endpoint": {
+                "type": "string",
                 "format": "uri",
-                "description": "This resource's web endpoint, where it serves a website or API",
-                "type": "string"
+                "description": "This resource's web endpoint, where it serves a website or API"
               },
               "email": {
+                "type": "string",
                 "format": "email",
-                "description": "This resource's email address for receiving emails (for email-type vals)",
-                "type": "string"
+                "description": "This resource's email address for receiving emails (for email-type vals)"
               }
             }
           }
-        }
+        },
+        "description": "A File or Directory's Metadata"
       },
       "FileRevisionMetadataV2": {
-        "description": "A File or Directory's Metadata",
         "type": "object",
         "required": [
           "name",
@@ -998,20 +997,20 @@
             "type": "string"
           },
           "id": {
+            "type": "string",
             "format": "uuid",
-            "description": "The id of the resource",
-            "type": "string"
+            "description": "The id of the resource"
           },
           "path": {
             "type": "string"
           },
           "version": {
-            "minimum": 0,
-            "type": "integer"
+            "type": "integer",
+            "minimum": 0
           },
           "updatedAt": {
-            "format": "date-time",
-            "type": "string"
+            "type": "string",
+            "format": "date-time"
           },
           "type": {
             "type": "string",
@@ -1033,36 +1032,36 @@
             ],
             "properties": {
               "self": {
+                "type": "string",
                 "format": "uri",
-                "description": "The URL of this resource on this API",
-                "type": "string"
+                "description": "The URL of this resource on this API"
               },
               "html": {
+                "type": "string",
                 "format": "uri",
-                "description": "The URL of this resource on Val Town",
-                "type": "string"
+                "description": "The URL of this resource on Val Town"
               },
               "module": {
+                "type": "string",
                 "format": "uri",
-                "description": "The URL of this resource's source code as a module",
-                "type": "string"
+                "description": "The URL of this resource's source code as a module"
               },
               "endpoint": {
+                "type": "string",
                 "format": "uri",
-                "description": "This resource's web endpoint, where it serves a website or API",
-                "type": "string"
+                "description": "This resource's web endpoint, where it serves a website or API"
               },
               "email": {
+                "type": "string",
                 "format": "email",
-                "description": "This resource's email address for receiving emails (for email-type vals)",
-                "type": "string"
+                "description": "This resource's email address for receiving emails (for email-type vals)"
               }
             }
           }
-        }
+        },
+        "description": "A File or Directory's Metadata"
       },
       "TEnvironmentVariable": {
-        "description": "An environment variable",
         "type": "object",
         "required": [
           "key",
@@ -1072,17 +1071,17 @@
         ],
         "properties": {
           "key": {
+            "type": "string",
             "maxLength": 8192,
             "pattern": "^[A-Za-z_][A-Z0-9a-z_]*$",
-            "description": "Name or key of the environment variable, accessible via Deno.env or process.env",
-            "type": "string"
+            "description": "Name or key of the environment variable, accessible via Deno.env or process.env"
           },
           "description": {
             "anyOf": [
               {
+                "type": "string",
                 "maxLength": 1024,
-                "description": "Optional description of the environment variable",
-                "type": "string"
+                "description": "Optional description of the environment variable"
               },
               {
                 "type": "null"
@@ -1090,14 +1089,22 @@
             ]
           },
           "updatedAt": {
-            "format": "date-time",
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "createdAt": {
-            "format": "date-time",
-            "type": "string"
+            "type": "string",
+            "format": "date-time"
           }
-        }
+        },
+        "description": "An environment variable"
       }
     }
   },
@@ -1153,112 +1160,47 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "description": "Your user information, with tier and email included",
-                  "type": "object",
-                  "required": [
-                    "id",
-                    "type",
-                    "bio",
-                    "username",
-                    "profileImageUrl",
-                    "url",
-                    "links",
-                    "tier",
-                    "email"
-                  ],
-                  "properties": {
-                    "id": {
-                      "format": "uuid",
-                      "description": "The ID of this user",
-                      "type": "string"
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/User"
                     },
-                    "type": {
-                      "type": "string",
-                      "enum": [
-                        "user",
-                        "org"
-                      ],
-                      "description": "Whether this is a user or an organization"
-                    },
-                    "bio": {
-                      "anyOf": [
-                        {
-                          "description": "The user’s biography, if they have provided one",
-                          "type": "string"
-                        },
-                        {
-                          "type": "null"
-                        }
-                      ]
-                    },
-                    "username": {
-                      "anyOf": [
-                        {
-                          "description": "The user’s handle that they chose for themselves. Does not include the @ symbol",
-                          "type": "string"
-                        },
-                        {
-                          "type": "null"
-                        }
-                      ]
-                    },
-                    "profileImageUrl": {
-                      "anyOf": [
-                        {
-                          "description": "URL that points to the user’s profile image, if one exists",
-                          "format": "uri",
-                          "type": "string"
-                        },
-                        {
-                          "type": "null"
-                        }
-                      ]
-                    },
-                    "url": {
-                      "format": "uri",
-                      "description": "URL of this user’s profile on Val Town’s website",
-                      "type": "string"
-                    },
-                    "links": {
+                    {
                       "type": "object",
                       "required": [
-                        "self"
+                        "tier",
+                        "email"
                       ],
                       "properties": {
-                        "self": {
-                          "format": "uri",
-                          "description": "URL of this user on this API",
-                          "type": "string"
+                        "tier": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "enum": [
+                                "free",
+                                "pro"
+                              ],
+                              "description": "Your account tier"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "email": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "description": "Your email address"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
                         }
                       }
-                    },
-                    "tier": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "enum": [
-                            "free",
-                            "pro"
-                          ],
-                          "description": "Your account tier"
-                        },
-                        {
-                          "type": "null"
-                        }
-                      ]
-                    },
-                    "email": {
-                      "anyOf": [
-                        {
-                          "description": "Your email address",
-                          "type": "string"
-                        },
-                        {
-                          "type": "null"
-                        }
-                      ]
                     }
-                  }
+                  ],
+                  "description": "Your user information, with tier and email included"
                 },
                 "example": {
                   "id": "00000000-0000-0000-0000-000000000000",
@@ -1275,7 +1217,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nconst profile = await client.me.profile.retrieve();\n\nconsole.log(profile.id);"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown();\n\nconst profile = await client.me.profile.retrieve();\n\nconsole.log(profile);"
           }
         ]
       }
@@ -1304,10 +1246,8 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "description": "List of blobs that you’ve stored",
                   "type": "array",
                   "items": {
-                    "title": "BlobListingItem",
                     "type": "object",
                     "required": [
                       "key"
@@ -1317,16 +1257,18 @@
                         "type": "string"
                       },
                       "size": {
-                        "description": "Size in bytes of the object",
-                        "type": "integer"
+                        "type": "integer",
+                        "description": "Size in bytes of the object"
                       },
                       "lastModified": {
+                        "type": "string",
                         "description": "Creation date of the object",
-                        "format": "date-time",
-                        "type": "string"
+                        "format": "date-time"
                       }
-                    }
-                  }
+                    },
+                    "title": "BlobListingItem"
+                  },
+                  "description": "List of blobs that you’ve stored"
                 },
                 "example": [
                   {
@@ -1357,9 +1299,9 @@
         "parameters": [
           {
             "schema": {
+              "type": "string",
               "minLength": 1,
-              "maxLength": 512,
-              "type": "string"
+              "maxLength": 512
             },
             "in": "path",
             "name": "key",
@@ -1373,8 +1315,8 @@
             "content": {
               "application/octet-stream": {
                 "schema": {
-                  "format": "binary",
-                  "type": "string"
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }
@@ -1397,9 +1339,9 @@
           "content": {
             "application/json": {
               "schema": {
+                "type": "string",
                 "format": "binary",
-                "description": "Binary input data",
-                "type": "string"
+                "description": "Binary input data"
               }
             }
           },
@@ -1408,9 +1350,9 @@
         "parameters": [
           {
             "schema": {
+              "type": "string",
               "minLength": 1,
-              "maxLength": 512,
-              "type": "string"
+              "maxLength": 512
             },
             "in": "path",
             "name": "key",
@@ -1425,7 +1367,17 @@
         ],
         "responses": {
           "201": {
-            "description": "Successfully stored as blob"
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "ok"
+                  ]
+                }
+              }
+            }
           },
           "400": {
             "description": "Default Response",
@@ -1445,8 +1397,8 @@
                       ]
                     },
                     "message": {
-                      "description": "Error message",
-                      "type": "string"
+                      "type": "string",
+                      "description": "Error message"
                     }
                   }
                 }
@@ -1457,7 +1409,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: process.env['VAL_TOWN_API_KEY'], // This is the default and can be omitted\n});\n\nawait client.blobs.store('x');"
+            "source": "import ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: process.env['VAL_TOWN_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.blobs.store('x');\n\nconsole.log(response);"
           }
         ]
       },
@@ -1470,9 +1422,9 @@
         "parameters": [
           {
             "schema": {
+              "type": "string",
               "minLength": 1,
-              "maxLength": 512,
-              "type": "string"
+              "maxLength": 512
             },
             "in": "path",
             "name": "key",
@@ -1508,8 +1460,8 @@
         "parameters": [
           {
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             },
             "in": "path",
             "name": "user_id",
@@ -1548,7 +1500,6 @@
           "content": {
             "application/json": {
               "schema": {
-                "description": "A single statement to run",
                 "type": "object",
                 "required": [
                   "statement"
@@ -1557,12 +1508,10 @@
                   "statement": {
                     "anyOf": [
                       {
-                        "description": "Simple SQL statement to run in SQLite",
-                        "type": "string"
+                        "type": "string",
+                        "description": "Simple SQL statement to run in SQLite"
                       },
                       {
-                        "title": "ParameterizedQuery",
-                        "description": "A parameterized SQL query. See https://docs.turso.tech/sdk/ts/reference#batch-transactions for reference",
                         "type": "object",
                         "required": [
                           "sql",
@@ -1570,12 +1519,10 @@
                         ],
                         "properties": {
                           "sql": {
-                            "description": "SQL statement, with ? placeholders for arguments",
-                            "type": "string"
+                            "type": "string",
+                            "description": "SQL statement, with ? placeholders for arguments"
                           },
                           "args": {
-                            "title": "StatementArg",
-                            "description": "List of arguments to be used in the given statement",
                             "anyOf": [
                               {
                                 "type": "array",
@@ -1591,13 +1538,18 @@
                                   "description": "A value to be used as a parameter"
                                 }
                               }
-                            ]
+                            ],
+                            "title": "StatementArg",
+                            "description": "List of arguments to be used in the given statement"
                           }
-                        }
+                        },
+                        "title": "ParameterizedQuery",
+                        "description": "A parameterized SQL query. See https://docs.turso.tech/sdk/ts/reference#batch-transactions for reference"
                       }
                     ]
                   }
-                }
+                },
+                "description": "A single statement to run"
               },
               "examples": {
                 "example1": {
@@ -1657,7 +1609,6 @@
           "content": {
             "application/json": {
               "schema": {
-                "description": "A set of statements to be run in a single batch",
                 "type": "object",
                 "required": [
                   "statements"
@@ -1668,12 +1619,10 @@
                     "items": {
                       "anyOf": [
                         {
-                          "description": "Simple SQL statement to run in SQLite",
-                          "type": "string"
+                          "type": "string",
+                          "description": "Simple SQL statement to run in SQLite"
                         },
                         {
-                          "title": "ParameterizedQuery",
-                          "description": "A parameterized SQL query. See https://docs.turso.tech/sdk/ts/reference#batch-transactions for reference",
                           "type": "object",
                           "required": [
                             "sql",
@@ -1681,12 +1630,10 @@
                           ],
                           "properties": {
                             "sql": {
-                              "description": "SQL statement, with ? placeholders for arguments",
-                              "type": "string"
+                              "type": "string",
+                              "description": "SQL statement, with ? placeholders for arguments"
                             },
                             "args": {
-                              "title": "StatementArg",
-                              "description": "List of arguments to be used in the given statement",
                               "anyOf": [
                                 {
                                   "type": "array",
@@ -1702,9 +1649,13 @@
                                     "description": "A value to be used as a parameter"
                                   }
                                 }
-                              ]
+                              ],
+                              "title": "StatementArg",
+                              "description": "List of arguments to be used in the given statement"
                             }
-                          }
+                          },
+                          "title": "ParameterizedQuery",
+                          "description": "A parameterized SQL query. See https://docs.turso.tech/sdk/ts/reference#batch-transactions for reference"
                         }
                       ]
                     }
@@ -1717,7 +1668,8 @@
                       "deferred"
                     ]
                   }
-                }
+                },
+                "description": "A set of statements to be run in a single batch"
               },
               "example": {
                 "statements": [
@@ -1741,11 +1693,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "description": "Array of results from the statements executed",
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/ResultSet"
-                  }
+                  },
+                  "description": "Array of results from the statements executed"
                 },
                 "example": [
                   {
@@ -1787,22 +1739,18 @@
           "content": {
             "application/json": {
               "schema": {
-                "description": "Fields for an email to be sent",
                 "type": "object",
                 "properties": {
                   "subject": {
-                    "description": "The subject line of the email",
-                    "type": "string"
+                    "type": "string",
+                    "description": "The subject line of the email"
                   },
                   "from": {
-                    "title": "EmailData",
                     "anyOf": [
                       {
                         "type": "string"
                       },
                       {
-                        "title": "EmailNameAndAddress",
-                        "description": "An email address and name",
                         "type": "object",
                         "required": [
                           "email"
@@ -1814,30 +1762,28 @@
                           "email": {
                             "type": "string"
                           }
-                        }
+                        },
+                        "title": "EmailNameAndAddress",
+                        "description": "An email address and name"
                       }
-                    ]
+                    ],
+                    "title": "EmailData"
                   },
                   "headers": {
-                    "description": "A set of headers to include the email that you send",
                     "type": "object",
+                    "description": "A set of headers to include the email that you send",
                     "additionalProperties": {
                       "type": "string"
                     }
                   },
                   "to": {
-                    "title": "EmailDataInput",
-                    "description": "A single email or list of emails for one of the address fields",
                     "anyOf": [
                       {
-                        "title": "EmailData",
                         "anyOf": [
                           {
                             "type": "string"
                           },
                           {
-                            "title": "EmailNameAndAddress",
-                            "description": "An email address and name",
                             "type": "object",
                             "required": [
                               "email"
@@ -1849,22 +1795,21 @@
                               "email": {
                                 "type": "string"
                               }
-                            }
+                            },
+                            "title": "EmailNameAndAddress",
+                            "description": "An email address and name"
                           }
-                        ]
+                        ],
+                        "title": "EmailData"
                       },
                       {
-                        "title": "EmailDataList",
                         "type": "array",
                         "items": {
-                          "title": "EmailData",
                           "anyOf": [
                             {
                               "type": "string"
                             },
                             {
-                              "title": "EmailNameAndAddress",
-                              "description": "An email address and name",
                               "type": "object",
                               "required": [
                                 "email"
@@ -1876,26 +1821,27 @@
                                 "email": {
                                   "type": "string"
                                 }
-                              }
+                              },
+                              "title": "EmailNameAndAddress",
+                              "description": "An email address and name"
                             }
-                          ]
-                        }
+                          ],
+                          "title": "EmailData"
+                        },
+                        "title": "EmailDataList"
                       }
-                    ]
+                    ],
+                    "title": "EmailDataInput",
+                    "description": "A single email or list of emails for one of the address fields"
                   },
                   "cc": {
-                    "title": "EmailDataInput",
-                    "description": "A single email or list of emails for one of the address fields",
                     "anyOf": [
                       {
-                        "title": "EmailData",
                         "anyOf": [
                           {
                             "type": "string"
                           },
                           {
-                            "title": "EmailNameAndAddress",
-                            "description": "An email address and name",
                             "type": "object",
                             "required": [
                               "email"
@@ -1907,22 +1853,21 @@
                               "email": {
                                 "type": "string"
                               }
-                            }
+                            },
+                            "title": "EmailNameAndAddress",
+                            "description": "An email address and name"
                           }
-                        ]
+                        ],
+                        "title": "EmailData"
                       },
                       {
-                        "title": "EmailDataList",
                         "type": "array",
                         "items": {
-                          "title": "EmailData",
                           "anyOf": [
                             {
                               "type": "string"
                             },
                             {
-                              "title": "EmailNameAndAddress",
-                              "description": "An email address and name",
                               "type": "object",
                               "required": [
                                 "email"
@@ -1934,26 +1879,27 @@
                                 "email": {
                                   "type": "string"
                                 }
-                              }
+                              },
+                              "title": "EmailNameAndAddress",
+                              "description": "An email address and name"
                             }
-                          ]
-                        }
+                          ],
+                          "title": "EmailData"
+                        },
+                        "title": "EmailDataList"
                       }
-                    ]
+                    ],
+                    "title": "EmailDataInput",
+                    "description": "A single email or list of emails for one of the address fields"
                   },
                   "bcc": {
-                    "title": "EmailDataInput",
-                    "description": "A single email or list of emails for one of the address fields",
                     "anyOf": [
                       {
-                        "title": "EmailData",
                         "anyOf": [
                           {
                             "type": "string"
                           },
                           {
-                            "title": "EmailNameAndAddress",
-                            "description": "An email address and name",
                             "type": "object",
                             "required": [
                               "email"
@@ -1965,22 +1911,21 @@
                               "email": {
                                 "type": "string"
                               }
-                            }
+                            },
+                            "title": "EmailNameAndAddress",
+                            "description": "An email address and name"
                           }
-                        ]
+                        ],
+                        "title": "EmailData"
                       },
                       {
-                        "title": "EmailDataList",
                         "type": "array",
                         "items": {
-                          "title": "EmailData",
                           "anyOf": [
                             {
                               "type": "string"
                             },
                             {
-                              "title": "EmailNameAndAddress",
-                              "description": "An email address and name",
                               "type": "object",
                               "required": [
                                 "email"
@@ -1992,27 +1937,31 @@
                                 "email": {
                                   "type": "string"
                                 }
-                              }
+                              },
+                              "title": "EmailNameAndAddress",
+                              "description": "An email address and name"
                             }
-                          ]
-                        }
+                          ],
+                          "title": "EmailData"
+                        },
+                        "title": "EmailDataList"
                       }
-                    ]
+                    ],
+                    "title": "EmailDataInput",
+                    "description": "A single email or list of emails for one of the address fields"
                   },
                   "text": {
-                    "description": "Text content of the email, for email clients that may not support HTML",
-                    "type": "string"
+                    "type": "string",
+                    "description": "Text content of the email, for email clients that may not support HTML"
                   },
                   "html": {
+                    "type": "string",
                     "description": "HTML content of the email. Can be specified alongside text",
-                    "minLength": 1,
-                    "type": "string"
+                    "minLength": 1
                   },
                   "attachments": {
-                    "description": "A list of attachments to add to the email",
                     "type": "array",
                     "items": {
-                      "title": "AttachmentObject",
                       "type": "object",
                       "required": [
                         "content",
@@ -2034,16 +1983,14 @@
                         "contentId": {
                           "type": "string"
                         }
-                      }
-                    }
+                      },
+                      "title": "AttachmentObject"
+                    },
+                    "description": "A list of attachments to add to the email"
                   },
                   "replyToList": {
-                    "title": "ReplyToList",
-                    "description": "A reply-to list of email addresses",
                     "anyOf": [
                       {
-                        "title": "EmailNameAndAddress",
-                        "description": "An email address and name",
                         "type": "object",
                         "required": [
                           "email"
@@ -2055,14 +2002,13 @@
                           "email": {
                             "type": "string"
                           }
-                        }
+                        },
+                        "title": "EmailNameAndAddress",
+                        "description": "An email address and name"
                       },
                       {
-                        "title": "EmailList",
                         "type": "array",
                         "items": {
-                          "title": "EmailNameAndAddress",
-                          "description": "An email address and name",
                           "type": "object",
                           "required": [
                             "email"
@@ -2074,12 +2020,18 @@
                             "email": {
                               "type": "string"
                             }
-                          }
-                        }
+                          },
+                          "title": "EmailNameAndAddress",
+                          "description": "An email address and name"
+                        },
+                        "title": "EmailList"
                       }
-                    ]
+                    ],
+                    "title": "ReplyToList",
+                    "description": "A reply-to list of email addresses"
                   }
-                }
+                },
+                "description": "Fields for an email to be sent"
               },
               "example": {
                 "subject": "An important message",
@@ -2101,7 +2053,6 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "description": "Email accepted to be sent",
                   "type": "object",
                   "required": [
                     "message"
@@ -2110,7 +2061,8 @@
                     "message": {
                       "type": "string"
                     }
-                  }
+                  },
+                  "description": "Email accepted to be sent"
                 }
               }
             }
@@ -2152,8 +2104,8 @@
         "parameters": [
           {
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             },
             "in": "query",
             "name": "file_id",
@@ -2164,8 +2116,8 @@
             "schema": {
               "type": "array",
               "items": {
-                "format": "uuid",
-                "type": "string"
+                "type": "string",
+                "format": "uuid"
               }
             },
             "in": "query",
@@ -2175,21 +2127,11 @@
           },
           {
             "schema": {
-              "default": "desc",
-              "anyOf": [
-                {
-                  "type": "string",
-                  "enum": [
-                    "asc"
-                  ]
-                },
-                {
-                  "type": "string",
-                  "enum": [
-                    "desc"
-                  ]
-                }
-              ]
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "default": "desc"
             },
             "in": "query",
             "name": "direction",
@@ -2198,8 +2140,8 @@
           },
           {
             "schema": {
-              "format": "date-time",
-              "type": "string"
+              "type": "string",
+              "format": "date-time"
             },
             "in": "query",
             "name": "start",
@@ -2208,8 +2150,8 @@
           },
           {
             "schema": {
-              "format": "date-time",
-              "type": "string"
+              "type": "string",
+              "format": "date-time"
             },
             "in": "query",
             "name": "end",
@@ -2218,10 +2160,10 @@
           },
           {
             "schema": {
+              "type": "integer",
               "minimum": 1,
               "maximum": 100,
-              "default": 20,
-              "type": "integer"
+              "default": 20
             },
             "in": "query",
             "name": "limit",
@@ -2230,21 +2172,11 @@
           },
           {
             "schema": {
-              "default": "start_time",
-              "anyOf": [
-                {
-                  "type": "string",
-                  "enum": [
-                    "start_time"
-                  ]
-                },
-                {
-                  "type": "string",
-                  "enum": [
-                    "end_time"
-                  ]
-                }
-              ]
+              "enum": [
+                "start_time",
+                "end_time"
+              ],
+              "default": "start_time"
             },
             "in": "query",
             "name": "order_by",
@@ -2258,7 +2190,6 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "description": "A paginated result set",
                   "type": "object",
                   "required": [
                     "data",
@@ -2288,8 +2219,8 @@
                             "type": "string"
                           },
                           "endTimeUnixNano": {
-                            "description": "0 if trace is unfinished",
-                            "type": "string"
+                            "type": "string",
+                            "description": "0 if trace is unfinished"
                           },
                           "attributes": {
                             "type": "array",
@@ -2349,7 +2280,8 @@
                     "links": {
                       "$ref": "#/components/schemas/PaginationLinks"
                     }
-                  }
+                  },
+                  "description": "A paginated result set"
                 }
               }
             }
@@ -2375,8 +2307,8 @@
             "schema": {
               "type": "array",
               "items": {
-                "description": "Include only logs from a given trace ID",
-                "type": "string"
+                "type": "string",
+                "description": "Include only logs from a given trace ID"
               }
             },
             "in": "query",
@@ -2385,8 +2317,8 @@
           },
           {
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             },
             "in": "query",
             "name": "file_id",
@@ -2397,8 +2329,8 @@
             "schema": {
               "type": "array",
               "items": {
-                "format": "uuid",
-                "type": "string"
+                "type": "string",
+                "format": "uuid"
               }
             },
             "in": "query",
@@ -2408,21 +2340,11 @@
           },
           {
             "schema": {
-              "default": "desc",
-              "anyOf": [
-                {
-                  "type": "string",
-                  "enum": [
-                    "asc"
-                  ]
-                },
-                {
-                  "type": "string",
-                  "enum": [
-                    "desc"
-                  ]
-                }
-              ]
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "default": "desc"
             },
             "in": "query",
             "name": "direction",
@@ -2431,8 +2353,8 @@
           },
           {
             "schema": {
-              "format": "date-time",
-              "type": "string"
+              "type": "string",
+              "format": "date-time"
             },
             "in": "query",
             "name": "start",
@@ -2441,8 +2363,8 @@
           },
           {
             "schema": {
-              "format": "date-time",
-              "type": "string"
+              "type": "string",
+              "format": "date-time"
             },
             "in": "query",
             "name": "end",
@@ -2451,10 +2373,10 @@
           },
           {
             "schema": {
+              "type": "integer",
               "minimum": 1,
               "maximum": 100,
-              "default": 20,
-              "type": "integer"
+              "default": 20
             },
             "in": "query",
             "name": "limit",
@@ -2468,7 +2390,6 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "description": "A paginated result set",
                   "type": "object",
                   "required": [
                     "data",
@@ -2561,7 +2482,8 @@
                     "links": {
                       "$ref": "#/components/schemas/PaginationLinks"
                     }
-                  }
+                  },
+                  "description": "A paginated result set"
                 }
               }
             }
@@ -2585,8 +2507,8 @@
         "parameters": [
           {
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             },
             "in": "path",
             "name": "val_id",
@@ -2622,8 +2544,8 @@
         "parameters": [
           {
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             },
             "in": "path",
             "name": "val_id",
@@ -2678,8 +2600,8 @@
           },
           {
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             },
             "in": "query",
             "name": "user_id",
@@ -2688,8 +2610,8 @@
           },
           {
             "schema": {
-              "format": "date-time",
-              "type": "string"
+              "type": "string",
+              "format": "date-time"
             },
             "in": "query",
             "name": "cursor",
@@ -2698,10 +2620,10 @@
           },
           {
             "schema": {
+              "type": "integer",
               "minimum": 1,
               "maximum": 100,
-              "default": 20,
-              "type": "integer"
+              "default": 20
             },
             "in": "query",
             "name": "limit",
@@ -2720,7 +2642,6 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "description": "A paginated result set",
                   "type": "object",
                   "required": [
                     "data",
@@ -2736,7 +2657,8 @@
                     "links": {
                       "$ref": "#/components/schemas/PaginationLinks"
                     }
-                  }
+                  },
+                  "description": "A paginated result set"
                 }
               }
             }
@@ -2759,7 +2681,6 @@
           "content": {
             "application/json": {
               "schema": {
-                "description": "Val information provided to create a new val",
                 "type": "object",
                 "required": [
                   "name",
@@ -2767,14 +2688,14 @@
                 ],
                 "properties": {
                   "name": {
+                    "type": "string",
                     "minLength": 1,
                     "maxLength": 48,
-                    "pattern": "^[a-zA-Z][a-zA-Z0-9\\-_]*$",
-                    "type": "string"
+                    "pattern": "^[a-zA-Z][a-zA-Z0-9\\-_]*$"
                   },
                   "description": {
-                    "maxLength": 64,
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 64
                   },
                   "privacy": {
                     "type": "string",
@@ -2785,11 +2706,12 @@
                     ]
                   },
                   "orgId": {
+                    "type": "string",
                     "format": "uuid",
-                    "description": "ID of the org to create the val in",
-                    "type": "string"
+                    "description": "ID of the org to create the val in"
                   }
-                }
+                },
+                "description": "Val information provided to create a new val"
               },
               "example": {
                 "name": "myVal",
@@ -2841,8 +2763,8 @@
         "parameters": [
           {
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             },
             "in": "path",
             "name": "val_id",
@@ -2851,8 +2773,8 @@
           },
           {
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             },
             "in": "path",
             "name": "branch_id",
@@ -2888,8 +2810,8 @@
         "parameters": [
           {
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             },
             "in": "path",
             "name": "val_id",
@@ -2898,8 +2820,8 @@
           },
           {
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             },
             "in": "path",
             "name": "branch_id",
@@ -2909,7 +2831,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Default Response"
+            "description": "Deleted"
           },
           "404": {
             "description": "Branch not found",
@@ -2940,9 +2862,9 @@
         "parameters": [
           {
             "schema": {
+              "type": "integer",
               "minimum": 0,
-              "default": 0,
-              "type": "integer"
+              "default": 0
             },
             "in": "query",
             "name": "offset",
@@ -2951,10 +2873,10 @@
           },
           {
             "schema": {
+              "type": "integer",
               "minimum": 1,
               "maximum": 100,
-              "default": 20,
-              "type": "integer"
+              "default": 20
             },
             "in": "query",
             "name": "limit",
@@ -2963,8 +2885,8 @@
           },
           {
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             },
             "in": "path",
             "name": "val_id",
@@ -2978,7 +2900,6 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "description": "A paginated result set",
                   "type": "object",
                   "required": [
                     "data",
@@ -2994,7 +2915,8 @@
                     "links": {
                       "$ref": "#/components/schemas/PaginationLinks"
                     }
-                  }
+                  },
+                  "description": "A paginated result set"
                 }
               }
             }
@@ -3017,24 +2939,24 @@
           "content": {
             "application/json": {
               "schema": {
-                "description": "Branch information provided to create a new project",
                 "type": "object",
                 "required": [
                   "name"
                 ],
                 "properties": {
                   "name": {
+                    "type": "string",
                     "minLength": 1,
                     "maxLength": 48,
-                    "pattern": "^[a-zA-Z0-9\\$\\[\\]\\(\\)\\-_.]+$",
-                    "type": "string"
+                    "pattern": "^[a-zA-Z0-9\\$\\[\\]\\(\\)\\-_.]+$"
                   },
                   "branchId": {
+                    "type": "string",
                     "format": "uuid",
-                    "description": "The branch ID to fork from. If this is not specified, the new branch will be forked from main.",
-                    "type": "string"
+                    "description": "The branch ID to fork from. If this is not specified, the new branch will be forked from main."
                   }
-                }
+                },
+                "description": "Branch information provided to create a new project"
               },
               "example": {
                 "name": "my-branch",
@@ -3048,8 +2970,8 @@
         "parameters": [
           {
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             },
             "in": "path",
             "name": "val_id",
@@ -3097,8 +3019,8 @@
         "parameters": [
           {
             "schema": {
-              "minimum": 0,
-              "type": "integer"
+              "type": "integer",
+              "minimum": 0
             },
             "in": "query",
             "name": "version",
@@ -3107,8 +3029,8 @@
           },
           {
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             },
             "in": "query",
             "name": "branch_id",
@@ -3126,8 +3048,8 @@
           },
           {
             "schema": {
-              "default": false,
-              "type": "boolean"
+              "type": "boolean",
+              "default": false
             },
             "in": "query",
             "name": "recursive",
@@ -3136,9 +3058,9 @@
           },
           {
             "schema": {
+              "type": "integer",
               "minimum": 0,
-              "default": 0,
-              "type": "integer"
+              "default": 0
             },
             "in": "query",
             "name": "offset",
@@ -3147,10 +3069,10 @@
           },
           {
             "schema": {
+              "type": "integer",
               "minimum": 1,
               "maximum": 100,
-              "default": 20,
-              "type": "integer"
+              "default": 20
             },
             "in": "query",
             "name": "limit",
@@ -3159,8 +3081,8 @@
           },
           {
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             },
             "in": "path",
             "name": "val_id",
@@ -3174,7 +3096,6 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "description": "A paginated result set",
                   "type": "object",
                   "required": [
                     "data",
@@ -3190,7 +3111,8 @@
                     "links": {
                       "$ref": "#/components/schemas/PaginationLinks"
                     }
-                  }
+                  },
+                  "description": "A paginated result set"
                 }
               }
             }
@@ -3239,10 +3161,10 @@
                     ],
                     "properties": {
                       "content": {
+                        "type": "string",
                         "minLength": 0,
                         "maxLength": 80000,
-                        "description": "File and val content. An empty string will create an empty file. When creating a directory, the content should be null or undefined.",
-                        "type": "string"
+                        "description": "File and val content. An empty string will create an empty file. When creating a directory, the content should be null or undefined."
                       },
                       "type": {
                         "type": "string",
@@ -3264,8 +3186,8 @@
         "parameters": [
           {
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             },
             "in": "query",
             "name": "branch_id",
@@ -3283,8 +3205,8 @@
           },
           {
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             },
             "in": "path",
             "name": "val_id",
@@ -3314,8 +3236,8 @@
                   ],
                   "properties": {
                     "message": {
-                      "description": "File or directory already exists at this path",
-                      "type": "string"
+                      "type": "string",
+                      "description": "File or directory already exists at this path"
                     }
                   }
                 }
@@ -3339,8 +3261,8 @@
         "parameters": [
           {
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             },
             "in": "query",
             "name": "branch_id",
@@ -3358,8 +3280,8 @@
           },
           {
             "schema": {
-              "default": false,
-              "type": "boolean"
+              "type": "boolean",
+              "default": false
             },
             "in": "query",
             "name": "recursive",
@@ -3368,8 +3290,8 @@
           },
           {
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             },
             "in": "path",
             "name": "val_id",
@@ -3409,42 +3331,46 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "content": {
-                    "minLength": 0,
-                    "maxLength": 80000,
-                    "description": "File and val content. An empty string will create an empty file. When creating a directory, the content should be null or undefined.",
-                    "type": "string"
-                  },
-                  "type": {
-                    "type": "string",
-                    "enum": [
-                      "file",
-                      "interval",
-                      "http",
-                      "email",
-                      "script"
-                    ]
-                  },
-                  "parent_path": {
-                    "anyOf": [
-                      {
-                        "description": "Path to the directory you'd like to move this file to (e.g. 'folder1/folder2')",
-                        "type": "string"
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "content": {
+                        "type": "string",
+                        "minLength": 0,
+                        "maxLength": 80000,
+                        "description": "File and val content. An empty string will create an empty file. When creating a directory, the content should be null or undefined."
                       },
-                      {
-                        "type": "null"
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "file",
+                          "interval",
+                          "http",
+                          "email",
+                          "script"
+                        ]
+                      },
+                      "parent_path": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "description": "Path to the directory you'd like to move this file to (e.g. 'folder1/folder2')"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "name": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 48,
+                        "pattern": "^[a-zA-Z0-9\\$\\[\\]\\(\\)\\-_.]+$"
                       }
-                    ]
-                  },
-                  "name": {
-                    "minLength": 1,
-                    "maxLength": 48,
-                    "pattern": "^[a-zA-Z0-9\\$\\[\\]\\(\\)\\-_.]+$",
-                    "type": "string"
+                    }
                   }
-                }
+                ]
               }
             }
           }
@@ -3452,8 +3378,8 @@
         "parameters": [
           {
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             },
             "in": "query",
             "name": "branch_id",
@@ -3471,8 +3397,8 @@
           },
           {
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             },
             "in": "path",
             "name": "val_id",
@@ -3520,9 +3446,9 @@
         "parameters": [
           {
             "schema": {
+              "type": "integer",
               "minimum": 0,
-              "default": 0,
-              "type": "integer"
+              "default": 0
             },
             "in": "query",
             "name": "offset",
@@ -3531,10 +3457,10 @@
           },
           {
             "schema": {
+              "type": "integer",
               "minimum": 1,
               "maximum": 100,
-              "default": 20,
-              "type": "integer"
+              "default": 20
             },
             "in": "query",
             "name": "limit",
@@ -3543,8 +3469,8 @@
           },
           {
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             },
             "in": "path",
             "name": "val_id",
@@ -3558,7 +3484,6 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "description": "A paginated result set",
                   "type": "object",
                   "required": [
                     "data",
@@ -3574,7 +3499,8 @@
                     "links": {
                       "$ref": "#/components/schemas/PaginationLinks"
                     }
-                  }
+                  },
+                  "description": "A paginated result set"
                 }
               }
             }
@@ -3597,7 +3523,6 @@
           "content": {
             "application/json": {
               "schema": {
-                "description": "Inputs for an environment variable",
                 "type": "object",
                 "required": [
                   "value",
@@ -3605,22 +3530,23 @@
                 ],
                 "properties": {
                   "value": {
+                    "type": "string",
                     "description": "Value of the environment variable.",
-                    "maxLength": 8192,
-                    "type": "string"
+                    "maxLength": 8192
                   },
                   "description": {
+                    "type": "string",
                     "description": "Optional description of the environment variable",
-                    "maxLength": 1024,
-                    "type": "string"
+                    "maxLength": 1024
                   },
                   "key": {
+                    "type": "string",
                     "maxLength": 8192,
                     "pattern": "^[A-Za-z_][A-Z0-9a-z_]*$",
-                    "description": "Name or key of the environment variable, accessible via Deno.env or process.env",
-                    "type": "string"
+                    "description": "Name or key of the environment variable, accessible via Deno.env or process.env"
                   }
-                }
+                },
+                "description": "Inputs for an environment variable"
               }
             }
           },
@@ -3630,8 +3556,8 @@
         "parameters": [
           {
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             },
             "in": "path",
             "name": "val_id",
@@ -3645,42 +3571,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "description": "An environment variable",
-                  "type": "object",
-                  "required": [
-                    "key",
-                    "description",
-                    "updatedAt",
-                    "createdAt"
-                  ],
-                  "properties": {
-                    "key": {
-                      "maxLength": 8192,
-                      "pattern": "^[A-Za-z_][A-Z0-9a-z_]*$",
-                      "description": "Name or key of the environment variable, accessible via Deno.env or process.env",
-                      "type": "string"
-                    },
-                    "description": {
-                      "anyOf": [
-                        {
-                          "maxLength": 1024,
-                          "description": "Optional description of the environment variable",
-                          "type": "string"
-                        },
-                        {
-                          "type": "null"
-                        }
-                      ]
-                    },
-                    "updatedAt": {
-                      "format": "date-time",
-                      "type": "string"
-                    },
-                    "createdAt": {
-                      "format": "date-time",
-                      "type": "string"
-                    }
-                  }
+                  "$ref": "#/components/schemas/TEnvironmentVariable"
                 }
               }
             }
@@ -3715,23 +3606,23 @@
           "content": {
             "application/json": {
               "schema": {
-                "description": "Inputs to update a environment variable",
                 "type": "object",
                 "required": [
                   "value"
                 ],
                 "properties": {
                   "value": {
+                    "type": "string",
                     "description": "Value of the environment variable.",
-                    "maxLength": 8192,
-                    "type": "string"
+                    "maxLength": 8192
                   },
                   "description": {
+                    "type": "string",
                     "description": "Optional description of the environment variable",
-                    "maxLength": 1024,
-                    "type": "string"
+                    "maxLength": 1024
                   }
-                }
+                },
+                "description": "Inputs to update a environment variable"
               }
             }
           },
@@ -3741,8 +3632,8 @@
         "parameters": [
           {
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             },
             "in": "path",
             "name": "val_id",
@@ -3764,42 +3655,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "description": "An environment variable",
-                  "type": "object",
-                  "required": [
-                    "key",
-                    "description",
-                    "updatedAt",
-                    "createdAt"
-                  ],
-                  "properties": {
-                    "key": {
-                      "maxLength": 8192,
-                      "pattern": "^[A-Za-z_][A-Z0-9a-z_]*$",
-                      "description": "Name or key of the environment variable, accessible via Deno.env or process.env",
-                      "type": "string"
-                    },
-                    "description": {
-                      "anyOf": [
-                        {
-                          "maxLength": 1024,
-                          "description": "Optional description of the environment variable",
-                          "type": "string"
-                        },
-                        {
-                          "type": "null"
-                        }
-                      ]
-                    },
-                    "updatedAt": {
-                      "format": "date-time",
-                      "type": "string"
-                    },
-                    "createdAt": {
-                      "format": "date-time",
-                      "type": "string"
-                    }
-                  }
+                  "$ref": "#/components/schemas/TEnvironmentVariable"
                 }
               }
             }
@@ -3821,8 +3677,8 @@
         "parameters": [
           {
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             },
             "in": "path",
             "name": "val_id",
@@ -3871,8 +3727,8 @@
         "parameters": [
           {
             "schema": {
-              "minimum": 0,
-              "type": "integer"
+              "type": "integer",
+              "minimum": 0
             },
             "in": "query",
             "name": "version",
@@ -3881,8 +3737,8 @@
           },
           {
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             },
             "in": "query",
             "name": "branch_id",
@@ -3900,8 +3756,8 @@
           },
           {
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             },
             "in": "path",
             "name": "val_id",
@@ -3955,8 +3811,8 @@
             "content": {
               "application/octet-stream": {
                 "schema": {
-                  "format": "string",
-                  "type": "string"
+                  "type": "string",
+                  "format": "string"
                 }
               }
             }
@@ -4086,9 +3942,9 @@
         "parameters": [
           {
             "schema": {
+              "type": "integer",
               "minimum": 0,
-              "default": 0,
-              "type": "integer"
+              "default": 0
             },
             "in": "query",
             "name": "offset",
@@ -4097,10 +3953,10 @@
           },
           {
             "schema": {
+              "type": "integer",
               "minimum": 1,
               "maximum": 100,
-              "default": 20,
-              "type": "integer"
+              "default": 20
             },
             "in": "query",
             "name": "limit",
@@ -4119,7 +3975,6 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "description": "A paginated result set",
                   "type": "object",
                   "required": [
                     "data",
@@ -4135,7 +3990,8 @@
                     "links": {
                       "$ref": "#/components/schemas/PaginationLinks"
                     }
-                  }
+                  },
+                  "description": "A paginated result set"
                 }
               }
             }
@@ -4159,9 +4015,9 @@
         "parameters": [
           {
             "schema": {
+              "type": "integer",
               "minimum": 0,
-              "default": 0,
-              "type": "integer"
+              "default": 0
             },
             "in": "query",
             "name": "offset",
@@ -4170,10 +4026,10 @@
           },
           {
             "schema": {
+              "type": "integer",
               "minimum": 1,
               "maximum": 100,
-              "default": 20,
-              "type": "integer"
+              "default": 20
             },
             "in": "query",
             "name": "limit",
@@ -4187,7 +4043,6 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "description": "A paginated result set",
                   "type": "object",
                   "required": [
                     "data",
@@ -4203,7 +4058,8 @@
                     "links": {
                       "$ref": "#/components/schemas/PaginationLinks"
                     }
-                  }
+                  },
+                  "description": "A paginated result set"
                 }
               }
             }
@@ -4227,8 +4083,8 @@
         "parameters": [
           {
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             },
             "in": "path",
             "name": "org_id",
@@ -4275,8 +4131,8 @@
                 ],
                 "properties": {
                   "team_id": {
-                    "description": "The Slack team/workspace ID (e.g., 'T9TK3CUKW')",
-                    "type": "string"
+                    "type": "string",
+                    "description": "The Slack team/workspace ID (e.g., 'T9TK3CUKW')"
                   }
                 }
               }
@@ -4296,8 +4152,8 @@
                   ],
                   "properties": {
                     "access_token": {
-                      "description": "A valid Slack access token",
-                      "type": "string"
+                      "type": "string",
+                      "description": "A valid Slack access token"
                     }
                   }
                 }
@@ -4383,8 +4239,8 @@
                 ],
                 "properties": {
                   "email": {
-                    "description": "The Google account email",
-                    "type": "string"
+                    "type": "string",
+                    "description": "The Google account email"
                   }
                 }
               }
@@ -4404,15 +4260,15 @@
                   ],
                   "properties": {
                     "access_token": {
-                      "description": "A valid Google access token",
-                      "type": "string"
+                      "type": "string",
+                      "description": "A valid Google access token"
                     },
                     "granted_scopes": {
-                      "description": "The scopes granted by the user during OAuth (may be a subset of requested scopes)",
                       "type": "array",
                       "items": {
                         "type": "string"
-                      }
+                      },
+                      "description": "The scopes granted by the user during OAuth (may be a subset of requested scopes)"
                     }
                   }
                 }
