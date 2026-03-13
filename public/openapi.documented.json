@@ -33,7 +33,6 @@
             "description": "The ID of this user"
           },
           "type": {
-            "type": "string",
             "enum": [
               "user",
               "org"
@@ -216,7 +215,6 @@
             "format": "date-time"
           },
           "privacy": {
-            "type": "string",
             "enum": [
               "public",
               "unlisted",
@@ -225,7 +223,6 @@
             "description": "This resource's privacy setting. Unlisted resources do not appear on profile pages or elsewhere, but you can link to them."
           },
           "type": {
-            "type": "string",
             "enum": [
               "interval",
               "http",
@@ -386,7 +383,6 @@
             "format": "date-time"
           },
           "privacy": {
-            "type": "string",
             "enum": [
               "public",
               "unlisted",
@@ -395,7 +391,6 @@
             "description": "This resource's privacy setting. Unlisted resources do not appear on profile pages or elsewhere, but you can link to them."
           },
           "type": {
-            "type": "string",
             "enum": [
               "interval",
               "http",
@@ -541,7 +536,6 @@
             "format": "date-time"
           },
           "privacy": {
-            "type": "string",
             "enum": [
               "public",
               "unlisted",
@@ -666,7 +660,6 @@
           "role": {
             "anyOf": [
               {
-                "type": "string",
                 "enum": [
                   "owner",
                   "member"
@@ -732,7 +725,6 @@
             "format": "date-time"
           },
           "privacy": {
-            "type": "string",
             "enum": [
               "public",
               "unlisted",
@@ -933,7 +925,6 @@
             "format": "date-time"
           },
           "type": {
-            "type": "string",
             "enum": [
               "directory",
               "file",
@@ -1013,7 +1004,6 @@
             "format": "date-time"
           },
           "type": {
-            "type": "string",
             "enum": [
               "directory",
               "file",
@@ -1174,7 +1164,6 @@
                         "tier": {
                           "anyOf": [
                             {
-                              "type": "string",
                               "enum": [
                                 "free",
                                 "pro"
@@ -1661,7 +1650,6 @@
                     }
                   },
                   "mode": {
-                    "type": "string",
                     "enum": [
                       "write",
                       "read",
@@ -2586,7 +2574,6 @@
         "parameters": [
           {
             "schema": {
-              "type": "string",
               "enum": [
                 "public",
                 "unlisted",
@@ -2698,7 +2685,6 @@
                     "maxLength": 64
                   },
                   "privacy": {
-                    "type": "string",
                     "enum": [
                       "public",
                       "unlisted",
@@ -3167,7 +3153,6 @@
                         "description": "File and val content. An empty string will create an empty file. When creating a directory, the content should be null or undefined."
                       },
                       "type": {
-                        "type": "string",
                         "enum": [
                           "file",
                           "interval",
@@ -3342,7 +3327,6 @@
                         "description": "File and val content. An empty string will create an empty file. When creating a directory, the content should be null or undefined."
                       },
                       "type": {
-                        "type": "string",
                         "enum": [
                           "file",
                           "interval",
