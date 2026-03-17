@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@astrojs/check": "0.9.7",
-    "@astrojs/starlight": "0.37.7",
+    "@astrojs/starlight": "0.38.1",
     "@fontsource/ibm-plex-sans": "^5.2.8",
     "astro": "^5.17.3",
     "hast-util-select": "^6.0.4",
