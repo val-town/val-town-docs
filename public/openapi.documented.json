@@ -1166,7 +1166,8 @@
                             {
                               "enum": [
                                 "free",
-                                "pro"
+                                "pro",
+                                "business"
                               ],
                               "description": "Your account tier"
                             },
