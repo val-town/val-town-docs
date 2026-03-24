@@ -2297,7 +2297,9 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "description": "Include only logs from a given trace ID"
+                "description": "Include only logs from a given trace ID",
+                "maxLength": 32,
+                "minLength": 32
               }
             },
             "in": "query",
