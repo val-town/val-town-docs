@@ -3896,7 +3896,7 @@
             "in": "path",
             "name": "val_name",
             "required": true,
-            "description": "Name of the val you’re looking for"
+            "description": "Name of the val you're looking for"
           }
         ],
         "responses": {
