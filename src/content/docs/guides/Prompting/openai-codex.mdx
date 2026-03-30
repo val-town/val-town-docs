@@ -8,6 +8,21 @@ Work with Val Town in Codex using our [CLI](#cli) or [MCP](#mcp) server. You can
 - List or examine your vals and read your sqlite data, logs, and almost any of your Val Town data
 - Edit your vals and even agentically iterate, viewing the output and logs until it's done
 
+## MCP
+
+1. Install [OpenAI Codex](https://developers.openai.com/codex/cli) and log in
+2. [Connect Codex](https://developers.openai.com/codex/mcp/#connect-codex-to-an-mcp-server) to the Val Town MCP server
+
+```
+codex mcp add val-town --url https://api.val.town/v3/mcp
+```
+
+3. Login to the MCP server:
+
+```
+codex mcp login val_town
+```
+
 ## CLI
 
 1. Install [OpenAI Codex](https://developers.openai.com/codex/cli) and log in
@@ -25,25 +40,3 @@ deno install -grAf jsr:@valtown/vt
 
 _\* Running `vt create|remix|clone` will prompt you to add editor files, including `AGENTS.md` with our [system prompt](https://www.val.town/x/valdottown/Townie/code/prompts/system_prompt.txt), which Codex should recognize._
 
-## MCP
-
-1. Install [OpenAI Codex](https://developers.openai.com/codex/cli) and log in
-2. [Connect Codex](https://developers.openai.com/codex/mcp/#connect-codex-to-an-mcp-server) to the Val Town MCP server
-
-```
-codex mcp add val-town --url https://api.val.town/v3/mcp
-```
-
-3. Set up a [Val Town API token](https://www.val.town/settings/api/new) in `~/.codex/config.toml` and export it (or persist in `~/.zshrc` or equivalent)
-
-```toml
-[mcp_servers.val-town]
-url = "https://api.val.town/v3/mcp"
-bearer_token_env_var = "VAL_TOWN_API_TOKEN"
-```
-
-```sh
-export VAL_TOWN_TOKEN="vtwn_..."
-```
-
-4. Run `codex`
