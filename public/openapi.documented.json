@@ -1326,6 +1326,7 @@
         ],
         "description": "Store data in blob storage",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
@@ -1399,7 +1400,7 @@
         "x-codeSamples": [
           {
             "lang": "JavaScript",
-            "source": "import fs from 'fs';\nimport ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: process.env['VAL_TOWN_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.blobs.store('x');\n\nconsole.log(response);"
+            "source": "import fs from 'fs';\nimport ValTown from '@valtown/sdk';\n\nconst client = new ValTown({\n  bearerToken: process.env['VAL_TOWN_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.blobs.store('x', { blob: fs.createReadStream('path/to/file') });\n\nconsole.log(response);"
           }
         ]
       },
@@ -1487,6 +1488,7 @@
         ],
         "description": "Execute a single SQLite statement and return results",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
@@ -1560,7 +1562,6 @@
               }
             }
           },
-          "required": true,
           "description": "A single statement to run"
         },
         "security": [
@@ -1596,6 +1597,7 @@
         ],
         "description": "Execute a batch of SQLite statements and return results for all of them",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
@@ -1668,7 +1670,6 @@
               }
             }
           },
-          "required": true,
           "description": "A set of statements to be run in a single batch"
         },
         "security": [
@@ -1725,6 +1726,7 @@
         ],
         "description": "Send emails",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
@@ -2668,6 +2670,7 @@
         ],
         "description": "Create a new val",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
@@ -2709,7 +2712,6 @@
               }
             }
           },
-          "required": true,
           "description": "Val information provided to create a new val"
         },
         "responses": {
@@ -2925,6 +2927,7 @@
         ],
         "description": "Create a new branch",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
@@ -2953,7 +2956,6 @@
               }
             }
           },
-          "required": true,
           "description": "Branch information provided to create a new project"
         },
         "parameters": [
@@ -3121,6 +3123,7 @@
         ],
         "description": "Create a new file, project val or directory",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
@@ -3316,6 +3319,7 @@
         ],
         "description": "Update a file's content",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
@@ -3507,6 +3511,7 @@
         ],
         "description": "Create a new environment variable scoped to this project.",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
@@ -3537,7 +3542,6 @@
               }
             }
           },
-          "required": true,
           "description": "Inputs for an environment variable"
         },
         "parameters": [
@@ -3590,6 +3594,7 @@
         ],
         "description": "Update a environment variable scoped to this project.",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
@@ -3613,7 +3618,6 @@
               }
             }
           },
-          "required": true,
           "description": "Inputs to update a environment variable"
         },
         "parameters": [
@@ -4110,6 +4114,7 @@
         ],
         "description": "Get a valid Slack access token for a connected workspace. Automatically refreshes the token if expired.",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
@@ -4125,8 +4130,7 @@
                 }
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
@@ -4218,6 +4222,7 @@
         ],
         "description": "Get a valid Google access token for a connected Google account. Automatically refreshes the token if expired.",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
@@ -4233,8 +4238,7 @@
                 }
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
