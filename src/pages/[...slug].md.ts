@@ -4,7 +4,7 @@ import type { APIRoute } from "astro";
 export async function getStaticPaths() {
   const docs = await getCollection("docs");
   return docs.map((doc) => ({
-    params: { slug: doc.slug },
+    params: { slug: doc.id },
     props: doc,
   }));
 }
@@ -20,7 +20,7 @@ export const GET: APIRoute = async ({ params }) => {
     const docs = await getCollection("docs");
 
     // Find the matching document
-    const doc = docs.find((d) => d.slug === params.slug);
+    const doc = docs.find((d) => d.id === params.slug);
 
     if (!doc) {
       return new Response("Document not found", { status: 404 });
