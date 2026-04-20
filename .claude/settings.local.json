@@ -1,0 +1,5 @@
+{
+  "permissions": {
+    "allow": ["Bash(npm ls:*)", "Bash(npx astro:*)"]
+  }
+}

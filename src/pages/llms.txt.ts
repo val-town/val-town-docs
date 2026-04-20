@@ -26,7 +26,7 @@ export const GET: APIRoute = async () => {
   });
 
   docs.forEach((doc) => {
-    const section = doc.slug.split("/")[0];
+    const section = doc.id.split("/")[0];
     if (section !== "index" && section in SECTIONS) {
       docsBySection[section as SectionKey].push(doc);
     }
@@ -44,7 +44,7 @@ export const GET: APIRoute = async () => {
       const description = doc.data.description
         ? `: ${doc.data.description}`
         : "";
-      content += `- [${doc.data.title}](https://docs.val.town/${doc.slug}.md)${description}\n`;
+      content += `- [${doc.data.title}](https://docs.val.town/${doc.id}.md)${description}\n`;
     }
 
     content += "\n";
