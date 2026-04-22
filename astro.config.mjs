@@ -23,6 +23,7 @@ export default defineConfig({
         Footer: "./src/components/Footer.astro",
         PageTitle: "./src/components/PageTitle.astro",
       },
+      routeMiddleware: "./src/route-middleware.ts",
       editLink: {
         baseUrl: "https://github.com/val-town/val-town-docs/edit/main/",
       },
