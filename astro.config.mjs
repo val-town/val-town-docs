@@ -22,6 +22,7 @@ export default defineConfig({
       components: {
         Footer: "./src/components/Footer.astro",
         PageTitle: "./src/components/PageTitle.astro",
+        SiteTitle: "./src/components/SiteTitle.astro",
       },
       editLink: {
         baseUrl: "https://github.com/val-town/val-town-docs/edit/main/",
