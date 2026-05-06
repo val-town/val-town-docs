@@ -1,100 +1,84 @@
 ---
-title: Val Town Docs
-description: Create deployed apps, APIs, sites, and crons with JavaScript
+title: Welcome to Val Town
+description: Deploy agents, APIs, static sites, apps, and crons with JavaScript
 ---
 
 import { LinkCard, CardGrid } from "@astrojs/starlight/components";
+import { Code } from "@astrojs/starlight/components";
 
-Val Town is a collaborative website to write and scale serverless JavaScript.
+Val Town lets you (or your agent) write and run JavaScript, automatically deployed to a live URL in \<100ms. Create APIs, crons, agents, static sites, apps, email handlers, and more in your browser (or from your LLM). For example, use Val Town in Claude Code with our [MCP server](/guides/prompting/mcp/):
 
-Create APIs, crons, and store data – in your browser, deployed in milliseconds.
-
-## Where to start
-
-If you're new to Val Town and want to learn the core building blocks first, read: [What is a val?](/vals/)
-
-If you'd prefer to jump right into the code, we recommend:
-
-<LinkCard
-  title="Input, Val, Output (I/V/O)"
-  description="Set up handy automations like user signup alerts in Slack"
-  href="/guides/in-val-out"
+<Code
+  code={`claude mcp add --transport http val-town https://api.val.town/v3/mcp`}
+  lang="bash"
 />
 
-<CardGrid>
-  <LinkCard
-    title="Your first HTTP endpoint"
-    description="Create a link-in-bio website"
-    href="/guides/first-website"
-  />
-  <LinkCard
-    title="Your first cron val"
-    description="Send yourself a daily weather email"
-    href="/guides/first-cron"
-  />
-</CardGrid>
+If you're new here and want to learn fundamentals the old fashioned way, read: [What is a val?](/vals/)
 
-## Learn more
-
-##### Local development
-
-Edit your vals from your favorite IDE (VSCode, Cursor, vim, etc) via our CLI or MCP server.
+## Features
 
 <CardGrid>
   <LinkCard
-    title="Val Town CLI"
-    description="Deploy vals from your terminal"
-    href="https://github.com/val-town/vt"
+    title="HTTP"
+    description="For APIs, websites, webhooks, etc."
+    href="/vals/http"
   />
   <LinkCard
-    title="LLM prompting (MCP, CLI)"
-    description="Edit and deploy vals via LLMs"
-    href="/guides/prompting"
+    title="Cron"
+    description="Run code on a schedule"
+    href="/vals/cron"
   />
-</CardGrid>
-
-##### Val Town Standard Library
-
-Our standard library includes some hosted services for data storage, email, and AI.
-
-<CardGrid>
+  <LinkCard
+    title="Email"
+    description="Handle incoming emails"
+    href="/vals/email"
+  />
+  <LinkCard
+    title="Townie (AI)"
+    description="Val Town's coding agent"
+    href="/guides/prompting/townie"
+  />
   <LinkCard
     title="SQLite"
     description="Store and retrieve structured data"
     href="/reference/std/sqlite"
   />
   <LinkCard
-    title="Blob Storage"
+    title="Blob"
     description="Store and retrieve any data"
     href="/reference/std/blob"
   />
-  <LinkCard
-    title="OpenAI"
-    description="Use the OpenAI API"
-    href="/reference/std/openai"
-  />
-  <LinkCard
-    title="Email"
-    description="Send emails"
-    href="/reference/std/email"
-  />
 </CardGrid>
 
-##### API and SDK
+These core features give you a sense of Val Town's core building blocks, but there are many more features like [branching](/vals/branches) and [remixing](/vals/remixes), [environment variables](/reference/environment-variables/), and much more.
+
+## Use cases
 
 <CardGrid>
   <LinkCard
-    title="REST API"
-    description="Access Val Town programmatically"
-    href="/reference/api/"
+    title="Demo your product or API"
+    description="Like OpenAI demo'ing their Realtime API on Val Town"
+    href="https://val.town/x/jubertioai/hello-realtime"
   />
   <LinkCard
-    title="JavaScript SDK"
-    description="Interact with Val Town from JavaScript"
-    href="https://sdk.val.town"
+    title="BYOA: Bring Your Own Agent"
+    description="Customize agents without spending time on deployment"
+    href="https://blog.val.town/byoa"
+  />
+  <LinkCard
+    title="Lead qualification"
+    description="Qualify, enrich, and act on leads from any source"
+    href="https://www.val.town/x/templates/leads"
+  />
+  <LinkCard
+    title="Social listening"
+    description="Track mentions of your company on social media"
+    href="https://blog.val.town/octolens"
   />
 </CardGrid>
 
+These examples only scratch the surface of what you can do with Val Town. Check out our [templates](https://www.val.town/templates) for more ideas, and for any app that you want to be instantly deployed to a URL, consider Val Town.
+
 ## Contact us
 
-We're here to help! If you have any questions or feedback, please reach out to us on [Discord](https://discord.gg/dHv45uN5RY) or [email](mailto:docs-help@val.town).
+We're here to help! If you have questions or feedback, please reach out to us on [Discord](https://discord.gg/dHv45uN5RY) or [email](mailto:docs-help@val.town).

@@ -1,7 +1,6 @@
 import starlight from "@astrojs/starlight";
 import { defineConfig } from "astro/config";
 import starlightLinksValidator from "starlight-links-validator";
-import { valTownOpenButton } from "./plugins/val-town-open-button.mjs";
 
 // https://astro.build/config
 export default defineConfig({
@@ -95,20 +94,30 @@ export default defineConfig({
               ],
             },
             {
-              label: "Branches",
-              link: "vals/branches",
-            },
-            {
-              label: "Remixes",
-              link: "vals/remixes",
-            },
-            {
-              label: "Pull Requests",
-              link: "vals/pull-requests",
-            },
-            {
-              label: "Limitations",
-              link: "vals/limitations",
+              label: "Collaboration",
+              collapsed: true,
+              items: [
+                {
+                  label: "Organizations",
+                  link: "vals/organizations",
+                },
+                {
+                  label: "Branches",
+                  link: "vals/branches",
+                },
+                {
+                  label: "Remixes",
+                  link: "vals/remixes",
+                },
+                {
+                  label: "Pull Requests",
+                  link: "vals/pull-requests",
+                },
+                {
+                  label: "History",
+                  link: "vals/history",
+                },
+              ],
             },
           ],
         },
@@ -194,8 +203,33 @@ export default defineConfig({
         },
         {
           label: "Troubleshooting",
-          autogenerate: { directory: "troubleshooting" },
           collapsed: true,
+          items: [
+            {
+              label: "Blocked bots",
+              link: "troubleshooting/bot-rate-limiting",
+            },
+            {
+              label: "CORS",
+              link: "troubleshooting/cors",
+            },
+            {
+              label: "Exports",
+              link: "troubleshooting/exports",
+            },
+            {
+              label: "Permission errors",
+              link: "troubleshooting/permission-errors",
+            },
+            {
+              label: "Serialization",
+              link: "troubleshooting/serialization",
+            },
+            {
+              label: "Limitations",
+              link: "vals/limitations",
+            },
+          ],
         },
         {
           label: "Contact",
@@ -226,9 +260,6 @@ export default defineConfig({
           },
         },
       ],
-      expressiveCode: {
-        plugins: [valTownOpenButton()],
-      },
     }),
   ],
 });
