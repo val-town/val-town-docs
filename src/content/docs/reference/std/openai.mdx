@@ -26,7 +26,7 @@ const completion = await openai.chat.completions.create({
     { role: "user", content: "Say hello in a creative way" },
   ],
   model: "gpt-5-nano",
-  max_tokens: 100,
+  max_completion_tokens: 16000,
 });
 
 console.log(completion.choices[0].message.content);
