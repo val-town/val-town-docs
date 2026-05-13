@@ -1501,7 +1501,8 @@
                     "anyOf": [
                       {
                         "type": "string",
-                        "description": "Simple SQL statement to run in SQLite"
+                        "description": "Simple SQL statement to run in SQLite",
+                        "maxLength": 100000
                       },
                       {
                         "type": "object",
@@ -1512,7 +1513,8 @@
                         "properties": {
                           "sql": {
                             "type": "string",
-                            "description": "SQL statement, with ? placeholders for arguments"
+                            "description": "SQL statement, with ? placeholders for arguments",
+                            "maxLength": 100000
                           },
                           "args": {
                             "anyOf": [
@@ -1521,10 +1523,12 @@
                                 "items": {
                                   "title": "TursoValue",
                                   "description": "A value to be used as a parameter"
-                                }
+                                },
+                                "maxItems": 500
                               },
                               {
                                 "type": "object",
+                                "maxProperties": 500,
                                 "additionalProperties": {
                                   "title": "TursoValue",
                                   "description": "A value to be used as a parameter"
@@ -1612,7 +1616,8 @@
                       "anyOf": [
                         {
                           "type": "string",
-                          "description": "Simple SQL statement to run in SQLite"
+                          "description": "Simple SQL statement to run in SQLite",
+                          "maxLength": 100000
                         },
                         {
                           "type": "object",
@@ -1623,7 +1628,8 @@
                           "properties": {
                             "sql": {
                               "type": "string",
-                              "description": "SQL statement, with ? placeholders for arguments"
+                              "description": "SQL statement, with ? placeholders for arguments",
+                              "maxLength": 100000
                             },
                             "args": {
                               "anyOf": [
@@ -1632,10 +1638,12 @@
                                   "items": {
                                     "title": "TursoValue",
                                     "description": "A value to be used as a parameter"
-                                  }
+                                  },
+                                  "maxItems": 500
                                 },
                                 {
                                   "type": "object",
+                                  "maxProperties": 500,
                                   "additionalProperties": {
                                     "title": "TursoValue",
                                     "description": "A value to be used as a parameter"
@@ -1650,7 +1658,8 @@
                           "description": "A parameterized SQL query. See https://docs.turso.tech/sdk/ts/reference#batch-transactions for reference"
                         }
                       ]
-                    }
+                    },
+                    "maxItems": 500
                   },
                   "mode": {
                     "enum": [
@@ -1739,7 +1748,8 @@
                   "from": {
                     "anyOf": [
                       {
-                        "type": "string"
+                        "type": "string",
+                        "maxLength": 320
                       },
                       {
                         "type": "object",
@@ -1748,10 +1758,12 @@
                         ],
                         "properties": {
                           "name": {
-                            "type": "string"
+                            "type": "string",
+                            "maxLength": 256
                           },
                           "email": {
-                            "type": "string"
+                            "type": "string",
+                            "maxLength": 320
                           }
                         },
                         "title": "EmailNameAndAddress",
@@ -1763,6 +1775,7 @@
                   "headers": {
                     "type": "object",
                     "description": "A set of headers to include the email that you send",
+                    "maxProperties": 50,
                     "additionalProperties": {
                       "type": "string"
                     }
@@ -1772,7 +1785,8 @@
                       {
                         "anyOf": [
                           {
-                            "type": "string"
+                            "type": "string",
+                            "maxLength": 320
                           },
                           {
                             "type": "object",
@@ -1781,10 +1795,12 @@
                             ],
                             "properties": {
                               "name": {
-                                "type": "string"
+                                "type": "string",
+                                "maxLength": 256
                               },
                               "email": {
-                                "type": "string"
+                                "type": "string",
+                                "maxLength": 320
                               }
                             },
                             "title": "EmailNameAndAddress",
@@ -1798,7 +1814,8 @@
                         "items": {
                           "anyOf": [
                             {
-                              "type": "string"
+                              "type": "string",
+                              "maxLength": 320
                             },
                             {
                               "type": "object",
@@ -1807,10 +1824,12 @@
                               ],
                               "properties": {
                                 "name": {
-                                  "type": "string"
+                                  "type": "string",
+                                  "maxLength": 256
                                 },
                                 "email": {
-                                  "type": "string"
+                                  "type": "string",
+                                  "maxLength": 320
                                 }
                               },
                               "title": "EmailNameAndAddress",
@@ -1819,7 +1838,8 @@
                           ],
                           "title": "EmailData"
                         },
-                        "title": "EmailDataList"
+                        "title": "EmailDataList",
+                        "maxItems": 50
                       }
                     ],
                     "title": "EmailDataInput",
@@ -1830,7 +1850,8 @@
                       {
                         "anyOf": [
                           {
-                            "type": "string"
+                            "type": "string",
+                            "maxLength": 320
                           },
                           {
                             "type": "object",
@@ -1839,10 +1860,12 @@
                             ],
                             "properties": {
                               "name": {
-                                "type": "string"
+                                "type": "string",
+                                "maxLength": 256
                               },
                               "email": {
-                                "type": "string"
+                                "type": "string",
+                                "maxLength": 320
                               }
                             },
                             "title": "EmailNameAndAddress",
@@ -1856,7 +1879,8 @@
                         "items": {
                           "anyOf": [
                             {
-                              "type": "string"
+                              "type": "string",
+                              "maxLength": 320
                             },
                             {
                               "type": "object",
@@ -1865,10 +1889,12 @@
                               ],
                               "properties": {
                                 "name": {
-                                  "type": "string"
+                                  "type": "string",
+                                  "maxLength": 256
                                 },
                                 "email": {
-                                  "type": "string"
+                                  "type": "string",
+                                  "maxLength": 320
                                 }
                               },
                               "title": "EmailNameAndAddress",
@@ -1877,7 +1903,8 @@
                           ],
                           "title": "EmailData"
                         },
-                        "title": "EmailDataList"
+                        "title": "EmailDataList",
+                        "maxItems": 50
                       }
                     ],
                     "title": "EmailDataInput",
@@ -1888,7 +1915,8 @@
                       {
                         "anyOf": [
                           {
-                            "type": "string"
+                            "type": "string",
+                            "maxLength": 320
                           },
                           {
                             "type": "object",
@@ -1897,10 +1925,12 @@
                             ],
                             "properties": {
                               "name": {
-                                "type": "string"
+                                "type": "string",
+                                "maxLength": 256
                               },
                               "email": {
-                                "type": "string"
+                                "type": "string",
+                                "maxLength": 320
                               }
                             },
                             "title": "EmailNameAndAddress",
@@ -1914,7 +1944,8 @@
                         "items": {
                           "anyOf": [
                             {
-                              "type": "string"
+                              "type": "string",
+                              "maxLength": 320
                             },
                             {
                               "type": "object",
@@ -1923,10 +1954,12 @@
                               ],
                               "properties": {
                                 "name": {
-                                  "type": "string"
+                                  "type": "string",
+                                  "maxLength": 256
                                 },
                                 "email": {
-                                  "type": "string"
+                                  "type": "string",
+                                  "maxLength": 320
                                 }
                               },
                               "title": "EmailNameAndAddress",
@@ -1935,7 +1968,8 @@
                           ],
                           "title": "EmailData"
                         },
-                        "title": "EmailDataList"
+                        "title": "EmailDataList",
+                        "maxItems": 50
                       }
                     ],
                     "title": "EmailDataInput",
@@ -1977,7 +2011,8 @@
                       },
                       "title": "AttachmentObject"
                     },
-                    "description": "A list of attachments to add to the email"
+                    "description": "A list of attachments to add to the email",
+                    "maxItems": 5
                   },
                   "replyToList": {
                     "anyOf": [
@@ -1988,10 +2023,12 @@
                         ],
                         "properties": {
                           "name": {
-                            "type": "string"
+                            "type": "string",
+                            "maxLength": 256
                           },
                           "email": {
-                            "type": "string"
+                            "type": "string",
+                            "maxLength": 320
                           }
                         },
                         "title": "EmailNameAndAddress",
@@ -2006,16 +2043,19 @@
                           ],
                           "properties": {
                             "name": {
-                              "type": "string"
+                              "type": "string",
+                              "maxLength": 256
                             },
                             "email": {
-                              "type": "string"
+                              "type": "string",
+                              "maxLength": 320
                             }
                           },
                           "title": "EmailNameAndAddress",
                           "description": "An email address and name"
                         },
-                        "title": "EmailList"
+                        "title": "EmailList",
+                        "maxItems": 10
                       }
                     ],
                     "title": "ReplyToList",
@@ -2109,7 +2149,8 @@
               "items": {
                 "type": "string",
                 "format": "uuid"
-              }
+              },
+              "maxItems": 20
             },
             "in": "query",
             "name": "branch_ids",
@@ -2302,7 +2343,8 @@
                 "description": "Include only logs from a given trace ID",
                 "maxLength": 32,
                 "minLength": 32
-              }
+              },
+              "maxItems": 100
             },
             "in": "query",
             "name": "trace_ids",
@@ -2324,7 +2366,8 @@
               "items": {
                 "type": "string",
                 "format": "uuid"
-              }
+              },
+              "maxItems": 20
             },
             "in": "query",
             "name": "branch_ids",
@@ -4125,7 +4168,8 @@
                 "properties": {
                   "team_id": {
                     "type": "string",
-                    "description": "The Slack team/workspace ID (e.g., 'T9TK3CUKW')"
+                    "description": "The Slack team/workspace ID (e.g., 'T9TK3CUKW')",
+                    "maxLength": 32
                   }
                 }
               }
@@ -4233,7 +4277,8 @@
                 "properties": {
                   "email": {
                     "type": "string",
-                    "description": "The Google account email"
+                    "description": "The Google account email",
+                    "maxLength": 320
                   }
                 }
               }
