@@ -53,3 +53,4 @@ Subdomains of these domains are in scope for the program.
 - Bugs on Vals themselves. Vals are user-controlled code and are not part of Val Town's product surface
 - Denial of Service or brute force attacks
 - Violating any laws or breaching any agreements in order to discover vulnerabilities
+- The ability to exceed soft limits
