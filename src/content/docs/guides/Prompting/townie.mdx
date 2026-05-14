@@ -5,9 +5,9 @@ sidebar:
   order: 3
 ---
 
-[Townie](https://val.town/townie) is Val Town's coding agent that can read, edit, and run your vals alongside you in the Val Town editor.
+[Townie](https://val.town/townie) is Val Town's in-browser coding agent. Pretty much anything you can do in the Val Town UI, Townie can do: read, write, and run code; read SQLite, blob storage, logs, and environment variables; schedule crons; view version history, create branches; and more.
 
-Powered by the Claude 4.5 family and our [MCP server](/guides/prompting/mcp). Available on Val Town Pro and Teams plans. Click the little robot in the bottom right corner on [val.town](https://val.town) to get started.
+Powered by the Claude 4.6 family and our [MCP server](/guides/prompting/mcp). Available on Val Town Pro and Teams plans. Click the little robot in the top right corner on [val.town](https://val.town) to get started.
 
 ![Townie](./townie.png)
 
@@ -15,17 +15,22 @@ Powered by the Claude 4.5 family and our [MCP server](/guides/prompting/mcp). Av
 
 ### Models
 
-We're using the latest Anthropic models in the [Claude 4.5 family](https://platform.claude.com/docs/en/about-claude/models/overview).
+We're using the latest Anthropic models in the [Claude 4.6 family](https://platform.claude.com/docs/en/about-claude/models/overview).
 
-1. **Opus 4.5**
-2. **Sonnet 4.5 (default)**
-3. **Haiku 4.5**
+1. **Opus 4.6**
+2. **Sonnet 4.6 (default)**
+3. **Haiku 4.6**
 
 ### Modes
 
 1. **Normal**: Townie asks you to approve before writes
 2. **Plan**: Townie as your read-only thinking partner
 3. **Allow all edits**: Townie YOLOs changes to your vals
+4. **Slow**: Townie keeps you very involved
+
+:::note
+Learn about Slow mode in our blog post: [blog.val.town/slow-mode](https://blog.val.town/slow-mode). The idea is that you should understand how your code works and learn as you build rather than turning your brain off.
+:::
 
 ### Tools
 
@@ -33,15 +38,23 @@ Townie has full access to our [MCP server](/guides/prompting/mcp), so it can do 
 
 - List, search, & create vals
 - Read, write, & run files
+- Fetch a val's HTTP endpoint
 - View history, create & switch branches, revert versions
 - Query your SQLite databases & Blob storage
 - Read & write environment variables
-- Read logs
+- Read logs (e.g. to debug)
 - Read & configure cron jobs
+- Remix vals
+- List orgs
+- ...
 
 ### System prompt
 
 Our [system prompt](https://val.town/townie/system-prompt) is public. It provides Townie full context on how to use the Val Town platform—e.g. available [tools](#tools), the Val Town [runtime](/reference/runtime/), our standard library, different types of vals, etc.
+
+### Context
+
+Townie automatically attaches the val you're currently viewing as context. You can manually edit what vals are in context by selecting that menu in the chat bar.
 
 ### Keyboard shortcuts & slash commands
 
@@ -62,19 +75,9 @@ As when coding without AI, you can use Val Town's [versioning and collaboration]
 
 Townie is available on Val Town [Teams](https://www.val.town/teams) and [Pro](https://www.val.town/pricing) plans with $100 and $5 monthly usage included, respectively.
 
-| 🟩 Teams    | 🟨 Pro    | 🟥 Free       |
-| ----------- | --------- | ------------- |
-| $100/mo cap | $5/mo cap | Not available |
-
-## Prompting guide
-
-_Last updated January 28th, 2026._
-
-- **Sonnet versus Haiku versus Opus**: Haiku is surprisingly good (better than state of the art a year ago), super fast, and quite cheap. Sonnet is a good default, better than Haiku for coding and complex agent work, but 3x more expensive than Haiku and a bit slower. Opus is best for planning complex stuff, but it's slower and 5x more expensive than Haiku. .
-- **Normal versus Plan versus YOLO**: Normal mode is the default, good for adding on a discrete feature or fixing a single bug. In Normal mode Townie will research then ask you to approve code changes. Plan mode is good for larger changes, like starting a new project or thinking through a tricky bug, when you don't want code suggestions just yet. Allow all edits (aka YOLO mode) is best reserved for low stakes work where you "fully give in to the vibes" and "forget that the code even exists." Use YOLO mode for stuff like prototypes or internal dashboards that don't need to look perfect—anything you don't need to maintain or simple enough to redo from scratch.
-- **Branching**: Townie can create and switch branches so that you can approve changes safely without accidentally breaking prod (`main` branch on your val).
-- **Debugging**: Townie can see what file you have open in the val editor, so you can treat Townie as your co-worker over your shoulder pair programming with you. Townie can also read your val's logs, which is enormously helpful when trying to troubleshoot bugs and test fixes.
-- **Compaction**: when you run out of context, you can run `/compact` to have Townie summarize the chat to buy more context window. But compaction can be problematic. Try to keep convos short and to-the-point, and start new chat for discrete tasks. Just like you wouldn't want to code with 1000 open tabs, models don't like coding with lots in their context window. Run `/context` to check how much of the window you've used.
+| 🟩 Teams    | 🟨 Pro    | 🟥 Free            |
+| ----------- | --------- | ------------------ |
+| $100/mo cap | $5/mo cap | $1 one-time credit |
 
 ## Learn more
 
