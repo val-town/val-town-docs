@@ -52,4 +52,7 @@ Subdomains of these domains are in scope for the program.
 - Brute force login attempts
 - Bugs on Vals themselves. Vals are user-controlled code and are not part of Val Town's product surface
 - Denial of Service or brute force attacks
+- Bypassing or circumventing account-tier, plan, or usage limits (including via race conditions or multiple-account creation). These are soft limits enforced for product and billing reasons, not security boundaries, and are handled through our Terms of Service
+- Abuse of free-tier resources or trial accounts
+- Reports demonstrating only a missing or weak rate limit, without a concrete security impact (e.g. account compromise, cross-account data access)
 - Violating any laws or breaching any agreements in order to discover vulnerabilities
