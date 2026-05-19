@@ -27,6 +27,10 @@ Please email findings to [security@val.town](mailto:security@val.town).
   personal details to third parties without your permission.
 - We offer bug bounties as compensation, depending on the severity of
   the exploit found.
+- Bug bounties are awarded on a first-come, first-served basis. If we
+  receive multiple reports for the same vulnerability, only the first
+  report we receive will be eligible for a bounty; subsequent reports
+  for the same issue will be marked as duplicates.
 
 ## In-scope domains
 
