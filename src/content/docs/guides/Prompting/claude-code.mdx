@@ -1,6 +1,6 @@
 ---
 title: Claude Code
-description: Bring Val Town to Claude Code with the vt CLI or MCP
+description: Bring Val Town to Claude Code with the Val Town MCP server
 ---
 
 Work with Val Town in Claude Code using our [MCP](#mcp) server. You can ask Claude to:
@@ -8,9 +8,22 @@ Work with Val Town in Claude Code using our [MCP](#mcp) server. You can ask Clau
 - List or examine your vals and read your sqlite data, logs, and almost any of your Val Town data
 - Edit your vals and agentically iterate, viewing the output and logs until it's done
 
-If you prefer watching to reading, [here's a 90 second tutorial video](https://www.youtube.com/watch?v=ucQiiRNHCaM).
+## Plugin
+
+The easiest way to get started is installing the [Claude Code plugin for Val Town](https://github.com/val-town/plugins/tree/main):
+
+```
+/plugin marketplace add val-town/plugins
+/plugin install vals@valtown
+```
+
+This makes platform skills available to Claude and registers the hosted Val Town MCP server (https://api.val.town/v3/mcp). On first use of an MCP tool, Claude Code runs the OAuth flow in your browser.
+
+Each skill is a short markdown guide covering one platform topic (HTTP vals, cron/intervals, SQLite, email, OAuth, React UI, third-party integrations, templates).
 
 ## MCP
+
+You can also set up the Val Town MCP server directly. If you prefer watching to reading, [here's a 90 second tutorial video](https://www.youtube.com/watch?v=ucQiiRNHCaM).
 
 1. Install [Claude Code](https://docs.claude.com/en/docs/claude-code/quickstart)
 2. Install the Val Town MCP server:
