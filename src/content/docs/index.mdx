@@ -6,12 +6,11 @@ description: Deploy agents, APIs, static sites, apps, and crons with JavaScript
 import { LinkCard, CardGrid } from "@astrojs/starlight/components";
 import { Code } from "@astrojs/starlight/components";
 
-Val Town lets you (or your agent) write and run JavaScript, automatically deployed to a live URL in \<100ms. Create APIs, crons, agents, static sites, apps, email handlers, and more in your browser (or from your LLM). For example, use Val Town in Claude Code with our [MCP server](/guides/prompting/mcp/):
+Val Town lets you (or your agent) write and run JavaScript, automatically deployed to a live URL in \<100ms. Create APIs, crons, agents, static sites, apps, email handlers, and more in your browser (or from your LLM). The [Val Town agent plugin](/guides/prompting/plugin) supports Claude Code, Codex, and Cursor:
 
-<Code
-  code={`claude mcp add --transport http val-town https://api.val.town/v3/mcp`}
-  lang="bash"
-/>
+<Code code={`npx plugins add val-town/plugins`} lang="bash" />
+
+Learn more about [using AI in Val Town →](/guides/prompting/)
 
 If you're new here and want to learn fundamentals the old fashioned way, read: [What is a val?](/vals/)
 

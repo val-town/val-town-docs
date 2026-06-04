@@ -8,23 +8,30 @@ sidebar:
 import Val from "@components/Val.astro";
 import { LinkCard, CardGrid } from "@astrojs/starlight/components";
 
-Bring Val Town to your preferred AI tool, or code on Val Town with Townie.
+:::tip
+We recommend using [Townie](/guides/prompting/townie) or installing the [Val Town plugin](/guides/prompting/plugin), which bundles the MCP server and platform skills and works with Claude Code, Codex, and Cursor.
+:::
 
 <CardGrid>
   <LinkCard
+    title="Val Town Plugin ⭐️"
+    description="Val Town MCP server + Skills"
+    href="/guides/prompting/plugin"
+  />
+  <LinkCard
+    title="Townie ⭐️"
+    description="In-browser agent on val.town"
+    href="/guides/prompting/townie"
+  />
+  <LinkCard
     title="Val Town MCP"
-    description="Bring Val Town to your LLM of choice with our MCP server"
+    description="MCP server for any LLM"
     href="/guides/prompting/mcp"
   />
   <LinkCard
-    title="Val Town CLI"
-    description="Bring Val Town to your IDE/terminal with the CLI"
+    title="vt CLI"
+    description="CLI for Val Town"
     href="/guides/prompting/cli"
-  />
-  <LinkCard
-    title="Townie"
-    description="Code with AI directly on Val Town with Townie"
-    href="/guides/prompting/townie"
   />
 </CardGrid>
 
@@ -32,9 +39,19 @@ Bring Val Town to your preferred AI tool, or code on Val Town with Townie.
 
 <CardGrid>
   <LinkCard
-    title="Claude Code"
+    title="Claude Code ⭐️"
     description="Val Town + Claude Code"
     href="/guides/prompting/claude-code"
+  />
+  <LinkCard
+    title="Codex ⭐️"
+    description="Val Town + OpenAI Codex"
+    href="/guides/prompting/openai-codex"
+  />
+  <LinkCard
+    title="Cursor ⭐️"
+    description="Val Town + Cursor"
+    href="/guides/prompting/cursor"
   />
   <LinkCard
     title="Claude Web/Desktop"
@@ -45,16 +62,6 @@ Bring Val Town to your preferred AI tool, or code on Val Town with Townie.
     title="ChatGPT Web/Desktop"
     description="Val Town + ChatGPT"
     href="/guides/prompting/chatgpt"
-  />
-  <LinkCard
-    title="Codex"
-    description="Val Town + OpenAI Codex"
-    href="/guides/prompting/openai-codex"
-  />
-  <LinkCard
-    title="Cursor"
-    description="Val Town + Cursor"
-    href="/guides/prompting/cursor"
   />
   <LinkCard
     title="GitHub Copilot"
@@ -89,8 +96,4 @@ Are we missing your favorite LLM? Click "Edit page" to update these docs, or [as
 - Ask your LLM to edit vals and even agentically iterate
 - Broken code? Visit the `Versions` tab or `History` of your val to revert
 - Large changes? Use feature [branches](/vals/branches) and [merge](/vals/pull-requests) when stable
-- Need help? Ask in the [Val Town Discord](https://discord.val.town/) in the `#local-dev` channel
-
-:::caution
-As always, review your LLM's code for risks like prompt injection. The more permissions you grant your LLM, the more it can do with your Val Town data (SQLite, blob storage, etc.).
-:::
+- Need help? Ask in the Val Town [Discord server](https://discord.val.town/)
