@@ -1,14 +1,26 @@
 ---
-title: OpenAI Codex
+title: Codex
 description: Bring Val Town to OpenAI Codex with the vt CLI or MCP
+sidebar:
+  order: 6
 ---
 
-Work with Val Town in Codex using our [CLI](#cli) or [MCP](#mcp) server. You can ask Codex to:
+The easiest way to work with Val Town in Codex is to install the Val Town plugin:
+
+```bash
+codex plugin marketplace add val-town/plugins
+```
+
+You can ask Codex to:
 
 - List or examine your vals and read your sqlite data, logs, and almost any of your Val Town data
 - Edit your vals and even agentically iterate, viewing the output and logs until it's done
 
 ## MCP
+
+:::caution
+The plugin includes the Val Town MCP server _and_ skills, so we recommend that instead of the MCP server alone.
+:::
 
 1. Install [OpenAI Codex](https://developers.openai.com/codex/cli) and log in
 2. [Connect Codex](https://developers.openai.com/codex/mcp/#connect-codex-to-an-mcp-server) to the Val Town MCP server
@@ -25,6 +37,10 @@ codex mcp login val_town
 
 ## CLI
 
+:::caution
+We recommend the plugin, which includes the MCP server and skills, over the CLI.
+:::
+
 1. Install [OpenAI Codex](https://developers.openai.com/codex/cli) and log in
 2. Install the [Val Town CLI](https://github.com/val-town/vt) and log in
 
@@ -39,4 +55,3 @@ deno install -grAf jsr:@valtown/vt
 7. `codex` to start your Codex session
 
 _\* Running `vt create|remix|clone` will prompt you to add editor files, including `AGENTS.md` with our [system prompt](https://www.val.town/x/valdottown/Townie/code/prompts/system_prompt.txt), which Codex should recognize._
-

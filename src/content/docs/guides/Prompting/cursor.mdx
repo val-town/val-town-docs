@@ -1,14 +1,26 @@
 ---
 title: Cursor
 description: Bring Val Town to Cursor with the vt CLI
+sidebar:
+  order: 7
 ---
 
-Work with Val Town in Cursor using our [MCP](#mcp) server or [CLI](#cli). You can ask Cursor to:
+Install the [Val Town plugin](/guides/prompting/plugin) for Cursor:
+
+```bash
+/add-plugin valtown
+```
+
+You can ask Cursor to:
 
 - List or examine your vals and read your sqlite data, logs, and almost any of your Val Town data
 - Edit your vals and even agentically iterate, viewing the output and logs until it's done
 
 ## MCP
+
+:::caution
+The plugin includes the Val Town MCP server _and_ skills, so we recommend that instead of the MCP server alone.
+:::
 
 ![Cursor Settings](./cursor.png)
 
@@ -29,6 +41,10 @@ Work with Val Town in Cursor using our [MCP](#mcp) server or [CLI](#cli). You ca
    ```
 
 ## CLI
+
+:::caution
+We recommend the plugin, which includes the MCP server and skills, over the CLI.
+:::
 
 You can edit vals locally with Cursor and the Val Town CLI. The recommended workflow uses `vt watch`, which will automatically sync your changes to Val Town as you save files.
 

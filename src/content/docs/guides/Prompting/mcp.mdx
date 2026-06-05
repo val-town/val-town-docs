@@ -2,12 +2,14 @@
 title: MCP
 description: A guide to using the Val Town MCP server
 sidebar:
-  order: 2
+  order: 3
 ---
 
 import { Steps, CardGrid, LinkCard } from "@astrojs/starlight/components";
 
-Use the Val Town MCP server to work with Val Town in your preferred AI tool, e.g. with [Claude Code](/guides/prompting/claude-code#mcp). Our MCP server also powers [Townie](/guides/prompting/townie), which you can use in Val Town alongside the val editor.
+:::tip
+We recommend installing [Val Town plugin](/guides/prompting/plugin) instead of installing the MCP server directly because the plugin includes the MCP server _and_ platform skills.
+:::
 
 ## Setup
 
@@ -27,44 +29,10 @@ claude mcp add --transport http val-town https://api.val.town/v3/mcp
 
 In Claude, type `/mcp` to confirm that it's connected, and authenticate if necessary.
 
-## Popular tools
-
-<CardGrid>
-  <LinkCard
-    title="Claude Code"
-    description="Val Town MCP + Claude Code"
-    href="/guides/prompting/claude-code#mcp"
-  />
-  <LinkCard
-    title="Claude Web/Desktop"
-    description="Val Town MCP + Claude Web/Desktop"
-    href="/guides/prompting/claude#mcp"
-  />
-  <LinkCard
-    title="ChatGPT Web/Desktop"
-    description="Val Town MCP + ChatGPT"
-    href="/guides/prompting/chatgpt#mcp"
-  />
-  <LinkCard
-    title="Cursor"
-    description="Val Town MCP + Cursor"
-    href="/guides/prompting/cursor#mcp"
-  />
-  <LinkCard title="[Your LLM of choice]" description="Val Town MCP + ?" />
-</CardGrid>
-
-:::note
-Are we missing your favorite LLM? Click "Edit page" to update these docs, or [ask](https://discord.val.town/) [us](mailto:docs-help@val.town) to help.
-:::
-
 ## Tips, Troubleshooting
 
 - Ask your LLM to list or examine your vals or read sqlite data, logs, etc.
 - Ask your LLM to edit vals and even agentically iterate
 - Broken code? Visit the `Versions` tab or `History` of your val to revert
 - Large changes? Use feature [branches](/vals/branches) and [merge](/vals/pull-requests) when stable
-- Need help? Ask in the [Val Town Discord](https://discord.val.town/) in the `#local-dev` channel
-
-:::caution
-As always, review your LLM's code for risks like prompt injection. The more permissions you grant your LLM, the more it can do with your Val Town data (SQLite, blob storage, etc.).
-:::
+- Need help? Ask in the Val Town [Discord server](https://discord.val.town/)
