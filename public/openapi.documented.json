@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Val Town API",
-    "description": "Val Town’s public API\n\nOpenAPI JSON endpoint:\n\nhttps://api.val.town/openapi.json",
+    "description": "Val Town’s public API\n\nOpenAPI JSON endpoint:\n\nhttp://localhost:3001/openapi.json",
     "termsOfService": "https://www.val.town/termsofuse",
     "version": "1"
   },
@@ -1214,7 +1214,7 @@
     },
     "/v1/blob": {
       "get": {
-        "operationId": "blobsList",
+        "operationId": "v1blobsList",
         "tags": [
           "blobs"
         ],
@@ -1281,7 +1281,7 @@
     },
     "/v1/blob/{key}": {
       "get": {
-        "operationId": "blobsGet",
+        "operationId": "v1blobsGet",
         "tags": [
           "blobs"
         ],
@@ -1320,7 +1320,7 @@
         ]
       },
       "post": {
-        "operationId": "blobsStore",
+        "operationId": "v1blobsStore",
         "tags": [
           "blobs"
         ],
@@ -1377,19 +1377,14 @@
                 "schema": {
                   "type": "object",
                   "required": [
-                    "error",
-                    "message"
+                    "error"
                   ],
                   "properties": {
                     "error": {
-                      "type": "string",
-                      "enum": [
-                        "Bad Request"
-                      ]
+                      "type": "string"
                     },
                     "message": {
-                      "type": "string",
-                      "description": "Error message"
+                      "type": "string"
                     }
                   }
                 }
@@ -1405,7 +1400,7 @@
         ]
       },
       "delete": {
-        "operationId": "blobsDelete",
+        "operationId": "v1blobsDelete",
         "tags": [
           "blobs"
         ],
@@ -4150,6 +4145,206 @@
         ]
       }
     },
+    "/v2/blob": {
+      "get": {
+        "operationId": "v2blobsList",
+        "tags": [
+          "blobs"
+        ],
+        "description": "List blobs in your account",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "prefix",
+            "required": false,
+            "description": "If specified, only include blobs that start with this string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of blobs that you’ve stored",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "key"
+                    ],
+                    "properties": {
+                      "key": {
+                        "type": "string"
+                      },
+                      "size": {
+                        "type": "integer",
+                        "description": "Size in bytes of the object"
+                      },
+                      "lastModified": {
+                        "type": "string",
+                        "description": "Creation date of the object",
+                        "format": "date-time"
+                      }
+                    },
+                    "title": "BlobListingItem"
+                  },
+                  "description": "List of blobs that you’ve stored"
+                },
+                "example": [
+                  {
+                    "key": "hello_world",
+                    "size": 20,
+                    "lastModified": "2024-06-24T20:00:59.702Z"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/blob/{key}": {
+      "get": {
+        "operationId": "v2blobsGet",
+        "tags": [
+          "blobs"
+        ],
+        "description": "Get a blob’s contents.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            },
+            "in": "path",
+            "name": "key",
+            "required": true,
+            "description": "Key that uniquely identifies this blob"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Binary contents of the returned file",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "v2blobsStore",
+        "tags": [
+          "blobs"
+        ],
+        "description": "Store data in blob storage",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string",
+                "format": "binary",
+                "description": "Binary input data"
+              }
+            }
+          },
+          "description": "Binary input data"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            },
+            "in": "path",
+            "name": "key",
+            "required": true,
+            "description": "Key that uniquely identifies this blob"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "ok"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "error"
+                  ],
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "v2blobsDelete",
+        "tags": [
+          "blobs"
+        ],
+        "description": "Delete a blob",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            },
+            "in": "path",
+            "name": "key",
+            "required": true,
+            "description": "Key that uniquely identifies this blob"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Blob successfully deleted"
+          }
+        }
+      }
+    },
     "/v3/connections/slack/token": {
       "post": {
         "tags": [
@@ -4378,7 +4573,7 @@
   },
   "servers": [
     {
-      "url": "https://api.val.town",
+      "url": "http://localhost:3001",
       "description": "Production"
     }
   ],
@@ -4417,7 +4612,7 @@
     }
   ],
   "externalDocs": {
-    "url": "https://api.val.town/documentation",
+    "url": "http://localhost:3001/documentation",
     "description": "Find more info here"
   }
 }
