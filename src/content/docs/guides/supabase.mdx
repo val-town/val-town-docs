@@ -13,6 +13,31 @@ Create a new val using the webhook template, or remix this example val:
 
 <Val url="https://www.val.town/embed/x/petermillspaugh/supabaseWebhook/main.ts" />
 
+```ts
+export default async function supabaseWebhook(req: Request): Promise<Response> {
+  if (req.method === "POST") {
+    const xSecret = req.headers["X-Supabase-Secret"];
+    const secret = Deno.env.get("SUPABASE_WEBHOOK_SECRET");
+    if (xSecret !== secret) {
+      return new Response("Unauthorized", { status: 401 });
+    }
+
+    const data = await req.json() as SupabasePayload;
+    console.log(data.record);
+    // TODO: whatever you want! E.g. send an email/Slack notification
+  }
+  return Response.json({ ok: true });
+}
+
+interface SupabasePayload {
+  type: "INSERT" | "UPDATE" | "DELETE";
+  table: string;
+  schema: string;
+  record: object; // your table's columns
+  old_record: object | null;
+}
+```
+
 ## Configure webhook(s) in Supabase
 
 Enable [Database > Webhooks](https://supabase.com/dashboard/project/_/guides/webhooks/webhooks) in the Supabase dashboard, which will install as an Integration:

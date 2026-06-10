@@ -129,6 +129,44 @@ export const registerDiscordCommand = result.json();
 
 <Val url="https://www.val.town/embed/maxm/discordBotExample" />
 
+```ts
+import { verify_discord_signature } from "https://esm.town/v/mattx/verify_discord_signature?v=8";
+
+export const handleDiscordInteraction = async (req: Request) => {
+  if (req.method === "GET") return new Response("GET Method Not Allowed", { status: 405 });
+  const body = await req.json();
+  const verified = await verify_discord_signature(
+    Deno.env.get("discordPublicKey"),
+    JSON.stringify(body),
+    req.headers.get("X-Signature-Ed25519"),
+    req.headers.get("X-Signature-Timestamp"),
+  );
+  if (!verified)
+    return new Response("signature invalid", {
+      status: 401,
+      statusText: "signature invalid",
+    });
+  // PING
+  if (body.type === 1)
+    return Response.json({ type: 1 }); // PONG
+  // APPLICATION_COMMAND interactions
+  if (body.type === 2) {
+    if (body.data?.name === "ping")
+      return Response.json({
+        type: 4,
+        data: {
+          content: `Pong! It is ${new Date()}`,
+        },
+      });
+    return new Response("Bad request", {
+      status: 400,
+      statusText: "Bad request",
+    });
+  }
+  return new Response("Not handled", { status: 422 });
+};
+```
+
 2. Next to your val's name, click 🔒 > **Unlisted.**
 3. In the val above, in the bottom-left corner of the val, click **Script** and change it to **HTTP.**
 4. Click on the URL at the bottom of that val that looks like

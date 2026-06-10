@@ -72,6 +72,78 @@ The `events.ts` file exposes an API from the val's HTTP URL using Hono. The `POS
 
 <Val url="https://www.val.town/embed/x/petermillspaugh/duck/events.ts" />
 
+```ts
+import { Hono } from "npm:hono@4.12.0";
+import type {
+  GenericMessageEvent,
+  SlackEvent,
+} from "npm:@slack/web-api@7.14.1";
+import { getBotId, verifyRequest } from "./lib/slack-utils.ts";
+import { handleAppMention } from "./lib/handle-app-mention.ts";
+import { handleThreadStarted } from "./lib/handle-thread-started.ts";
+import { handleMessage } from "./lib/handle-message.ts";
+
+const app = new Hono();
+
+app.get("/", (c) => {
+  return c.text("Build & deploy Slack agents on Val Town");
+});
+
+app.post("/events", async (c) => {
+  const rawBody = await c.req.text();
+  const payload = JSON.parse(rawBody);
+  const requestType = payload.type as "url_verification" | "event_callback";
+
+  // See https://api.slack.com/events/url_verification
+  if (requestType === "url_verification") {
+    return new Response(payload.challenge, { status: 200 });
+  }
+
+  try {
+    await verifyRequest({ requestType, request: c.req.raw, rawBody });
+    const botUserId = await getBotId();
+    const event = payload.event as SlackEvent;
+    console.log(`Received ${event.type}`);
+
+    // Fire-and-forget: Slack expects a response within 3 seconds
+    // 1. Immediately respond to Slack
+    // 2. Continue processing the message asynchronously
+    // 3. Send the AI response when it's ready
+    switch (event.type) {
+      // When you tag your @agent in a Slack channel or thread
+      case "app_mention":
+        handleAppMention(event, botUserId).catch((err) =>
+          console.error("Error in handleAppMention", err)
+        );
+        break;
+
+      // When you create a new chat with the agent app in Slack
+      case "assistant_thread_started":
+        handleThreadStarted(event).catch((err) =>
+          console.error("Error in handleThreadStarted", err)
+        );
+        break;
+
+      // When you send a message in any channel or thread the agent is in?
+      case "message": {
+        const msgEvent = event as GenericMessageEvent;
+        handleMessage(msgEvent, botUserId).catch((err) =>
+          console.error("Error in handleMessage", err)
+        );
+        break;
+      }
+    }
+
+    return new Response("Success!", { status: 200 });
+  } catch (error) {
+    console.error("Error generating response", error);
+    return new Response("Error generating response", { status: 500 });
+  }
+});
+
+export default app.fetch;
+```
+
 The `POST` route verifies that webhooks are indeed coming from Slack then handles three types of events in its core try-catch loop:
 
 1. `app_mention` fires when you @mention your agent in a Slack channel or thread
@@ -88,6 +160,54 @@ When you mention your bot in a channel or channel thread, the `app_mention` even
 
 <Val url="https://www.val.town/embed/x/petermillspaugh/duck/lib/handle-app-mention.ts" />
 
+```ts
+import { AppMentionEvent } from "npm:@slack/web-api@7.14.1";
+import { client, getThread, updateStatus } from "./slack-utils.ts";
+import { generateResponse } from "./generate-response.ts";
+
+export async function handleAppMention(
+  event: AppMentionEvent,
+  botUserId: string,
+) {
+  console.log(`App mention: ${JSON.stringify(event)}`);
+
+  if (event.bot_id || event.bot_id === botUserId || event.bot_profile) {
+    console.log("Skipping app mention");
+    return;
+  }
+
+  const { thread_ts, channel } = event;
+  const threadTs = thread_ts ?? event.ts;
+  await updateStatus({
+    thread_ts: threadTs,
+    channel,
+    status: "is thinking...",
+  });
+
+  const messages = thread_ts
+    ? await getThread(channel, thread_ts, botUserId)
+    : [{ role: "user" as const, content: event.text }];
+
+  const result = await generateResponse(messages);
+
+  await client.chat.postMessage({
+    channel,
+    thread_ts: threadTs,
+    text: result,
+    unfurl_links: false,
+    blocks: [
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: result,
+        },
+      },
+    ],
+  });
+}
+```
+
 1. Checks if the message is from a bot to avoid infinite response loops
 2. Creates a status updater to show the bot is "thinking"
 3. If the mention is in a thread, it retrieves the thread history
@@ -98,6 +218,45 @@ When you mention your bot in a channel or channel thread, the `app_mention` even
 When you start a thread with your assistant in its dedicated Slack app chat interface, the `assistant_thread_started` event is triggered, which we handle in `handle-thread-started.ts`:
 
 <Val url="https://www.val.town/embed/x/petermillspaugh/duck/lib/handle-thread-started.ts" />
+
+```ts
+import type { AssistantThreadStartedEvent } from "npm:@slack/web-api@7.14.1";
+import { client } from "./slack-utils.ts";
+
+export async function handleThreadStarted(
+  event: AssistantThreadStartedEvent,
+) {
+  const { channel_id, thread_ts } = event.assistant_thread;
+  console.log(`Thread started: ${channel_id} ${thread_ts}`);
+  console.log(JSON.stringify(event));
+
+  await client.chat.postMessage({
+    channel: channel_id,
+    thread_ts: thread_ts,
+    text:
+      "Hello, I'm duck, an agent from Val Town",
+  });
+
+  await client.assistant.threads.setSuggestedPrompts({
+    channel_id: channel_id,
+    thread_ts: thread_ts,
+    prompts: [
+      {
+        title: "What vals have I worked on recently?",
+        message: "What vals have I worked on recently?",
+      },
+      {
+        title: "Create an HTTP val",
+        message: "Create an HTTP val",
+      },
+      {
+        title: "How does persistence work in Val Town?",
+        message: "How does persistence work in Val Town?",
+      },
+    ],
+  });
+}
+```
 
 1. Your agent sends a welcome message to the thread
 2. Sets up suggested prompts to help users get started
@@ -110,6 +269,53 @@ For direct messages to your bot in its dedicated Slack app chat interface, the `
 
 <Val url="https://www.val.town/embed/x/petermillspaugh/duck/lib/handle-message.ts" />
 
+```ts
+import type { GenericMessageEvent } from "npm:@slack/web-api@7.14.1";
+import { client, getThread, updateStatus } from "./slack-utils.ts";
+import { generateResponse } from "./generate-response.ts";
+
+export async function handleMessage(
+  event: GenericMessageEvent,
+  botUserId: string,
+) {
+  console.log(`Message: ${JSON.stringify(event)}`);
+
+  if (
+    event.bot_id ||
+    event.bot_id === botUserId ||
+    event.bot_profile ||
+    !event.thread_ts
+  ) {
+    return;
+  }
+
+  const { thread_ts, channel } = event;
+  await updateStatus({ channel, thread_ts, status: "is thinking..." });
+
+  // TODO: set a dynamic title after the first user message
+  // await updateTitle({ channel, thread_ts, title: "TODO" });
+
+  const messages = await getThread(channel, thread_ts, botUserId);
+  const result = await generateResponse(messages);
+
+  await client.chat.postMessage({
+    channel: channel,
+    thread_ts: thread_ts,
+    text: result,
+    unfurl_links: false,
+    blocks: [
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: result,
+        },
+      },
+    ],
+  });
+}
+```
+
 1. Ignore messages from the agent (bot) itself
 1. Update the status ahead of the LLM call
 1. Retrieve the conversation history
@@ -121,6 +327,33 @@ For direct messages to your bot in its dedicated Slack app chat interface, the `
 The core AI parts of your agent live in `generate-response.ts`:
 
 <Val url="https://www.val.town/embed/x/petermillspaugh/duck/lib/generate-response.ts" />
+
+```ts
+import { generateText, ModelMessage, stepCountIs } from "npm:ai@6.0.92";
+import { anthropic } from "npm:@ai-sdk/anthropic@3.0.45";
+import { readFile } from "https://esm.town/v/std/utils/index.ts";
+
+const prompt = await readFile("/prompt.md");
+
+export const generateResponse = async (messages: ModelMessage[]) => {
+  console.log(`generating LLM response...`);
+
+  const { text } = await generateText({
+    model: anthropic("claude-sonnet-4-6"),
+    tools: {
+      webSearch: anthropic.tools.webSearch_20250305({ maxUses: 3 }),
+    },
+    stopWhen: stepCountIs(5),
+    system: prompt,
+    messages,
+  });
+
+  console.log(`generated LLM response: ${text.slice(0, 25)}...`);
+
+  // Convert markdown to Slack mrkdwn format
+  return text.replace(/\[(.*?)\]\((.*?)\)/g, "<$2|$1>").replace(/\*\*/g, "*");
+};
+```
 
 1. Loads your system prompt
 1. Uses the Vercel AI SDK's `generateText` function with Anthropic's `claude-sonnet-4.6` model

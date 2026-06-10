@@ -19,6 +19,18 @@ GitHub, or use this one:
 
 <Val url="https://www.val.town/embed/maxm/githubStarWebhookExample" />
 
+```ts
+import { email } from "https://esm.town/v/std/email?v=11";
+
+export const githubStarWebhook = async (req: Request) => {
+  const { action, sender, repository } = await req.json();
+  if (action === "created") {
+    email({ text: `Repository ${repository.full_name} starred by ${sender.login}` });
+  }
+  return new Response("OK", { status: 200 });
+};
+```
+
 Go to the **Webhooks** tab in your GitHub repository's settings.
 
 Get your val's web endpoint URL (via the menu) and paste it in the **Payload
@@ -67,6 +79,28 @@ With your secret, the payload, and the signature header, you can use Octokit's
 confirm that the webhook came from GitHub. Here's how you would integrate that into the original example:
 
 <Val url="https://www.val.town/embed/maxm/verifiedGithubStarWebhookExample" />
+
+```ts
+import { verify } from "https://esm.sh/@octokit/webhooks-methods@3.0.2?pin=v106";
+import { email } from "https://esm.town/v/std/email?v=11";
+
+export const githubWebhookWithVerify = async (req: Request) => {
+  const payload = await req.json();
+  const verified = await verify(
+    Deno.env.get("githubWebhookToken"),
+    JSON.stringify(payload),
+    req.headers.get("X-Hub-Signature-256"),
+  );
+  if (!verified) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+  const { action, sender, repository } = payload;
+  if (action === "created") {
+    email({ text: `Repository ${repository.full_name} starred by ${sender.login}` });
+  }
+  return new Response("OK", { status: 200 });
+};
+```
 
 With your webhook pointing to the new example, your val now refuses payload that
 don't come from GitHub!

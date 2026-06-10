@@ -10,8 +10,138 @@ Examples from the community:
 
 <Val url="https://www.val.town/embed/healeycodes/isMyWebsiteDown" />
 
+```ts
+import { email } from "https://esm.town/v/std/email?v=11";
+import { sqlite } from "https://esm.town/v/std/sqlite?v=6";
+
+await sqlite.execute(
+  "CREATE TABLE IF NOT EXISTS uptime (id INTEGER PRIMARY KEY AUTOINCREMENT, url TEXT, ok INTEGER, reason TEXT, status INTEGER, duration INTEGER, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP);",
+);
+
+export async function uptimeCheck(url: string) {
+  let ok = true;
+  let reason: string;
+  let status: number;
+  let start: number;
+  let end: number;
+  start = performance.now();
+  try {
+    const res = await fetch(url);
+    end = performance.now();
+    status = res.status;
+    if (res.status === 200) {
+      console.log(`Website up (${url}): ${res.status} (${end - start}ms)`);
+    } else {
+      ok = false;
+      console.log(`Website down (${url}): ${res.status} (${end - start}ms)`);
+    }
+  } catch (e) {
+    end = performance.now();
+    reason = `couldn't fetch: ${e}`;
+    ok = false;
+    console.log(`Website down (${url}): ${reason} (${end - start}ms)`);
+  }
+  if (!ok) {
+    email({ subject: `Website down (${url})` });
+  }
+  await sqlite.execute(
+    {
+      sql: "INSERT INTO uptime (url, ok, reason, status, duration) VALUES (?, ?, ?, ?, ?)",
+      args: [url, ok ? 1 : 0, reason, status, end - start],
+    },
+  );
+}
+
+export default async () => {
+  ["https://jonnie.com", "https://faith.tools/"].forEach(uptimeCheck);
+};
+```
+
 <Val url="https://www.val.town/embed/stevekrouse/checkIfTwitterAPIIsDown" />
+
+```ts
+let { twitterAPIDown } = await import("https://esm.town/v/stevekrouse/twitterAPIDown");
+import process from "node:process";
+import { msHour } from "https://esm.town/v/stevekrouse/msHour";
+import { twitterSearch } from "https://esm.town/v/stevekrouse/twitterSearch";
+
+// let's poll the elevated v2 twitter api
+// until it's down, and store the state in
+// @stevekrouse.twitterAPIDown ({ down: boolean, reason: string})
+export async function checkIfTwitterAPIIsDown() {
+  try {
+    // query for something we know will return results
+    const results = await twitterSearch({
+      query: '"hello"',
+      start_time: new Date(Date.now() - 1 * msHour),
+      bearerToken: process.env.twitter,
+    });
+    if (results.length) {
+      // if we get results, the API is still up
+      twitterAPIDown = {
+        down: false,
+        reason: `search returned ${results.length} results at ${new Date()}`,
+      };
+    } else {
+      // no results = API down
+      twitterAPIDown = {
+        down: true,
+        reason: `search returned ${results.length} results at ${new Date()}`,
+      };
+    }
+  } catch (e) {
+    // if there's an error, the API is also likely down
+    twitterAPIDown = {
+      down: false,
+      reason: `search errored ${e.message} at ${new Date()}`,
+    };
+    throw e; // so it shows up in tracing as an error
+  }
+}
+```
 
 <Val url="https://www.val.town/embed/chet/watchWebsite" />
 
+```ts
+import { diffHtml } from "https://esm.town/v/chet/diffHtml";
+import { blob } from "https://esm.town/v/std/blob?v=11";
+import { email } from "https://esm.town/v/std/email?v=11";
+import { fetch } from "https://esm.town/v/std/fetch";
+
+export async function watchWebsite(url: string) {
+  const newHtml = await fetch(url).then(r => r.text());
+
+  const key = "watch:" + url;
+  let oldHtml = "";
+  try {
+    oldHtml = await blob.get(key).then(r => r.text());
+  } catch (error) {}
+
+  await blob.set(key, newHtml);
+
+  if (!oldHtml) return console.log("NO OLD", { oldHtml, newHtml });
+
+  const diff = diffHtml(oldHtml, newHtml);
+  if (!diff) return console.log("NO DIFF", { oldHtml, newHtml });
+
+  console.log("DIFF", diff);
+
+  email({ subject: `Diff for ${url}`, text: diff });
+}
+```
+
 <Val url="https://www.val.town/embed/rodrigotello/checkSite" />
+
+```ts
+import { isUp as isUp2 } from "https://esm.town/v/brenton/isUp?v=8";
+
+export const checkSite = () => {
+  const isUp = isUp2("https://rodrigotello.me/", 200);
+  if (!isUp) {
+    console.email(
+      "Unexpected status code when checking brntn.me, better go check to see what's happening!",
+      "brntn.me is down!"
+    );
+  }
+};
+```

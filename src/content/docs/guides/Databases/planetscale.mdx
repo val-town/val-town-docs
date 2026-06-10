@@ -106,3 +106,24 @@ helper, see how it uses the `@planetscale/database` SDK, refer to the
 it!
 
 <Val url="https://www.val.town/embed/vtdocs/queryPlanetScale" />
+
+```ts
+export const queryPlanetScale = async (
+  config: {
+    host: string;
+    username: string;
+    password: string;
+  },
+  query: string,
+  args?: any[],
+) => {
+  const { connect } = await import("npm:@planetscale/database");
+  const { host, username, password } = config;
+  const conn = connect({
+    host,
+    username,
+    password,
+  });
+  return await conn.execute(query, args || []);
+};
+```

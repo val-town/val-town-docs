@@ -68,3 +68,32 @@ the cron expression.
 This example polls an RSS feed for new items since the last run. This val runs every 1 hour.
 
 <Val url="https://www.val.town/embed/stevekrouse/rssNotifyExample" />
+
+```tsx
+import { getLegacyImportUrl } from "https://esm.town/v/std/getLegacyImportUrl/main.tsx";
+import { blob } from "https://esm.town/v/std/blob?v=12";
+import { email } from "https://esm.town/v/std/email?v=12";
+import RssParser from "npm:rss-parser";
+
+export async function rssNotify() {
+  const lastRunAt = await blob.getJSON(getLegacyImportUrl(import.meta.url));
+  console.log(`Last run: ${lastRunAt || "Never"}`);
+  await blob.setJSON(getLegacyImportUrl(import.meta.url), new Date());
+
+  const feed = await new RssParser().parseURL("https://www.inkandswitch.com/index.xml");
+  console.log(`There are ${feed.items.length} items in the RSS feed`);
+
+  const newItems = feed.items.filter(
+    (item) => lastRunAt ? new Date(item.pubDate) > new Date(lastRunAt) : true,
+  );
+  console.log(`There are ${newItems.length} new items in the RSS feed`);
+
+  // if there are new items, email them to me
+  if (newItems.length > 0) {
+    await email({
+      subject: `There are ${newItems.length} new items in the RSS feed`,
+      html: newItems.map((item) => `<p><a href="${item.link}">${item.title}</a></p>`).join(""),
+    });
+  }
+}
+```

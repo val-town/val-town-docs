@@ -16,6 +16,18 @@ data.
 
 <Val url="https://www.val.town/embed/csshsh/weatherDescription" />
 
+```ts
+import { fetch } from "https://esm.town/v/std/fetch";
+
+export const weatherDescription = async (
+  params: string[]
+): Promise<unknown> => {
+  let data = await fetch(`https://wttr.in/${params["city"]}?format=j1`);
+  let jsonData = await data.json();
+  return `${params["city"]}: ${jsonData["current_condition"][0]["FeelsLikeC"]}, ${jsonData["current_condition"][0]["weatherDesc"][0]["value"]}`;
+};
+```
+
 ## Weather data sources
 
 There are many sources for weather data, but some of them require

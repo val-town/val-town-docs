@@ -27,6 +27,18 @@ We recommend using React:
   height="300px"
 />
 
+```tsx
+/** @jsxImportSource https://esm.sh/react */
+import { renderToString } from "npm:react-dom/server";
+
+export const reactExample = () =>
+  new Response(renderToString(<div>Test {1 + 1}</div>), {
+    headers: {
+      "Content-Type": "text/html",
+    },
+  });
+```
+
 ### Preact
 
 Preact is a great alternative to React:
@@ -36,12 +48,36 @@ Preact is a great alternative to React:
   height="300px"
 />
 
+```tsx
+/** @jsxImportSource https://esm.sh/preact */
+import { render } from "npm:preact-render-to-string";
+
+export const preactExample = () =>
+  new Response(render(<div>Test {1 + 1}</div>), {
+    headers: {
+      "Content-Type": "text/html",
+    },
+  });
+```
+
 ### Vue
 
 <Val
   url="https://www.val.town/embed/x/valdottown/HTTP_examples/HTML_JSX/vue"
   height="300px"
 />
+
+```tsx
+/** @jsxImportSource https://esm.sh/vue */
+import { renderToString } from "npm:vue/server-renderer";
+
+export const vueExample = async () =>
+  new Response(await renderToString(<div>Test {1 + 1}</div>), {
+    headers: {
+      "Content-Type": "text/html",
+    },
+  });
+```
 
 ### Solid
 
@@ -50,10 +86,36 @@ Preact is a great alternative to React:
   height="300px"
 />
 
+```tsx
+/** @jsxImportSource https://esm.sh/solid-jsx */
+import { renderToString } from "npm:solid-js/web";
+
+export const solidExample = async () =>
+  new Response(await renderToString(() => <div>Test {1 + 1}</div>), {
+    headers: {
+      "Content-Type": "text/html",
+    },
+  });
+```
+
 ### Hono
 
 <Val
   url="https://www.val.town/embed/x/valdottown/HTTP_examples/HTML_JSX/hono"
   height="340px"
 />
+
+```tsx
+/** @jsxImportSource npm:hono@3/jsx */
+
+export const honoExample = () => {
+  const jsx = <div>Test {1 + 1}</div>;
+
+  return new Response(jsx.toString(), {
+    headers: {
+      "Content-Type": "text/html",
+    },
+  });
+};
+```
 ```

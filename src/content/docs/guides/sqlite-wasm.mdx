@@ -23,9 +23,54 @@ You can create, insert, query, and persist a whole SQLite database in Val Town v
 
 <Val url="https://www.val.town/embed/stevekrouse/tell2" />
 
+```ts
+let { messages2 } = await import("https://esm.town/v/stevekrouse/messages2");
+
+// Store messages via SQLite
+// (stores at @me.messages2 in the current version)
+// like `https://www.val.town/@stevekrouse.tell` but cooler!
+export const tell2 = async (msg) => {
+  const { DB } = await import("https://deno.land/x/sqlite/mod.ts");
+  const db = new DB();
+  // Get existing messages (if any)
+  if (messages2 !== undefined) {
+    db.deserialize(messages2);
+  }
+  // Create the table (if required)
+  db.execute(`
+  CREATE TABLE IF NOT EXISTS messages (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    message TEXT,
+    time INTEGER
+  );
+  `);
+  // Save the message
+  db.query("INSERT INTO messages (message, time) VALUES (?, ?)", [
+    msg,
+    Date.now(),
+  ]);
+  const data = db.serialize();
+  // Uint8Array can't be stored at val town (yet?)
+  // so we need to save it as an `Array`
+  messages2 = Array.from(data);
+  // Some debug logs
+  const allMessages = db.query("SELECT * from messages;");
+  console.log(db.query("SELECT * from messages;"));
+  console.log("messages data size:", data.length);
+  db.close();
+  return `thanks! ${allMessages.length} messages so far!`;
+};
+// Forked from @healeycodes.tell2
+```
+
 ## Example Usage
 
 <Val url="https://www.val.town/embed/stevekrouse/exampleSQLiteAdd" />
+
+```ts
+import { tell2 } from "https://esm.town/v/stevekrouse/tell2";
+export const exampleSQLiteAdd = tell2("hi sqlite");
+```
 
 ## Database in Val Town
 

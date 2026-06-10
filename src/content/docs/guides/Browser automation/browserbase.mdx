@@ -13,6 +13,27 @@ The quickest way to get started is to get your Browserbase API key and remix thi
 
 <Val url="https://www.val.town/embed/browserbase/browserbasePuppeteerExample" />
 
+```ts
+import puppeteer from "https://deno.land/x/puppeteer@16.2.0/mod.ts";
+
+const browser = await puppeteer.connect({
+  browserWSEndpoint: `wss://connect.browserbase.com?apiKey=${Deno.env.get("BROWSERBASE_API_KEY")}`,
+});
+
+const pages = await browser.pages();
+const page = pages[0];
+
+await page.goto("https://www.val.town");
+
+const el = await page.waitForSelector("h1");
+const title = await el?.evaluate(el => el.textContent);
+
+await page.close();
+await browser.close();
+
+console.log(title);
+```
+
 1. Get your free Browserbase API key at https://www.browserbase.com/
 2. Add it to your [Val Town Environment Variables](https://www.val.town/settings/environment-variables) as `BROWSERBASE_API_KEY`
 3. Remix [this val](https://www.val.town/v/browserbase/browserbasePuppeteerExample)

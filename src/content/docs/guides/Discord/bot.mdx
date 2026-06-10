@@ -61,6 +61,67 @@ Remix this scheduled val that will send a welcome message to new users.
 
 <Val url="https://www.val.town/embed/vtdocs/discordWelcomeBotCron" />
 
+```ts
+import { set } from "https://esm.town/v/std/set?v=11";
+import { discordGetMembers } from "https://esm.town/v/vtdocs/discordGetMembers";
+import { discordSendDM } from "https://esm.town/v/vtdocs/discordSendDM";
+import process from "node:process";
+let { discordDMs } = await import("https://esm.town/v/vtdocs/discordDMs");
+let { discordWelcomedMembers } = await import("https://esm.town/v/vtdocs/discordWelcomedMembers");
+let { discordWelcomeBotStartedAt } = await import("https://esm.town/v/vtdocs/discordWelcomeBotStartedAt");
+
+export const discordWelcomeBotCron = async () => {
+  // Only target new users going forwards from bot creation
+  if (discordWelcomeBotStartedAt === undefined) {
+    discordWelcomeBotStartedAt = Date.now();
+  }
+  // Don't message a user more than once
+  if (discordWelcomedMembers === undefined) {
+    discordWelcomedMembers = [];
+  }
+  // Store channels we've sent a DM to
+  // in case we want to forward replies to the bot
+  if (discordDMs === undefined) {
+    discordDMs = [];
+  }
+  const members = await discordGetMembers(
+    process.env.discordBot,
+    process.env.discordServerId,
+  );
+  await Promise.all(members.map(async (member) => {
+    const existingMember = (new Date(member.joined_at)).getTime()
+      < discordWelcomeBotStartedAt;
+    const alreadyWelcomed = discordWelcomedMembers.includes(
+      member.user.id,
+    );
+    if (existingMember || alreadyWelcomed) {
+      return;
+    }
+    const DMid = await discordSendDM(
+      process.env.discordBot,
+      member.user.id,
+      "👋 Welcome!",
+    );
+    console.log(`Sent a message to ${member.user.id}`);
+    // Store that we have messaged this user
+    discordWelcomedMembers.push(member.user.id);
+    if (DMid !== undefined)
+      discordDMs.push(DMid);
+  }));
+  await Promise.all([
+    set(
+      "discordWelcomeBotStartedAt",
+      discordWelcomeBotStartedAt,
+    ),
+    set("discordDMs", discordDMs),
+    set(
+      "discordWelcomedMembers",
+      discordWelcomedMembers,
+    ),
+  ]);
+};
+```
+
 This val stores state in three other vals.
 
 - `@me.discordWelcomeBotStartedAt` stores the timestamp of the bot's creation so
@@ -85,6 +146,46 @@ This is so the bot knows where to forward user replies.
 Remix this scheduled val that will forward user replies to your Discord user.
 
 <Val url="https://www.val.town/embed/vtdocs/discordWelcomeBotMsgForwarder" />
+
+```ts
+import { discordSendDM } from "https://esm.town/v/vtdocs/discordSendDM";
+import process from "node:process";
+import { discordFetch } from "https://esm.town/v/vtdocs/discordFetch";
+import { discordDMs } from "https://esm.town/v/vtdocs/discordDMs";
+
+export const discordWelcomeBotMsgForwarder = async ({ lastRunAt }: Interval) => {
+  if (discordDMs === undefined) {
+    throw `expected @me.discordDMs to be a string[] of channel ids`;
+  }
+  const repliesToBot = [];
+  for (const channelId of discordDMs) {
+    const messages = await discordFetch(
+      process.env.discordBot,
+      // Note: not using pagination here
+      // (we assume < 50 replies to the bot per each DM)
+      `/channels/${channelId}/messages?limit=50`,
+    );
+    repliesToBot.push(
+      ...messages
+        // Ignore the welcome message
+        .filter((message) => message?.author?.bot !== true)
+        // Only forward new messages
+        .filter((message) => lastRunAt < new Date(message.timestamp))
+        // A little formatting
+        .map((message) =>
+          `${message.author.username}#${message.author.discriminator}: ${message.content}`
+        ),
+    );
+  }
+  if (repliesToBot.length !== 0) {
+    await discordSendDM(
+      process.env.discordBot,
+      process.env.discordUserId,
+      repliesToBot.join("\n"),
+    );
+  }
+};
+```
 
 This val loops through all of the DMs between the bot and new users. It checks
 for any new replies and then forwards these messages as a new DM (from the bot,

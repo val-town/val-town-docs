@@ -60,6 +60,35 @@ This Email trigger forwards any email it receives to me. Try it out by sending a
 
 <Val url="https://www.val.town/embed/x/valdottown/forwarder/forwarder" />
 
+```ts
+import { encode } from "https://deno.land/std@0.203.0/encoding/base64.ts";
+import { extractValInfo } from "https://esm.town/v/pomdtr/extractValInfo?v=29";
+import { AttachmentData, email } from "https://esm.town/v/std/email?v=13";
+
+const { author, name } = extractValInfo(import.meta.url);
+
+export async function forwarder(e: Email) {
+  let attachments: AttachmentData[] = [];
+  for (const f of e.attachments) {
+    attachments.push({
+      filename: f.name,
+      content: encode(await f.arrayBuffer()),
+      type: f.type,
+      disposition: "attachment",
+    });
+  }
+  console.log("Forwarding email:", e);
+  return email({
+    from: { name: e.from.split("<")[0], email: `${author}.${name}@valtown.email` },
+    html: e.html,
+    text: e.text,
+    subject: "Fwd:" + e.subject,
+    attachments,
+    replyTo: e.from,
+  });
+}
+```
+
 ## Custom email address
 
 Similar to [HTTP endpoints](/vals/http/custom-subdomains/), you can set a custom email address by clicking on the `Email` trigger and selecting `Custom email address`.

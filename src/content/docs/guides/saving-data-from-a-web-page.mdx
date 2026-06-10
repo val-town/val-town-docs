@@ -19,6 +19,56 @@ For example, this val is an app that displays comments, accepts new comments, an
 
 <Val url="https://www.val.town/embed/stevekrouse/blobCommentDemo" />
 
+```tsx
+/** @jsxImportSource npm:hono@3/jsx */
+import { blob } from "https://esm.town/v/std/blob?v=10";
+import { Hono } from "npm:hono";
+
+const app = new Hono();
+
+app.get("/", async (c) => {
+  const comments = await blob.getJSON("comments") || [];
+  return c.html(
+    <div>
+      <h2>Comments</h2>
+      <div>
+        {comments.map((comment) => (
+          <div key={comment.id} style={{ marginBottom: "10px", padding: "10px", border: "1px solid #ccc" }}>
+            {comment.text}
+            <form method="POST" action={`/comment/${comment.id}/delete`} style={{ display: "inline" }}>
+              <input type="submit" value="x" style={{ marginLeft: "10px" }} />
+            </form>
+          </div>
+        ))}
+      </div>
+      <form method="POST" action="/comment">
+        <input type="text" name="comment" placeholder="New comment..." /> <input type="submit" />
+      </form>
+    </div>,
+  );
+});
+
+app.post("/comment", async (c) => {
+  const formData = await c.req.parseBody();
+  const newComment = formData.comment as string;
+
+  let comments = await blob.getJSON("comments") || [];
+  comments.push({ text: newComment, id: Math.floor(Math.random() * 1000).toString() });
+  await blob.setJSON("comments", comments);
+
+  return c.redirect("/");
+});
+
+app.post("/comment/:id/delete", async (c) => {
+  const id = c.req.param("id");
+  let comments = await blob.getJSON("comments");
+  await blob.setJSON("comments", comments.filter((comment) => comment.id !== id));
+  return c.redirect("/");
+});
+
+export default app.fetch;
+```
+
 There are three parts relating to blob storage:
 
 1. `GET /` - Getting the comments from blob storage to render them on the page
@@ -31,6 +81,125 @@ This is a remix of the above app that uses client-side React to make the API cal
 
 <Val url="https://www.val.town/embed/stevekrouse/blobCommentsReact" />
 
+```tsx
+/** @jsxImportSource https://esm.sh/react */
+import { Hono } from "https://esm.sh/hono";
+import React, { useEffect, useState } from "https://esm.sh/react";
+import { hydrateRoot } from "https://esm.sh/react-dom/client";
+import { renderToReadableStream } from "https://esm.sh/react-dom/server";
+import { blob } from "https://esm.town/v/std/blob?v=10";
+
+function App() {
+  const [comments, setComments] = useState();
+  const [newComment, setNewComment] = useState("");
+
+  useEffect(() => {
+    fetch("/comments")
+      .then(response => response.json())
+      .then(data => setComments(data));
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (newComment.trim() !== "") {
+      const response = await fetch("/comments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ comment: newComment }),
+      });
+      const data = await response.json();
+      setComments(data);
+      setNewComment("");
+    }
+  };
+
+  const handleDelete = async (id) => {
+    const response = await fetch(`/comments/${id}/delete`, {
+      method: "POST",
+    });
+    const data = await response.json();
+    setComments(data);
+  };
+
+  return (
+    <html>
+      <head>
+        <title>Comments</title>
+        <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" />
+      </head>
+      <body>
+        <div className="max-w-md mx-auto mt-8 p-4 bg-gray-100 rounded-lg">
+          <h1 className="text-2xl font-bold mb-4">Comments</h1>
+          <form onSubmit={handleSubmit} className="mb-4">
+            <div className="flex">
+              <input
+                type="text"
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                placeholder="Add a comment..."
+                className="flex-grow mr-2 p-2 border rounded"
+              />
+              <button type="submit" className="p-2 bg-blue-500 text-white rounded">Post</button>
+            </div>
+          </form>
+          <div className="space-y-2">
+            {comments
+              ? comments.map((comment) => (
+                <div key={comment.id} className="bg-white p-2 rounded flex justify-between items-center">
+                  {comment.text}
+                  <button
+                    onClick={() =>
+                      handleDelete(comment.id)}
+                    className="text-red-500 ml-2"
+                  >
+                    x
+                  </button>
+                </div>
+              ))
+              : "Loading..."}
+          </div>
+        </div>
+      </body>
+    </html>
+  );
+}
+
+if (typeof document !== "undefined") {
+  hydrateRoot(document, <App />);
+}
+
+const app = new Hono();
+
+app.get("/", async (c) => {
+  const comments = await blob.getJSON("comments") || [];
+  const stream = await renderToReadableStream(<App />, { bootstrapModules: [import.meta.url] });
+  return new Response(stream, { headers: { "content-type": "text/html" } });
+});
+
+app.get("/comments", async (c) => {
+  const comments = await blob.getJSON("comments") || [];
+  return c.json(comments);
+});
+
+app.post("/comments", async (c) => {
+  const { comment } = await c.req.json();
+  let comments = await blob.getJSON("comments") || [];
+  comments.push({ text: comment, id: Math.floor(Math.random() * 1000).toString() });
+  await blob.setJSON("comments", comments);
+  return c.json(comments);
+});
+
+app.post("/comments/:id/delete", async (c) => {
+  const id = c.req.param("id");
+  let comments = await blob.getJSON("comments") || [];
+  comments = comments.filter(comment => comment.id !== id);
+  await blob.setJSON("comments", comments);
+  return c.json(comments);
+});
+
+export default app.fetch;
+```
+
 You could easily host the React part anywhere (Vercel, Netlify, etc) and have it make calls to Val Town (via your val's HTTP URL) to get and modify the data.
 
 You can learn more about blob storage here: [Val Town Blob](/reference/std/blob).
@@ -42,6 +211,60 @@ The above demo is simple because it stores the data in the same simple JSON form
 This is the same Hono demo but using SQLite on the backend. We will leave it as an exercise to an ambitious and helpful reader to convert the React demo to use SQLite and submit a PR to this docs page.
 
 <Val url="https://www.val.town/embed/stevekrouse/sqliteCommentDemo" />
+
+```tsx
+/** @jsxImportSource npm:hono@3/jsx */
+import { sqlite } from "https://esm.town/v/std/sqlite?v=4";
+import { Hono } from "npm:hono";
+
+const app = new Hono();
+
+// Initialize the comments table if it doesn't exist
+await sqlite.execute(`
+  CREATE TABLE IF NOT EXISTS comments (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    text TEXT NOT NULL
+  )`);
+
+app.get("/", async (c) => {
+  const { rows: comments } = await sqlite.execute("SELECT * FROM comments");
+  return c.html(
+    <div>
+      <h2>Comments</h2>
+      <div>
+        {comments.map(([id, text]) => (
+          <div key={id} style={{ marginBottom: "10px", padding: "10px", border: "1px solid #ccc" }}>
+            {text}
+            <form method="POST" action={`/comment/${id}/delete`} style={{ display: "inline" }}>
+              <input type="submit" value="x" style={{ marginLeft: "10px" }} />
+            </form>
+          </div>
+        ))}
+      </div>
+      <form method="POST" action="/comment">
+        <input type="text" name="comment" placeholder="New .." /> <input type="submit" />
+      </form>
+    </div>,
+  );
+});
+
+app.post("/comment", async (c) => {
+  const formData = await c.req.parseBody();
+  const newComment = formData.comment as string;
+
+  await sqlite.execute({ sql: "INSERT INTO comments (text) VALUES (?)", args: [newComment] });
+
+  return c.redirect("/");
+});
+
+app.post("/comment/:id/delete", async (c) => {
+  const id = c.req.param("id");
+  await sqlite.execute({ sql: "DELETE FROM comments WHERE id = ?", args: [id] });
+  return c.redirect("/");
+});
+
+export default app.fetch;
+```
 
 Note: we left the `CREATE TABLE` statement in the code, so that this val will immediately work if you remix it. However, you may want to comment out that line after the first run to speed up this val.
 

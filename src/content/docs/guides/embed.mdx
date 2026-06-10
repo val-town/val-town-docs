@@ -38,6 +38,30 @@ Here's an example, using a web page created by a val that embeds itself:
 
 <Val url="https://www.val.town/embed/x/valdottown/hello-embed/embed-self.tsx" />
 
+```tsx
+/**
+ * This val embeds itself in the web page created by hitting its Web Endpoint!
+ */
+export let embedSelf = async (request: Request): Promise<Response> => {
+  return new Response(
+    `
+      <style>
+        :root { background: "white"; font-family: sans-serif; }
+      </style>
+      <h1>My cool new val</h1>
+      <iframe
+       id="val_embedded"
+       title="Embedded Val Example"
+       width="100%"
+       height="500"
+       src="https://www.val.town/embed/x/valdottown/hello-embed/embed.tsx"
+      />
+    `,
+    { headers: { "Content-Type": "text/html" } },
+  );
+};
+```
+
 And here's the final web page: [https://docs-embed.val.run/](https://docs-embed.val.run/)
 
 ## Embedding a new val template

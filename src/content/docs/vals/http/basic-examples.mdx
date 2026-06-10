@@ -17,12 +17,25 @@ The simplest endpoint returns a simple JSON message:
   height="160px"
 />
 
+```ts
+export const jsonOkExample = () => Response.json({ ok: true });
+```
+
 Or you could return HTML with the corresponding Content-Type header:
 
 <Val
   url="https://www.val.town/embed/x/valdottown/HTTP_examples/Basic_examples/htmlExample"
   height="230px"
 />
+
+```tsx
+export const htmlExample = () =>
+  new Response("<h1>Hello, world</h1>", {
+    headers: {
+      "Content-Type": "text/html",
+    },
+  });
+```
 
 This echoes request headers back in the response:
 
@@ -31,6 +44,12 @@ This echoes request headers back in the response:
   height="180px"
 />
 
+```ts
+export const headersExample = (request: Request) => {
+  return Response.json(Object.fromEntries(request.headers.entries()));
+};
+```
+
 We can get and return the request URL's query parameters:
 
 <Val
@@ -38,8 +57,33 @@ We can get and return the request URL's query parameters:
   height="180px"
 />
 
+```ts
+export const queryParams = (req: Request) => {
+  const searchParams = new URL(req.url).searchParams;
+  return Response.json(Object.fromEntries(searchParams.entries()));
+};
+```
+
 You can also get the body of POST requests:
 
 <Val url="https://www.val.town/embed/x/valdottown/HTTP_examples/Basic_examples/jsonBodyParsing" />
+
+```ts
+export default async function handler(request: Request) {
+  if (request.method !== "POST") {
+    return Response.json({ message: "This val responds to POST requests." }, {
+      status: 400,
+    });
+  }
+  try {
+    const body = await request.json();
+    return Response.json(body);
+  } catch (e) {
+    return Response.json({ message: "The body of this request was not JSON-encoded." }, {
+      status: 400,
+    });
+  }
+}
+```
 
 To obtain the HTTP endpoint, use the "Copy HTTP endpoint" button in the ... menu.

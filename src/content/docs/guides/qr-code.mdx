@@ -14,3 +14,37 @@ Visit
 and replace the url query parameter with your link.
 
 <Val url="https://www.val.town/embed/neverstew/generateQR" />
+
+```tsx
+import { qrcode } from "https://deno.land/x/qrcode/mod.ts";
+
+export async function generateQR(req: Request) {
+  let url: URL;
+  try {
+    url = new URL(new URL(req.url).searchParams.get("url"));
+  }
+  catch {
+    return new Response(
+      "<html><body>Not a valid URL - " + new URL(req.url).search
+        + "</body></html>",
+      { headers: { "Content-Type": "text/html" }, status: 400 },
+    );
+  }
+  const base64Image = await qrcode(url.toString(), { type: "text/html" });
+  return new Response(
+    `<html>
+       <head>   
+         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       </head>
+       <body>
+         <img src=${base64Image} style="margin: 0 auto; max-width: 600px" width="100%" />
+         <p style="font-size: 0.85rem">QR Code generated using <a href="https://val.town">val.town</a></p>
+         <p style="font-size: 0.85rem">Built with &#128151; by <a href="https://twitter.com/neverstew">Neverstew</a></p>
+      </body>
+    </html>`,
+    { headers: { "Content-Type": "text/html" } },
+  );
+}
+// Forked from @ramkarthik.GenerateQR
+// Forked from @galligan.generateQR
+```

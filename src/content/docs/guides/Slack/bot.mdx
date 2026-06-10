@@ -17,6 +17,68 @@ If you just want to send simple Slack messages without interactivity, check out 
 
 <Val url="https://www.val.town/embed/x/charmaine/slackBotExample/main.tsx" />
 
+```ts
+export const slackReplyToMessage = async (req: Request) => {
+  // Handle different request methods
+  if (req.method === "GET") {
+    return new Response("Slack bot is running!", { status: 200 });
+  }
+
+  // Parse JSON body safely
+  let body;
+  try {
+    const text = await req.text();
+    if (!text) {
+      return new Response("Empty request body", { status: 400 });
+    }
+    body = JSON.parse(text);
+  } catch (error) {
+    console.error("JSON parsing error:", error);
+    return new Response("Invalid JSON", { status: 400 });
+  }
+
+  // Verify the request is genuine
+  if (body.token !== Deno.env.get("slackVerificationToken")) {
+    return new Response(undefined, { status: 401 });
+  }
+
+  // Respond to the initial challenge (when events are enabled)
+  if (body.challenge) {
+    return Response.json({ challenge: body.challenge });
+  }
+
+  // Reply to app_mention events
+  if (body.event?.type === "app_mention") {
+    try {
+      const result = await fetch("https://slack.com/api/chat.postMessage", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${Deno.env.get("slackToken")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          channel: body.event.channel,
+          thread_ts: body.event.ts,
+          text: "Hello, ~World~ from Val Town!",
+        }),
+      });
+
+      const responseData = await result.json();
+      console.log(responseData);
+
+      // Return proper response to acknowledge receipt
+      return new Response(undefined, { status: 200 });
+    } catch (error) {
+      console.error("Error posting to Slack:", error);
+      return new Response(undefined, { status: 500 });
+    }
+  }
+
+  // Return 200 for other event types
+  return new Response(undefined, { status: 200 });
+};
+```
+
 2. Copy the HTTP endpoint URL (via the ... menu for `main.tsx`) - this is where Slack will send events to your Val Town bot.
 
 ## Step 2: Create a Slack app
