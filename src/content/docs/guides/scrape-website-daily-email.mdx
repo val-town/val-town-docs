@@ -1,0 +1,74 @@
+---
+title: Scrape a website daily and email yourself the results
+description: Write one cron val that fetches a page, extracts what you need,
+  and emails it to you every day — no server, crontab, or SMTP setup
+lastUpdated: 2026-06-10
+# cspell:ignore crongpt titleline
+---
+
+The classic recipe for this is a Python script, a crontab entry on a server
+you keep running, and SMTP credentials for the email step. On Val Town it's
+one file: a [cron-triggered val](/vals/cron/) that fetches the page, extracts
+what you want, and emails it to you with [std/email](/reference/std/email/).
+The scheduler and the email service are built into the platform.
+
+## The complete val
+
+This example scrapes the [Hacker News](https://news.ycombinator.com)
+front page and emails you the top five story titles:
+
+```ts title="dailyScraper.ts" val
+import { email } from "https://esm.town/v/std/email";
+import { load } from "npm:cheerio";
+
+export default async function (interval: Interval) {
+  const res = await fetch("https://news.ycombinator.com");
+  const $ = load(await res.text());
+
+  const titles = $(".titleline > a")
+    .toArray()
+    .slice(0, 5)
+    .map((el, i) => `${i + 1}. ${$(el).text()}`);
+
+  await email({
+    subject: "Hacker News top 5 today",
+    text: titles.join("\n"),
+  });
+}
+```
+
+That's the whole thing — `fetch` gets the HTML,
+[cheerio](https://www.val.town/examples/packages/cheerio) extracts the titles
+with a CSS selector, and `std/email` delivers them to the email address on
+your Val Town account.
+
+## Set it up
+
+1. [Create a val](https://www.val.town/) and add a file. Click the `+` button
+   in the top right of the editor and select `CRON`.
+2. Paste in the code above and click **Run** to test it — the email should
+   arrive in your inbox within a few seconds.
+3. Click the Cron trigger and set the schedule to `0 9 * * *` to run once a
+   day at 9am UTC.
+
+To scrape a different site, swap the URL and the CSS selector. The
+[web scraping guide](/guides/web-scraping/) shows how to find the right
+selector with your browser's dev tools.
+
+## Scheduling notes
+
+- Cron expressions are evaluated in UTC, so adjust for your timezone —
+  [crongpt.com](https://crongpt.com) handles the conversion for you.
+- On the free plan, crons can run up to once every 15 minutes (or once a
+  minute on [Pro](https://www.val.town/pricing)) — a daily job is well within
+  that.
+- On the free plan, `std/email` only sends to your own account email, which
+  is exactly what this job needs.
+
+## Next steps
+
+- [Cron reference](/vals/cron/) — schedule types and the `Interval` handler
+- [std/email reference](/reference/std/email/) — subject, attachments, and
+  sending limits
+- [Web scraping guide](/guides/web-scraping/) — finding CSS selectors and
+  scraping JavaScript-rendered pages with a headless browser
