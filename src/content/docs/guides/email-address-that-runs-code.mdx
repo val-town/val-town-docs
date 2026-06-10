@@ -1,0 +1,100 @@
+---
+title: Get an email address that runs your code
+description: Create an email val to get an email address that runs your
+  TypeScript code on every message it receives
+lastUpdated: 2026-06-10
+---
+
+Every email-triggered val on Val Town gets its own email address. When anyone
+sends a message to that address, Val Town runs your handler function with the
+parsed email — sender, subject, body, attachments — as its argument. There's no
+mail server to run, no inbox to poll, and no automation tool in the middle.
+
+Here's the 30-second version:
+
+1. [Create a val](https://www.val.town/) and add a file.
+2. Click the `+` button in the top right of the editor and select `EMAIL`.
+3. Your file is assigned an email address ending in `@valtown.email`. Click
+   the Email trigger to see it (or pick a custom address).
+4. Any email sent to that address runs your handler.
+
+## The handler
+
+An email-triggered file exports a function that receives the incoming message
+as an `Email` object:
+
+```ts title="Handler"
+export default async function (email: Email) {
+  console.log("Email received!", email.from, email.subject, email.text);
+  for (const file of email.attachments) {
+    console.log(`Filename: ${file.name}`);
+    console.log(`Content Type: ${file.type}`);
+    console.log(`Content: ${await file.text()}`);
+  }
+}
+```
+
+The `Email` type has this shape:
+
+```ts
+interface Email {
+  from: string;
+  to: string[];
+  cc: string | string[] | undefined;
+  bcc: string | string[] | undefined;
+  subject: string | undefined;
+  text: string | undefined;
+  html: string | undefined;
+  attachments: File[];
+  headers: Record<string, string>;
+}
+```
+
+See the [Email trigger reference](/vals/email/) for the full details,
+including custom `@valtown.email` addresses and the 30MB inbound size limit.
+
+## Things to build with it
+
+- **Forward receipts to a parser** — give the address to your billing tools,
+  then extract amounts and dates from `email.text` and log them to
+  [SQLite](/reference/std/sqlite/).
+- **Email-to-todo** — send yourself a subject line from your phone and have it
+  land in a todo table (worked example below).
+- **Support triage** — point `support@` forwarding at your val and post each
+  message to [Slack](/guides/slack/send-messages-to-slack/) or [Discord](/guides/discord/send-message/),
+  tagged by keyword.
+
+## Worked example: email-to-todo
+
+This handler turns each incoming email into a row in the val's SQLite
+database. Send a message with the task as the subject line, and it's saved:
+
+```ts title="emailToTodo.ts" val
+import { sqlite } from "https://esm.town/v/std/sqlite/main.ts";
+
+export default async function (email: Email) {
+  await sqlite.execute(`create table if not exists todos (
+    id integer primary key,
+    task text not null,
+    sender text,
+    created_at text default current_timestamp
+  )`);
+
+  await sqlite.execute({
+    sql: `insert into todos (task, sender) values (?, ?)`,
+    args: [email.subject ?? "(no subject)", email.from],
+  });
+}
+```
+
+Add an `EMAIL` trigger to this file, send a message to its address, and check
+the val's SQLite tab to see your todo.
+
+## Next steps
+
+- [Email trigger reference](/vals/email/) — custom addresses, limits, and the
+  full `Email` type
+- [Send email with std/email](/reference/std/email/) — reply from inside your
+  handler
+- [Forward Gmail to a val](/guides/gmail/) — run code on email sent to your
+  existing address
