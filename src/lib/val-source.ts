@@ -91,7 +91,7 @@ function parseEmbedUrl(embedUrl: string): ParsedEmbed | null {
       valName,
       filePath,
       version: null,
-      valPageUrl: `https://www.val.town/x/${handle}/${valName}/${filePath}`,
+      valPageUrl: `https://www.val.town/x/${handle}/${valName}${filePath ? `/code/${filePath}` : ""}`,
     };
   }
 
