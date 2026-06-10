@@ -1,15 +1,35 @@
 ---
+import { Code } from "@astrojs/starlight/components";
+import { fetchValSource } from "../lib/val-source";
+
 const { url, height } = Astro.props;
+
+// Render the embedded val's source as a static code block so the example
+// code is visible to AI agents (and readers without the iframe). Falls back
+// to the iframe when the source can't be fetched (e.g. `embed/new` demos).
+const source = await fetchValSource(url);
 ---
 
-<div class="not-content">
-  <iframe
-    title="Embedded interactive val"
-    src={url}
-    width="100%"
-    height={height ?? "400px"}
-    style="border: 1px solid #ccc; border-radius: 4px;"
-    loading="lazy">
-    &#x20;
-  </iframe>
-</div>
+{
+  source ? (
+    <>
+      <p>
+        <a href={source.valPageUrl}>View and run this example on Val Town</a>
+      </p>
+      <Code code={source.code} lang={source.lang} />
+    </>
+  ) : (
+    <div class="not-content">
+      <iframe
+        title="Embedded interactive val"
+        src={url}
+        width="100%"
+        height={height ?? "400px"}
+        style="border: 1px solid #ccc; border-radius: 4px;"
+        loading="lazy"
+      >
+        &#x20;
+      </iframe>
+    </div>
+  )
+}
