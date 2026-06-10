@@ -1,2 +1,4 @@
 User-agent: *
 Disallow:
+
+Sitemap: https://docs.val.town/sitemap-index.xml

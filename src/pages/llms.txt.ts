@@ -33,6 +33,8 @@ export const GET: APIRoute = async () => {
   });
 
   let content = "# Val Town Documentation\n\n";
+  content +=
+    "- [Full documentation in one file](https://docs.val.town/llms-full.txt)\n\n";
 
   for (const section of sections) {
     const sectionDocs = docsBySection[section];
