@@ -1,0 +1,65 @@
+---
+title: Host a Stripe webhook receiver
+description: Remix an HTTP val that verifies Stripe webhook signatures and
+  stores every event in SQLite — no server to deploy
+# cspell:ignore whsec
+lastUpdated: 2026-06-10
+---
+
+import Val from "@components/Val.astro";
+
+A Stripe webhook receiver is just an HTTPS endpoint, but it has to be
+deployed somewhere public before Stripe will deliver to it — which makes a
+plain [HTTP val](/vals/http/) a natural home for one. This template is a
+ready-made receiver: it verifies the `Stripe-Signature` header against your
+webhook signing secret, stores each event in the val's
+[SQLite database](/reference/std/sqlite/), and returns 200 immediately.
+
+If you're starting from the payments side — payment links, Stripe Checkout,
+and what a fulfillment webhook is for — read the
+[Stripe webhooks guide](/guides/stripe/) first. This page is just the
+hosted-receiver part.
+
+## The receiver
+
+<Val url="https://www.val.town/embed/x/templates/stripe-webhook-receiver/main.ts" />
+
+The `saveEvent` helper in `db.ts` creates a `stripe_events` table (id, type,
+created, full event JSON) and ignores duplicate deliveries of the same event
+id, so Stripe's at-least-once delivery doesn't create duplicate rows.
+
+## Set it up
+
+1. [Remix this template](https://www.val.town/x/templates/stripe-webhook-receiver)
+   — click the **Remix** button in the top right corner.
+2. In the [Stripe dashboard](https://dashboard.stripe.com/webhooks/create),
+   add a webhook endpoint pointing at your val's HTTP URL (shown on the HTTP
+   trigger of `main.ts`).
+3. Copy that endpoint's signing secret (it starts with `whsec_`) and add it
+   to your val's [environment variables](/reference/environment-variables/)
+   as `STRIPE_WEBHOOK_SECRET`.
+
+To test it, configure your endpoint in Stripe test mode and run
+`stripe trigger payment_intent.succeeded` with the
+[Stripe CLI](https://docs.stripe.com/stripe-cli). Expect `{"received":true}`
+and a new row in `stripe_events` — the val's README also shows how to forge
+a correctly signed test event with curl. Requests with a missing or bad
+signature get a 400.
+
+## Notes
+
+- Signature verification only needs the webhook secret — no Stripe API key
+  is required to receive events.
+- Each remix gets its own private SQLite database, so your event log stays
+  with your copy. Browse it in the val's SQLite tab.
+- The receiver stores events and returns immediately. Do fulfillment work
+  (sending emails, updating your database) by querying `stripe_events`, or
+  add it to the handler after `saveEvent`.
+
+## Next steps
+
+- [Stripe webhooks guide](/guides/stripe/) — payment links, Stripe Checkout,
+  and fulfillment
+- [Creating a webhook](/guides/creating-a-webhook/) — webhooks on Val Town in
+  general
+- [SQLite reference](/reference/std/sqlite/) — querying your stored events

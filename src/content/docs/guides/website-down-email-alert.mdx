@@ -1,0 +1,52 @@
+---
+title: Get an email alert when your website goes down
+description: Remix a cron val that checks your website every five minutes
+  and emails you once when it goes down and once when it recovers
+lastUpdated: 2026-06-10
+---
+
+import Val from "@components/Val.astro";
+
+The usual answer is to sign up for an uptime monitoring service. On Val Town
+it's one [cron-triggered val](/vals/cron/): fetch your URL on a schedule,
+remember the last known status in [blob storage](/reference/std/blob/), and
+send yourself an email with [std/email](/reference/std/email/) only when the
+status changes — one email when the site goes down, one when it recovers.
+
+## The monitor
+
+<Val url="https://www.val.town/embed/x/templates/uptime-monitor-email-alert/monitor.ts" />
+
+Because the last status is stored in blob storage, you never get repeat
+alerts while the site stays down. The first run only records a baseline, so
+remixing it never sends a surprise email.
+
+## Set it up
+
+1. [Remix this template](https://www.val.town/x/templates/uptime-monitor-email-alert)
+   — click the **Remix** button in the top right corner.
+2. In `monitor.ts`, change `URL_TO_MONITOR` to your website's URL.
+
+That's it: no API keys, no environment variables, no signup for a monitoring
+service. To test it, point `URL_TO_MONITOR` at a URL that 404s and click
+**Run** on `monitor.ts` twice — the first run records the baseline, the
+second one emails you.
+
+## Notes
+
+- Alerts go to your Val Town account email — that's where
+  [std/email](/reference/std/email/) delivers by default.
+- The template checks every five minutes (`*/5 * * * *`). On the free plan
+  crons run at most once every 15 minutes, so change the schedule to
+  `*/15 * * * *` (or upgrade to [Pro](https://www.val.town/pricing) for up to
+  once a minute).
+- A response is counted as up when `res.ok` is true (status 200–299), and as
+  down on any other status or a network error.
+
+## Next steps
+
+- [Cron reference](/vals/cron/) — schedule types and limits
+- [std/email reference](/reference/std/email/) — subject, attachments, and
+  sending limits
+- [Website uptime tracker](/guides/website-uptime-tracker/) — community
+  variations on the same idea
