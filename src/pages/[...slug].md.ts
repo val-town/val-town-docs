@@ -1,5 +1,6 @@
 import { getCollection } from "astro:content";
 import type { APIRoute } from "astro";
+import { inlineValEmbeds } from "../lib/val-source";
 
 export async function getStaticPaths() {
   const docs = await getCollection("docs");
@@ -32,7 +33,7 @@ title: ${doc.data.title}
 description: ${doc.data.description}
 ---
 
-${doc.body}`;
+${await inlineValEmbeds(doc.body ?? "")}`;
 
     // Return the markdown content with frontmatter
     return new Response(content);

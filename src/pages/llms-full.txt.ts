@@ -1,5 +1,6 @@
 import { getCollection } from "astro:content";
 import type { APIRoute } from "astro";
+import { inlineValEmbeds } from "../lib/val-source";
 
 export function getStaticPaths() {
   return [{ params: {} }];
@@ -13,7 +14,7 @@ export const GET: APIRoute = async () => {
   for (const doc of docs) {
     content += `# ${doc.data.title}\n\n`;
     content += `URL: https://docs.val.town/${doc.id}.md\n\n`;
-    content += `${doc.body}\n\n---\n\n`;
+    content += `${await inlineValEmbeds(doc.body ?? "")}\n\n---\n\n`;
   }
 
   return new Response(content);
