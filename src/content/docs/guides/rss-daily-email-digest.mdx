@@ -1,0 +1,51 @@
+---
+title: Get a daily email digest of an RSS feed
+description: Remix a cron val that checks an RSS feed once a day and emails
+  you only the items published since its last run
+lastUpdated: 2026-06-10
+---
+
+import Val from "@components/Val.astro";
+
+Instead of signing up for a feed-reader-to-email service, you can run the
+whole thing as one [cron-triggered val](/vals/cron/): fetch the feed daily,
+diff against the last-run timestamp stored in
+[blob storage](/reference/std/blob/), and email yourself the new items with
+[std/email](/reference/std/email/). If nothing new was published, no email
+is sent.
+
+## The digest cron
+
+<Val url="https://www.val.town/embed/x/templates/rss-to-email-digest/main.tsx" />
+
+The template splits the rest of the work into small files: `rss.ts` fetches
+and parses the feed (any RSS or Atom feed works), `digest.tsx` renders the
+email HTML, and `email.ts` wraps `std/email` with a small retry since sends
+can fail transiently.
+
+## Set it up
+
+1. [Remix this template](https://www.val.town/x/templates/rss-to-email-digest)
+   — click the **Remix** button in the top right corner.
+2. In `main.tsx`, set `FEED_URL` to the feed you want.
+3. Optional: click **Run** on `main.tsx` to test it immediately. On the
+   first run it looks back 24 hours.
+
+No API keys or environment variables are needed.
+
+## Notes
+
+- The digest goes to your Val Town account email — that's where
+  [std/email](/reference/std/email/) delivers by default.
+- The schedule is `0 13 * * *` — daily at 13:00 UTC (9am Eastern). Cron
+  expressions always run in UTC, so adjust the schedule on `main.tsx` for
+  your timezone.
+- The last-run timestamp in blob storage is what guarantees you never get
+  the same item twice, even if you change the schedule.
+
+## Next steps
+
+- [Cron reference](/vals/cron/) — schedule types and the `Interval` handler
+- [RSS guide](/guides/rss/) — parsing and generating feeds on Val Town
+- [Scrape a website daily and email yourself the results](/guides/scrape-website-daily-email/)
+  — the same cron-plus-email recipe for pages without a feed

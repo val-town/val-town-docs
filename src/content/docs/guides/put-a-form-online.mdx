@@ -1,0 +1,48 @@
+---
+title: Put a form online and save submissions
+description: Remix an HTTP val that serves a contact form, saves every
+  submission to SQLite, and lists what people sent — no external services
+lastUpdated: 2026-06-10
+---
+
+import Val from "@components/Val.astro";
+
+The easiest way to put a form online is to remix a val that already is one.
+This template serves a contact form (name, email, message) at `/`, saves
+every submission to the val's own [SQLite database](/reference/std/sqlite/),
+and lists everything received at `/submissions`. No form-builder service, no
+API keys, no environment variables.
+
+## The form server
+
+<Val url="https://www.val.town/embed/x/templates/form-to-sqlite/main.tsx" />
+
+`db.ts` creates the `submissions` table and holds the two queries, and the
+`components/` files render the pages with Hono JSX. The form is a plain HTML
+POST — there's no client-side JavaScript at all.
+
+## Set it up
+
+1. [Remix this template](https://www.val.town/x/templates/form-to-sqlite)
+   — click the **Remix** button in the top right corner.
+2. Open the HTTP endpoint of `main.tsx` (shown on its HTTP trigger) — that's
+   your live form. Share the URL.
+3. Visit `/submissions` on the same URL to see what people sent.
+
+## Notes
+
+- Each remix gets its own private SQLite database, so your submissions stay
+  with your copy. You can also browse them in the val's SQLite tab.
+- `/submissions` is public by default. If your form collects anything
+  sensitive, protect that route — the [auth guide](/guides/auth/) shows how
+  to add basic or password auth — before sharing the form URL.
+- To change the fields, edit the form in `components/FormPage.tsx`, the
+  validation in `main.tsx`, and the table in `db.ts`.
+
+## Next steps
+
+- [SQLite reference](/reference/std/sqlite/) — querying and migrating your
+  submissions table
+- [Save HTML form data](/guides/save-html-form-data/) — the same pattern
+  built up from scratch
+- [HTTP val reference](/vals/http/) — routing, JSX, and custom domains

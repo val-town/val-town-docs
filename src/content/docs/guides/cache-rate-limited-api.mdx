@@ -1,0 +1,75 @@
+---
+title: Cache a rate-limited API behind your own endpoint
+description: Remix a two-file val where a cron caches an upstream API into
+  blob storage and an HTTP endpoint serves the cache instantly
+# cspell:ignore openweathermap Meteo
+lastUpdated: 2026-06-10
+---
+
+import Val from "@components/Val.astro";
+
+If an upstream API is rate-limited, the fix is to stop hitting it per
+request: a [cron val](/vals/cron/) fetches the upstream every 15 minutes and
+writes the result to [blob storage](/reference/std/blob/), and an
+[HTTP val](/vals/http/) serves that cached blob instantly. Your endpoint
+never talks to the upstream on request, so it's fast and your traffic never
+counts against the upstream's rate limit.
+
+## Why a keyed upstream matters
+
+On Val Town — or any serverless platform — outbound requests leave from
+shared egress IPs. Keyless APIs that rate-limit by IP (Open-Meteo, for
+example) count every other user's requests on that IP against "your" limit,
+so even one polite cron call can come back 429. An earlier version of this
+template used Open-Meteo and hit exactly that failure: the refresh cron
+itself got rate-limited by other users' traffic.
+
+The fix is an upstream with a per-key quota. This template uses
+OpenWeatherMap: the quota belongs to your API key, so nobody else on the
+shared IP can drain it. The cron-to-blob cache then keeps your own usage to
+one upstream call per interval, no matter how much traffic your endpoint
+gets.
+
+## The two files
+
+The cron half fetches the upstream and writes `{ fetchedAt, data }` to a
+blob:
+
+<Val url="https://www.val.town/embed/x/templates/cached-api-proxy/refresh.ts" />
+
+The HTTP half serves the cache with an `X-Cache-Age` header (and a 503 if
+the cache is empty):
+
+<Val url="https://www.val.town/embed/x/templates/cached-api-proxy/main.ts" />
+
+## Set it up
+
+1. [Remix this template](https://www.val.town/x/templates/cached-api-proxy)
+   — click the **Remix** button in the top right corner.
+2. Get a free API key at [openweathermap.org/api](https://openweathermap.org/api).
+3. Add it to your val's
+   [environment variables](/reference/environment-variables/) as
+   `OPENWEATHER_API_KEY`.
+4. Click **Run** on `refresh.ts` once to populate the cache, or wait for the
+   first cron run.
+5. Hit the `main.ts` endpoint URL and check the `X-Cache-Age` response
+   header to see how fresh the data is.
+
+To adapt it to your own API, change the URL in `refresh.ts` and adjust the
+cron schedule to taste. Keep reading the key with `Deno.env.get()` — it
+stays server-side and is never exposed to your endpoint's callers.
+
+## Notes
+
+- The 15-minute schedule (`*/15 * * * *`) is the fastest a cron can run on
+  the free plan; [Pro](https://www.val.town/pricing) allows up to once a
+  minute.
+- Cached data survives between runs in blob storage, so a failed refresh
+  just means slightly staler data, not an outage.
+
+## Next steps
+
+- [Blob storage reference](/reference/std/blob/) — what the cache is built on
+- [Cron reference](/vals/cron/) — schedule types and limits
+- [Environment variables](/reference/environment-variables/) — how secrets
+  stay private

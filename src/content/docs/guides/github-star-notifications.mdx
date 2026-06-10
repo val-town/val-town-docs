@@ -1,0 +1,50 @@
+---
+title: Get notified when someone stars your GitHub repo
+description: Remix a cron val that polls your repo's stargazers hourly and
+  emails you about every new star — no GitHub token required
+# cspell:ignore stargazers yourname yourrepo
+lastUpdated: 2026-06-10
+---
+
+import Val from "@components/Val.astro";
+
+GitHub doesn't email you when someone stars your repo, and the marketplace
+apps that do want an OAuth grant. This template is one
+[cron-triggered val](/vals/cron/) that polls the GitHub API for your repo's
+stargazers every hour, remembers who it has already seen in
+[blob storage](/reference/std/blob/), and emails you whenever someone new
+shows up. It uses GitHub's public keyless API, so there is nothing to sign
+up for — no tokens, no env vars.
+
+## The notifier
+
+<Val url="https://www.val.town/embed/x/templates/github-star-notifier/main.ts" />
+
+Stargazers come back from the API oldest-first, so the val checks the last
+two pages — enough to cover about 100 new stars between runs.
+
+## Set it up
+
+1. [Remix this template](https://www.val.town/x/templates/github-star-notifier)
+   — click the **Remix** button in the top right corner.
+2. In `config.ts`, set `REPO` to your repo, e.g. `"yourname/yourrepo"`.
+
+The first run seeds the list of current stargazers without emailing; after
+that, each new star triggers an email to your Val Town account address.
+
+## Notes
+
+- Notifications go to your Val Town account email — that's where
+  [std/email](/reference/std/email/) delivers by default.
+- The keyless GitHub API allows 60 requests per hour per IP, and this val
+  uses up to 3 per run — the hourly schedule keeps usage low. Don't crank
+  the schedule much faster without adding a token.
+- The repo must be public; the keyless API can't see private repos.
+
+## Next steps
+
+- [Cron reference](/vals/cron/) — schedule types and limits
+- [Receiving a GitHub webhook](/guides/github/receiving-a-github-webhook/) —
+  push-based GitHub events instead of polling
+- [Paginating GitHub stars](/guides/github/github-users-stars-pagination/) —
+  walking the full stargazer list
