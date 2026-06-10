@@ -5,8 +5,6 @@ generated: 1701279907831
 lastUpdated: 2023-12-22
 ---
 
-import Val from "@components/Val.astro";
-
 GitHub supports sending webhooks for a
 [number of events](https://docs.github.com/en/webhooks-and-events/webhooks/webhook-events-and-payloads).
 In this example, you'll use [@std/email](/reference/std/email/) to send yourself an email when someone
@@ -17,7 +15,7 @@ stars your GitHub repository, but you could also send a notification to
 First, create an HTTP trigger within a val to receive star webhooks from
 GitHub, or use this one:
 
-<Val url="https://www.val.town/embed/maxm/githubStarWebhookExample" />
+[View and run this example on Val Town](https://www.val.town/v/maxm/githubStarWebhookExample)
 
 ```ts
 import { email } from "https://esm.town/v/std/email?v=11";
@@ -78,7 +76,7 @@ With your secret, the payload, and the signature header, you can use Octokit's
 [verify](https://github.com/octokit/webhooks.js/#webhooksverify) function to
 confirm that the webhook came from GitHub. Here's how you would integrate that into the original example:
 
-<Val url="https://www.val.town/embed/maxm/verifiedGithubStarWebhookExample" />
+[View and run this example on Val Town](https://www.val.town/v/maxm/verifiedGithubStarWebhookExample)
 
 ```ts
 import { verify } from "https://esm.sh/@octokit/webhooks-methods@3.0.2?pin=v106";

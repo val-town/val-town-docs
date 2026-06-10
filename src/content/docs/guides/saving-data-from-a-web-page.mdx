@@ -5,8 +5,6 @@ generated: 1701279907847
 lastUpdated: 2024-07-03
 ---
 
-import Val from "@components/Val.astro";
-
 There are many ways to save data from a web page, depending on your use-case, technologies, and other constraints. First, you'll want to pick a storage mechanism. Val Town has two built-in:
 
 [Blob storage](/reference/std/blob) is a very simple key-value store for storing files, JSON, images, large blobs of data, while [SQLite](/reference/std/sqlite) is a SQL database with ACID transactions, indexes, and more. You can also use external services like Firebase, Supabase, Neon, Upstash, etc.
@@ -17,7 +15,7 @@ Once you've picked a storage mechanism, you'll need to decide how to interact wi
 
 For example, this val is an app that displays comments, accepts new comments, and allows you to delete comments.
 
-<Val url="https://www.val.town/embed/stevekrouse/blobCommentDemo" />
+[View and run this example on Val Town](https://www.val.town/v/stevekrouse/blobCommentDemo)
 
 ```tsx
 /** @jsxImportSource npm:hono@3/jsx */
@@ -79,7 +77,7 @@ The way this val is rendered (Hono JSX) and the the HTML page talks to the serve
 
 This is a remix of the above app that uses client-side React to make the API calls:
 
-<Val url="https://www.val.town/embed/stevekrouse/blobCommentsReact" />
+[View and run this example on Val Town](https://www.val.town/v/stevekrouse/blobCommentsReact)
 
 ```tsx
 /** @jsxImportSource https://esm.sh/react */
@@ -210,7 +208,7 @@ The above demo is simple because it stores the data in the same simple JSON form
 
 This is the same Hono demo but using SQLite on the backend. We will leave it as an exercise to an ambitious and helpful reader to convert the React demo to use SQLite and submit a PR to this docs page.
 
-<Val url="https://www.val.town/embed/stevekrouse/sqliteCommentDemo" />
+[View and run this example on Val Town](https://www.val.town/v/stevekrouse/sqliteCommentDemo)
 
 ```tsx
 /** @jsxImportSource npm:hono@3/jsx */

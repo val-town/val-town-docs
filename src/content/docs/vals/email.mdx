@@ -5,8 +5,6 @@ sidebar:
   order: 4
 ---
 
-import Val from "@components/Val.astro";
-
 Email triggers provide a unique email address for your val. When Val Town
 receives an email at that address, it triggers the corresponding file within the val with the email as its first argument.
 
@@ -58,7 +56,7 @@ interface Email {
 
 This Email trigger forwards any email it receives to me. Try it out by sending an email to `stevekrouse.forwarder@valtown.email`.
 
-<Val url="https://www.val.town/embed/x/valdottown/forwarder/forwarder" />
+[View and run this example on Val Town](https://www.val.town/x/valdottown/forwarder/forwarder)
 
 ```ts
 import { encode } from "https://deno.land/std@0.203.0/encoding/base64.ts";

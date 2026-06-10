@@ -6,8 +6,6 @@ sidebar:
   order: 3
 ---
 
-import Val from "@components/Val.astro";
-
 One of the coolest things about the Request/Response API is that it works with modern web frameworks, so you can use routing and their helper methods! When an
 HTTP file is deployed, it is available at a subdomain like
 `handle-valname.web.val.run`, and requests to any subdirectory
@@ -17,10 +15,7 @@ or path will be routed to the file.
 
 We typically recommend [Hono](https://hono.dev/):
 
-<Val
-  url="https://www.val.town/embed/x/valdottown/HTTP_examples/Routing/honoExample"
-  height="240px"
-/>
+[View and run this example on Val Town](https://www.val.town/x/valdottown/HTTP_examples/Routing/honoExample)
 
 ```ts
 import { Hono } from "npm:hono@3";
@@ -35,10 +30,7 @@ export default app.fetch;
 
 And one with [Peko](https://peko.deno.dev/):
 
-<Val
-  url="https://www.val.town/embed/x/valdottown/HTTP_examples/Routing/pekoExample"
-  height="300px"
-/>
+[View and run this example on Val Town](https://www.val.town/x/valdottown/HTTP_examples/Routing/pekoExample)
 
 ```ts
 import * as Peko from "https://deno.land/x/peko@2.0.0/mod.ts";
@@ -55,10 +47,7 @@ export const pekoExample = async (request) => {
 
 And [nhttp](https://github.com/nhttp/nhttp):
 
-<Val
-  url="https://www.val.town/embed/x/valdottown/HTTP_examples/Routing/nhttpExample"
-  height="350px"
-/>
+[View and run this example on Val Town](https://www.val.town/x/valdottown/HTTP_examples/Routing/nhttpExample)
 
 ```ts
 import { nhttp } from "npm:nhttp-land@1";
@@ -79,10 +68,7 @@ export const nhttpExample = async (request) => {
 
 A super tiny example with [itty-router](https://itty.dev/itty-router):
 
-<Val
-  url="https://www.val.town/embed/x/valdottown/HTTP_examples/Routing/ittyExample"
-  height="250px"
-/>
+[View and run this example on Val Town](https://www.val.town/x/valdottown/HTTP_examples/Routing/ittyExample)
 
 ```ts
 import { json, Router } from "npm:itty-router@4";
@@ -98,7 +84,7 @@ export const ittyRouterExample = async (request: Request) => {
 
 A simple example of using [feTS server](https://the-guild.dev/openapi/fets/server/quick-start):
 
-<Val url="https://www.val.town/embed/x/valdottown/HTTP_examples/Routing/fetsExample" />
+[View and run this example on Val Town](https://www.val.town/x/valdottown/HTTP_examples/Routing/fetsExample)
 
 ```ts
 import { createRouter, Response } from "npm:fets";

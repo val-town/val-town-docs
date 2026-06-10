@@ -5,15 +5,13 @@ description: Val Town can be used as a way to generate QR Codes.
 lastUpdated: 2023-12-04
 ---
 
-import Val from "@components/Val.astro";
-
 Generate a QR code for any link, instantly!
 
 Visit
 [https://neverstew-generateQR.web.val.run?url=https://neverstew.com](https://neverstew-generateqr.web.val.run/?url=https://neverstew.com)
 and replace the url query parameter with your link.
 
-<Val url="https://www.val.town/embed/neverstew/generateQR" />
+[View and run this example on Val Town](https://www.val.town/v/neverstew/generateQR)
 
 ```tsx
 import { qrcode } from "https://deno.land/x/qrcode/mod.ts";
@@ -24,11 +22,7 @@ export async function generateQR(req: Request) {
     url = new URL(new URL(req.url).searchParams.get("url"));
   }
   catch {
-    return new Response(
-      "<html><body>Not a valid URL - " + new URL(req.url).search
-        + "</body></html>",
-      { headers: { "Content-Type": "text/html" }, status: 400 },
-    );
+    return new Response("Not a valid URL", { status: 400 });
   }
   const base64Image = await qrcode(url.toString(), { type: "text/html" });
   return new Response(

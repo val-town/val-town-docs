@@ -7,8 +7,6 @@ description: Schedules let code on Val Town run every day, every hour, or
 # cspell:ignore crongpt
 ---
 
-import Val from "@components/Val.astro";
-
 Cron triggers let you schedule code to run repeatedly on a schedule.
 
 Some common examples include:
@@ -67,7 +65,7 @@ the cron expression.
 
 This example polls an RSS feed for new items since the last run. This val runs every 1 hour.
 
-<Val url="https://www.val.town/embed/stevekrouse/rssNotifyExample" />
+[View and run this example on Val Town](https://www.val.town/v/stevekrouse/rssNotifyExample)
 
 ```tsx
 import { getLegacyImportUrl } from "https://esm.town/v/std/getLegacyImportUrl/main.tsx";

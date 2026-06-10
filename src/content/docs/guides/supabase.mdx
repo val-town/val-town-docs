@@ -3,20 +3,18 @@ title: Supabase webhooks
 description: Handle Supabase webhooks in Val Town
 ---
 
-import Val from "@components/Val.astro";
-
 Handling Supabase webhooks in Val Town allows you to run arbitrary logic whenever an `INSERT`, `UPDATE`, or `DELETE` happens in your database. For example, for new user signups you could set up an [email](/reference/std/email), [Slack](/guides/slack/send-messages-to-slack), or [Discord](/guides/discord/send-message) notification, or [enrich user data with Clay](https://www.val.town/x/charmaine/clay-proxy).
 
 ## Create an HTTP trigger in Val Town
 
 Create a new val using the webhook template, or remix this example val:
 
-<Val url="https://www.val.town/embed/x/petermillspaugh/supabaseWebhook/main.ts" />
+[View and run this example on Val Town](https://www.val.town/x/petermillspaugh/supabaseWebhook/main.ts)
 
 ```ts
 export default async function supabaseWebhook(req: Request): Promise<Response> {
   if (req.method === "POST") {
-    const xSecret = req.headers["X-Supabase-Secret"];
+    const xSecret = req.headers.get("X-Supabase-Secret");
     const secret = Deno.env.get("SUPABASE_WEBHOOK_SECRET");
     if (xSecret !== secret) {
       return new Response("Unauthorized", { status: 401 });

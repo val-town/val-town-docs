@@ -3,7 +3,6 @@ title: Slack agent
 description: BYOA (Bring Your Own Agent) to Slack
 ---
 
-import Val from "@components/Val.astro";
 import { FileTree } from "@astrojs/starlight/components";
 
 This guide takes you through building a Slack agent in Val Town, using the Vercel AI SDK. It is an updated version of Vercel's own Slackbot Agent Guide, adapted for Val Town.
@@ -70,7 +69,7 @@ At this point, you should already be able to chat with your agent in Slack via @
 
 The `events.ts` file exposes an API from the val's HTTP URL using Hono. The `POST /events` route is where Slack webhooks come in and get routed based on their event type (@mention, thread started, or generic message).
 
-<Val url="https://www.val.town/embed/x/petermillspaugh/duck/events.ts" />
+[View and run this example on Val Town](https://www.val.town/x/petermillspaugh/duck/events.ts)
 
 ```ts
 import { Hono } from "npm:hono@4.12.0";
@@ -158,7 +157,7 @@ Slack [expects a response within 3 seconds](https://docs.slack.dev/apis/events-a
 
 When you mention your bot in a channel or channel thread, the `app_mention` event is triggered, which we handle in `handle-app-mention.ts`:
 
-<Val url="https://www.val.town/embed/x/petermillspaugh/duck/lib/handle-app-mention.ts" />
+[View and run this example on Val Town](https://www.val.town/x/petermillspaugh/duck/lib/handle-app-mention.ts)
 
 ```ts
 import { AppMentionEvent } from "npm:@slack/web-api@7.14.1";
@@ -217,7 +216,7 @@ export async function handleAppMention(
 
 When you start a thread with your assistant in its dedicated Slack app chat interface, the `assistant_thread_started` event is triggered, which we handle in `handle-thread-started.ts`:
 
-<Val url="https://www.val.town/embed/x/petermillspaugh/duck/lib/handle-thread-started.ts" />
+[View and run this example on Val Town](https://www.val.town/x/petermillspaugh/duck/lib/handle-thread-started.ts)
 
 ```ts
 import type { AssistantThreadStartedEvent } from "npm:@slack/web-api@7.14.1";
@@ -267,7 +266,7 @@ You should tailor these, of course, based on your needs.
 
 For direct messages to your bot in its dedicated Slack app chat interface, the `message` event is triggered, which we handle in `handle-message.ts`:
 
-<Val url="https://www.val.town/embed/x/petermillspaugh/duck/lib/handle-message.ts" />
+[View and run this example on Val Town](https://www.val.town/x/petermillspaugh/duck/lib/handle-message.ts)
 
 ```ts
 import type { GenericMessageEvent } from "npm:@slack/web-api@7.14.1";
@@ -326,7 +325,7 @@ export async function handleMessage(
 
 The core AI parts of your agent live in `generate-response.ts`:
 
-<Val url="https://www.val.town/embed/x/petermillspaugh/duck/lib/generate-response.ts" />
+[View and run this example on Val Town](https://www.val.town/x/petermillspaugh/duck/lib/generate-response.ts)
 
 ```ts
 import { generateText, ModelMessage, stepCountIs } from "npm:ai@6.0.92";

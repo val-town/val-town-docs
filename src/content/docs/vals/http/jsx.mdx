@@ -6,8 +6,6 @@ sidebar:
   order: 2
 ---
 
-import Val from "@components/Val.astro";
-
 To use JSX, you'll need to insert what TypeScript calls a
 "[per-file pragma](https://www.typescriptlang.org/tsconfig#jsxImportSource)" - a
 comment that uses `@jsxImportSource` to specify where the JSX methods are going
@@ -22,10 +20,7 @@ will look like this at the top of your file:
 
 We recommend using React:
 
-<Val
-  url="https://www.val.town/embed/x/valdottown/HTTP_examples/HTML_JSX/react"
-  height="300px"
-/>
+[View and run this example on Val Town](https://www.val.town/x/valdottown/HTTP_examples/HTML_JSX/react)
 
 ```tsx
 /** @jsxImportSource https://esm.sh/react */
@@ -43,10 +38,7 @@ export const reactExample = () =>
 
 Preact is a great alternative to React:
 
-<Val
-  url="https://www.val.town/embed/x/valdottown/HTTP_examples/HTML_JSX/preact"
-  height="300px"
-/>
+[View and run this example on Val Town](https://www.val.town/x/valdottown/HTTP_examples/HTML_JSX/preact)
 
 ```tsx
 /** @jsxImportSource https://esm.sh/preact */
@@ -62,10 +54,7 @@ export const preactExample = () =>
 
 ### Vue
 
-<Val
-  url="https://www.val.town/embed/x/valdottown/HTTP_examples/HTML_JSX/vue"
-  height="300px"
-/>
+[View and run this example on Val Town](https://www.val.town/x/valdottown/HTTP_examples/HTML_JSX/vue)
 
 ```tsx
 /** @jsxImportSource https://esm.sh/vue */
@@ -81,10 +70,7 @@ export const vueExample = async () =>
 
 ### Solid
 
-<Val
-  url="https://www.val.town/embed/x/valdottown/HTTP_examples/HTML_JSX/solid"
-  height="300px"
-/>
+[View and run this example on Val Town](https://www.val.town/x/valdottown/HTTP_examples/HTML_JSX/solid)
 
 ```tsx
 /** @jsxImportSource https://esm.sh/solid-jsx */
@@ -100,10 +86,7 @@ export const solidExample = async () =>
 
 ### Hono
 
-<Val
-  url="https://www.val.town/embed/x/valdottown/HTTP_examples/HTML_JSX/hono"
-  height="340px"
-/>
+[View and run this example on Val Town](https://www.val.town/x/valdottown/HTTP_examples/HTML_JSX/hono)
 
 ```tsx
 /** @jsxImportSource npm:hono@3/jsx */
@@ -117,5 +100,4 @@ export const honoExample = () => {
     },
   });
 };
-```
 ```

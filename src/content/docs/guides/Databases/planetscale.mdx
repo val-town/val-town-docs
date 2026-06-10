@@ -5,8 +5,6 @@ description: How to store data in PlanetScale, a hosted MySQL platform with the 
 lastUpdated: 2023-12-22
 ---
 
-import Val from "@components/Val.astro";
-
 [PlanetScale](https://planetscale.com/) once provided a hosted MySQL database with 5GB
 of storage included in the free tier. On April 8, 2024, the free plan was retired and the [cheapest plan](https://planetscale.com/pricing) starts at $39 with 10GB storage.
 
@@ -105,7 +103,7 @@ helper, see how it uses the `@planetscale/database` SDK, refer to the
 [driver's documentation](https://github.com/planetscale/database-js), and extend
 it!
 
-<Val url="https://www.val.town/embed/vtdocs/queryPlanetScale" />
+[View and run this example on Val Town](https://www.val.town/v/vtdocs/queryPlanetScale)
 
 ```ts
 export const queryPlanetScale = async (

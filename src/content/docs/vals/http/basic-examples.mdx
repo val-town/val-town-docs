@@ -6,16 +6,11 @@ sidebar:
   order: 1
 ---
 
-import Val from "@components/Val.astro";
-
 HTTP triggers expose a public endpoint.
 
 The simplest endpoint returns a simple JSON message:
 
-<Val
-  url="https://www.val.town/embed/x/valdottown/HTTP_examples/Basic_examples/jsonOkExample"
-  height="160px"
-/>
+[View and run this example on Val Town](https://www.val.town/x/valdottown/HTTP_examples/Basic_examples/jsonOkExample)
 
 ```ts
 export const jsonOkExample = () => Response.json({ ok: true });
@@ -23,10 +18,7 @@ export const jsonOkExample = () => Response.json({ ok: true });
 
 Or you could return HTML with the corresponding Content-Type header:
 
-<Val
-  url="https://www.val.town/embed/x/valdottown/HTTP_examples/Basic_examples/htmlExample"
-  height="230px"
-/>
+[View and run this example on Val Town](https://www.val.town/x/valdottown/HTTP_examples/Basic_examples/htmlExample)
 
 ```tsx
 export const htmlExample = () =>
@@ -39,10 +31,7 @@ export const htmlExample = () =>
 
 This echoes request headers back in the response:
 
-<Val
-  url="https://www.val.town/embed/x/valdottown/HTTP_examples/Basic_examples/headersExample"
-  height="180px"
-/>
+[View and run this example on Val Town](https://www.val.town/x/valdottown/HTTP_examples/Basic_examples/headersExample)
 
 ```ts
 export const headersExample = (request: Request) => {
@@ -52,10 +41,7 @@ export const headersExample = (request: Request) => {
 
 We can get and return the request URL's query parameters:
 
-<Val
-  url="https://www.val.town/embed/x/valdottown/HTTP_examples/Basic_examples/queryParams"
-  height="180px"
-/>
+[View and run this example on Val Town](https://www.val.town/x/valdottown/HTTP_examples/Basic_examples/queryParams)
 
 ```ts
 export const queryParams = (req: Request) => {
@@ -66,7 +52,7 @@ export const queryParams = (req: Request) => {
 
 You can also get the body of POST requests:
 
-<Val url="https://www.val.town/embed/x/valdottown/HTTP_examples/Basic_examples/jsonBodyParsing" />
+[View and run this example on Val Town](https://www.val.town/x/valdottown/HTTP_examples/Basic_examples/jsonBodyParsing)
 
 ```ts
 export default async function handler(request: Request) {

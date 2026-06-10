@@ -5,8 +5,6 @@ sidebar:
   order: 1
 ---
 
-import Val from "@components/Val.astro";
-
 You can store secrets, keys, and API tokens as **Environment Variables** via the val's left side bar.
 
 Environment variables can be accessed via `Deno.env` or `process.env` within any file in your val.
@@ -42,10 +40,7 @@ Others can see that they're being used, but not their values.
 
 For example, in this public val, you can see that I'm using a Discord bot's environment variable, but you cannot run this code or get the value of the environment variable.
 
-<Val
-  url="https://www.val.town/embed/stevekrouse/sendDiscordDMExample?v=3"
-  height="180px"
-/>
+[View and run this example on Val Town](https://www.val.town/v/stevekrouse/sendDiscordDMExample?v=3)
 
 ```ts
 import { discordSendDM } from "https://esm.town/v/vtdocs/discordSendDM";
