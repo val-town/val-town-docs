@@ -1,0 +1,75 @@
+---
+title: Deploy an API endpoint in under a minute
+description: Write a fetch handler in an HTTP val and get a live HTTPS URL
+  the moment you save — no Dockerfile, no deploy pipeline
+# cspell:ignore yourname
+lastUpdated: 2026-06-11
+---
+
+An [HTTP val](/vals/http/) is a fetch handler with a public URL: you write a
+function that takes a web-standard
+[Request](https://developer.mozilla.org/en-US/docs/Web/API/Request) and
+returns a [Response](https://developer.mozilla.org/en-US/docs/Web/API/Response),
+and it's live at its own URL as soon as you save. There's no Dockerfile, no
+deploy pipeline, and nothing to provision.
+
+## The endpoint
+
+This is a complete JSON API with one parameterized route, using
+[Hono](https://hono.dev/) — the router we typically recommend:
+
+```ts title="api.ts" val
+import { Hono } from "npm:hono";
+
+const app = new Hono();
+
+app.get("/greet/:name", (c) =>
+  c.json({ message: `Hello, ${c.req.param("name")}!` })
+);
+
+export default app.fetch;
+```
+
+If you don't need routes, skip Hono entirely and export a plain handler:
+
+```ts title="Plain handler"
+export default async function (req: Request): Promise<Response> {
+  return Response.json({ ok: true });
+}
+```
+
+## Set it up
+
+1. [Create a val](https://www.val.town/) and add a file.
+2. Click the `+` button in the top right of the editor and select `HTTP`.
+3. Paste in the code above and save. The HTTP trigger shows your endpoint
+   URL — something like `yourname-api.web.val.run`.
+
+Then hit it from your terminal:
+
+```sh
+curl https://yourname-api.web.val.run/greet/world
+```
+
+```json
+{ "message": "Hello, world!" }
+```
+
+Requests to any path on that subdomain are routed to your file, so the
+`/greet/:name` route just works.
+
+## What you get for free
+
+- **HTTPS** — the endpoint URL is HTTPS from the start, no certificates to
+  manage.
+- **Logs and traces** — every request shows up in the val's logs, including
+  anything you `console.log`.
+- **Instant redeploys** — every save deploys and is automatically versioned,
+  and rollbacks are instantaneous.
+
+## Next steps
+
+- [HTTP reference](/vals/http/) — basic examples, routing, JSX, and custom
+  domains
+- [Put a form online and save submissions](/guides/put-a-form-online/) — a
+  complete HTTP val that serves pages and stores data
