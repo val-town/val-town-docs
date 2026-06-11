@@ -58,7 +58,6 @@ Here’s how you can handle folders:
 
 - **Do nothing:** Upgrade vals individually; they remain separate but functional.
 - **Manual consolidation:** Upgrade the main val first, then manually copy & paste other vals' code into the new Val Town Project. This typically takes just a few minutes.
-- **Bulk automation:** Quickly migrate source files only using our automated tool at [valtoproject.val.run](https://valtoproject.val.run/). This tool only migrates source files; it doesn't do the other upgrade steps listed above.
 
 **Need help?** Pair with our team by [booking time here](https://calendar.app.google/RV7chTwXAbq4DyYcA).
 

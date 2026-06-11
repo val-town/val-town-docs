@@ -92,7 +92,7 @@ export default async (req: Request): Promise<Response> => {
 
 You may notice in the code above that the webhook handler takes care of registering itself with Telegram. If everything worked properly, your webhook should be registered already and this step is already done 🎉
 
-You can confirm it's set by using this [Telegram Webhook Manager](https://telegram.tools/webhook-manager) or by simply sending a message to your bot.
+You can confirm it's set by sending a message to your bot.
 
 Once your webhook is registered, you can optionally comment out or delete the lines of code the that register it in the webhook handler.
 
