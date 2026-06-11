@@ -35,16 +35,16 @@ gets.
 The cron half fetches the upstream and writes `{ fetchedAt, data }` to a
 blob:
 
-<Val url="https://www.val.town/embed/x/templates/cached-api-proxy/refresh.ts" />
+<Val url="https://www.val.town/embed/x/examples/cached-api-proxy/refresh.ts" />
 
 The HTTP half serves the cache with an `X-Cache-Age` header (and a 503 if
 the cache is empty):
 
-<Val url="https://www.val.town/embed/x/templates/cached-api-proxy/main.ts" />
+<Val url="https://www.val.town/embed/x/examples/cached-api-proxy/main.ts" />
 
 ## Set it up
 
-1. [Remix this template](https://www.val.town/x/templates/cached-api-proxy)
+1. [Remix this template](https://www.val.town/x/examples/cached-api-proxy)
    — click the **Remix** button in the top right corner.
 2. Get a free API key at [openweathermap.org/api](https://openweathermap.org/api).
 3. Add it to your val's

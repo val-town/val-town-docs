@@ -23,7 +23,7 @@ In [5 or 10 minutes](https://screen.studio/share/3NFNHgtF), you'll have an agent
 1. Under App Home > Show Tabs > Chat Tab, check "Allow users to send Slash
    commands and messages from the chat tab"
 1. Under OAuth & Permissions > OAuth Tokens, install the app to your workspace
-1. Remix this [slack agent](https://www.val.town/x/petermillspaugh/duck) template val
+1. Remix this [slack agent](https://www.val.town/x/examples/duck) template val
 1. Add [environment variables](https://docs.val.town/reference/environment-variables/)
    in your val sidebar:
    1. `SLACK_BOT_TOKEN` in your Slack app: OAuth & Permissions > OAuth Tokens >
@@ -70,7 +70,7 @@ At this point, you should already be able to chat with your agent in Slack via @
 
 The `events.ts` file exposes an API from the val's HTTP URL using Hono. The `POST /events` route is where Slack webhooks come in and get routed based on their event type (@mention, thread started, or generic message).
 
-<Val url="https://www.val.town/embed/x/templates/duck/events.ts" />
+<Val url="https://www.val.town/embed/x/examples/duck/events.ts" />
 
 The `POST` route verifies that webhooks are indeed coming from Slack then handles three types of events in its core try-catch loop:
 
@@ -86,7 +86,7 @@ Slack [expects a response within 3 seconds](https://docs.slack.dev/apis/events-a
 
 When you mention your bot in a channel or channel thread, the `app_mention` event is triggered, which we handle in `handle-app-mention.ts`:
 
-<Val url="https://www.val.town/embed/x/templates/duck/lib/handle-app-mention.ts" />
+<Val url="https://www.val.town/embed/x/examples/duck/lib/handle-app-mention.ts" />
 
 1. Checks if the message is from a bot to avoid infinite response loops
 2. Creates a status updater to show the bot is "thinking"
@@ -97,7 +97,7 @@ When you mention your bot in a channel or channel thread, the `app_mention` even
 
 When you start a thread with your assistant in its dedicated Slack app chat interface, the `assistant_thread_started` event is triggered, which we handle in `handle-thread-started.ts`:
 
-<Val url="https://www.val.town/embed/x/templates/duck/lib/handle-thread-started.ts" />
+<Val url="https://www.val.town/embed/x/examples/duck/lib/handle-thread-started.ts" />
 
 1. Your agent sends a welcome message to the thread
 2. Sets up suggested prompts to help users get started
@@ -108,7 +108,7 @@ You should tailor these, of course, based on your needs.
 
 For direct messages to your bot in its dedicated Slack app chat interface, the `message` event is triggered, which we handle in `handle-message.ts`:
 
-<Val url="https://www.val.town/embed/x/templates/duck/lib/handle-message.ts" />
+<Val url="https://www.val.town/embed/x/examples/duck/lib/handle-message.ts" />
 
 1. Ignore messages from the agent (bot) itself
 1. Update the status ahead of the LLM call
@@ -120,7 +120,7 @@ For direct messages to your bot in its dedicated Slack app chat interface, the `
 
 The core AI parts of your agent live in `generate-response.ts`:
 
-<Val url="https://www.val.town/embed/x/templates/duck/lib/generate-response.ts" />
+<Val url="https://www.val.town/embed/x/examples/duck/lib/generate-response.ts" />
 
 1. Loads your system prompt
 1. Uses the Vercel AI SDK's `generateText` function with Anthropic's `claude-sonnet-4.6` model
