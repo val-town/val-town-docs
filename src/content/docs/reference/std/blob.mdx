@@ -10,7 +10,7 @@ text, JSON, or images. You can access it via
 
 Blob storage comes in two flavors: scoped & global.
 
-**Scoped** blob storage should be your default for now vals: it's scoped to the
+**Scoped** blob storage should be your default for new vals: it's scoped to the
 val, so more secure and flexible. Scoped storage is available behind the
 `https://esm.town/v/std/blob/main.ts` export and is backed by Amazon S3.
 
@@ -43,7 +43,7 @@ await blob.setJSON("myKey", { hello: "world" });
 
 ##### Set any content
 
-```ts title="Set JSON"
+```ts title="Set any content"
 import { blob } from "https://esm.town/v/std/blob/main.ts";
 
 await blob.set("myKey", "String, stream, etc");
@@ -51,7 +51,7 @@ await blob.set("myKey", "String, stream, etc");
 
 ##### Get any content
 
-```ts title="Set JSON"
+```ts title="Get any content"
 import { blob } from "https://esm.town/v/std/blob/main.ts";
 
 // Exposes a Response object with the same methods as a response from

@@ -14,6 +14,8 @@ Environment variables can be accessed via `Deno.env` or `process.env` within any
 - The "key" and "value" of each environment variable can be any string
 - Vals can't set environment variables programmatically: Environment variables are only set via the settings page. Trying to update an environment variable, for example by using `Deno.env.set`, is a no-op.
 
+Newly set or updated environment variables don't reach isolates that are already warm, so your val can keep seeing stale values until it redeploys. Any edit to the val, however trivial, forces a redeploy and picks up the new values.
+
 ### Deno.env
 
 This uses the Deno-default

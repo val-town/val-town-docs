@@ -20,6 +20,14 @@ They are built on the web-standard
 so are compatible with a number of web frameworks like
 [Hono](https://hono.dev/).
 
+The triggered file's default export takes a `Request` and returns a `Response`:
+
+```ts
+export default async function (req: Request): Promise<Response> {
+  return Response.json({ ok: true });
+}
+```
+
 <Val
   url="https://www.val.town/embed/x/valdottown/HTTP_examples/HTTP/exampleHTTP"
   height="180px"
