@@ -1,0 +1,42 @@
+# Configuration for lychee, the external link checker.
+# Run weekly by .github/workflows/links.yml (see that file for details).
+#
+# Internal (root-relative) links are validated at build time by
+# starlight-links-validator, so they are resolved against the live site
+# here and then excluded — this config is only about EXTERNAL links.
+
+# Only check http(s) links (skips mailto:, tel:, etc.)
+scheme = ["https", "http"]
+
+# Make root-relative links (e.g. /vals/http) resolvable so lychee doesn't
+# error on them; they are then skipped by the docs.val.town exclude below.
+base_url = "https://docs.val.town/"
+
+# Accept 403/429 in addition to 2xx: many sites (npmjs.com, GoDaddy,
+# Namecheap, OpenAI, Zendesk, val.town/search) block bots with 403/429
+# even though the page exists. A genuinely missing page still 404s.
+accept = ["200..299", "403", "429"]
+
+max_retries = 2
+timeout = 30
+
+exclude = [
+  # Internal links; already validated by starlight-links-validator at build
+  "^https://docs\\.val\\.town",
+  # Local/dev URLs
+  "^https?://(localhost|127\\.0\\.0\\.1|0\\.0\\.0\\.0)",
+  # Placeholder domains used in examples
+  "^https?://([a-z0-9-]+\\.)*example\\.(com|org|net)",
+  # URLs with template placeholders (e.g. ${handle}, <your-val>, yourname)
+  "[$]\\{",
+  "%7B",
+  "<[^>]*>",
+  "yourname|your-val|username-valname",
+  # Val Town endpoints execute code; many require query params, a POST body,
+  # or auth, so a bare GET is meaningless and flaky (cold starts, 500s)
+  "^https?://([a-z0-9-]+\\.)*val\\.run",
+  # Behind a login wall; redirects to Google sign-in forever
+  "^https://console\\.cloud\\.google\\.com",
+  # Block bots outright (connection-level, so `accept` can't help)
+  "^https?://(www\\.)?(twitter|x)\\.com",
+]

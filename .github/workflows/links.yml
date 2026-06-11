@@ -1,0 +1,41 @@
+# Checks EXTERNAL links in the docs sources for rot (renamed Val Town
+# handles, moved third-party pages, dead sites). Internal links are
+# already validated at build time by starlight-links-validator.
+#
+# Runs weekly (not on PRs — external link checking is slow and flaky,
+# and third-party downtime shouldn't make unrelated PRs red). On
+# failure it opens a "Link Checker Report" issue with the details.
+# Exclusions and accepted status codes live in lychee.toml.
+name: Links
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "00 14 * * 1" # Mondays 14:00 UTC
+
+jobs:
+  linkChecker:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write # required for peter-evans/create-issue-from-file
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Link Checker
+        id: lychee
+        uses: lycheeverse/lychee-action@v2
+        with:
+          fail: false
+          args: >-
+            --no-progress
+            --config lychee.toml
+            'src/content/docs/**/*.md'
+            'src/content/docs/**/*.mdx'
+
+      - name: Create Issue From File
+        if: steps.lychee.outputs.exit_code != 0
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: Link Checker Report
+          content-filepath: ./lychee/out.md
+          labels: report, automated issue
