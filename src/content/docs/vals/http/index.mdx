@@ -3,6 +3,7 @@ title: HTTP
 description: A kind of val that can serve a website or an API using web-standard Request & Response objects.
 sidebar:
   order: 0
+lastUpdated: 2026-06-11
 ---
 
 import Val from "@components/Val.astro";
@@ -19,6 +20,14 @@ They are built on the web-standard
 [Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) objects,
 so are compatible with a number of web frameworks like
 [Hono](https://hono.dev/).
+
+The triggered file's default export takes a `Request` and returns a `Response`:
+
+```ts
+export default async function (req: Request): Promise<Response> {
+  return Response.json({ ok: true });
+}
+```
 
 <Val
   url="https://www.val.town/embed/x/valdottown/HTTP_examples/HTTP/exampleHTTP"
