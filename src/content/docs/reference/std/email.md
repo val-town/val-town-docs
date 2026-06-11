@@ -87,7 +87,7 @@ export const stdEmailAttachmentExample = email({
 
 - [Sending a PDF created in code](https://www.val.town/v/stevekrouse/sendPDF)
 - [Receiving an attachment and then sending it along](https://www.val.town/x/stevekrouse/replyEmailWithAttachment/code/main.ts).
-- [Receiving an attachment, sending it to OpenAI, and then emailing it](https://www.val.town/x/ValDotTownOrg/virtual-mail/code/main.ts).
+- [Receiving an attachment, sending it to OpenAI, and then emailing it](https://www.val.town/x/valdottown/virtual-mail/code/main.ts).
 
 ### Headers
 
@@ -106,7 +106,7 @@ console.log(
 );
 ```
 
-This is also [documented in our REST API](https://docs.val.town/openapi#/tag/emails/POST/v1/email), and supported in the [SDK](https://sdk.val.town/api/node/resources/emails/methods/send).
+This is also [documented in our REST API](https://docs.val.town/openapi#/tag/emails/POST/v1/email), and supported in the [SDK](https://sdk.val.town/api/typescript/resources/emails/methods/send).
 
 ## Limitations
 

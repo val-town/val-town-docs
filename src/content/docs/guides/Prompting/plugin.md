@@ -7,7 +7,7 @@ sidebar:
 
 The Val Town plugin for coding agents bundles the Val Town [MCP server](/guides/prompting/mcp) and platform skills for your agents. It works with Claude Code, Codex, and Cursor.
 
-You can explore the plugin's source code, including skills, at [github.com/val-town/plugin](https://github.com/val-town/plugin).
+You can explore the plugin's source code, including skills, at [github.com/val-town/plugins](https://github.com/val-town/plugins).
 
 ## Install
 
@@ -45,4 +45,4 @@ With the plugin, your coding agent can write idiomatic vals and deploy live to V
 2. **Val Town Skills:** platform know-how from our [system prompt](https://val.town/townie/system-prompt), plus skills for HTTP vals,
    crons, email vals, SQLite, OAuth, frontend patterns, API integrations
 
-Learn more and contribute at [github.com/val-town/plugin](https://github.com/val-town/plugin).
+Learn more and contribute at [github.com/val-town/plugins](https://github.com/val-town/plugins).

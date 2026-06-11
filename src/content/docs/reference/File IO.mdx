@@ -13,7 +13,7 @@ There is no direct access to the filesystem in Val Town. This allows us to deplo
 
 ### Read a file
 
-[Docs](https://sdk.val.town/api/node/resources/vals/subresources/files/methods/getContent)
+[Docs](https://sdk.val.town/api/typescript/resources/vals/subresources/files/methods/getContent)
 
 ```ts val title="read-file.ts"
 import ValTown from "npm:@valtown/sdk";
@@ -28,7 +28,7 @@ console.log(content);
 
 ### Create a file
 
-[Docs](https://sdk.val.town/api/node/resources/vals/subresources/files/methods/create)
+[Docs](https://sdk.val.town/api/typescript/resources/vals/subresources/files/methods/create)
 
 ```ts title="create-file.ts" val
 import ValTown from "npm:@valtown/sdk";
@@ -42,7 +42,7 @@ const file = await vt.vals.files.create(val_id, {
 
 ### Update a file
 
-[Docs](https://sdk.val.town/api/node/resources/vals/subresources/files/methods/update)
+[Docs](https://sdk.val.town/api/typescript/resources/vals/subresources/files/methods/update)
 
 ```ts title="update-file.ts" val
 import ValTown from "npm:@valtown/sdk";
@@ -56,7 +56,7 @@ const file = await vt.vals.files.update(val_id, {
 
 ### List files
 
-[Docs](https://sdk.val.town/api/node/resources/vals/subresources/files/methods/retrieve)
+[Docs](https://sdk.val.town/api/typescript/resources/vals/subresources/files/methods/retrieve)
 
 ```ts title="list-files.ts" val
 import ValTown from "npm:@valtown/sdk";
