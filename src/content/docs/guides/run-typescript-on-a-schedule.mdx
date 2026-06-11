@@ -1,0 +1,88 @@
+---
+title: Run TypeScript on a schedule
+description: Create a cron val, paste your TypeScript, and pick a schedule —
+  no runtime to host, no process manager, no crontab
+# cspell:ignore crongpt githubstatus
+lastUpdated: 2026-06-11
+---
+
+The usual way to run a scheduled TypeScript script is to keep a machine on:
+a script run with bun or tsx, a `node-schedule` timer or a crontab entry,
+and a process manager to restart it when it dies. On Val Town the scheduler
+is part of the platform — you write the function, set the schedule, and
+there's no runtime to host and no process to keep alive.
+
+Here's the 30-second version:
+
+1. [Create a val](https://www.val.town/) and add a file.
+2. Click the `+` button in the top right of the editor and select `CRON`.
+3. Paste in your TypeScript and click **Run** to test it.
+4. Click the Cron trigger and set the schedule — a simple interval like
+   "once an hour", or a cron expression.
+
+## The handler
+
+A cron-triggered file exports a function that receives an `Interval` object:
+
+```ts title="Handler"
+export default async function (interval: Interval) {
+  console.log("Cron val ran!");
+}
+```
+
+The `Interval` type has this shape:
+
+```ts
+interface Interval {
+  lastRunAt: Date | undefined;
+}
+```
+
+Anything you return is ignored — output goes to the val's logs, or wherever
+your code sends it.
+
+## A complete example
+
+This job fetches GitHub's status API on every run and logs the current
+status, so the val's logs become a history of outages:
+
+```ts title="statusLogger.ts" val
+export default async function (interval: Interval) {
+  const res = await fetch("https://www.githubstatus.com/api/v2/status.json");
+  const { status } = await res.json();
+  console.log(`GitHub status: ${status.description}`);
+}
+```
+
+Paste it into a cron-triggered file, click **Run**, and check the logs. Any
+TypeScript works here — `npm:` imports included — so the body of your
+existing script usually drops in unchanged.
+
+## Picking up where the last run left off
+
+`interval.lastRunAt` is the time of the previous run (`undefined` on the
+first one), which is all you need for incremental jobs — polling a feed,
+processing new records, diffing since last time:
+
+```ts title="Incremental work"
+export default async function (interval: Interval) {
+  const since = interval.lastRunAt ?? new Date(0);
+  // fetch items and keep only the ones newer than `since`
+}
+```
+
+## Scheduling notes
+
+- Cron expressions are evaluated in UTC, so adjust for your timezone —
+  [crongpt.com](https://crongpt.com) handles the conversion for you.
+- On the free plan, crons can run up to once every 15 minutes;
+  [Pro](https://www.val.town/pricing) allows up to once a minute.
+
+## Next steps
+
+- [Cron reference](/vals/cron/) — schedule types, the `Interval` handler,
+  and limits
+- [Scrape a website daily and email yourself the results](/guides/scrape-website-daily-email/)
+  — a complete worked example of a scheduled job
+- [Your first scheduled cron](/guides/first-cron/) — a step-by-step
+  walkthrough building a weather notifier
