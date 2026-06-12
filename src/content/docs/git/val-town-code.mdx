@@ -593,8 +593,11 @@ export default async function () {
 - If something pushes to the repo between the sync's HEAD read and its ref
   update, the run fails with a 422 (`force: false`) and the next run
   recovers cleanly.
-- If `GITHUB_BRANCH` is unset, every run logs a warning that the variable is
-  not set. Cosmetic — the branch just defaults to `main`.
+- If `GITHUB_BRANCH` is unset, every run logs
+  `WARNING: "GITHUB_BRANCH" is not set` to stderr. The warning comes from the
+  Val Town runtime, which warns whenever code reads an unset environment
+  variable — not from this file. Cosmetic; the branch just defaults to
+  `main`.
 - Rate limits are a non-issue: an unchanged run costs 3 GitHub reads, and a
   commit run adds roughly one write per changed file, far below GitHub's
   5,000 requests per hour PAT limit for any normal-sized val.
