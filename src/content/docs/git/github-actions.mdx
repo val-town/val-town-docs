@@ -89,7 +89,7 @@ you also edit in the web editor, see [Two-way sync](#two-way-sync).
        runs-on: ubuntu-latest
        timeout-minutes: 5
        steps:
-         - uses: actions/checkout@v4
+         - uses: actions/checkout@v5
 
          - uses: denoland/setup-deno@v2
            with:
@@ -196,7 +196,7 @@ keep in sync.
        # missing or invalid, so always set a timeout.
        timeout-minutes: 10
        steps:
-         - uses: actions/checkout@v4
+         - uses: actions/checkout@v5
 
          - uses: denoland/setup-deno@v2
            with:
@@ -302,7 +302,7 @@ jobs:
     # swaps in a PAT.)
     if: ${{ !contains(github.event.head_commit.message, '[vt-sync]') }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
@@ -340,7 +340,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
@@ -399,9 +399,3 @@ To verify the full cycle: push a file edit and confirm the val updates; edit
 the val in the web editor and dispatch `pull.yml`, confirming a `[vt-sync]`
 commit lands with exactly that diff; then dispatch both again and confirm no
 new val version and no new commit.
-
-:::note
-`actions/checkout@v4` currently triggers a Node version deprecation warning
-in run annotations. Runs still succeed; `actions/checkout@v5` is a drop-in
-replacement.
-:::
