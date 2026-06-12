@@ -64,7 +64,7 @@ full tree sync that also deletes val files no longer in the repo.
    before the webhook never sync on their own. Run one manual full sync:
 
    ```sh
-   curl -X POST "ENDPOINT_URL/?full=1&repo=OWNER/REPO&ref=HEAD" \
+   curl -X POST "ENDPOINT_URL/?full=1&repo=OWNER/REPO" \
      -H "Authorization: Bearer $WEBHOOK_SECRET"
    ```
 

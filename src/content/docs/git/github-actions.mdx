@@ -208,7 +208,12 @@ keep in sync.
          - name: Clone the val
            env:
              VAL_TOWN_API_KEY: ${{ secrets.VAL_TOWN_API_KEY }}
-           run: vt clone "$VAL" "$RUNNER_TEMP/val" --no-editor-files
+           run: |
+             if [ -z "$VAL_TOWN_API_KEY" ]; then
+               echo "::error::VAL_TOWN_API_KEY secret is not set (vt would hang waiting for browser login)"
+               exit 1
+             fi
+             vt clone "$VAL" "$RUNNER_TEMP/val" --no-editor-files
 
          - name: Copy val files into the repo
            run: |
