@@ -421,6 +421,7 @@ async function gh(path: string, init: RequestInit = {}): Promise<any> {
     headers: {
       Authorization: `Bearer ${Deno.env.get("GITHUB_TOKEN")}`,
       Accept: "application/vnd.github+json",
+      "Content-Type": "application/json",
       "X-GitHub-Api-Version": "2022-11-28",
       ...(init.headers ?? {}),
     },
