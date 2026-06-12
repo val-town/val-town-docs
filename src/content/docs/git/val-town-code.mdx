@@ -1,0 +1,600 @@
+---
+title: Sync code in a val
+description: Sync a val with a GitHub repo using a single copy-paste file
+  inside the val — no GitHub Actions required
+# cspell:ignore upsert vtwn
+lastUpdated: 2026-06-12
+---
+
+This page syncs a val and a GitHub repo with code that runs inside the val
+itself: an HTTP file that receives GitHub push webhooks and writes the
+changed files into the val, or a cron file that pushes the val's files to a
+repo as commits. Each direction is one self-contained file you paste in
+unchanged — both discover which val they live in from `import.meta.url`, so
+there is nothing to configure in the code.
+
+:::caution
+`VAL_TOWN_API_KEY` is a reserved name. Val Town injects its own val-scoped
+token under that exact name into every val at runtime. It shadows an
+environment variable you set with the same name, and it cannot write files —
+you get a confusing 403 `Token does not have the required permissions`. When
+a recipe below needs a Val Town API token, name the variable `VT_API_TOKEN`.
+:::
+
+## GitHub to Val Town
+
+A repo is the source of truth. GitHub sends a push webhook to an HTTP file in
+your val, which validates the signature, fetches the changed files from the
+repo, and writes them into the val via the Val Town API. Force pushes and
+pushes with 20+ commits (where GitHub truncates the payload) fall back to a
+full tree sync that also deletes val files no longer in the repo.
+
+### Setup
+
+1. In your val, create a file `githubSync.ts` with trigger type HTTP and
+   paste in the code below unchanged.
+
+2. Set three environment variables on the val:
+
+   - `WEBHOOK_SECRET` — any random string, e.g. `openssl rand -hex 20`
+   - `GITHUB_TOKEN` — a token that can read the repo: a fine-grained PAT
+     with Contents read on just that repo
+   - `VT_API_TOKEN` — a Val Town API token with val read+write scope from
+     [val.town/settings/api](https://www.val.town/settings/api). Not
+     `VAL_TOWN_API_KEY` — see the warning above.
+
+3. Copy the HTTP endpoint URL of `githubSync.ts` (shown on the file in the
+   val editor; it looks like `https://USER--FILEID.web.val.run`).
+
+4. Create a push webhook on the repo, with the endpoint URL as the payload
+   URL, content type `application/json`, your `WEBHOOK_SECRET` as the
+   secret, and just the push event:
+
+   ```sh
+   gh api repos/OWNER/REPO/hooks -X POST -f name=web -F active=true \
+     -f "events[]=push" \
+     -f "config[url]=ENDPOINT_URL" \
+     -f "config[content_type]=json" \
+     -f "config[secret]=$WEBHOOK_SECRET"
+   ```
+
+   GitHub sends a ping; the val answers 200.
+
+5. Backfill. Webhooks only carry diffs, so files that existed in the repo
+   before the webhook never sync on their own. Run one manual full sync:
+
+   ```sh
+   curl -X POST "ENDPOINT_URL/?full=1&repo=OWNER/REPO&ref=HEAD" \
+     -H "Authorization: Bearer $WEBHOOK_SECRET"
+   ```
+
+6. Push to the default branch. To debug, open the repo's Settings →
+   Webhooks → Recent Deliveries: the val's JSON response body — including
+   the list of synced files, or the error — is recorded there for every
+   delivery.
+
+### The sync file
+
+```ts title="githubSync.ts"
+// githubSync.ts — GitHub -> Val Town sync, self-contained in one HTTP val file.
+//
+// Paste this file into your val as an HTTP trigger, then:
+//   1. Set env vars on the val:
+//        WEBHOOK_SECRET  - any random string; reuse it when creating the GitHub webhook
+//        GITHUB_TOKEN    - a token that can read the repo (fine-grained PAT with Contents: read)
+//        VT_API_TOKEN    - a Val Town API token with val read/write scope.
+//                          (Don't name it VAL_TOWN_API_KEY: Val Town injects its own
+//                          val-scoped VAL_TOWN_API_KEY at runtime, which shadows yours
+//                          and cannot write files.)
+//   2. Add a webhook on the GitHub repo: payload URL = this file's endpoint URL,
+//      content type = application/json, secret = WEBHOOK_SECRET, events = just pushes.
+//
+// On each push to the repo's default branch it mirrors added/modified/removed files
+// into this val via the Val Town v2 API. It skips `.github/` and this sync file itself.
+// Force pushes (and pushes with 20+ commits, where GitHub truncates the payload) fall
+// back to a full sync against the repo tree, including deleting val files that are no
+// longer in the repo. You can also trigger a full sync manually:
+//   curl -X POST '<endpoint>?full=1&repo=owner/name' -H "Authorization: Bearer $WEBHOOK_SECRET"
+
+const SKIP_PREFIXES = [".github/"];
+
+const GITHUB_TOKEN = Deno.env.get("GITHUB_TOKEN")!;
+const VT_API_TOKEN = Deno.env.get("VT_API_TOKEN")!;
+const WEBHOOK_SECRET = Deno.env.get("WEBHOOK_SECRET")!;
+
+// Figure out which val we are and which file we are, from import.meta.url,
+// e.g. https://esm.town/p/handle/valName@7-main/githubSync.ts
+const m = new URL(import.meta.url).pathname.match(/^\/p\/([^/]+)\/([^/@]+)@[^/]*\/(.+)$/);
+if (!m) throw new Error("Could not parse import.meta.url: " + import.meta.url);
+const [, VAL_HANDLE, VAL_NAME, SELF_PATH] = m;
+
+function shouldSkip(path: string) {
+  return path === SELF_PATH || SKIP_PREFIXES.some((p) => path.startsWith(p));
+}
+
+// ---------- webhook signature ----------
+
+async function validSignature(body: Uint8Array, sigHeader: string | null): Promise<boolean> {
+  if (!sigHeader?.startsWith("sha256=")) return false;
+  const hex = sigHeader.slice("sha256=".length);
+  if (!/^[0-9a-f]{64}$/.test(hex)) return false;
+  const sig = new Uint8Array(hex.match(/../g)!.map((b) => parseInt(b, 16)));
+  const key = await crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(WEBHOOK_SECRET),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["verify"],
+  );
+  return await crypto.subtle.verify("HMAC", key, sig, body); // timing-safe
+}
+
+// ---------- GitHub API ----------
+
+async function github(url: string, accept: string): Promise<Response> {
+  const res = await fetch(url, {
+    headers: { Authorization: `Bearer ${GITHUB_TOKEN}`, Accept: accept, "User-Agent": "val-town-sync" },
+  });
+  if (!res.ok) throw new Error(`GitHub ${res.status} for ${url}: ${(await res.text()).slice(0, 200)}`);
+  return res;
+}
+
+async function fetchRepoFile(repoFullName: string, path: string, ref: string): Promise<Uint8Array> {
+  const encPath = path.split("/").map(encodeURIComponent).join("/");
+  const res = await github(
+    `https://api.github.com/repos/${repoFullName}/contents/${encPath}?ref=${ref}`,
+    "application/vnd.github.raw+json",
+  );
+  return new Uint8Array(await res.arrayBuffer());
+}
+
+async function fetchRepoTree(repoFullName: string, ref: string): Promise<string[]> {
+  const res = await github(
+    `https://api.github.com/repos/${repoFullName}/git/trees/${ref}?recursive=1`,
+    "application/vnd.github+json",
+  );
+  const tree = await res.json();
+  if (tree.truncated) throw new Error("Repo tree truncated — repo too large for full sync");
+  return tree.tree.filter((e: { type: string }) => e.type === "blob").map((e: { path: string }) => e.path);
+}
+
+// ---------- Val Town API ----------
+
+async function valtown(method: string, pathAndQuery: string, body?: unknown): Promise<Response> {
+  return await fetch(`https://api.val.town${pathAndQuery}`, {
+    method,
+    headers: { Authorization: `Bearer ${VT_API_TOKEN}`, "Content-Type": "application/json" },
+    body: body === undefined ? undefined : JSON.stringify(body),
+  });
+}
+
+let cachedValId: string | undefined;
+async function getValId(): Promise<string> {
+  if (!cachedValId) {
+    const res = await valtown("GET", `/v2/alias/vals/${VAL_HANDLE}/${VAL_NAME}`);
+    if (!res.ok) throw new Error(`Could not resolve val id: ${res.status}`);
+    cachedValId = (await res.json()).id;
+  }
+  return cachedValId!;
+}
+
+// Create/update a file in this val. PUT updates content if the file exists;
+// on 404 we create it (and any parent directories) with POST.
+async function upsertValFile(valId: string, path: string, content: string) {
+  const q = `?path=${encodeURIComponent(path)}`;
+  const put = await valtown("PUT", `/v2/vals/${valId}/files${q}`, { content });
+  if (put.ok) return;
+  if (put.status !== 404) throw new Error(`PUT ${path}: ${put.status} ${await put.text()}`);
+  // Ensure parent directories exist, outermost first (409 = already exists, fine).
+  const parts = path.split("/");
+  for (let i = 1; i < parts.length; i++) {
+    const dir = parts.slice(0, i).join("/");
+    await valtown("POST", `/v2/vals/${valId}/files?path=${encodeURIComponent(dir)}`, { type: "directory" });
+  }
+  const type = /\.(ts|tsx|js|jsx)$/.test(path) ? "script" : "file";
+  const post = await valtown("POST", `/v2/vals/${valId}/files${q}`, { content, type });
+  if (!post.ok) throw new Error(`POST ${path}: ${post.status} ${await post.text()}`);
+}
+
+async function deleteValFile(valId: string, path: string) {
+  const res = await valtown("DELETE", `/v2/vals/${valId}/files?path=${encodeURIComponent(path)}&recursive=false`);
+  if (!res.ok && res.status !== 404) throw new Error(`DELETE ${path}: ${res.status} ${await res.text()}`);
+}
+
+async function listValFiles(valId: string): Promise<string[]> {
+  const paths: string[] = [];
+  for (let offset = 0; ; offset += 100) {
+    const res = await valtown("GET", `/v2/vals/${valId}/files?path=&recursive=true&offset=${offset}&limit=100`);
+    if (!res.ok) throw new Error(`list files: ${res.status}`);
+    const page = (await res.json()).data;
+    for (const f of page) if (f.type !== "directory") paths.push(f.path);
+    if (page.length < 100) return paths;
+  }
+}
+
+// ---------- sync logic ----------
+
+const decoder = new TextDecoder("utf-8", { fatal: true });
+
+// Returns a status string for the summary.
+async function syncOneFile(valId: string, repo: string, path: string, ref: string): Promise<string> {
+  const bytes = await fetchRepoFile(repo, path, ref);
+  let content: string;
+  try {
+    content = decoder.decode(bytes); // throws on binary
+  } catch {
+    return `skipped (binary): ${path}`;
+  }
+  if (content.length > 80_000) return `skipped (>80k chars, API limit): ${path}`;
+  await upsertValFile(valId, path, content);
+  return `synced: ${path}`;
+}
+
+async function incrementalSync(valId: string, payload: any): Promise<string[]> {
+  // Fold the commit list in order so the final action per path wins.
+  const actions = new Map<string, "upsert" | "remove">();
+  for (const commit of payload.commits) {
+    for (const p of [...commit.added, ...commit.modified]) actions.set(p, "upsert");
+    for (const p of commit.removed) actions.set(p, "remove");
+  }
+  const results: string[] = [];
+  for (const [path, action] of actions) {
+    if (shouldSkip(path)) {
+      results.push(`skipped (rule): ${path}`);
+    } else if (action === "upsert") {
+      results.push(await syncOneFile(valId, payload.repository.full_name, path, payload.after));
+    } else {
+      await deleteValFile(valId, path);
+      results.push(`deleted: ${path}`);
+    }
+  }
+  return results;
+}
+
+async function fullSync(valId: string, repoFullName: string, ref: string): Promise<string[]> {
+  const repoPaths = (await fetchRepoTree(repoFullName, ref)).filter((p) => !shouldSkip(p));
+  const results: string[] = [];
+  for (const path of repoPaths) {
+    results.push(await syncOneFile(valId, repoFullName, path, ref));
+  }
+  const repoSet = new Set(repoPaths);
+  for (const path of await listValFiles(valId)) {
+    if (!repoSet.has(path) && !shouldSkip(path)) {
+      await deleteValFile(valId, path);
+      results.push(`deleted (not in repo): ${path}`);
+    }
+  }
+  return results;
+}
+
+// ---------- HTTP handler ----------
+
+export default async function (req: Request): Promise<Response> {
+  if (req.method !== "POST") return new Response("POST only", { status: 405 });
+  const body = new Uint8Array(await req.arrayBuffer());
+
+  // Manual full sync: POST <endpoint>?full=1&repo=owner/name
+  // with "Authorization: Bearer <WEBHOOK_SECRET>"
+  const url = new URL(req.url);
+  if (url.searchParams.get("full") === "1") {
+    if (req.headers.get("authorization") !== `Bearer ${WEBHOOK_SECRET}`) {
+      return new Response("bad auth", { status: 401 });
+    }
+    const repo = url.searchParams.get("repo"); // owner/name
+    const ref = url.searchParams.get("ref") ?? "HEAD";
+    if (!repo) return new Response("pass ?repo=owner/name", { status: 400 });
+    const results = await fullSync(await getValId(), repo, ref);
+    return Response.json({ mode: "manual full sync", results });
+  }
+
+  // GitHub webhook path
+  if (!(await validSignature(body, req.headers.get("x-hub-signature-256")))) {
+    return new Response("bad signature", { status: 401 });
+  }
+  const event = req.headers.get("x-github-event");
+  if (event === "ping") return Response.json({ ok: true, pong: true });
+  if (event !== "push") return Response.json({ ok: true, ignored: `event ${event}` });
+
+  const payload = JSON.parse(new TextDecoder().decode(body));
+  const defaultRef = `refs/heads/${payload.repository.default_branch}`;
+  if (payload.ref !== defaultRef) {
+    return Response.json({ ok: true, ignored: `ref ${payload.ref} (only syncing ${defaultRef})` });
+  }
+  if (payload.deleted) return Response.json({ ok: true, ignored: "branch deletion" });
+
+  const valId = await getValId();
+  // GitHub truncates the commits array at 20; force pushes can rewrite history.
+  // In both cases the per-commit diff is unreliable, so do a full tree sync instead.
+  const needFull = payload.forced || payload.commits.length >= 20;
+  const results = needFull
+    ? await fullSync(valId, payload.repository.full_name, payload.after)
+    : await incrementalSync(valId, payload);
+  console.log(`push ${payload.after?.slice(0, 7)}:`, results);
+  return Response.json({ ok: true, mode: needFull ? "full" : "incremental", results });
+}
+```
+
+### Limits
+
+- Text files only: binary files are skipped, and files over 80,000
+  characters are skipped (the Val Town file API limit).
+- Only the repo's default branch is synced.
+- New files arrive in the val as type `script` (or `file` for non-code).
+  A repo file that should be an HTTP, cron, or email trigger needs its type
+  set once by hand in the val editor.
+- GitHub does not guarantee webhook delivery order, so two rapid pushes can
+  briefly apply out of order. GitHub also marks deliveries that take over 10
+  seconds as failed, which can happen on large pushes. In both cases the
+  manual `?full=1` request is the recovery hatch; re-running it is always
+  safe.
+- The sync file skips itself, so a repo file named `githubSync.ts` would
+  never deploy. Keep that name out of the repo, or rename the file in both
+  places.
+
+## Val Town to GitHub
+
+The val is the source of truth. A cron file reads all the val's files via the
+Val Town API, diffs them against the repo's HEAD by computing git blob SHAs
+locally, and — only when something changed — pushes one commit covering all
+adds, edits, and deletions via GitHub's git data API. Unchanged runs make no
+commit, so an hourly cron produces commits only when the val actually
+changes.
+
+### Setup
+
+1. Create the target repo initialized with at least one commit:
+
+   ```sh
+   gh repo create owner/name --private --add-readme
+   ```
+
+   The sync needs an existing branch head; the git data API errors on a
+   truly empty repo. Note that this starter README is sacrificial — the
+   first sync makes the repo mirror the val exactly, so any repo file not in
+   the val (including this README) is deleted in the first commit. Add a
+   `README.md` to the val if you want one in the repo.
+
+2. Create a GitHub token that can write to that repo: a fine-grained PAT
+   with Contents read+write on just that repo, or a classic PAT with `repo`
+   scope.
+
+3. Set two environment variables on the val: `GITHUB_TOKEN` (the token from
+   step 2) and `GITHUB_REPO` (`owner/name`). Optionally `GITHUB_BRANCH`
+   (defaults to `main`). Do not set `VAL_TOWN_API_KEY` — Val Town injects it
+   automatically into every val, and that injected token is what this recipe
+   uses to read the val's own files.
+
+4. Create a file `githubBackup.ts` with trigger type Cron and paste in the
+   code below.
+
+   :::caution
+   A new cron file gets a default active schedule of every hour and runs
+   immediately on creation. That is why env vars come first: create the file
+   before setting them and the first run fails with a warning that
+   `GITHUB_REPO` is not set. Harmless — the next run works — but confusing
+   if you are watching the logs.
+   :::
+
+5. Test by opening `githubBackup.ts` and clicking Run. The log prints either
+   `pushed <sha> to owner/name@branch: N changed, M deleted` or
+   `up to date ... no commit`. Check the repo's commit list to confirm.
+
+6. Leave the cron schedule on for continuous backup.
+
+### The backup file
+
+```ts title="githubBackup.ts"
+// githubBackup.ts — back up this val's files to a GitHub repo, one commit per change.
+//
+// Copy this single file into any val. It reads ALL of the val's own files via the
+// Val Town API, diffs them against the target repo's HEAD, and — only when something
+// changed — pushes one commit (adds + edits + deletions together) using GitHub's
+// git data API (blobs -> tree -> commit -> ref).
+//
+// Setup — environment variables on this val:
+//   GITHUB_TOKEN  (required) classic PAT with `repo` scope, or fine-grained token
+//                 with Contents read+write on the target repo
+//   GITHUB_REPO   (required) "owner/name", e.g. "stevekrouse/my-backup"
+//   GITHUB_BRANCH (optional) defaults to "main". The branch must already exist —
+//                 create the repo initialized (e.g. with a README).
+//   VAL_TOWN_API_KEY — do NOT set this; Val Town injects it automatically.
+//
+// Make this file a Cron trigger (e.g. every hour) for scheduled backups, or run it
+// manually with the Run button. Runs are idempotent: no changes => no commit.
+
+const VT_API = "https://api.val.town";
+const GH_API = "https://api.github.com";
+
+async function vt(path: string): Promise<Response> {
+  const res = await fetch(`${VT_API}${path}`, {
+    headers: { Authorization: `Bearer ${Deno.env.get("VAL_TOWN_API_KEY")}` },
+  });
+  if (!res.ok) {
+    throw new Error(`Val Town API ${path} -> ${res.status}: ${await res.text()}`);
+  }
+  return res;
+}
+
+async function gh(path: string, init: RequestInit = {}): Promise<any> {
+  const res = await fetch(`${GH_API}${path}`, {
+    ...init,
+    headers: {
+      Authorization: `Bearer ${Deno.env.get("GITHUB_TOKEN")}`,
+      Accept: "application/vnd.github+json",
+      "X-GitHub-Api-Version": "2022-11-28",
+      ...(init.headers ?? {}),
+    },
+  });
+  if (!res.ok) {
+    throw new Error(
+      `GitHub ${init.method ?? "GET"} ${path} -> ${res.status}: ${await res.text()}`,
+    );
+  }
+  return res.json();
+}
+
+// --- Who am I? ---------------------------------------------------------------
+// Inside a running val, import.meta.url looks like:
+//   https://esm.town/p/<handle>/<valName>@<version>-<branch>/githubBackup.ts
+// so the val can discover its own id without hardcoding anything.
+async function getOwnValId(): Promise<string> {
+  const m = import.meta.url.match(/esm\.town\/p\/([^/]+)\/([^/@]+)/);
+  if (!m) throw new Error(`Cannot parse val identity from ${import.meta.url}`);
+  const [, handle, valName] = m;
+  const { id } = await (await vt(`/v2/alias/vals/${handle}/${valName}`)).json();
+  return id;
+}
+
+// --- Read every file in this val ----------------------------------------------
+async function listValFiles(valId: string): Promise<{ path: string }[]> {
+  const files: { path: string; type: string }[] = [];
+  for (let offset = 0;; offset += 100) {
+    const { data } = await (
+      await vt(`/v2/vals/${valId}/files?path=&recursive=true&limit=100&offset=${offset}`)
+    ).json();
+    files.push(...data);
+    if (data.length < 100) break;
+  }
+  return files.filter((f) => f.type !== "directory");
+}
+
+async function readValFile(valId: string, path: string): Promise<Uint8Array> {
+  const res = await vt(
+    `/v2/vals/${valId}/files/content?path=${encodeURIComponent(path)}`,
+  );
+  return new Uint8Array(await res.arrayBuffer());
+}
+
+// --- Git plumbing --------------------------------------------------------------
+// sha1("blob <len>\0" + bytes) — computing blob shas locally lets us diff against
+// the repo tree without uploading anything.
+async function gitBlobSha(bytes: Uint8Array): Promise<string> {
+  const header = new TextEncoder().encode(`blob ${bytes.length}\0`);
+  const buf = new Uint8Array(header.length + bytes.length);
+  buf.set(header);
+  buf.set(bytes, header.length);
+  const digest = await crypto.subtle.digest("SHA-1", buf);
+  return [...new Uint8Array(digest)]
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+function toBase64(bytes: Uint8Array): string {
+  let bin = "";
+  for (let i = 0; i < bytes.length; i += 0x8000) {
+    bin += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+  }
+  return btoa(bin);
+}
+
+// --- Main ----------------------------------------------------------------------
+export async function backup(): Promise<string> {
+  const repo = Deno.env.get("GITHUB_REPO");
+  if (!repo) throw new Error("Set the GITHUB_REPO env var (owner/name)");
+  const branch = Deno.env.get("GITHUB_BRANCH") ?? "main";
+
+  // 1. Snapshot this val: every file's bytes + its git blob sha
+  const valId = await getOwnValId();
+  const valFiles = await listValFiles(valId);
+  const entries = await Promise.all(
+    valFiles.map(async (f) => {
+      const bytes = await readValFile(valId, f.path);
+      return { path: f.path, bytes, sha: await gitBlobSha(bytes) };
+    }),
+  );
+
+  // 2. Read the repo's current HEAD tree
+  const ref = await gh(`/repos/${repo}/git/ref/heads/${branch}`).catch((e) => {
+    throw new Error(
+      `Could not read heads/${branch} — does the branch exist? ` +
+        `Create the repo initialized (with a README). Original error: ${e.message}`,
+    );
+  });
+  const headSha: string = ref.object.sha;
+  const headCommit = await gh(`/repos/${repo}/git/commits/${headSha}`);
+  const headTree = await gh(
+    `/repos/${repo}/git/trees/${headCommit.tree.sha}?recursive=1`,
+  );
+  if (headTree.truncated) {
+    throw new Error("Repo tree listing truncated (>100k entries) — cannot diff safely");
+  }
+  const repoShas = new Map<string, string>(
+    headTree.tree.filter((t: any) => t.type === "blob").map((t: any) => [t.path, t.sha]),
+  );
+
+  // 3. Diff: anything to do?
+  const changed = entries.filter((e) => repoShas.get(e.path) !== e.sha);
+  const deleted = [...repoShas.keys()].filter(
+    (p) => !entries.some((e) => e.path === p),
+  );
+  if (changed.length === 0 && deleted.length === 0) {
+    return `up to date with ${repo}@${headSha.slice(0, 7)} — no commit`;
+  }
+
+  // 4. Upload only the changed blobs
+  for (const e of changed) {
+    const blob = await gh(`/repos/${repo}/git/blobs`, {
+      method: "POST",
+      body: JSON.stringify({ content: toBase64(e.bytes), encoding: "base64" }),
+    });
+    if (blob.sha !== e.sha) {
+      throw new Error(`blob sha mismatch for ${e.path}: ${blob.sha} != ${e.sha}`);
+    }
+  }
+
+  // 5. Write the FULL tree (no base_tree): omitted paths are deletions
+  const tree = await gh(`/repos/${repo}/git/trees`, {
+    method: "POST",
+    body: JSON.stringify({
+      tree: entries.map((e) => ({
+        path: e.path,
+        mode: "100644",
+        type: "blob",
+        sha: e.sha,
+      })),
+    }),
+  });
+
+  // 6. One commit on top of HEAD, then fast-forward the branch
+  const summary = `val town sync: ${changed.length} changed, ${deleted.length} deleted`;
+  const commit = await gh(`/repos/${repo}/git/commits`, {
+    method: "POST",
+    body: JSON.stringify({
+      message: `${summary}\n\nsource: ${import.meta.url}`,
+      tree: tree.sha,
+      parents: [headSha],
+    }),
+  });
+  // force:false — if someone pushed between our HEAD read and now, this 422s
+  // and the next run will redo the diff against the new HEAD.
+  await gh(`/repos/${repo}/git/refs/heads/${branch}`, {
+    method: "PATCH",
+    body: JSON.stringify({ sha: commit.sha, force: false }),
+  });
+  return `pushed ${commit.sha} to ${repo}@${branch}: ${summary}`;
+}
+
+// Cron entrypoint (also fine to run manually)
+export default async function () {
+  const result = await backup();
+  console.log(result);
+  return result;
+}
+```
+
+### Notes
+
+- Commits are attributed to the token owner's account name and email, and
+  are unsigned (no Verified badge). Pass explicit `author` and `committer`
+  objects on `POST /git/commits` to customize.
+- The val is the source of truth. A commit pushed manually to the mirror
+  repo is never rewritten — the next sync commits on top of it — but its
+  content gets reverted to match the val.
+- If something pushes to the repo between the sync's HEAD read and its ref
+  update, the run fails with a 422 (`force: false`) and the next run
+  recovers cleanly.
+- If `GITHUB_BRANCH` is unset, every run logs a warning that the variable is
+  not set. Cosmetic — the branch just defaults to `main`.
+- Rate limits are a non-issue: an unchanged run costs 3 GitHub reads, and a
+  commit run adds roughly one write per changed file, far below GitHub's
+  5,000 requests per hour PAT limit for any normal-sized val.

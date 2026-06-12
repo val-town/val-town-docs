@@ -1,0 +1,402 @@
+---
+title: GitHub Actions + vt CLI
+description: Deploy a val on every push to GitHub, or back a val up to a repo
+  on a schedule, using GitHub Actions and the vt CLI
+lastUpdated: 2026-06-12
+---
+
+This page uses GitHub Actions to run the [vt CLI](/guides/prompting/cli/) for
+you: `vt push` to deploy a repo to a val, and `vt pull` to back a val up to a
+repo. Each direction is an independent recipe; the
+[two-way section](#two-way-sync) combines them.
+
+Both directions authenticate the same way: the vt CLI reads a Val Town API
+key from the `VAL_TOWN_API_KEY` environment variable, which you store as a
+GitHub Actions secret. Create the key at
+[val.town/settings/api](https://www.val.town/settings/api) with val
+read+write scope.
+
+:::caution
+If `VAL_TOWN_API_KEY` is missing or empty, vt does not fail — it prints an
+interactive browser-login prompt and loops forever. In CI that means a silent
+6-hour hang. Every workflow below guards against an empty key and sets
+`timeout-minutes`. Keep both.
+:::
+
+## GitHub to Val Town
+
+A repo is the source of truth. Every push to `main` runs `vt push`, which
+makes the val mirror the repo.
+
+:::caution
+This sync is one-way. `vt push` overwrites web editor edits to existing files
+and deletes files that exist only on the Val Town side, with no prompt. If
+you also edit in the web editor, see [Two-way sync](#two-way-sync).
+:::
+
+### Setup
+
+1. Create the val and a local working copy:
+
+   ```sh
+   vt create my-val --private --no-editor-files --org-name me
+   ```
+
+   The `--org-name me` flag targets your personal account. Without it, vt
+   shows an interactive org picker if you belong to any orgs, and hangs in
+   scripts.
+
+2. Add your files. The trigger type comes from the filename when the file is
+   first created: `main.http.tsx` becomes an HTTP trigger, plain `main.tsx`
+   becomes a script. Renaming an existing file does not change its type —
+   delete and recreate it instead.
+
+3. Create `.vtignore` in the root:
+
+   ```gitignore title=".vtignore"
+   .git
+   .github
+   .gitignore
+   ```
+
+   This file is load-bearing. vt does not ignore `.git` by default, so
+   without it `vt push` in CI uploads your entire `.git` directory into the
+   val. Use `.github` with no trailing slash — `.github/` still creates an
+   empty directory in the val.
+
+4. Run `vt push` once locally so the val matches the repo. Then
+   `git init -b main` and commit everything, including `.vt/state.json`.
+   That file tells CI which val and branch to push to. Its `version` and
+   `lastRun` fields go stale immediately, which is harmless — vt diffs
+   against live remote state.
+
+5. Add the workflow:
+
+   ```yaml title=".github/workflows/deploy.yml"
+   name: Deploy to Val Town
+
+   on:
+     push:
+       branches: [main]
+     workflow_dispatch:
+
+   concurrency:
+     group: deploy-to-val-town
+     cancel-in-progress: false
+
+   jobs:
+     deploy:
+       runs-on: ubuntu-latest
+       timeout-minutes: 5
+       steps:
+         - uses: actions/checkout@v4
+
+         - uses: denoland/setup-deno@v2
+           with:
+             deno-version: v2.x
+
+         - name: Install vt CLI
+           run: deno install -gArf jsr:@valtown/vt@0.1.54
+
+         - name: Push to Val Town
+           env:
+             VAL_TOWN_API_KEY: ${{ secrets.VAL_TOWN_API_KEY }}
+           run: |
+             if [ -z "$VAL_TOWN_API_KEY" ]; then
+               echo "::error::VAL_TOWN_API_KEY secret is not set (vt would hang waiting for browser login)"
+               exit 1
+             fi
+             vt push
+   ```
+
+   Pinning the CLI version (`@0.1.54`) avoids surprise behavior changes. The
+   `concurrency` group keeps overlapping pushes from interleaving.
+
+6. Create the repo and push:
+
+   ```sh
+   gh repo create my-repo --private --source . --push
+   ```
+
+7. Set the secret:
+
+   ```sh
+   gh secret set VAL_TOWN_API_KEY --repo you/my-repo
+   ```
+
+   The first push usually lands before the secret does, so the first run
+   fails at the guard. Re-run it or push again.
+
+8. Verify: edit a file, push, get the run id from `gh run list`, and watch
+   it with `gh run watch <run-id> --exit-status`. Then check the val itself:
+
+   ```sh
+   curl -H "Authorization: Bearer $VAL_TOWN_API_KEY" \
+     "https://api.val.town/v2/vals/VAL_ID/files/content?path=main.http.tsx"
+   ```
+
+   The val id is in `.vt/state.json`. The val.run endpoint serves the new
+   code immediately.
+
+:::note
+`vt push` exits 0 even when some file uploads fail. A run that pushed `.git`
+by mistake printed `11 failed` and `! Failed to push everything`, and the
+Actions step was still green. Do not rely on the exit code to catch upload
+failures.
+:::
+
+If you pushed `.git` before adding `.vtignore`, a later push will not clean
+it up — ignored paths are invisible to vt's diff. Delete it via the API:
+
+```sh
+curl -X DELETE -H "Authorization: Bearer $VAL_TOWN_API_KEY" \
+  "https://api.val.town/v2/vals/VAL_ID/files?path=.git&recursive=true"
+```
+
+## Val Town to GitHub
+
+The val is the source of truth. A workflow clones the val with `vt clone`,
+copies the files into the repo, and commits only when something changed. The
+design is stateless — no vt state lives in the repo, so there is nothing to
+keep in sync.
+
+### Setup
+
+1. Create a Val Town API key at
+   [val.town/settings/api](https://www.val.town/settings/api). The backup
+   itself only reads the val.
+
+2. Create the repo that will hold the mirror and add the secret:
+
+   ```sh
+   gh secret set VAL_TOWN_API_KEY --repo you/my-backup-repo
+   ```
+
+3. Add the workflow, editing the `VAL` env var to your `handle/valName`:
+
+   ```yaml title=".github/workflows/backup.yml"
+   name: Backup val from Val Town
+
+   on:
+     workflow_dispatch:
+     # For a real backup, run on a schedule too, e.g. every 6 hours:
+     # schedule:
+     #   - cron: "0 */6 * * *"
+
+   permissions:
+     contents: write
+
+   env:
+     VAL: stevekrouse/my-val # <- your handle/valName
+
+   jobs:
+     backup:
+       runs-on: ubuntu-latest
+       # vt hangs forever on an interactive login prompt if the API key is
+       # missing or invalid, so always set a timeout.
+       timeout-minutes: 10
+       steps:
+         - uses: actions/checkout@v4
+
+         - uses: denoland/setup-deno@v2
+           with:
+             deno-version: v2.x
+
+         - name: Install the vt CLI
+           run: deno install -gArf jsr:@valtown/vt@0.1.54
+
+         - name: Clone the val
+           env:
+             VAL_TOWN_API_KEY: ${{ secrets.VAL_TOWN_API_KEY }}
+           run: vt clone "$VAL" "$RUNNER_TEMP/val" --no-editor-files
+
+         - name: Copy val files into the repo
+           run: |
+             rsync -a --delete \
+               --exclude='.git' \
+               --exclude='.github' \
+               --exclude='.vt' \
+               "$RUNNER_TEMP/val/" ./
+
+         - name: Commit and push if anything changed
+           run: |
+             git config user.name "github-actions[bot]"
+             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+             git add -A
+             if git diff --cached --quiet; then
+               echo "Val unchanged; nothing to commit."
+             else
+               git commit -m "Backup $VAL"
+               git push
+             fi
+   ```
+
+4. Test with a manual run:
+
+   ```sh
+   gh workflow run backup.yml --repo you/my-backup-repo
+   gh run list --repo you/my-backup-repo --limit 1   # get the run id
+   gh run watch <run-id> --exit-status
+   ```
+
+   The first run commits all val files.
+
+5. Verify the loop: edit the val, dispatch the workflow, and confirm a
+   commit lands with exactly your edit. Dispatch again without changes and
+   the log says `Val unchanged; nothing to commit.` with no new commit.
+
+6. Once it works, uncomment the `schedule:` block.
+
+Notes on this recipe:
+
+- `rsync --delete` makes the repo an exact mirror of the val. Any repo-owned
+  files at the root (README, LICENSE) get deleted on the next run — keep them
+  inside `.github/`, which is excluded. The flip side: if your val contains a
+  `.github/` directory, it will not be mirrored.
+- `permissions: contents: write` is required, or the push gets a 403. The
+  explicit `git config` lines are also required, or the commit fails with
+  "Author identity unknown". The `41898282+...` email is what makes GitHub
+  render the bot avatar.
+- `vt clone` always creates `.vt/state.json`, and its `lastRun` field changes
+  on every invocation. The rsync `--exclude='.vt'` keeps it out of the repo;
+  without that, every run would produce a junk commit.
+- GitHub disables scheduled workflows after 60 days of repo inactivity, which
+  can happen to a backup repo that only changes when the val changes. Keep
+  the `workflow_dispatch` trigger for manual runs and re-enables.
+
+## Two-way sync
+
+Run both workflows against the same repo and val: the deploy workflow above
+plus a pull workflow that runs `vt pull -f` and commits val-side changes
+back. Read the [caveats on the overview page](/git/#two-way-sync) first —
+conflicts are last-sync-wins, and web editor edits made between pull runs are
+clobbered by the next push.
+
+Use this deploy workflow instead of the one above. It is the same except for
+the shared `concurrency` group and a loop guard:
+
+```yaml title=".github/workflows/deploy.yml"
+name: Deploy to Val Town
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+concurrency:
+  group: vt-sync
+  cancel-in-progress: false
+
+jobs:
+  push-to-val:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    # Belt-and-suspenders loop guard: skip if this push IS a sync-back commit.
+    # (Normally unnecessary: pull.yml pushes with the default GITHUB_TOKEN,
+    # which never triggers other workflows. This guard matters only if someone
+    # swaps in a PAT.)
+    if: ${{ !contains(github.event.head_commit.message, '[vt-sync]') }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - name: Install vt
+        run: deno install -gArf jsr:@valtown/vt@0.1.54
+      - name: Push to Val Town
+        env:
+          VAL_TOWN_API_KEY: ${{ secrets.VAL_TOWN_API_KEY }}
+        run: |
+          if [ -z "$VAL_TOWN_API_KEY" ]; then
+            echo "VAL_TOWN_API_KEY secret is not set" >&2
+            exit 1
+          fi
+          vt push
+```
+
+```yaml title=".github/workflows/pull.yml"
+name: Pull from Val Town
+
+on:
+  workflow_dispatch: {}
+  # In real use, uncomment to poll the val for web-editor changes:
+  # schedule:
+  #   - cron: "*/30 * * * *"
+
+concurrency:
+  group: vt-sync
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  pull-from-val:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - name: Install vt
+        run: deno install -gArf jsr:@valtown/vt@0.1.54
+      - name: Pull from Val Town
+        env:
+          VAL_TOWN_API_KEY: ${{ secrets.VAL_TOWN_API_KEY }}
+        run: |
+          if [ -z "$VAL_TOWN_API_KEY" ]; then
+            echo "VAL_TOWN_API_KEY secret is not set" >&2
+            exit 1
+          fi
+          vt pull -f
+      - name: Commit val-side changes back to the repo
+        run: |
+          # vt rewrites .vt/state.json (lastRun pid/time, branch version) on
+          # every invocation. Committing that noise would make every pull
+          # produce a commit, so discard it before diffing.
+          git checkout -- .vt/state.json
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Val matches repo; nothing to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "[vt-sync] Pull changes from Val Town"
+          git push
+```
+
+:::caution
+The `-f` on `vt pull` is not optional. Plain `vt pull` hangs forever on an
+interactive confirmation prompt the moment the repo and the val diverge —
+which, in a sync setup, is exactly when you need it.
+:::
+
+How the pieces fit:
+
+- The `git checkout -- .vt/state.json` line is what makes redundant pulls
+  converge. It looks deletable; it is not.
+- The same `.vtignore` from the deploy setup protects both directions:
+  because ignored paths are invisible to vt, `.github` in `.vtignore` is what
+  stops `vt pull -f` from deleting your workflow files out of the checkout.
+- The pull job pushes with the default `GITHUB_TOKEN`, and pushes made with
+  that token never trigger `on: push` workflows — that is the primary loop
+  breaker. The `[vt-sync]` commit-message guard only matters if you swap in
+  a PAT.
+- Even with no guards, the loop self-extinguishes: pushing identical content
+  does not change the val's version, and a redundant pull finds an empty diff
+  and skips committing.
+- `workflow_dispatch` on the deploy workflow doubles as a manual force-deploy
+  (the guard passes because there is no head commit on a dispatch).
+
+To verify the full cycle: push a file edit and confirm the val updates; edit
+the val in the web editor and dispatch `pull.yml`, confirming a `[vt-sync]`
+commit lands with exactly that diff; then dispatch both again and confirm no
+new val version and no new commit.
+
+:::note
+`actions/checkout@v4` currently triggers a Node version deprecation warning
+in run annotations. Runs still succeed; `actions/checkout@v5` is a drop-in
+replacement.
+:::
