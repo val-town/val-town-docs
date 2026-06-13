@@ -88,7 +88,7 @@ you also edit in the web editor, see [Two-way sync](#two-way-sync).
              deno-version: v2.x
 
          - name: Install vt CLI
-           run: deno install -gArf jsr:@valtown/vt@0.1.55
+           run: deno install -gArf jsr:@valtown/vt@0.1.56
 
          - name: Push to Val Town
            env:
@@ -96,7 +96,7 @@ you also edit in the web editor, see [Two-way sync](#two-way-sync).
            run: vt push
    ```
 
-   Pinning the CLI version (`@0.1.55`) avoids surprise behavior changes. The
+   Pinning the CLI version (`@0.1.56`) avoids surprise behavior changes. The
    `concurrency` group keeps overlapping pushes from interleaving.
 
 6. Create the repo and push:
@@ -173,7 +173,7 @@ keep in sync.
              deno-version: v2.x
 
          - name: Install the vt CLI
-           run: deno install -gArf jsr:@valtown/vt@0.1.55
+           run: deno install -gArf jsr:@valtown/vt@0.1.56
 
          - name: Clone the val
            env:
@@ -285,7 +285,7 @@ jobs:
         with:
           deno-version: v2.x
       - name: Install vt
-        run: deno install -gArf jsr:@valtown/vt@0.1.55
+        run: deno install -gArf jsr:@valtown/vt@0.1.56
       - name: Push to Val Town
         env:
           VAL_TOWN_API_KEY: ${{ secrets.VAL_TOWN_API_KEY }}
@@ -318,7 +318,7 @@ jobs:
         with:
           deno-version: v2.x
       - name: Install vt
-        run: deno install -gArf jsr:@valtown/vt@0.1.55
+        run: deno install -gArf jsr:@valtown/vt@0.1.56
       - name: Pull from Val Town
         env:
           VAL_TOWN_API_KEY: ${{ secrets.VAL_TOWN_API_KEY }}
@@ -341,9 +341,11 @@ jobs:
 ```
 
 :::caution
-The `-f` on `vt pull` is not optional. Plain `vt pull` hangs forever on an
-interactive confirmation prompt the moment the repo and the val diverge —
-which, in a sync setup, is exactly when you need it.
+The `-f` on `vt pull` is not optional in CI. The moment the repo and the val
+diverge — which, in a sync setup, is exactly when a pull matters — plain
+`vt pull` needs to confirm before overwriting local state, and in a
+non-interactive shell it exits with an error instead. `-f` skips that
+confirmation.
 :::
 
 How the pieces fit:
