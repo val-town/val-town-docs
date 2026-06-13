@@ -5,6 +5,13 @@ import starlightLinksValidator from "starlight-links-validator";
 // https://astro.build/config
 export default defineConfig({
   site: "https://docs.val.town/",
+  // Astro 6.4 leaves markdown.gfm/smartypants undefined unless set explicitly,
+  // and @astrojs/mdx 5.x reads them as falsy and drops remark-gfm — so tables
+  // and smart quotes silently stop rendering in .mdx pages. Set them on.
+  markdown: {
+    gfm: true,
+    smartypants: true,
+  },
   redirects: {
     "/api/vals/": "/openapi.html#tag/vals",
     "/api/eval/": "/openapi.html#tag/vals",
