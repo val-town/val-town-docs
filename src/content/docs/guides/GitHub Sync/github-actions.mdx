@@ -3,12 +3,14 @@ title: GitHub Actions + vt CLI
 description: Deploy a val on every push to GitHub, or back a val up to a repo
   on a schedule, using GitHub Actions and the vt CLI
 lastUpdated: 2026-06-12
+sidebar:
+  order: 2
 ---
 
 This page uses GitHub Actions to run the [vt CLI](/guides/prompting/cli/) for
 you: `vt push` to deploy a repo to a val, and `vt pull` to back a val up to a
-repo. Each direction is an independent recipe; the
-[two-way section](#two-way-sync) combines them.
+repo. The first two recipes are independent and one-directional — pick the one
+where you edit; the [two-way section](#two-way-sync) combines them.
 
 Both directions authenticate the same way: the vt CLI reads a Val Town API
 key from the `VAL_TOWN_API_KEY` environment variable, which you store as a
@@ -23,10 +25,10 @@ interactive browser-login prompt and loops forever. In CI that means a silent
 `timeout-minutes`. Keep both.
 :::
 
-## GitHub to Val Town
+## GitHub as the source of truth
 
-A repo is the source of truth. Every push to `main` runs `vt push`, which
-makes the val mirror the repo.
+You edit in the repo; the val follows. Every push to `main` runs `vt push`,
+which makes the val mirror the repo.
 
 :::caution
 This sync is one-way. `vt push` overwrites web editor edits to existing files
@@ -153,9 +155,9 @@ curl -X DELETE -H "Authorization: Bearer $VAL_TOWN_API_KEY" \
   "https://api.val.town/v2/vals/VAL_ID/files?path=.git&recursive=true"
 ```
 
-## Val Town to GitHub
+## Val Town as the source of truth
 
-The val is the source of truth. A workflow clones the val with `vt clone`,
+You edit the val; the repo follows. A workflow clones the val with `vt clone`,
 copies the files into the repo, and commits only when something changed. The
 design is stateless — no vt state lives in the repo, so there is nothing to
 keep in sync.
@@ -272,10 +274,23 @@ Notes on this recipe:
 ## Two-way sync
 
 Run both workflows against the same repo and val: the deploy workflow above
-plus a pull workflow that runs `vt pull -f` and commits val-side changes
-back. Read the [caveats on the overview page](/git/#two-way-sync) first —
-conflicts are last-sync-wins, and web editor edits made between pull runs are
-clobbered by the next push.
+plus a pull workflow on a cron that runs `vt pull -f` and commits val-side
+edits back. This works, and the loop provably settles: pushing identical
+content does not create a new val version, pulling identical content does not
+create a commit, and the pull job's commits never retrigger the deploy
+workflow.
+
+Treat it as "GitHub is the source of truth, plus a courtesy capture of web
+editor edits" — not as symmetric multi-master sync:
+
+- Conflicts are resolved by file-level overwrite: the last sync wins, with no
+  merge and no warning. Nothing is lost outright — the losing edit survives in
+  val version history or git history — but it does get overwritten.
+- A web editor edit made after the last pull run and before the next git push
+  is silently clobbered by that push's deploy. A tighter pull schedule shrinks
+  this window but never closes it.
+- For teams editing in both places at high frequency, use
+  [branches](/vals/branches/) instead.
 
 Use this deploy workflow instead of the one above. It is the same except for
 the shared `concurrency` group and a loop guard:

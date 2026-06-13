@@ -122,24 +122,6 @@ export default defineConfig({
           ],
         },
         {
-          label: "GitHub Sync",
-          collapsed: true,
-          items: [
-            {
-              label: "Overview",
-              link: "git/",
-            },
-            {
-              label: "GitHub Actions + vt CLI",
-              link: "git/github-actions",
-            },
-            {
-              label: "Sync code in a val",
-              link: "git/val-town-code",
-            },
-          ],
-        },
-        {
           label: "Guides",
           autogenerate: { directory: "guides" },
           collapsed: true,

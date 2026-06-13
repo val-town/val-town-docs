@@ -4,30 +4,31 @@ description: Sync a val with a GitHub repo using a single copy-paste file
   inside the val — no GitHub Actions required
 # cspell:ignore upsert vtwn
 lastUpdated: 2026-06-12
+sidebar:
+  order: 3
 ---
 
 This page syncs a val and a GitHub repo with code that runs inside the val
-itself: an HTTP file that receives GitHub push webhooks and writes the
-changed files into the val, or a cron file that pushes the val's files to a
-repo as commits. Each direction is one self-contained file you paste in
-unchanged — both discover which val they live in from `import.meta.url`, so
-there is nothing to configure in the code.
+itself — no GitHub Actions required. There are two separate recipes, and each
+one syncs in one direction only. Pick the one that matches where you edit:
 
-:::caution
-`VAL_TOWN_API_KEY` is a reserved name. Val Town injects its own val-scoped
-token under that exact name into every val at runtime. It shadows an
-environment variable you set with the same name, and it cannot write files —
-you get a confusing 403 `Token does not have the required permissions`. When
-a recipe below needs a Val Town API token, name the variable `VT_API_TOKEN`.
-:::
+- [GitHub as the source of truth](#github-as-the-source-of-truth): you edit
+  in the repo; an HTTP file in the val receives push webhooks and mirrors the
+  repo into the val.
+- [Val Town as the source of truth](#val-town-as-the-source-of-truth): you
+  edit the val; a cron file pushes the val's files to a repo as commits.
 
-## GitHub to Val Town
+If you want both at once, use
+[two-way sync with GitHub Actions](/guides/github-sync/github-actions/#two-way-sync)
+instead.
 
-A repo is the source of truth. GitHub sends a push webhook to an HTTP file in
-your val, which validates the signature, fetches the changed files from the
-repo, and writes them into the val via the Val Town API. Force pushes and
-pushes with 20+ commits (where GitHub truncates the payload) fall back to a
-full tree sync that also deletes val files no longer in the repo.
+## GitHub as the source of truth
+
+You edit in the repo; the val follows. GitHub sends a push webhook to an HTTP
+file in your val, which validates the signature, fetches the changed files
+from the repo, and writes them into the val via the Val Town API. Force
+pushes and pushes with 20+ commits (where GitHub truncates the payload) fall
+back to a full tree sync that also deletes val files no longer in the repo.
 
 ### Setup
 
@@ -40,15 +41,30 @@ full tree sync that also deletes val files no longer in the repo.
    - `GITHUB_TOKEN` — a token that can read the repo: a fine-grained PAT
      with Contents read on just that repo
    - `VT_API_TOKEN` — a Val Town API token with val read+write scope from
-     [val.town/settings/api](https://www.val.town/settings/api). Not
-     `VAL_TOWN_API_KEY` — see the warning above.
+     [val.town/settings/api](https://www.val.town/settings/api)
+
+   :::caution
+   The Val Town token must be named `VT_API_TOKEN` (or anything other than
+   `VAL_TOWN_API_KEY`). `VAL_TOWN_API_KEY` is a reserved name: Val Town
+   injects its own val-scoped token under that exact name into every val at
+   runtime, shadowing an environment variable you set with the same name —
+   and the injected token cannot write files, so you get a confusing 403
+   `Token does not have the required permissions`.
+   :::
 
 3. Copy the HTTP endpoint URL of `githubSync.ts` (shown on the file in the
    val editor; it looks like `https://USER--FILEID.web.val.run`).
 
-4. Create a push webhook on the repo, with the endpoint URL as the payload
-   URL, content type `application/json`, your `WEBHOOK_SECRET` as the
-   secret, and just the push event:
+4. Create a push webhook on the repo. In the GitHub UI, go to
+   `https://github.com/OWNER/REPO/settings/hooks/new` (Settings → Webhooks →
+   Add webhook) and fill in:
+
+   - Payload URL: the endpoint URL from step 3
+   - Content type: `application/json`
+   - Secret: your `WEBHOOK_SECRET`
+   - Events: keep "Just the push event"
+
+   Or do the same from the command line:
 
    ```sh
    gh api repos/OWNER/REPO/hooks -X POST -f name=web -F active=true \
@@ -331,9 +347,9 @@ export default async function (req: Request): Promise<Response> {
   never deploy. Keep that name out of the repo, or rename the file in both
   places.
 
-## Val Town to GitHub
+## Val Town as the source of truth
 
-The val is the source of truth. A cron file reads all the val's files via the
+You edit the val; the repo follows. A cron file reads all the val's files via the
 Val Town API, diffs them against the repo's HEAD by computing git blob SHAs
 locally, and — only when something changed — pushes one commit covering all
 adds, edits, and deletions via GitHub's git data API. Unchanged runs make no
