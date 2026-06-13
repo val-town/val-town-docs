@@ -16,14 +16,7 @@ Both directions authenticate the same way: the vt CLI reads a Val Town API
 key from the `VAL_TOWN_API_KEY` environment variable, which you store as a
 GitHub Actions secret. Create the key at
 [val.town/settings/api](https://www.val.town/settings/api) with val
-read+write scope.
-
-:::caution
-If `VAL_TOWN_API_KEY` is missing or empty, vt does not fail — it prints an
-interactive browser-login prompt and loops forever. In CI that means a silent
-6-hour hang. Every workflow below guards against an empty key and sets
-`timeout-minutes`. Keep both.
-:::
+read+write scope. If the secret is missing, vt exits with a clear error.
 
 ## GitHub as the source of truth
 
@@ -98,20 +91,15 @@ you also edit in the web editor, see [Two-way sync](#two-way-sync).
              deno-version: v2.x
 
          - name: Install vt CLI
-           run: deno install -gArf jsr:@valtown/vt@0.1.54
+           run: deno install -gArf jsr:@valtown/vt@0.1.55
 
          - name: Push to Val Town
            env:
              VAL_TOWN_API_KEY: ${{ secrets.VAL_TOWN_API_KEY }}
-           run: |
-             if [ -z "$VAL_TOWN_API_KEY" ]; then
-               echo "::error::VAL_TOWN_API_KEY secret is not set (vt would hang waiting for browser login)"
-               exit 1
-             fi
-             vt push
+           run: vt push
    ```
 
-   Pinning the CLI version (`@0.1.54`) avoids surprise behavior changes. The
+   Pinning the CLI version (`@0.1.55`) avoids surprise behavior changes. The
    `concurrency` group keeps overlapping pushes from interleaving.
 
 6. Create the repo and push:
@@ -194,8 +182,6 @@ keep in sync.
    jobs:
      backup:
        runs-on: ubuntu-latest
-       # vt hangs forever on an interactive login prompt if the API key is
-       # missing or invalid, so always set a timeout.
        timeout-minutes: 10
        steps:
          - uses: actions/checkout@v5
@@ -205,17 +191,12 @@ keep in sync.
              deno-version: v2.x
 
          - name: Install the vt CLI
-           run: deno install -gArf jsr:@valtown/vt@0.1.54
+           run: deno install -gArf jsr:@valtown/vt@0.1.55
 
          - name: Clone the val
            env:
              VAL_TOWN_API_KEY: ${{ secrets.VAL_TOWN_API_KEY }}
-           run: |
-             if [ -z "$VAL_TOWN_API_KEY" ]; then
-               echo "::error::VAL_TOWN_API_KEY secret is not set (vt would hang waiting for browser login)"
-               exit 1
-             fi
-             vt clone "$VAL" "$RUNNER_TEMP/val" --no-editor-files
+           run: vt clone "$VAL" "$RUNNER_TEMP/val" --no-editor-files
 
          - name: Copy val files into the repo
            run: |
@@ -322,16 +303,11 @@ jobs:
         with:
           deno-version: v2.x
       - name: Install vt
-        run: deno install -gArf jsr:@valtown/vt@0.1.54
+        run: deno install -gArf jsr:@valtown/vt@0.1.55
       - name: Push to Val Town
         env:
           VAL_TOWN_API_KEY: ${{ secrets.VAL_TOWN_API_KEY }}
-        run: |
-          if [ -z "$VAL_TOWN_API_KEY" ]; then
-            echo "VAL_TOWN_API_KEY secret is not set" >&2
-            exit 1
-          fi
-          vt push
+        run: vt push
 ```
 
 ```yaml title=".github/workflows/pull.yml"
@@ -360,16 +336,11 @@ jobs:
         with:
           deno-version: v2.x
       - name: Install vt
-        run: deno install -gArf jsr:@valtown/vt@0.1.54
+        run: deno install -gArf jsr:@valtown/vt@0.1.55
       - name: Pull from Val Town
         env:
           VAL_TOWN_API_KEY: ${{ secrets.VAL_TOWN_API_KEY }}
-        run: |
-          if [ -z "$VAL_TOWN_API_KEY" ]; then
-            echo "VAL_TOWN_API_KEY secret is not set" >&2
-            exit 1
-          fi
-          vt pull -f
+        run: vt pull -f
       - name: Commit val-side changes back to the repo
         run: |
           # vt rewrites .vt/state.json (lastRun pid/time, branch version) on
