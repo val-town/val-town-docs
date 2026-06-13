@@ -112,17 +112,17 @@ back to a full tree sync that also deletes val files no longer in the repo.
 // longer in the repo. You can also trigger a full sync manually:
 //   curl -X POST '<endpoint>?full=1&repo=owner/name' -H "Authorization: Bearer $WEBHOOK_SECRET"
 
+import { getValId, listFiles, parseVal } from "https://esm.town/v/std/utils/index.ts";
+
 const SKIP_PREFIXES = [".github/"];
 
 const GITHUB_TOKEN = Deno.env.get("GITHUB_TOKEN")!;
 const VT_API_TOKEN = Deno.env.get("VT_API_TOKEN")!;
 const WEBHOOK_SECRET = Deno.env.get("WEBHOOK_SECRET")!;
 
-// Figure out which val we are and which file we are, from import.meta.url,
-// e.g. https://esm.town/p/handle/valName@7-main/githubSync.ts
-const m = new URL(import.meta.url).pathname.match(/^\/p\/([^/]+)\/([^/@]+)@[^/]*\/(.+)$/);
-if (!m) throw new Error("Could not parse import.meta.url: " + import.meta.url);
-const [, VAL_HANDLE, VAL_NAME, SELF_PATH] = m;
+// Figure out which file we are, so we never overwrite ourselves. parseVal reads
+// our own val identity (handle, name, file path) from import.meta.url.
+const SELF_PATH = parseVal(import.meta.url).path;
 
 function shouldSkip(path: string) {
   return path === SELF_PATH || SKIP_PREFIXES.some((p) => path.startsWith(p));
@@ -175,6 +175,10 @@ async function fetchRepoTree(repoFullName: string, ref: string): Promise<string[
 }
 
 // ---------- Val Town API ----------
+// Writes go through the Val Town API with VT_API_TOKEN (std/utils has read-only
+// helpers, and the injected VAL_TOWN_API_KEY cannot write files). Reads — the
+// val id and file listing — use the std/utils helpers, which authenticate with
+// the injected val-scoped token, so no extra token is needed for those.
 
 async function valtown(method: string, pathAndQuery: string, body?: unknown): Promise<Response> {
   return await fetch(`https://api.val.town${pathAndQuery}`, {
@@ -182,16 +186,6 @@ async function valtown(method: string, pathAndQuery: string, body?: unknown): Pr
     headers: { Authorization: `Bearer ${VT_API_TOKEN}`, "Content-Type": "application/json" },
     body: body === undefined ? undefined : JSON.stringify(body),
   });
-}
-
-let cachedValId: string | undefined;
-async function getValId(): Promise<string> {
-  if (!cachedValId) {
-    const res = await valtown("GET", `/v2/alias/vals/${VAL_HANDLE}/${VAL_NAME}`);
-    if (!res.ok) throw new Error(`Could not resolve val id: ${res.status}`);
-    cachedValId = (await res.json()).id;
-  }
-  return cachedValId!;
 }
 
 // Create/update a file in this val. PUT updates content if the file exists;
@@ -217,15 +211,9 @@ async function deleteValFile(valId: string, path: string) {
   if (!res.ok && res.status !== 404) throw new Error(`DELETE ${path}: ${res.status} ${await res.text()}`);
 }
 
-async function listValFiles(valId: string): Promise<string[]> {
-  const paths: string[] = [];
-  for (let offset = 0; ; offset += 100) {
-    const res = await valtown("GET", `/v2/vals/${valId}/files?path=&recursive=true&offset=${offset}&limit=100`);
-    if (!res.ok) throw new Error(`list files: ${res.status}`);
-    const page = (await res.json()).data;
-    for (const f of page) if (f.type !== "directory") paths.push(f.path);
-    if (page.length < 100) return paths;
-  }
+async function listValFiles(): Promise<string[]> {
+  const files = await listFiles(import.meta.url); // recursive, pagination handled
+  return files.filter((f) => f.type !== "directory").map((f) => f.path);
 }
 
 // ---------- sync logic ----------
@@ -274,7 +262,7 @@ async function fullSync(valId: string, repoFullName: string, ref: string): Promi
     results.push(await syncOneFile(valId, repoFullName, path, ref));
   }
   const repoSet = new Set(repoPaths);
-  for (const path of await listValFiles(valId)) {
+  for (const path of await listValFiles()) {
     if (!repoSet.has(path) && !shouldSkip(path)) {
       await deleteValFile(valId, path);
       results.push(`deleted (not in repo): ${path}`);
@@ -299,7 +287,7 @@ export default async function (req: Request): Promise<Response> {
     const repo = url.searchParams.get("repo"); // owner/name
     const ref = url.searchParams.get("ref") ?? "HEAD";
     if (!repo) return new Response("pass ?repo=owner/name", { status: 400 });
-    const results = await fullSync(await getValId(), repo, ref);
+    const results = await fullSync(await getValId(import.meta.url), repo, ref);
     return Response.json({ mode: "manual full sync", results });
   }
 
@@ -318,7 +306,7 @@ export default async function (req: Request): Promise<Response> {
   }
   if (payload.deleted) return Response.json({ ok: true, ignored: "branch deletion" });
 
-  const valId = await getValId();
+  const valId = await getValId(import.meta.url);
   // GitHub truncates the commits array at 20; force pushes can rewrite history.
   // In both cases the per-commit diff is unreliable, so do a full tree sync instead.
   const needFull = payload.forced || payload.commits.length >= 20;
@@ -376,9 +364,9 @@ changes.
 
 3. Set two environment variables on the val: `GITHUB_TOKEN` (the token from
    step 2) and `GITHUB_REPO` (`owner/name`). Optionally `GITHUB_BRANCH`
-   (defaults to `main`). Do not set `VAL_TOWN_API_KEY` — Val Town injects it
-   automatically into every val, and that injected token is what this recipe
-   uses to read the val's own files.
+   (defaults to `main`). No Val Town API token is needed — the `std/utils`
+   helpers read this val's own identity and files using the val-scoped token
+   Val Town injects automatically into every val.
 
 4. Create a file `githubBackup.ts` with trigger type Cron and paste in the
    code below.
@@ -403,9 +391,9 @@ changes.
 // githubBackup.ts — back up this val's files to a GitHub repo, one commit per change.
 //
 // Copy this single file into any val. It reads ALL of the val's own files via the
-// Val Town API, diffs them against the target repo's HEAD, and — only when something
-// changed — pushes one commit (adds + edits + deletions together) using GitHub's
-// git data API (blobs -> tree -> commit -> ref).
+// std/utils helpers, diffs them against the target repo's HEAD, and — only when
+// something changed — pushes one commit (adds + edits + deletions together) using
+// GitHub's git data API (blobs -> tree -> commit -> ref).
 //
 // Setup — environment variables on this val:
 //   GITHUB_TOKEN  (required) classic PAT with `repo` scope, or fine-grained token
@@ -413,23 +401,15 @@ changes.
 //   GITHUB_REPO   (required) "owner/name", e.g. "stevekrouse/my-backup"
 //   GITHUB_BRANCH (optional) defaults to "main". The branch must already exist —
 //                 create the repo initialized (e.g. with a README).
-//   VAL_TOWN_API_KEY — do NOT set this; Val Town injects it automatically.
+// No Val Town API token is needed: the std/utils helpers below read this val's own
+// identity and files using the val-scoped token Val Town injects automatically.
 //
 // Make this file a Cron trigger (e.g. every hour) for scheduled backups, or run it
 // manually with the Run button. Runs are idempotent: no changes => no commit.
 
-const VT_API = "https://api.val.town";
-const GH_API = "https://api.github.com";
+import { listFiles, readFile } from "https://esm.town/v/std/utils/index.ts";
 
-async function vt(path: string): Promise<Response> {
-  const res = await fetch(`${VT_API}${path}`, {
-    headers: { Authorization: `Bearer ${Deno.env.get("VAL_TOWN_API_KEY")}` },
-  });
-  if (!res.ok) {
-    throw new Error(`Val Town API ${path} -> ${res.status}: ${await res.text()}`);
-  }
-  return res;
-}
+const GH_API = "https://api.github.com";
 
 async function gh(path: string, init: RequestInit = {}): Promise<any> {
   const res = await fetch(`${GH_API}${path}`, {
@@ -450,36 +430,13 @@ async function gh(path: string, init: RequestInit = {}): Promise<any> {
   return res.json();
 }
 
-// --- Who am I? ---------------------------------------------------------------
-// Inside a running val, import.meta.url looks like:
-//   https://esm.town/p/<handle>/<valName>@<version>-<branch>/githubBackup.ts
-// so the val can discover its own id without hardcoding anything.
-async function getOwnValId(): Promise<string> {
-  const m = import.meta.url.match(/esm\.town\/p\/([^/]+)\/([^/@]+)/);
-  if (!m) throw new Error(`Cannot parse val identity from ${import.meta.url}`);
-  const [, handle, valName] = m;
-  const { id } = await (await vt(`/v2/alias/vals/${handle}/${valName}`)).json();
-  return id;
-}
-
-// --- Read every file in this val ----------------------------------------------
-async function listValFiles(valId: string): Promise<{ path: string }[]> {
-  const files: { path: string; type: string }[] = [];
-  for (let offset = 0;; offset += 100) {
-    const { data } = await (
-      await vt(`/v2/vals/${valId}/files?path=&recursive=true&limit=100&offset=${offset}`)
-    ).json();
-    files.push(...data);
-    if (data.length < 100) break;
-  }
-  return files.filter((f) => f.type !== "directory");
-}
-
-async function readValFile(valId: string, path: string): Promise<Uint8Array> {
-  const res = await vt(
-    `/v2/vals/${valId}/files/content?path=${encodeURIComponent(path)}`,
-  );
-  return new Uint8Array(await res.arrayBuffer());
+// --- Read this val's own files -------------------------------------------------
+// std/utils figures out which val we are from import.meta.url and authenticates
+// with the val-scoped token Val Town injects, so reading our own identity and
+// files needs no API token. `listFiles` is recursive and handles pagination;
+// `readFile` returns the raw file contents as a string.
+async function readValFile(path: string): Promise<Uint8Array> {
+  return new TextEncoder().encode(await readFile(path, import.meta.url));
 }
 
 // --- Git plumbing --------------------------------------------------------------
@@ -511,11 +468,10 @@ export async function backup(): Promise<string> {
   const branch = Deno.env.get("GITHUB_BRANCH") ?? "main";
 
   // 1. Snapshot this val: every file's bytes + its git blob sha
-  const valId = await getOwnValId();
-  const valFiles = await listValFiles(valId);
+  const valFiles = (await listFiles(import.meta.url)).filter((f) => f.type !== "directory");
   const entries = await Promise.all(
     valFiles.map(async (f) => {
-      const bytes = await readValFile(valId, f.path);
+      const bytes = await readValFile(f.path);
       return { path: f.path, bytes, sha: await gitBlobSha(bytes) };
     }),
   );
