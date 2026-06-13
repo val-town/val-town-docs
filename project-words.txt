@@ -70,3 +70,5 @@ lastlogin
 vtwn
 convos
 Kinde
+vtignore
+denoland

@@ -1,0 +1,36 @@
+---
+title: Syncing vals with GitHub
+description: Keep a val and a GitHub repo in sync — for version history,
+  backups, CI, and local editing
+lastUpdated: 2026-06-12
+sidebar:
+  label: Overview
+  order: 2
+---
+
+Vals have [built-in version history](/reference/version-control/), but syncing
+a val with a GitHub repo gets you more:
+
+- Git history with real commits, branches, and pull requests
+- An off-platform backup of your code
+- CI: tests, linters, and review before code reaches your val
+- Editing locally in your own editor, or with coding agents
+
+There are two ways to set this up.
+
+## Which method should I choose?
+
+| | [GitHub Actions + vt CLI](/guides/github-sync/github-actions/) | [Sync code in a val](/guides/github-sync/val-town-code/) |
+| --- | --- | --- |
+| Where it runs | GitHub Actions | Inside the val itself |
+| GitHub → Val Town | Deploys on every push to `main` | Deploys on every push, via a webhook |
+| Val Town → GitHub | On a schedule (polling) | On a schedule (cron file in the val) |
+| Setup | Repo with two small workflow files | One copy-paste file in the val |
+| Good fit | You already live in GitHub | You want zero GitHub Actions setup |
+| Limits | Needs a repo per val | Text files only, 80k chars per file |
+
+If you are not sure, start with [GitHub Actions + vt CLI](/guides/github-sync/github-actions/).
+It uses the same [vt CLI](/guides/prompting/cli/) you can run locally, and the
+sync logic is two short workflow files you can read in full. It is also the
+method that supports
+[two-way sync](/guides/github-sync/github-actions/#two-way-sync).
