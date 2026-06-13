@@ -38,26 +38,23 @@ you also edit in the web editor, see [Two-way sync](#two-way-sync).
    ```
 
    The `--org-name me` flag targets your personal account. Without it, vt
-   shows an interactive org picker if you belong to any orgs, and hangs in
-   scripts.
+   shows an interactive org picker if you belong to any orgs, and exits with
+   an error in a non-interactive shell.
 
 2. Add your files. The trigger type comes from the filename when the file is
    first created: `main.http.tsx` becomes an HTTP trigger, plain `main.tsx`
    becomes a script. Renaming an existing file does not change its type —
    delete and recreate it instead.
 
-3. Create `.vtignore` in the root:
+3. Create `.vtignore` in the root so your workflow files don't sync into the
+   val:
 
    ```gitignore title=".vtignore"
-   .git
    .github
    .gitignore
    ```
 
-   This file is load-bearing. vt does not ignore `.git` by default, so
-   without it `vt push` in CI uploads your entire `.git` directory into the
-   val. Use `.github` with no trailing slash — `.github/` still creates an
-   empty directory in the val.
+   vt ignores `.git` itself by default, so you don't need to list it.
 
 4. Run `vt push` once locally so the val matches the repo. Then
    `git init -b main` and commit everything, including `.vt/state.json`.
@@ -127,21 +124,6 @@ you also edit in the web editor, see [Two-way sync](#two-way-sync).
 
    The val id is in `.vt/state.json`. The val.run endpoint serves the new
    code immediately.
-
-:::note
-`vt push` exits 0 even when some file uploads fail. A run that pushed `.git`
-by mistake printed `11 failed` and `! Failed to push everything`, and the
-Actions step was still green. Do not rely on the exit code to catch upload
-failures.
-:::
-
-If you pushed `.git` before adding `.vtignore`, a later push will not clean
-it up — ignored paths are invisible to vt's diff. Delete it via the API:
-
-```sh
-curl -X DELETE -H "Authorization: Bearer $VAL_TOWN_API_KEY" \
-  "https://api.val.town/v2/vals/VAL_ID/files?path=.git&recursive=true"
-```
 
 ## Val Town as the source of truth
 
