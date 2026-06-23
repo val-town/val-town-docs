@@ -17,7 +17,7 @@ Install for Claude Code, Codex, and Cursor in one command:
 npx plugins add val-town/plugins
 ```
 
-Or from Claude Code's official plugin marketplace:
+Or [from Claude Code's official plugin marketplace](https://claude.com/plugins/valtown) with the `/plugins` command or by running:
 
 ```bash
 claude plugin install valtown@claude-plugins-official
