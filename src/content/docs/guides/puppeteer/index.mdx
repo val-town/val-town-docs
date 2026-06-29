@@ -1,0 +1,40 @@
+---
+title: Hosted Puppeteer
+description: How to use hosted browser automation services in Val Town
+---
+
+When scraping or automating websites that rely heavily on client-side JavaScript, you'll need a real browser to properly render the content. While running Puppeteer directly isn't suitable for Val Town's serverless environment, there are several excellent hosted browser automation services that work great with Val Town.
+
+These services provide APIs to interact with remote headless browsers, allowing you to:
+
+- Scrape JavaScript-heavy websites
+- Take screenshots and generate PDFs
+- Automate user interactions
+- Execute custom JavaScript code
+
+Here are some popular hosted browser automation services you can use with Val Town:
+
+<LinkCard
+  title="Browserless"
+  href="/guides/puppeteer/browserless"
+  description="Popular hosted browser automation service with a generous free tier and simple REST API"
+/>
+
+<LinkCard
+  title="BrowserBase"
+  href="/guides/puppeteer/browserbase"
+  description="Modern browser automation platform with WebSocket support and concurrent sessions"
+/>
+
+<LinkCard
+  title="Steel"
+  href="/guides/puppeteer/steel"
+  description="Fast, reliable browser automation with built-in smart request queueing"
+/>
+
+Choose the service that best fits your needs based on factors like:
+
+- Pricing and free tier limits
+- API complexity and features
+- Geographic availability of browser instances
+- Support for concurrent sessions
