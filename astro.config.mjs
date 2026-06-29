@@ -5,13 +5,6 @@ import starlightLinksValidator from "starlight-links-validator";
 // https://astro.build/config
 export default defineConfig({
   site: "https://docs.val.town/",
-  // Astro 6.4 leaves markdown.gfm/smartypants undefined unless set explicitly,
-  // and @astrojs/mdx 5.x reads them as falsy and drops remark-gfm — so tables
-  // and smart quotes silently stop rendering in .mdx pages. Set them on.
-  markdown: {
-    gfm: true,
-    smartypants: true,
-  },
   redirects: {
     "/api/vals/": "/openapi.html#tag/vals",
     "/api/eval/": "/openapi.html#tag/vals",
@@ -87,8 +80,8 @@ export default defineConfig({
               items: [
                 {
                   label: "HTTP",
-                  autogenerate: { directory: "vals/http" },
                   collapsed: true,
+                  items: [{ autogenerate: { directory: "vals/http" } }],
                 },
                 {
                   label: "Cron",
@@ -130,8 +123,8 @@ export default defineConfig({
         },
         {
           label: "Guides",
-          autogenerate: { directory: "guides" },
           collapsed: true,
+          items: [{ autogenerate: { directory: "guides" } }],
         },
         {
           label: "Reference",
@@ -142,8 +135,10 @@ export default defineConfig({
                 { label: "Email", link: "reference/std/email" },
                 {
                   label: "SQLite",
-                  autogenerate: { directory: "reference/std/SQLite" },
                   collapsed: true,
+                  items: [
+                    { autogenerate: { directory: "reference/std/SQLite" } },
+                  ],
                 },
                 { label: "Blob", link: "reference/std/blob" },
                 { label: "OpenAI", link: "reference/std/openai" },
@@ -240,8 +235,8 @@ export default defineConfig({
         },
         {
           label: "Contact",
-          autogenerate: { directory: "contact-us" },
           collapsed: true,
+          items: [{ autogenerate: { directory: "contact-us" } }],
         },
       ],
       head: [
