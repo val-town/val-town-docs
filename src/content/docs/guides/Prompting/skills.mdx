@@ -45,11 +45,13 @@ speed and productivity...
 - `description`: helps the agent decide when the skill is relevant
 - `triggers`: (optional) is a list of keywords to tip off the agent
 
+The `description` field enables skill discovery, i.e. tells your agent when to use it. The more specific the better, including key terms that should trigger use (which you can also enumerate in `triggers`). Always write in third person. [Read more tips on Claude's docs](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices#writing-effective-descriptions).
+
 Skills without frontmatter will be silently skipped, so Townie/MCP will not be able to access them.
 
 ## Remixing skills
 
-To adopt another user's skills, simply remix the val.
+To adopt another user's skills, simply remix the val and customize the `SKILL.md` file. It is trivially easy to remix a skill into your account, and customizing skills is powerful because you can personalize them based on your specific knowledge and preferences.
 
 :::tip
 Liking your new skill? We'd like to know! Share it in our [discord](https://discord.val.town) #showcase channel.
