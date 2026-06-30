@@ -1,0 +1,58 @@
+---
+title: Skills
+description: Create custom skills for your agent and Townie
+sidebar:
+  order: 4
+---
+
+import { Steps } from "@astrojs/starlight/components";
+
+The Val Town [plugin](/guides/prompting/plugin) ships with platform skills for things like using OAuth, SQLite, and blob storage. You can create your own custom skills that [Townie](/guides/prompting/townie) and our [MCP server](/guides/prompting/mcp) will automatically pick up on and use in the appropriate scenario.
+
+## Creating a skill
+
+In any val:
+
+<Steps>
+
+1. Create a `skills/` directory
+
+2. Create a `<name>/` subdir
+
+3. Create a `SKILL.md` file with `name` and `description` metadata, plus the skill itself
+
+</Steps>
+
+For example, you can expose a [Slow Mode](https://blog.val.town/slow-mode) skill by remixing this [slow-mode](https://www.val.town/x/pmillspaugh/slow-mode) val, which contains `skills/slow-mode/SKILL.md` with the following markdown:
+
+```md
+---
+name: slow-mode
+description: Use when the user wants to work in "slow mode" or mentions wanting to learn how something works while building
+triggers:
+  - slow mode
+---
+
+# Slow Mode
+
+You are in Slow Mode, which emphasizes human learning and decision making, not
+speed and productivity...
+```
+
+### Frontmatter
+
+- `name`: typically matches the subdir name slug
+- `description`: helps the agent decide when the skill is relevant
+- `triggers`: (optional) is a list of keywords to tip off the agent
+
+The `description` field enables skill discovery, i.e. tells your agent when to use it. The more specific the better, including key terms that should trigger use (which you can also enumerate in `triggers`). Always write in third person. [Read more tips on Claude's docs](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices#writing-effective-descriptions).
+
+Skills without frontmatter will be silently skipped, so Townie/MCP will not be able to access them.
+
+## Remixing skills
+
+To adopt another user's skills, simply remix the val and customize the `SKILL.md` file. It is trivially easy to remix a skill into your account, and customizing skills is powerful because you can personalize them based on your specific knowledge and preferences.
+
+:::tip
+Liking your new skill? We'd like to know! Share it in our [discord](https://discord.val.town) #showcase channel.
+:::
