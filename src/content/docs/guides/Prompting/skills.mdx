@@ -11,6 +11,10 @@ The Val Town [plugin](/guides/prompting/plugin) ships with platform skills for t
 
 ## Creating a skill
 
+:::tip
+If you are using the [plugin](/guides/prompting/plugin), your agent should be able to reference the skill for creating new skills ([view source](https://github.com/val-town/plugins/blob/main/plugin/skills/create-skill/SKILL.md)).
+:::
+
 In any val:
 
 <Steps>
@@ -22,6 +26,8 @@ In any val:
 3. Create a `SKILL.md` file with `name` and `description` metadata, plus the skill itself
 
 </Steps>
+
+You may choose to centralize your skills in one val or colocate skills across multiple vals.
 
 For example, you can expose a [Slow Mode](https://blog.val.town/slow-mode) skill by remixing this [slow-mode](https://www.val.town/x/pmillspaugh/slow-mode) val, which contains `skills/slow-mode/SKILL.md` with the following markdown:
 
