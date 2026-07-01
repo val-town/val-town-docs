@@ -1,6 +1,7 @@
 ---
 title: Organizations
 description: Collaborate with your team
+lastUpdated: 2026-07-01
 ---
 
 Organizations are how you collaborate with teammates on vals. Creating an org is free, but our [Business](https://www.val.town/pricing) plan unlocks features, like [environment groups](/reference/environment-groups), higher limits, and hands-on support.
