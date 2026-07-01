@@ -81,7 +81,7 @@ export default defineConfig({
                 {
                   label: "HTTP",
                   collapsed: true,
-                  autogenerate: { directory: "vals/http" },
+                  items: [{ autogenerate: { directory: "vals/http" } }],
                 },
                 {
                   label: "Cron",
@@ -124,7 +124,7 @@ export default defineConfig({
         {
           label: "Guides",
           collapsed: true,
-          autogenerate: { directory: "guides" },
+          items: [{ autogenerate: { directory: "guides" } }],
         },
         {
           label: "Reference",
@@ -136,7 +136,9 @@ export default defineConfig({
                 {
                   label: "SQLite",
                   collapsed: true,
-                  autogenerate: { directory: "reference/std/SQLite" },
+                  items: [
+                    { autogenerate: { directory: "reference/std/SQLite" } },
+                  ],
                 },
                 { label: "Blob", link: "reference/std/blob" },
                 { label: "OpenAI", link: "reference/std/openai" },
@@ -234,7 +236,7 @@ export default defineConfig({
         {
           label: "Contact",
           collapsed: true,
-          autogenerate: { directory: "contact-us" },
+          items: [{ autogenerate: { directory: "contact-us" } }],
         },
       ],
       head: [
