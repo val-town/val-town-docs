@@ -21,7 +21,7 @@ Below we'll walk through how to create and agent instructions, and how Townie an
 
 User-based agent instructions live in an `AGENTS.md` file within a `<username>/.config` val in your account. Visit [val.town/settings/preferences](https://val.town/settings/preferences) > Agent Instructions to create this val, or create it manually. If you already have a `.config` val, settings will link to it.
 
-Whenever you are chatting with Townie or another agent using our MCP server, your agent instructions will automatically be available in context.
+Whenever you are chatting with Townie or another agent using our MCP server, your agent instructions will always be in context.
 
 ### Per org
 
@@ -33,9 +33,22 @@ When you are chatting with Townie and your org's val is attached as context, the
 
 You can create an `AGENTS.md` file at the root of any val. Townie will automatically read those agent instructions if a val is attached as context. When working with our MCP server, your agent will be instructed to read your val's agent instructions, if they exist, the same way it would read any other file.
 
+### Example
+
+Here's what your personal agent instructions might look like.
+
+```md
+I'm a software engineer with experience in React, TypeScript, HTML/CSS, Node, SQL, etc.
+
+- I prefer vanilla CSS in `.css` files
+- I prefer JSX over vanilla HTML
+- I prefer Hono for routing
+- Always work incrementally, writing code then running code piecemeal
+```
+
 ## Custom skills
 
-The Val Town [plugin](/guides/prompting/plugin) ships with platform skills for things like using OAuth, SQLite, and blob storage. You can create your own custom skills that [Townie](/guides/prompting/townie) and our [MCP server](/guides/prompting/mcp) will automatically pick up on and use in the appropriate scenario.
+The Val Town [plugin](/guides/prompting/plugin) ships with platform skills for things like using OAuth, SQLite, and blob storage. You can create your own custom skills that [Townie](/guides/prompting/townie) and our [MCP server](/guides/prompting/mcp) will automatically pick up on and use in the appropriate scenario. Unlike [agent instructions](#agents.md), which are _always_ in context, skills are discoverable by agents only when relevant to the task at hand.
 
 :::tip
 If you are using the [plugin](/guides/prompting/plugin), your agent should be able to reference the skill for creating new skills ([view source](https://github.com/val-town/plugins/blob/main/plugin/skills/create-skill/SKILL.md)).
@@ -55,7 +68,7 @@ In any val:
 
 </Steps>
 
-You may choose to centralize your skills in one val or colocate skills across multiple vals. For example, you could expose a design skill in any val, like `skills/design/SKILL.md`:
+You may choose to centralize your skills in one val (like [.config](#per-user)) or colocate skills across multiple vals. For example, you could expose a design skill in any val, like `skills/design/SKILL.md`:
 
 ```md
 ---
