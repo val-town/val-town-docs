@@ -1,19 +1,47 @@
 ---
-title: Skills
-description: Create custom skills for your agent and Townie
+title: Agent instructions
+description: Create custom instructions and skills for AI agents
 sidebar:
   order: 4
 ---
 
 import { Steps } from "@astrojs/starlight/components";
 
-The Val Town [plugin](/guides/prompting/plugin) ships with platform skills for things like using OAuth, SQLite, and blob storage. You can create your own custom skills that [Townie](/guides/prompting/townie) and our [MCP server](/guides/prompting/mcp) will automatically pick up on and use in the appropriate scenario.
+## AGENTS.md
 
-## Creating a skill
+[Townie](/guides/prompting/townie) and our [MCP server](/guides/prompting/mcp) support the `AGENTS.md` convention ([learn more](https://agents.md)) for providing instructions and preferences to your agent. We support `AGENTS.md`:
+
+1. Per user
+2. Per org
+3. Per val
+
+Below we'll walk through how to create and agent instructions, and how Townie and other agents reference them. You can also ask Townie or your agent to create their own instructions!
+
+### Per user
+
+User-based agent instructions live in an `AGENTS.md` file within a `<username>/.config` val in your account. Visit [val.town/settings/preferences](https://val.town/settings/preferences) > Agent Instructions to create this val, or create it manually. If you already have a `.config` val, settings will link to it.
+
+Whenever you are chatting with Townie or another agent using our MCP server, your agent instructions will automatically be available in context.
+
+### Per org
+
+Org-based agent instructions live in an `AGENTS.md` file within a `<org>/.config` val in your org's account. Visit `val.town/orgs/ORG/settings/preferences` > Agent Instructions to create this val, or create it manually. If your org already has a `.config` val, settings will link to it.
+
+When you are chatting with Townie and your org's val is attached as context, the agent instructions for that org will be available in context (in addition to your user-based instructions). When working with our MCP server, your agent will be instructed to read your org's agent instructions, if they exist.
+
+### Per val
+
+You can create an `AGENTS.md` file at the root of any val. Townie will automatically read those agent instructions if a val is attached as context. When working with our MCP server, your agent will be instructed to read your val's agent instructions, if they exist, the same way it would read any other file.
+
+## Custom skills
+
+The Val Town [plugin](/guides/prompting/plugin) ships with platform skills for things like using OAuth, SQLite, and blob storage. You can create your own custom skills that [Townie](/guides/prompting/townie) and our [MCP server](/guides/prompting/mcp) will automatically pick up on and use in the appropriate scenario.
 
 :::tip
 If you are using the [plugin](/guides/prompting/plugin), your agent should be able to reference the skill for creating new skills ([view source](https://github.com/val-town/plugins/blob/main/plugin/skills/create-skill/SKILL.md)).
 :::
+
+### Creating a skill
 
 In any val:
 
@@ -27,22 +55,17 @@ In any val:
 
 </Steps>
 
-You may choose to centralize your skills in one val or colocate skills across multiple vals.
-
-For example, you can expose a [Slow Mode](https://blog.val.town/slow-mode) skill by remixing this [slow-mode](https://www.val.town/x/pmillspaugh/slow-mode) val, which contains `skills/slow-mode/SKILL.md` with the following markdown:
+You may choose to centralize your skills in one val or colocate skills across multiple vals. For example, you could expose a design skill in any val, like `skills/design/SKILL.md`:
 
 ```md
 ---
-name: slow-mode
-description: Use when the user wants to work in "slow mode" or mentions wanting to learn how something works while building
-triggers:
-  - slow mode
+name: design
+description: Use when designing the UI/UX of a website or frontend tool. Use when writing CSS and making design decisions.
+triggers: [CSS, design, frontend, website]
 ---
 
-# Slow Mode
-
-You are in Slow Mode, which emphasizes human learning and decision making, not
-speed and productivity...
+- Headings should be set in a sans serif typeface
+- Body text should be set in a neutral, serif typeface
 ```
 
 ### Frontmatter
@@ -55,7 +78,7 @@ The `description` field enables skill discovery, i.e. tells your agent when to u
 
 Skills without frontmatter will be silently skipped, so Townie/MCP will not be able to access them.
 
-## Remixing skills
+### Remixing skills
 
 To adopt another user's skills, simply remix the val and customize the `SKILL.md` file. It is trivially easy to remix a skill into your account, and customizing skills is powerful because you can personalize them based on your specific knowledge and preferences.
 
