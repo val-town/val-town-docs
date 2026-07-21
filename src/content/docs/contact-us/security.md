@@ -58,3 +58,4 @@ Subdomains of these domains are in scope for the program.
 - Denial of Service or brute force attacks
 - Violating any laws or breaching any agreements in order to discover vulnerabilities
 - Open OAuth Dynamic Client Registration (RFC 7591). Val Town intentionally supports unauthenticated Dynamic Client Registration with public clients and arbitrary `redirect_uris`, which is required for MCP client onboarding and for Val Town vals. Access is only granted after the user approves the request on the post-authentication consent screen. Reports that DCR clients can register external `redirect_uris`, request scopes, or that OAuth errors are redirected back to a client's own registered `redirect_uri` (RFC 6749 §4.1.2.1) are considered intended behavior.
+- Invitation codes are intentionally not bound to email addresses and accessible by organization members. This is a design choice, and is not a valid topic for a security report.
