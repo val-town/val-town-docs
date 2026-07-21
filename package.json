@@ -22,7 +22,7 @@
     "typescript": "^6.0.3"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.5.1",
+    "@biomejs/biome": "^2.5.5",
     "cspell": "^10.0.1"
   }
 }
