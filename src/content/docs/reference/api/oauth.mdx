@@ -1,0 +1,128 @@
+---
+title: OAuth
+description: Authenticate to the Val Town API with OAuth 2.0, including dynamic client registration and MCP support
+lastUpdated: 2026-07-22
+---
+
+Val Town is an OAuth 2.0 authorization server. Instead of asking users to
+paste an [API token](/reference/api/authentication), your app can send them
+through a standard OAuth flow and receive an access token scoped to just the
+permissions you request. This is also how MCP clients connect to
+[Val Town's MCP server](https://www.val.town/docs/mcp).
+
+## At a glance
+
+- Issuer: `https://www.val.town/oauth`
+- Authorization endpoint: `https://www.val.town/oauth/auth`
+- Token endpoint: `https://www.val.town/oauth/token`
+- Dynamic client registration: `https://www.val.town/oauth/reg`
+- Metadata: `https://www.val.town/.well-known/oauth-authorization-server`
+- Grant types: `authorization_code`, `refresh_token`, `client_credentials`
+- PKCE (S256) is required for all clients
+- Access tokens are opaque bearer tokens, valid for 24 hours
+- Refresh tokens last 90 days and rotate on every use
+
+## Dynamic client registration
+
+You don't need to fill out a form or email us to create an OAuth client.
+Registration ([RFC 7591](https://datatracker.ietf.org/doc/html/rfc7591)) is
+open — POST your client metadata and you get a client back:
+
+```bash
+curl -X POST https://www.val.town/oauth/reg \
+  -H "Content-Type: application/json" \
+  -d '{
+    "client_name": "My App",
+    "redirect_uris": ["https://myapp.example.com/callback"],
+    "token_endpoint_auth_method": "none"
+  }'
+```
+
+- `redirect_uris` is required.
+- `grant_types` defaults to `["authorization_code"]` and `response_types`
+  defaults to `["code"]`.
+- `client_name`, `logo_uri`, and `client_uri` are shown to users on the
+  consent screen, so it's worth setting them.
+- Use `token_endpoint_auth_method: "none"` for public clients (SPAs, native
+  apps, MCP clients) — they authenticate with PKCE instead of a secret.
+  Confidential clients receive a `client_secret` in the registration
+  response; store it securely, as it cannot be retrieved again.
+
+Registration is rate limited to 10 requests per minute per IP.
+
+## Scopes
+
+Request scopes as a space-separated list. Each Val Town resource has a read
+(`_r`) or read/write (`_rw`) scope, mirroring
+[API token scopes](/reference/api/authentication):
+
+| Scope | Grants |
+| --- | --- |
+| `user_r` | Read your user account details |
+| `project_rw` | Read and write vals |
+| `blob_rw` | Read and write blob storage |
+| `sqlite_rw` | Read and write your SQLite databases |
+| `email_rw` | Send emails |
+| `telemetry_r` | Read logs and traces |
+| `openid`, `profile`, `email` | OpenID Connect identity claims |
+| `offline_access` | Receive a refresh token |
+
+The scopes users grant on the consent screen become the permissions on the
+issued access token — an app granted only `sqlite_rw` cannot touch your vals
+or send email.
+
+### Scope naming caveats
+
+A few quirks to be aware of, for historical reasons:
+
+- **Vals are covered by `project_rw`, not `val_rw`.** Vals were briefly
+  called "projects", and the scope name stuck. If you want to read or write
+  a user's vals, request `project_rw`.
+- **`val_r` and `val_rw` are deprecated.** They exist only for backward
+  compatibility with older clients and grant access to the legacy
+  (pre-2025) val API — not to current vals. New clients should never
+  request them.
+- **Most scopes are read/write only.** Aside from `user_r` and
+  `telemetry_r`, there are currently no read-only (`_r`) variants — for
+  example, there is no `project_r` for read-only access to vals. If your
+  app only needs to read, you still have to request the `_rw` scope today.
+
+## Using access tokens
+
+Access tokens work exactly like API tokens — pass them as a Bearer token to
+[api.val.town](https://docs.val.town/openapi):
+
+```bash
+curl https://api.val.town/v1/me \
+  -H "Authorization: Bearer <access_token>"
+```
+
+Tokens are opaque (not JWTs) and expire after 24 hours. If you requested
+`offline_access`, use your refresh token at the token endpoint to get a new
+one. Refresh tokens are single-use: each refresh returns a new refresh token
+and invalidates the old one.
+
+## Resource indicators
+
+Val Town supports [RFC 8707](https://datatracker.ietf.org/doc/html/rfc8707)
+resource indicators. The default (and currently only meaningful) resource is
+`https://api.val.town`. Scopes on the issued token are intersected with the
+scopes the API resource server supports, so requesting a scope outside the
+supported set silently drops it from the token.
+
+## MCP clients
+
+Val Town's MCP server at `https://api.val.town/v3/mcp` uses this OAuth
+server for authentication, following the standard MCP authorization flow:
+
+1. An unauthenticated request to the MCP endpoint returns `401` with a
+   `WWW-Authenticate` header pointing at
+   `https://api.val.town/.well-known/oauth-protected-resource`.
+2. That metadata names `https://www.val.town/oauth` as the authorization
+   server and lists the supported scopes.
+3. The client registers itself via dynamic client registration, runs the
+   authorization code + PKCE flow, and connects with the resulting token.
+
+Any MCP client that implements the MCP authorization spec — Claude, Cursor,
+VS Code, and friends — handles this automatically; users just click through
+the consent screen.
