@@ -152,6 +152,7 @@ export default defineConfig({
                   label: "Authentication",
                   link: "reference/api/authentication",
                 },
+                { label: "OAuth", link: "reference/api/oauth" },
                 { label: "JavaScript SDK", link: "https://sdk.val.town" },
               ],
               collapsed: true,
