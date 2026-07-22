@@ -3,7 +3,10 @@ title: Claude (Desktop)
 description: Bring Val Town to Claude
 ---
 
-You can work with Val Town in Claude (Web, Desktop) using our [MCP](#mcp) server. You can ask Claude to:
+import claudePlugin from "./claude-plugin.png";
+import claudeConnector from "./claude-connector.png";
+
+You can work with Val Town in Claude (Web, Desktop) using our [MCP](#mcp) server via our Plugin. You can ask Claude to:
 
 - List or examine your vals and read your sqlite data, logs, and almost any of your Val Town data
 - Edit your vals, and even agentically iterate, viewing the output and logs until it's done
@@ -11,10 +14,20 @@ You can work with Val Town in Claude (Web, Desktop) using our [MCP](#mcp) server
 ## MCP
 
 1. Open Claude
-2. Go to [Connectors](https://claude.ai/settings/connectors) and add `https://api.val.town/v3/mcp` as a custom connector
-3. Click "Connect" then "Allow" Val Town on the OAuth permission screen
-4. Click "Configure" then configure all tool permissions you'll need
-5. Go to [Capabilities](https://claude.ai/settings/capabilities), toggle "Allow network egress" and add `*.val.run` as an allowed domain
+2. Click "Customize"
+3. Go to "Plugins", and click "Browse"
+4. Under "Partners", search for Val Town, and Install
+5. Go back to "Plugins", and click on the Val Town plugin
+6. In the Plugin details, click on "Connectors", and you'll see a button to Install the valtown Connector
+
+<img src={claudePlugin.src} alt="Val Town plugin Connectors tab" style="max-width: 500px; width: 100%;" />
+
+7. In the Add custom connector popup, click "Add"
+
+<img src={claudeConnector.src} alt="Add custom connector popup" style="max-width: 400px; width: 100%;" />
+
+8. Click "Connect" then "Allow" Val Town on the OAuth permission screen
+9. You should now be able to ask Claude to work with Val Town! You may need to quit and re-open Claude.
 
 :::note
 MCP servers ("Connectors") in Claude are [only available](https://support.claude.com/en/articles/14328846-browse-skills-connectors-and-plugins-in-one-directory) for users with paid plans (Pro, Max, Team, or Enterprise).
