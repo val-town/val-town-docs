@@ -1,15 +1,16 @@
 ---
 title: OpenAI
-lastUpdated: 2024-04-04
+lastUpdated: 2026-07-22
 description: Integrate with OpenAI's APIs to add AI capabilities to your vals
 ---
 
-Use OpenAI's chat completion API with [`std/openai`](https://www.val.town/v/std/openai). This integration enables access to OpenAI's language models without needing to acquire API keys.
+Use OpenAI's chat completion API with
+[`std/openai`](https://www.val.town/v/std/openai). This integration enables
+access to OpenAI's language models without needing to acquire API keys.
 
-Val Town free users can use any cheap model – where output is less than $1 per
-million tokens – such as `gpt-5-nano`, `gpt-4.1-nano`, and `gpt-4o-mini`. Val
-Town Pro users can make 10 expensive requests per rolling 24-hour window, and
-are then bumped down to `gpt-5-nano`.
+Val Town free users can use any affordable model – such as `gpt-5.4-nano` and
+`gpt-5-nano`. Val Town Pro users can make 10 expensive requests per rolling
+24-hour window, and are then bumped down to `gpt-5.4-nano`.
 
 This SDK is powered by
 [our openapiproxy](https://www.val.town/x/std/openaiproxy).
@@ -17,7 +18,7 @@ This SDK is powered by
 ## Basic Usage
 
 ```ts title="Example" val
-import { OpenAI } from "https://esm.town/v/std/openai";
+import { OpenAI } from "https://esm.town/v/std/openai/main.ts";
 
 const openai = new OpenAI();
 
@@ -25,17 +26,121 @@ const completion = await openai.chat.completions.create({
   messages: [
     { role: "user", content: "Say hello in a creative way" },
   ],
-  model: "gpt-5-nano",
-  max_completion_tokens: 16000,
+  model: "gpt-5.4-nano",
+  max_completion_tokens: 100,
 });
 
 console.log(completion.choices[0].message.content);
 ```
 
+## Bring Your Own API Key
+
+The free proxy is great for getting started, but you may outgrow the rate
+limits. The easiest upgrade path is to bring your own OpenAI API key — just set
+`OPENAI_API_KEY` and use the `npm:openai` client directly when it's available,
+falling back to `ValTownOpenAI` otherwise. This way your val works with or
+without a key.
+
+```ts title="Bring Your Own Key" val
+import { ValTownOpenAI } from "https://esm.town/v/std/openai/main.ts";
+import OpenAI from "npm:openai";
+
+// Use your own key if available, otherwise the Val Town proxy.
+const apiKey = Deno.env.get("OPENAI_API_KEY");
+const openai = apiKey ? new OpenAI({ apiKey }) : new ValTownOpenAI({});
+
+const completion = await openai.chat.completions.create({
+  model: "gpt-5.4-nano",
+  messages: [{ role: "user", content: "Say hello in one word." }],
+});
+
+console.log(completion.choices[0].message.content);
+```
+
+See the runnable example:
+[`examples/bring-your-own-key.ts`](https://www.val.town/x/std/openai/code/examples/bring-your-own-key.ts)
+
+## Responses API & Web Search
+
+The Responses API (`responses.create`) is fully supported through the Val Town
+proxy. It enables the **web_search** tool, which lets the model browse the web
+in real time — incredibly effective for enrichment, research, and anything where
+fresh data beats stale training knowledge.
+
+```ts title="Web Search" val
+import { ValTownOpenAI } from "https://esm.town/v/std/openai/main.ts";
+
+const openai = new ValTownOpenAI({});
+
+const response = await openai.responses.create({
+  model: "gpt-5.4-nano",
+  tools: [{ type: "web_search" }],
+  instructions:
+    "You research companies. Given a company name, reply in 2-3 short plain-text lines: what they do, their stage, and why a developer might care. No markdown.",
+  input: "Val Town",
+});
+
+console.log(response.output_text);
+```
+
+See the runnable example:
+[`examples/web-search.ts`](https://www.val.town/x/std/openai/code/examples/web-search.ts)
+
+## Structured Outputs
+
+Instead of asking the model to "return JSON" and manually parsing the response,
+pass a JSON schema in `text.format`. The model is constrained to output JSON
+that matches your schema exactly — no fence stripping, no regex, no try/catch
+on malformed JSON. This is the idiomatic approach for classification, scoring,
+extraction, routing, or any task where you need typed data back.
+
+```ts title="Structured Outputs" val
+import { ValTownOpenAI } from "https://esm.town/v/std/openai/main.ts";
+
+const openai = new ValTownOpenAI({});
+
+const response = await openai.responses.create({
+  model: "gpt-5.4-nano",
+  instructions:
+    "You classify user feedback. Given a piece of feedback, classify it and write a one-sentence summary.",
+  input: "The app keeps logging me out every 5 minutes, it's really frustrating.",
+  text: {
+    format: {
+      type: "json_schema",
+      name: "classification",
+      schema: {
+        type: "object",
+        properties: {
+          category: {
+            type: "string",
+            enum: ["bug", "feature_request", "praise", "question"],
+          },
+          priority: {
+            type: "string",
+            enum: ["low", "medium", "high"],
+          },
+          summary: { type: "string" },
+        },
+        required: ["category", "priority", "summary"],
+        additionalProperties: false,
+      },
+    },
+  },
+});
+
+// output_text is guaranteed valid JSON matching the schema.
+const result = JSON.parse(response.output_text);
+console.log(result);
+```
+
+See the runnable example:
+[`examples/structured-outputs.ts`](https://www.val.town/x/std/openai/code/examples/structured-outputs.ts)
+
 ## Images
 
-To send an image to ChatGPT, the easiest way is by converting it to a 
-data URL, which is easiest to do with [@stevekrouse/fileToDataURL](https://www.val.town/v/stevekrouse/fileToDataURL).
+To send an image to ChatGPT, the easiest way is by converting it to a data URL,
+which is easiest to do with
+[@stevekrouse/fileToDataURL](https://www.val.town/v/stevekrouse/fileToDataURL).
 
 ```ts title="Image Example" val
 import { fileToDataURL } from "https://esm.town/v/stevekrouse/fileToDataURL";
@@ -60,26 +165,47 @@ const response = await chat([
     }],
   },
 ], {
-  model: "gpt-4o",
-  max_tokens: 200,
+  model: "gpt-5.4-nano",
+  max_completion_tokens: 200,
 });
+```
+
+## OpenAI Agents SDK
+
+The [OpenAI Agents SDK](https://openai.github.io/openai-agents-js/) works with
+`std/openai` too, including hosted tools like web search:
+
+```ts title="Agents Example" val
+import { ValTownOpenAI } from "https://esm.town/v/std/openai/main.ts";
+import {
+  Agent,
+  run,
+  setDefaultOpenAIClient,
+  setTracingDisabled,
+  webSearchTool,
+} from "npm:@openai/agents";
+
+setTracingDisabled(true); // tracing requires your own OpenAI key
+setDefaultOpenAIClient(new ValTownOpenAI({}));
+
+const agent = new Agent({
+  name: "Researcher",
+  tools: [webSearchTool()],
+});
+
+const result = await run(agent, "What's new in Val Town?");
+console.log(result.finalOutput);
 ```
 
 ## Limits
 
-While our wrapper simplifies the integration of OpenAI, there are a few limitations to keep in mind:
+While our wrapper simplifies the integration of OpenAI, there are a few
+limitations to keep in mind:
 
 - **Usage Quota**: We limit each user to 10 requests per minute.
-- **Features**: Chat completions is the only endpoint available.
+- **Features**: Chat completions and the Responses API are the only endpoints
+  available. The Responses API supports the `web_search` tool and structured
+  outputs (`text.format` with `json_schema`).
 
-If these limits are too low, let us know! You can also get around the limitation by using your own keys:
-
-1. Create your own API key on [OpenAI's website](https://platform.openai.com/api-keys)
-2. Create an [environment variable](https://www.val.town/settings/environment-variables?adding=true) named `OPENAI_API_KEY`
-3. Use the `OpenAI` client from `npm:openai`:
-
-```ts title="Example" val
-import { OpenAI } from "npm:openai";
-
-const openai = new OpenAI();
-```
+If these limits are too low, let us know! You can also get around the limitation
+by [bringing your own API key](#bring-your-own-api-key).
