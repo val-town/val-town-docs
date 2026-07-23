@@ -1,5 +1,11 @@
 {
   "permissions": {
-    "allow": ["Bash(npm ls:*)", "Bash(npx astro:*)"]
+    "allow": [
+      "Bash(npm ls:*)",
+      "Bash(npx astro:*)",
+      "Bash(mise trust *)",
+      "Bash(cp /Users/potluck/.claude/image-cache/f5ab4811-d0f3-4e5a-be03-bc6e9b057a83/1.png /Users/potluck/code/val-town-docs/src/content/docs/guides/Prompting/claude-plugin.png)",
+      "Bash(cp /Users/potluck/.claude/image-cache/f5ab4811-d0f3-4e5a-be03-bc6e9b057a83/2.png /Users/potluck/code/val-town-docs/src/content/docs/guides/Prompting/claude-connector.png)"
+    ]
   }
 }
